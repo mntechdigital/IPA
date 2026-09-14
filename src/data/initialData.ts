@@ -205,7 +205,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       "title": "Featured Researchers",
       "subtitle": "Interdisciplinary scholars, investigative journalists, and computational scientists leading our observatories",
       "showOnHome": true,
-      "featuredMemberIds": ["tm-1", "tm-2", "tm-3", "tm-4"]
+      "featuredMemberIds": ["tariqul-islam", "elena-rostova", "marcus-chen", "ayesha-siddiqua"]
     },
     "bottomCta": {
       "title": "Support Independent Media Research",

@@ -77,7 +77,7 @@ export const TeamsDirectoryView: React.FC = () => {
 
   const handleOpenAdd = () => {
     setFormState({
-      id: 'tm-' + Date.now(),
+      id: crypto.randomUUID(),
       name: '',
       role: '',
       category: 'Research Fellow',
@@ -162,7 +162,7 @@ export const TeamsDirectoryView: React.FC = () => {
     }
 
     const payload: TeamMember = {
-      id: formState.id || 'tm-' + Date.now(),
+      id: formState.id || crypto.randomUUID(),
       name: formState.name.trim(),
       role: formState.role.trim(),
       category: formState.category || 'Research Fellow',

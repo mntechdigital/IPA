@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowUpRight, Sparkles, Send, Linkedin, Twitter, Facebook, Youtube } from 'lucide-react';
-import { PageId } from '../types';
+import { PageId, SiteSettings } from '../types';
 import { ORGANIZATION } from '../data/navigation';
 import { useLanguage } from '../context/LanguageContext';
 import { BackToTop } from './BackToTop';
@@ -16,9 +16,37 @@ const PAGE_ROUTES: Record<Exclude<PageId, 'investigation'>, string> = {
   contact: '/contact',
 };
 
-export const Footer: React.FC = () => {
+const SOCIAL_COMPONENTS: Record<string, React.ElementType> = {
+  LinkedIn: Linkedin,
+  'X / Twitter': Twitter,
+  Facebook: Facebook,
+  YouTube: Youtube,
+};
+
+export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ settings }) => {
   const router = useRouter();
   const { t, isBn } = useLanguage();
+
+  const orgName = settings?.siteName || ORGANIZATION.name;
+  const tagline =
+    settings?.footerBranding?.tagline ||
+    settings?.headerBranding?.tagline ||
+    'Researching Media. Understanding Society.';
+  const establishedYear = settings?.establishedYear || ORGANIZATION.established;
+  const footerSocials = settings?.socialLinks
+    ? Object.entries(settings.socialLinks)
+        .filter((entry): entry is [string, string] => Boolean(entry[1]))
+        .map(([name, url]) => ({ name, url }))
+    : [];
+  const socials = footerSocials.length
+    ? footerSocials.map((s) => ({
+        name: s.name === 'x' || s.name === 'X' ? 'X / Twitter' : s.name === 'fb' || s.name === 'facebook' ? 'Facebook' : s.name,
+        url: s.url,
+      }))
+    : ORGANIZATION.socials;
+  const contactEmail = settings?.contactEmail || ORGANIZATION.contact.generalEmail;
+  const researchEmail = settings?.researchDeskEmail || ORGANIZATION.contact.researchEmail;
+  const officeAddress = settings?.officeAddress || ORGANIZATION.contact.address;
 
   const handleNavClick = (page: PageId) => {
     if (page !== 'investigation') router.push(PAGE_ROUTES[page]);
@@ -83,7 +111,7 @@ export const Footer: React.FC = () => {
               <span className="w-2 h-2 rounded-full bg-[#D2F843] animate-pulse" />
             </div>
             <span className="text-[12px] text-white/80 font-medium">
-              © 2026 {isBn ? ORGANIZATION.nameBn : ORGANIZATION.name}
+              © 2026 {isBn ? ORGANIZATION.nameBn : orgName}
             </span>
           </div>
         </div>
@@ -100,7 +128,7 @@ export const Footer: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-xl sm:text-2xl text-white font-extrabold tracking-tight">
-                  {isBn ? ORGANIZATION.nameBn : ORGANIZATION.name}
+                  {isBn ? ORGANIZATION.nameBn : orgName}
                 </h3>
                 <span className="text-[10px] font-bold tracking-widest uppercase text-[#D2F843] block mt-0.5">
                   {t('Independent Research Observatory', 'স্বাধীন গবেষণা মানমন্দির')}
@@ -109,7 +137,7 @@ export const Footer: React.FC = () => {
             </div>
 
             <p className="text-lg font-bold text-[#D2F843]">
-              {t('“Researching Media. Understanding Society.”', '“গণমাধ্যম গবেষণা। সমাজ অনুধাবন।”')}
+              {t(`“${tagline}”`, '“গণমাধ্যম গবেষণা। সমাজ অনুধাবন।”')}
             </p>
 
             <p className="text-sm text-white/70 font-sans leading-relaxed max-w-sm font-normal">
@@ -121,8 +149,8 @@ export const Footer: React.FC = () => {
 
             <div className="hidden">
               {t(
-                `Established ${ORGANIZATION.established} · Dhaka & Global Partner Observatories`,
-                `স্থাপিত ২০২৬ · ঢাকা ও বৈশ্বিক সহযোগী গবেষণা কেন্দ্র`
+                `Established ${establishedYear} · Dhaka & Global Partner Observatories`,
+                `স্থাপিত ${establishedYear} · ঢাকা ও বৈশ্বিক সহযোগী গবেষণা কেন্দ্র`
               )}
             </div>
           </div>
@@ -178,24 +206,24 @@ export const Footer: React.FC = () => {
                     {t('Contact Office', 'যোগাযোগ দপ্তর')}
                   </button>
                 </li>
-                {ORGANIZATION.socials.map((social) => (
-                  <li key={social.name}>
-                    <a
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={social.name}
-                      title={social.name}
-                      className="group inline-flex items-center text-white/70 hover:text-[#D2F843] transition-colors"
-                    >
-                      {social.name === 'LinkedIn' && <Linkedin className="w-4 h-4" />}
-                      {social.name === 'X / Twitter' && <Twitter className="w-4 h-4" />}
-                      {social.name === 'Facebook' && <Facebook className="w-4 h-4" />}
-                      {social.name === 'YouTube' && <Youtube className="w-4 h-4" />}
-                      <span className="ml-1">{social.name}</span>
-                    </a>
-                  </li>
-                ))}
+                {socials.map((social) => {
+                  const Icon = SOCIAL_COMPONENTS[social.name];
+                  return (
+                    <li key={social.name}>
+                      <a
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={social.name}
+                        title={social.name}
+                        className="group inline-flex items-center text-white/70 hover:text-[#D2F843] transition-colors"
+                      >
+                        {Icon ? <Icon className="w-4 h-4" /> : null}
+                        <span className="ml-1">{social.name}</span>
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 
@@ -211,10 +239,10 @@ export const Footer: React.FC = () => {
                     {t('General Enquiries', 'সাধারণ অনুসন্ধান')}
                   </span>
                   <a
-                    href={`mailto:${ORGANIZATION.contact.generalEmail}`}
+                    href={`mailto:${contactEmail}`}
                     className="text-white hover:text-[#D2F843] underline underline-offset-2 transition-colors font-medium"
                   >
-                    {ORGANIZATION.contact.generalEmail}
+                    {contactEmail}
                   </a>
                 </div>
 
@@ -232,7 +260,7 @@ export const Footer: React.FC = () => {
                   <p className="text-white/70 text-xs leading-relaxed mt-1">
                     {isBn
                       ? ORGANIZATION.contact.addressBn
-                      : ORGANIZATION.contact.address}
+                      : officeAddress}
                   </p>
                 </div>
               </div>
@@ -243,7 +271,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/50">
           <div>
-            © 2026 {isBn ? ORGANIZATION.nameBn : ORGANIZATION.name}. {t('All rights reserved.', 'সর্বস্বত্ব সংরক্ষিত।')}
+            © 2026 {isBn ? ORGANIZATION.nameBn : orgName}. {t('All rights reserved.', 'সর্বস্বত্ব সংরক্ষিত।')}
           </div>
 
           <div className="flex items-center gap-6 [&>span:last-child]:hidden">

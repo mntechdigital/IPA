@@ -13,40 +13,41 @@ datasource db {
 // ---------- Singleton config rows (wholesale-edited JSON blobs) ----------
 
 model CmsMeta {
-  id          Int      @id
+  id          String   @id @default(uuid())
   version     String
   lastUpdated DateTime @db.DateTime(3)
 }
 
 model SiteSettings {
-  id   Int  @id
+  id   String @id @default(uuid())
   data Json
 }
 
 model HomePageData {
-  id   Int  @id
+  id   String @id @default(uuid())
   data Json
 }
 
 model AboutPageData {
-  id   Int  @id
+  id   String @id @default(uuid())
   data Json
 }
 
 model ContactPageData {
-  id   Int  @id
+  id   String @id @default(uuid())
   data Json
 }
 
 model MonitoringTelemetry {
-  id   Int  @id
+  id   String @id @default(uuid())
   data Json
 }
 
 // ---------- CRUD entities ----------
 
 model ResearchBeat {
-  id                   String  @id
+  id                   String  @id @default(uuid())
+  slug                 String? @unique
   beatNumber           String
   category             String
   name                 String
@@ -75,7 +76,7 @@ model ResearchBeat {
 }
 
 model TeamMember {
-  id                 String @id
+  id                 String @id @default(uuid())
   name               String
   role               String
   category           String
@@ -97,7 +98,7 @@ model TeamMember {
 }
 
 model Publication {
-  id          String  @id
+  id          String  @id @default(uuid())
   title       String  @db.Text
   type        String
   date        String
@@ -111,7 +112,7 @@ model Publication {
 }
 
 model Inquiry {
-  id               String  @id
+  id               String  @id @default(uuid())
   date             String
   name             String  @db.Text
   organization     String  @db.Text
@@ -126,7 +127,7 @@ model Inquiry {
 }
 
 model ActivityLog {
-  id        String   @id
+  id        String   @id @default(uuid())
   timestamp String
   action    String
   section   String

@@ -47,7 +47,7 @@ export const TeamEditor: React.FC = () => {
 
   const handleOpenAdd = () => {
     const newMember: TeamMember = {
-      id: 'team-' + Date.now(),
+      id: crypto.randomUUID(),
       name: 'New Researcher',
       role: 'Research Fellow',
       category: 'Research Fellow',

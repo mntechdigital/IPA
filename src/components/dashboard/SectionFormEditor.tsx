@@ -1356,7 +1356,7 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                 type="button"
                 onClick={() => {
                   const newMember: TeamMember = {
-                    id: 'tm-' + Date.now(),
+                    id: crypto.randomUUID(),
                     name: 'Dr. New Scholar',
                     role: targetCategory === 'leadership' ? 'Director of Research' : 'Investigative Fellow',
                     category: targetCategory,

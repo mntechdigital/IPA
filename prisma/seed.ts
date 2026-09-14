@@ -1,30 +1,32 @@
 import { PrismaClient } from '@prisma/client';
 import { INITIAL_CMS_STATE } from '../src/data/initialData';
+import { SINGLETON, translateSeedState } from '../src/lib/seed-ids';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const s = INITIAL_CMS_STATE;
+  const s = translateSeedState(INITIAL_CMS_STATE);
 
   await prisma.cmsMeta.upsert({
-    where: { id: 1 },
+    where: { id: SINGLETON.meta },
     update: { version: s.version, lastUpdated: new Date(s.lastUpdated ?? Date.now()) },
-    create: { id: 1, version: s.version ?? '1.0.0', lastUpdated: new Date(s.lastUpdated ?? Date.now()) },
+    create: { id: SINGLETON.meta, version: s.version ?? '1.0.0', lastUpdated: new Date(s.lastUpdated ?? Date.now()) },
   });
 
-  await prisma.siteSettings.upsert({ where: { id: 1 }, update: { data: s.settings as object }, create: { id: 1, data: s.settings as object } });
-  await prisma.homePageData.upsert({ where: { id: 1 }, update: { data: s.homePage as object }, create: { id: 1, data: s.homePage as object } });
-  await prisma.aboutPageData.upsert({ where: { id: 1 }, update: { data: s.aboutPage as object }, create: { id: 1, data: s.aboutPage as object } });
+  await prisma.siteSettings.upsert({ where: { id: SINGLETON.settings }, update: { data: s.settings as object }, create: { id: SINGLETON.settings, data: s.settings as object } });
+  await prisma.homePageData.upsert({ where: { id: SINGLETON.home }, update: { data: s.homePage as object }, create: { id: SINGLETON.home, data: s.homePage as object } });
+  await prisma.aboutPageData.upsert({ where: { id: SINGLETON.about }, update: { data: s.aboutPage as object }, create: { id: SINGLETON.about, data: s.aboutPage as object } });
   if (s.contactPage) {
-    await prisma.contactPageData.upsert({ where: { id: 1 }, update: { data: s.contactPage as object }, create: { id: 1, data: s.contactPage as object } });
+    await prisma.contactPageData.upsert({ where: { id: SINGLETON.contact }, update: { data: s.contactPage as object }, create: { id: SINGLETON.contact, data: s.contactPage as object } });
   }
-  await prisma.monitoringTelemetry.upsert({ where: { id: 1 }, update: { data: s.monitoring as object }, create: { id: 1, data: s.monitoring as object } });
+  await prisma.monitoringTelemetry.upsert({ where: { id: SINGLETON.monitoring }, update: { data: s.monitoring as object }, create: { id: SINGLETON.monitoring, data: s.monitoring as object } });
 
   await prisma.researchBeat.deleteMany();
   for (const beat of Object.values(s.researchBeats)) {
     await prisma.researchBeat.create({
       data: {
         id: beat.id,
+        slug: beat.slug ?? null,
         beatNumber: beat.beatNumber,
         category: beat.category,
         name: beat.name,

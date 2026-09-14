@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X, ArrowRight, Compass, Languages } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { PageId } from '../types';
+import { PageId, SiteSettings } from '../types';
 import { NAV_ITEMS, ORGANIZATION } from '../data/navigation';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -16,12 +16,15 @@ const PAGE_ROUTES: Record<Exclude<PageId, 'investigation'>, string> = {
   contact: '/contact',
 };
 
-export const Header: React.FC = () => {
+export const Header: React.FC<{ settings?: Partial<SiteSettings> }> = ({ settings }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { language, setLanguage, isBn, t } = useLanguage();
+
+  const branding = settings?.headerBranding;
+  const orgName = settings?.siteName || ORGANIZATION.name;
 
   let currentPage: PageId = 'home';
   if (pathname === '/') {
@@ -107,7 +110,7 @@ export const Header: React.FC = () => {
                   IPA
                 </span>
                 <span className="hidden lg:inline-block text-xs font-medium text-[#556B62] border-l border-[#E2EAE4] pl-2.5">
-                  {t(ORGANIZATION.name, ORGANIZATION.nameBn)}
+                  {t(orgName, ORGANIZATION.nameBn)}
                 </span>
               </div>
             </button>
@@ -174,7 +177,7 @@ export const Header: React.FC = () => {
                 onClick={() => handleNavClick('contact')}
                 className="hidden sm:inline-flex group items-center gap-3 pl-4 sm:pl-5 pr-1.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#D2F843] text-[#0B2A20] hover:bg-[#bef024] hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer"
               >
-                <span>{t('Contact Us', 'যোগাযোগ')}</span>
+                <span>{branding?.navCtaText || t('Contact Us', 'যোগাযোগ')}</span>
                 <span className="w-7 h-7 rounded-full bg-black text-white flex items-center justify-center transition-transform group-hover:translate-x-0.5">
                   <ArrowRight className="w-3.5 h-3.5" />
                 </span>
@@ -279,7 +282,7 @@ export const Header: React.FC = () => {
               </button>
 
               <div className="text-center text-xs text-[#556B62]">
-                {t(ORGANIZATION.tagline, ORGANIZATION.taglineBn)}
+                {t(branding?.tagline || ORGANIZATION.tagline, ORGANIZATION.taglineBn)}
               </div>
             </div>
           </motion.div>

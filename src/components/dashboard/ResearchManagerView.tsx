@@ -108,7 +108,7 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
   const handleStartCreateResearch = () => {
     const nextNum = (beatsList.length + 1).toString().padStart(2, '0');
     setFormBeat({
-      id: 'beat-' + Date.now(),
+      id: crypto.randomUUID(),
       beatNumber: nextNum,
       name: '',
       tagline: '',

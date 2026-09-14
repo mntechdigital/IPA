@@ -142,7 +142,7 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   }, []);
 
   const recordLog = useCallback((action: string, section: string) => {
-    return { id: 'act-' + Date.now(), timestamp: new Date().toISOString().replace('T', ' ').slice(0, 16), action, section, user: 'Administrator' };
+    return { id: crypto.randomUUID(), timestamp: new Date().toISOString().replace('T', ' ').slice(0, 16), action, section, user: 'Administrator' };
   }, []);
 
   const updateHomePage = useCallback((partial: Partial<HomePageData>) => {
@@ -321,7 +321,7 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   }, [recordLog]);
 
   const addInquiry = useCallback((inquiry: Omit<InquirySubmission, 'id' | 'date'>) => {
-    const newInq: InquirySubmission = { ...inquiry, id: 'inq-' + Date.now(), date: new Date().toISOString().slice(0, 10), status: 'new' };
+    const newInq: InquirySubmission = { ...inquiry, id: crypto.randomUUID(), date: new Date().toISOString().slice(0, 10), status: 'new' };
     setState((prev) => {
       apiMutate('/api/cms/inquiries', 'POST', inquiry).catch((e) => console.error('Failed to create inquiry:', e));
       const log = recordLog(`New research inquiry from ${inquiry.name}`, 'Inquiries Inbox');

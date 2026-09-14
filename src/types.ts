@@ -145,6 +145,7 @@ export interface PublicationItem {
 
 export interface ResearchBeat {
   id: string;
+  slug?: string;
   beatNumber: string;
   category: string;
   name: string;

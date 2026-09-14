@@ -8,7 +8,6 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const id = body.id && String(body.id).trim() ? String(body.id) : `team-${Date.now()}`;
-  const item = await createTeamMember({ ...body, id });
+  const item = await createTeamMember(body);
   return NextResponse.json(item, { status: 201 });
 }

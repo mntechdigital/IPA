@@ -36,7 +36,7 @@ export const PublicationsEditor: React.FC = () => {
 
   const handleOpenAdd = () => {
     const newP: PublicationItem = {
-      id: 'pub-' + Date.now(),
+      id: crypto.randomUUID(),
       title: 'New Research Monograph Title',
       type: 'Monograph',
       date: new Date().toISOString().slice(0, 7), // YYYY-MM

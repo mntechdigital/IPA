@@ -3,6 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { PageId, TeamMember } from '../../../types';
+import type { SiteContent } from '../../../lib/site-content';
 import { PageTransition } from '../PageTransition';
 import {
   ArrowRight,
@@ -26,7 +27,16 @@ import { CTASection } from '../../../components/CTASection';
 import { useLanguage } from '../../../context/LanguageContext';
 import { APPROACH_STEPS_BN, TEAM_MEMBERS_BN } from '../../../data/translations';
 
-export default function HomePage() {
+const STATIC_BEAT_MAP: Record<string, string> = {
+  '01': 'media-journalism',
+  '02': 'digital-media',
+  '03': 'media-monitoring',
+  '04': 'public-opinion',
+  '05': 'media-democracy',
+  '06': 'technology-ai',
+};
+
+export default function HomePage({ content }: { content?: SiteContent | null }) {
   const router = useRouter();
   const onNavigate = (page: PageId) => {
     if (page === 'investigation') return;
@@ -43,22 +53,51 @@ export default function HomePage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   const { isBn, t } = useLanguage();
-  const previewTeam = TEAM_MEMBERS.slice(0, 4);
 
-  const currentApproachSteps = isBn
-    ? APPROACH_STEPS.map((step, idx) => {
-        const bn = APPROACH_STEPS_BN[idx];
-        return bn
-          ? {
-              ...step,
-              number: bn.number,
-              title: bn.title,
-              subtitle: bn.subtitle,
-              description: bn.description,
-            }
-          : step;
-      })
-    : APPROACH_STEPS;
+  const established = content?.settings?.establishedYear || ORGANIZATION.established;
+  const heroImage = content?.homePage?.heroImage;
+  const heroBadge = isBn ? content?.homePage?.badgeBn : content?.homePage?.badge;
+  const heroHeadline = isBn ? content?.homePage?.heroHeadlineBn : content?.homePage?.heroHeadline;
+  const heroSubtitle = isBn ? content?.homePage?.heroSubtitleBn : content?.homePage?.heroSubtitle;
+  const primaryCta = content?.homePage?.primaryCtaText;
+  const homeMetrics = (content?.homePage?.homeMetrics ?? []).filter((m) => m.label && m.value);
+
+  const tenetQuote = isBn ? content?.homePage?.tenetQuoteBn : content?.homePage?.tenetQuote;
+  const tenetSubtitle = isBn ? content?.homePage?.tenetSubtitleBn : content?.homePage?.tenetSubtitle;
+  const tenetBadge = content?.homePage?.tenetBadge;
+
+  const whatWeDoCards = content?.homePage?.whatWeDo?.cards?.slice(0, 3) ?? [];
+
+  const beatTargets =
+    content && content.featuredBeats.length
+      ? content.featuredBeats.map((b) => b.slug || b.id)
+      : content && content.beats.length
+        ? content.beats.map((b) => b.slug || b.id)
+        : [];
+  const dynamicBeatMap: Record<string, string> = {};
+  beatTargets.forEach((target, idx) => {
+    dynamicBeatMap[String(idx + 1).padStart(2, '0')] = target;
+  });
+  const beatMap = { ...STATIC_BEAT_MAP, ...dynamicBeatMap };
+
+  const dbSteps = content?.homePage?.howWeWork?.steps;
+  const staticApproachSteps = APPROACH_STEPS.map((step, idx) => {
+    const bn = APPROACH_STEPS_BN[idx];
+    return bn
+      ? {
+          ...step,
+          number: bn.number,
+          title: bn.title,
+          subtitle: bn.subtitle,
+          description: bn.description,
+        }
+      : step;
+  });
+  const currentApproachSteps =
+    dbSteps && dbSteps.length ? dbSteps : isBn ? staticApproachSteps : APPROACH_STEPS;
+
+  const previewTeam =
+    content && content.featuredTeamMembers.length ? content.featuredTeamMembers : TEAM_MEMBERS.slice(0, 4);
 
   const TICKER_ITEMS = isBn
     ? [
@@ -82,44 +121,256 @@ export default function HomePage() {
         'MEDIA MONITORING',
       ];
 
+  const renderMetricCard = (index: number, icon: React.ElementType, chip: string, value: string, label: string, detail: string) => {
+    const Icon = icon;
+    return (
+      <div className="rounded-2xl sm:rounded-3xl bg-[#0B2A20]/90 backdrop-blur-md border border-white/20 p-3 sm:p-5 lg:p-6 flex flex-col justify-between shadow-xl hover:border-[#D2F843]/50 transition-all group">
+        <div className="flex items-center justify-between mb-2 sm:mb-4">
+          <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/10 text-[#D2F843] flex items-center justify-center border border-white/10 group-hover:scale-105 group-hover:bg-[#D2F843] group-hover:text-[#0B2A20] transition-all">
+            <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
+          </div>
+          <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white/10 text-white/80 border border-white/10">
+            {chip}
+          </span>
+        </div>
+        <div>
+          <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-none mb-1 group-hover:text-[#D2F843] transition-colors">
+            {value}
+          </div>
+          <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#D2F843] mb-0.5 sm:mb-1">
+            {label}
+          </div>
+          <p className="text-[10px] sm:text-xs text-white/75 leading-tight sm:leading-relaxed line-clamp-2">
+            {detail}
+          </p>
+        </div>
+      </div>
+    );
+  };
+
+  const METRIC_ICONS = [Calendar, FileText, Database, ShieldCheck];
+
+  const renderMetrics = () => {
+    if (homeMetrics.length >= 4) {
+      return homeMetrics.slice(0, 4).map((m, i) =>
+        renderMetricCard(i, METRIC_ICONS[i] ?? Calendar, t(m.label, m.label), m.value, m.label, m.detail)
+      );
+    }
+    return (
+      <>
+        {renderMetricCard(
+          0,
+          Calendar,
+          t(`Est. ${established}`, `প্রতিষ্ঠিত ${established}`),
+          t('12+ Years', '১২+ বছর'),
+          t('Experience', 'অভিজ্ঞতা'),
+          t(
+            `Longitudinal observation since ${established}.`,
+            `${established} থেকে ধারাবাহিক নিবিড় পর্যবেক্ষণ।`
+          )
+        )}
+        {renderMetricCard(
+          1,
+          FileText,
+          t('6 Research Areas', '৬টি গবেষণা ক্ষেত্র'),
+          '160+',
+          t('Total Inquiries', 'গবেষণা ও প্রতিবেদন'),
+          t('Empirical inquiries & published studies.', 'তথ্যভিত্তিক অনুসন্ধান ও প্রকাশিত গবেষণা।')
+        )}
+        {renderMetricCard(
+          2,
+          Database,
+          t('Live Logging', 'লাইভ লগিং'),
+          '12.4k+',
+          t('Datasets', 'ডেটাসেট'),
+          t('Broadcast streams, archives & digital feeds.', 'সম্প্রচার স্ট্রিম ও ডিজিটাল ফিডের তথ্য।')
+        )}
+        {renderMetricCard(
+          3,
+          ShieldCheck,
+          t('Audited', 'যাচাইকৃত'),
+          '98.4%',
+          t('Verification', 'নির্ভুলতা'),
+          t('Methodological validity & accuracy rate.', 'পদ্ধতিগত বৈধতা ও তথ্য যাচাইয়ের মানদণ্ড।')
+        )}
+      </>
+    );
+  };
+
+  const renderWhatWeDo = () => {
+    if (whatWeDoCards.length < 3) {
+      return (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+          <div className="rounded-3xl border border-[#E2EAE4] bg-white text-[#0D1F18] p-8 sm:p-9 transition-all duration-300 hover:shadow-md hover:border-[#0B2A20] flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between pb-6 mb-6 border-b border-[#E2EAE4]">
+                <span className="font-mono text-3xl font-extrabold text-[#0B2A20]">01</span>
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#F6F9F4] text-[#0B2A20] group-hover:bg-[#0B2A20] group-hover:text-[#D2F843] transition-colors">
+                  <Search className="w-6 h-6" />
+                </div>
+              </div>
+              <h3 className="font-sans text-2xl font-extrabold tracking-tight mb-3 text-[#0B2A20]">
+                {t('MEDIA RESEARCH & INQUIRY', 'গণমাধ্যম গবেষণা ও অনুসন্ধান')}
+              </h3>
+              <p className="font-sans text-sm leading-relaxed mb-6 text-[#556B62]">
+                {t(
+                  'We study emerging trends, newsroom editorial autonomy, and structural pressures through rigorous qualitative fieldwork, ethnography, and structured academic inquiry.',
+                  'আমরা মাঠপর্যায়ের সমীক্ষা, গবেষণামূলক সাক্ষাৎকার এবং কাঠামোগত পর্যালোচনার মাধ্যমে গণমাধ্যমের স্বাধীনতা ও রূপান্তর বিশ্লেষণ করি।'
+                )}
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-[#E2EAE4] overflow-hidden relative group min-h-[380px] sm:min-h-[420px] flex flex-col justify-between shadow-md">
+            <img
+              src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=85"
+              alt="24/7 Media observatory laboratory and broadcast recording facility"
+              className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#061A13]/95 via-[#0B2A20]/45 to-black/30 pointer-events-none" />
+            <div className="relative z-10 p-6 sm:p-7 flex items-center justify-between">
+              <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md text-white flex items-center justify-center border border-white/20">
+                <Tv className="w-5 h-5" />
+              </div>
+            </div>
+            <div className="relative z-10 p-6 sm:p-7 text-white space-y-2">
+              <h3 className="font-sans text-xl sm:text-2xl font-extrabold leading-snug drop-shadow-sm text-white">
+                {t(
+                  'Continuous Multi-Channel Signal Archival',
+                  'নিরবচ্ছিন্ন সম্প্রচার ও ডিজিটাল আর্কাইভাল'
+                )}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/85 line-clamp-3 leading-relaxed">
+                {t(
+                  'Operating continuous recording facilities across 18 broadcast television channels, 32 national daily newspapers, and 120+ digital portals.',
+                  '১৮টি স্যাটেলাইট টিভি চ্যানেল, ৩২টি জাতীয় দৈনিক ও ১২০টির বেশি ডিজিটাল পোর্টাল সার্বক্ষণিক সংরক্ষণ ও নিরীক্ষণ।'
+                )}
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-[#c0e82c] bg-[#D2F843] text-[#0B2A20] p-8 sm:p-9 transition-all duration-300 hover:shadow-lg hover:scale-[1.01] flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between pb-6 mb-6 border-b border-[#0B2A20]/20">
+                <span className="font-mono text-3xl font-extrabold text-[#0B2A20]">02</span>
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#0B2A20] text-[#D2F843] shadow-sm">
+                  <Radio className="w-6 h-6" />
+                </div>
+              </div>
+              <h3 className="font-sans text-2xl font-extrabold tracking-tight mb-3 text-[#0B2A20]">
+                {t('MONITORING & PUBLIC INSIGHTS', 'মনিটরিং ও জনস্বার্থ ইনসাইট')}
+              </h3>
+              <p className="font-sans text-sm leading-relaxed mb-6 text-[#0B2A20]/85">
+                {t(
+                  'We monitor news narratives, algorithmic distribution, and audience perception across broadcast and digital platforms, producing reproducible open datasets for civic accountability.',
+                  'আমরা প্রচার মাধ্যম ও প্ল্যাটফর্ম অ্যালগরিদম নিরীক্ষণ করে নাগরিক দায়বদ্ধতার জন্য উন্মুক্ত ও নির্ভরযোগ্য তথ্য-উপাত্ত তৈরি করি।'
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+        <div className="rounded-3xl border border-[#E2EAE4] bg-white text-[#0D1F18] p-8 sm:p-9 transition-all duration-300 hover:shadow-md hover:border-[#0B2A20] flex flex-col justify-between group">
+          <div>
+            <div className="flex items-center justify-between pb-6 mb-6 border-b border-[#E2EAE4]">
+              <span className="font-mono text-3xl font-extrabold text-[#0B2A20]">01</span>
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#F6F9F4] text-[#0B2A20] group-hover:bg-[#0B2A20] group-hover:text-[#D2F843] transition-colors">
+                <Search className="w-6 h-6" />
+              </div>
+            </div>
+            <h3 className="font-sans text-2xl font-extrabold tracking-tight mb-3 text-[#0B2A20]">
+              {whatWeDoCards[0].title}
+            </h3>
+            <p className="font-sans text-sm leading-relaxed mb-6 text-[#556B62]">
+              {whatWeDoCards[0].description}
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-[#E2EAE4] overflow-hidden relative group min-h-[380px] sm:min-h-[420px] flex flex-col justify-between shadow-md">
+          <img
+            src={whatWeDoCards[1].image || heroImage || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=85'}
+            alt={whatWeDoCards[1].title}
+            className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#061A13]/95 via-[#0B2A20]/45 to-black/30 pointer-events-none" />
+          <div className="relative z-10 p-6 sm:p-7 flex items-center justify-between">
+            <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md text-white flex items-center justify-center border border-white/20">
+              <Tv className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="relative z-10 p-6 sm:p-7 text-white space-y-2">
+            <h3 className="font-sans text-xl sm:text-2xl font-extrabold leading-snug drop-shadow-sm text-white">
+              {whatWeDoCards[1].title}
+            </h3>
+            <p className="text-xs sm:text-sm text-white/85 line-clamp-3 leading-relaxed">
+              {whatWeDoCards[1].description}
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-[#c0e82c] bg-[#D2F843] text-[#0B2A20] p-8 sm:p-9 transition-all duration-300 hover:shadow-lg hover:scale-[1.01] flex flex-col justify-between group">
+          <div>
+            <div className="flex items-center justify-between pb-6 mb-6 border-b border-[#0B2A20]/20">
+              <span className="font-mono text-3xl font-extrabold text-[#0B2A20]">02</span>
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#0B2A20] text-[#D2F843] shadow-sm">
+                <Radio className="w-6 h-6" />
+              </div>
+            </div>
+            <h3 className="font-sans text-2xl font-extrabold tracking-tight mb-3 text-[#0B2A20]">
+              {whatWeDoCards[2].title}
+            </h3>
+            <p className="font-sans text-sm leading-relaxed mb-6 text-[#0B2A20]/85">
+              {whatWeDoCards[2].description}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <PageTransition>
       <div className="bg-[#F6F9F4] text-[#0D1F18]">
       {/* FULL-WIDTH HERO SECTION */}
       <section className="relative w-full overflow-hidden bg-[#061A13] text-white border-b border-[#144234]">
-        {/* Full-Bleed Background Photography (Media observatory & journalism research center) */}
         <img
-          src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=2400&q=85"
+          src={heroImage || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=2400&q=85'}
           alt="Media observatory and journalism research center"
           className="absolute inset-0 w-full h-full object-cover object-center scale-105 filter brightness-[0.65] contrast-[1.05]"
         />
 
-        {/* Atmospheric Emerald & Deep Forest Vignette Gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B2A20]/90 via-[#0B2A20]/65 to-[#061A13]/95 mix-blend-multiply pointer-events-none" />
         <div className="absolute inset-0 bg-radial-[at_center_top] from-transparent via-[#061A13]/25 to-[#061A13]/85 pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-20 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 lg:pb-20 flex flex-col justify-between text-center items-center">
-          {/* Top Block: Badges & Headings */}
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-4xl mx-auto flex flex-col items-center mb-6 sm:mb-8"
           >
-            {/* Pill Badge matching Greenset style */}
             <div className="mb-4 sm:mb-6 inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-[#D2F843] text-[11px] sm:text-xs font-bold uppercase tracking-wider">
               <span className="w-2 h-2 rounded-full bg-[#D2F843] shadow-[0_0_8px_#D2F843]" />
               <span>
-                {t(
-                  `Independent Observatory · Est. ${ORGANIZATION.established}`,
-                  `স্বাধীন গবেষণা মানমন্দির · প্রতিষ্ঠিত ${ORGANIZATION.established}`
-                )}
+                {heroBadge ||
+                  t(
+                    `Independent Observatory · Est. ${established}`,
+                    `স্বাধীন গবেষণা মানমন্দির · প্রতিষ্ঠিত ${established}`
+                  )}
               </span>
             </div>
 
-            {/* Big Centered Headline with Electric Lime Emphasis */}
             <h1 className="font-sans text-3xl sm:text-5xl md:text-6xl lg:text-[76px] leading-[1.08] sm:leading-[1.02] font-black tracking-tight text-white mb-4 sm:mb-6">
-              {isBn ? (
+              {heroHeadline ? (
+                heroHeadline
+              ) : isBn ? (
                 <>
                   গণমাধ্যম নিয়ে গবেষণা। <br className="hidden xs:inline" />
                   <span className="text-[#D2F843]">সমাজের গভীর</span> অনুধাবন।
@@ -132,15 +383,14 @@ export default function HomePage() {
               )}
             </h1>
 
-            {/* Centered Subtitle */}
             <p className="max-w-2xl mx-auto text-sm sm:text-base lg:text-lg text-white/80 font-sans font-normal leading-relaxed mb-6 sm:mb-8">
-              {t(
-                'We conduct evidence-driven analysis to understand how journalism, technology, and information environments shape the public sphere.',
-                'সাংবাদিকতা, প্রযুক্তি এবং তথ্য প্রবাহ কীভাবে সমাজ ও জনপরিসরকে প্রভাবিত করে তা বুঝতে আমরা তথ্য-প্রমাণ নির্ভর গবেষণা পরিচালনা করি।'
-              )}
+              {heroSubtitle ||
+                t(
+                  'We conduct evidence-driven analysis to understand how journalism, technology, and information environments shape the public sphere.',
+                  'সাংবাদিকতা, প্রযুক্তি এবং তথ্য প্রবাহ কীভাবে সমাজ ও জনপরিসরকে প্রভাবিত করে তা বুঝতে আমরা তথ্য-প্রমাণ নির্ভর গবেষণা পরিচালনা করি।'
+                )}
             </p>
 
-            {/* Centered Pill Button with Circular Arrow Icon */}
             <button
               onClick={() => {
                 onNavigate('work');
@@ -148,114 +398,20 @@ export default function HomePage() {
               }}
               className="inline-flex items-center gap-3 pl-6 pr-2 py-2 sm:pl-7 sm:pr-2.5 sm:py-2.5 rounded-full bg-white text-[#0B2A20] hover:bg-[#D2F843] hover:scale-105 font-extrabold text-xs sm:text-sm tracking-wide shadow-2xl transition-all cursor-pointer group"
             >
-              <span>{t('Explore Researches', 'গবেষণাসমূহ দেখুন')}</span>
+              <span>{primaryCta || t('Explore Researches', 'গবেষণাসমূহ দেখুন')}</span>
               <span className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center transition-transform group-hover:translate-x-0.5">
                 <ArrowRight className="w-4 h-4" />
               </span>
             </button>
           </motion.div>
 
-          {/* Bottom Row: Metric & Research Info Cards */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="w-full grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-5 mt-12 sm:mt-16 lg:mt-20 text-left"
           >
-            {/* Card 1: Years of Experience */}
-            <div className="rounded-2xl sm:rounded-3xl bg-[#0B2A20]/90 backdrop-blur-md border border-white/20 p-3 sm:p-5 lg:p-6 flex flex-col justify-between shadow-xl hover:border-[#D2F843]/50 transition-all group">
-              <div className="flex items-center justify-between mb-2 sm:mb-4">
-                <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/10 text-[#D2F843] flex items-center justify-center border border-white/10 group-hover:scale-105 group-hover:bg-[#D2F843] group-hover:text-[#0B2A20] transition-all">
-                  <Calendar className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
-                </div>
-                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white/10 text-white/80 border border-white/10">
-                  Est. {ORGANIZATION.established}
-                </span>
-              </div>
-              <div>
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-none mb-1 group-hover:text-[#D2F843] transition-colors">
-                  {t('12+ Years', '১২+ বছর')}
-                </div>
-                <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#D2F843] mb-0.5 sm:mb-1">
-                  {t('Experience', 'অভিজ্ঞতা')}
-                </div>
-                <p className="text-[10px] sm:text-xs text-white/75 leading-tight sm:leading-relaxed line-clamp-2">
-                  {t(
-                    `Longitudinal observation since ${ORGANIZATION.established}.`,
-                    `${ORGANIZATION.established} থেকে ধারাবাহিক নিবিড় পর্যবেক্ষণ।`
-                  )}
-                </p>
-              </div>
-            </div>
-
-            {/* Card 2: Total Inquiries */}
-            <div className="rounded-2xl sm:rounded-3xl bg-[#0B2A20]/90 backdrop-blur-md border border-white/20 p-3 sm:p-5 lg:p-6 flex flex-col justify-between shadow-xl hover:border-[#D2F843]/50 transition-all group">
-              <div className="flex items-center justify-between mb-2 sm:mb-4">
-                <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/10 text-[#D2F843] flex items-center justify-center border border-white/10 group-hover:scale-105 group-hover:bg-[#D2F843] group-hover:text-[#0B2A20] transition-all">
-                  <FileText className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
-                </div>
-                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white/10 text-white/80 border border-white/10">
-                  {t('6 Research Areas', '৬টি গবেষণা ক্ষেত্র')}
-                </span>
-              </div>
-              <div>
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-none mb-1 group-hover:text-[#D2F843] transition-colors">
-                  160+
-                </div>
-                <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#D2F843] mb-0.5 sm:mb-1">
-                  {t('Total Inquiries', 'গবেষণা ও প্রতিবেদন')}
-                </div>
-                <p className="text-[10px] sm:text-xs text-white/75 leading-tight sm:leading-relaxed line-clamp-2">
-                  {t('Empirical inquiries & published studies.', 'তথ্যভিত্তিক অনুসন্ধান ও প্রকাশিত গবেষণা।')}
-                </p>
-              </div>
-            </div>
-
-            {/* Card 3: Datasets Monitored */}
-            <div className="rounded-2xl sm:rounded-3xl bg-[#0B2A20]/90 backdrop-blur-md border border-white/20 p-3 sm:p-5 lg:p-6 flex flex-col justify-between shadow-xl hover:border-[#D2F843]/50 transition-all group">
-              <div className="flex items-center justify-between mb-2 sm:mb-4">
-                <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/10 text-[#D2F843] flex items-center justify-center border border-white/10 group-hover:scale-105 group-hover:bg-[#D2F843] group-hover:text-[#0B2A20] transition-all">
-                  <Database className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
-                </div>
-                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-[#D2F843]/20 text-[#D2F843] border border-[#D2F843]/30">
-                  {t('Live Logging', 'লাইভ লগিং')}
-                </span>
-              </div>
-              <div>
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-none mb-1 group-hover:text-[#D2F843] transition-colors">
-                  12.4k+
-                </div>
-                <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#D2F843] mb-0.5 sm:mb-1">
-                  {t('Datasets', 'ডেটাসেট')}
-                </div>
-                <p className="text-[10px] sm:text-xs text-white/75 leading-tight sm:leading-relaxed line-clamp-2">
-                  {t('Broadcast streams, archives & digital feeds.', 'সম্প্রচার স্ট্রিম ও ডিজিটাল ফিডের তথ্য।')}
-                </p>
-              </div>
-            </div>
-
-            {/* Card 4: Verification Rigor */}
-            <div className="rounded-2xl sm:rounded-3xl bg-[#0B2A20]/90 backdrop-blur-md border border-white/20 p-3 sm:p-5 lg:p-6 flex flex-col justify-between shadow-xl hover:border-[#D2F843]/50 transition-all group">
-              <div className="flex items-center justify-between mb-2 sm:mb-4">
-                <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/10 text-[#D2F843] flex items-center justify-center border border-white/10 group-hover:scale-105 group-hover:bg-[#D2F843] group-hover:text-[#0B2A20] transition-all">
-                  <ShieldCheck className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
-                </div>
-                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white/10 text-white/80 border border-white/10">
-                  {t('Audited', 'যাচাইকৃত')}
-                </span>
-              </div>
-              <div>
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-none mb-1 group-hover:text-[#D2F843] transition-colors">
-                  98.4%
-                </div>
-                <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#D2F843] mb-0.5 sm:mb-1">
-                  {t('Verification', 'নির্ভুলতা')}
-                </div>
-                <p className="text-[10px] sm:text-xs text-white/75 leading-tight sm:leading-relaxed line-clamp-2">
-                  {t('Methodological validity & accuracy rate.', 'পদ্ধতিগত বৈধতা ও তথ্য যাচাইয়ের মানদণ্ড।')}
-                </p>
-              </div>
-            </div>
+            {renderMetrics()}
           </motion.div>
         </div>
       </section>
@@ -264,7 +420,6 @@ export default function HomePage() {
       <section className="py-12 sm:py-16 lg:py-20 bg-[#F6F9F4] border-b border-[#E2EAE4]" id="public-interest">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Mission Narrative and Methodological Safeguards */}
             <div className="lg:col-span-7 space-y-5">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] border border-[#0B2A20]/10 text-[11px] sm:text-xs font-bold uppercase tracking-wider">
                 <span className="w-2 h-2 rounded-full bg-[#D2F843] shadow-[0_0_8px_#D2F843]" />
@@ -285,7 +440,6 @@ export default function HomePage() {
                 )}
               </p>
 
-              {/* Trust Indicators */}
               <div className="pt-2 flex flex-wrap items-center gap-3">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white border border-[#E2EAE4] text-xs font-medium text-[#0B2A20] shadow-2xs">
                   <CheckCircle className="w-3.5 h-3.5 text-[#195642]" />
@@ -306,7 +460,6 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column: Contextual Image Feature */}
             <div className="lg:col-span-5">
               <div className="relative rounded-3xl overflow-hidden shadow-lg border border-[#E2EAE4] bg-white group aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3]">
                 <img
@@ -315,7 +468,6 @@ export default function HomePage() {
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   loading="lazy"
                 />
-                {/* Floating Image Badges */}
                 <div className="hidden">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0B2A20]/90 backdrop-blur-md text-[#D2F843] text-[10px] font-mono font-bold uppercase tracking-wider border border-[#D2F843]/30">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#D2F843] animate-pulse" />
@@ -351,7 +503,6 @@ export default function HomePage() {
             repeat: Infinity,
           }}
         >
-          {/* First set of marquee items */}
           <div className="flex items-center gap-8 sm:gap-14 pr-8 sm:pr-14 flex-shrink-0">
             {TICKER_ITEMS.map((item, idx) => (
               <span
@@ -364,7 +515,6 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Duplicate set for seamless continuous infinite loop */}
           <div
             className="flex items-center gap-8 sm:gap-14 pr-8 sm:pr-14 flex-shrink-0"
             aria-hidden="true"
@@ -386,7 +536,6 @@ export default function HomePage() {
       <section className="py-20 sm:py-28 border-b border-[#E2EAE4] bg-[#FFFFFF]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            {/* Left: Large Heading & Label */}
             <div className="lg:col-span-6 space-y-6">
               <div className="flex items-center justify-between text-xs font-bold tracking-widest uppercase text-[#0B2A20]">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] border border-[#0B2A20]/10">
@@ -420,7 +569,6 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right: Description & CTA */}
             <div className="lg:col-span-6 space-y-6 text-base sm:text-lg text-[#0D1F18] font-sans font-normal leading-relaxed pt-2">
               <p>
                 <strong>{t(ORGANIZATION.name, ORGANIZATION.nameBn)}</strong>{' '}
@@ -433,7 +581,7 @@ export default function HomePage() {
               <p className="text-[#556B62]">
                 {t(
                   'Through research, monitoring, and analysis, we examine how information is produced, distributed, consumed, and understood in a rapidly changing digital environment.',
-                  'গবেষণা, নিবিড় নিরীক্ষণ ও বিশ্লেষণের মাধ্যমে আমরা খতিয়ে দেখি কীভাবে দ্রুত পরিবর্তনশীল ডিজিটাল বিশ্বে তথ্য উৎপাদিত, পরিবেশিত ও জনমানসে গৃহীত হয়।'
+                  'গবেষণা, নিবিড় নিরীক্ষণ ও বিশ্লেষণের মাধ্যমে আমরা খতিয়ে দেখি কীভাবে দ্রুত পরিবর্তনশীল ডিজিটাল বিশ্বে তথ্য উৎপাদিত, পরিবেশিত ও জনমানসে গৃহীত হয়।'
                 )}
               </p>
 
@@ -467,98 +615,7 @@ export default function HomePage() {
             )}
           />
 
-          {/* 3 Key Boxes Grid (Content Box 1 + Dedicated Visual Image Box + Content Box 3) */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
-            {/* Key Box 1: Media Research & Investigative Inquiry (Content Box) */}
-            <div className="rounded-3xl border border-[#E2EAE4] bg-white text-[#0D1F18] p-8 sm:p-9 transition-all duration-300 hover:shadow-md hover:border-[#0B2A20] flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between pb-6 mb-6 border-b border-[#E2EAE4]">
-                  <span className="font-mono text-3xl font-extrabold text-[#0B2A20]">
-                    01
-                  </span>
-                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#F6F9F4] text-[#0B2A20] group-hover:bg-[#0B2A20] group-hover:text-[#D2F843] transition-colors">
-                    <Search className="w-6 h-6" />
-                  </div>
-                </div>
-
-                <h3 className="font-sans text-2xl font-extrabold tracking-tight mb-3 text-[#0B2A20]">
-                  {t('MEDIA RESEARCH & INQUIRY', 'গণমাধ্যম গবেষণা ও অনুসন্ধান')}
-                </h3>
-
-                <p className="font-sans text-sm leading-relaxed mb-6 text-[#556B62]">
-                  {t(
-                    'We study emerging trends, newsroom editorial autonomy, and structural pressures through rigorous qualitative fieldwork, ethnography, and structured academic inquiry.',
-                    'আমরা মাঠপর্যায়ের সমীক্ষা, গবেষণামূলক সাক্ষাৎকার এবং কাঠামোগত পর্যালোচনার মাধ্যমে গণমাধ্যমের স্বাধীনতা ও রূপান্তর বিশ্লেষণ করি।'
-                  )}
-                </p>
-              </div>
-
-            </div>
-
-            {/* Key Box 2: Visual 24/7 Media Observatory (DEDICATED IMAGE BOX) */}
-            <div className="rounded-3xl border border-[#E2EAE4] overflow-hidden relative group min-h-[380px] sm:min-h-[420px] flex flex-col justify-between shadow-md">
-              {/* Full-Bleed High-Definition Observatory Image */}
-              <img
-                src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=85"
-                alt="24/7 Media observatory laboratory and broadcast recording facility"
-                className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                loading="lazy"
-              />
-
-              {/* Contrast Gradient Scrim Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#061A13]/95 via-[#0B2A20]/45 to-black/30 pointer-events-none" />
-
-              {/* Top Bar of Image Box */}
-              <div className="relative z-10 p-6 sm:p-7 flex items-center justify-between">
-                <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md text-white flex items-center justify-center border border-white/20">
-                  <Tv className="w-5 h-5" />
-                </div>
-              </div>
-
-              {/* Bottom Content of Image Box */}
-              <div className="relative z-10 p-6 sm:p-7 text-white space-y-2">
-                <h3 className="font-sans text-xl sm:text-2xl font-extrabold leading-snug drop-shadow-sm text-white">
-                  {t(
-                    'Continuous Multi-Channel Signal Archival',
-                    'নিরবচ্ছিন্ন সম্প্রচার ও ডিজিটাল আর্কাইভাল'
-                  )}
-                </h3>
-                <p className="text-xs sm:text-sm text-white/85 line-clamp-3 leading-relaxed">
-                  {t(
-                    'Operating continuous recording facilities across 18 broadcast television channels, 32 national daily newspapers, and 120+ digital portals.',
-                    '১৮টি স্যাটেলাইট টিভি চ্যানেল, ৩২টি জাতীয় দৈনিক ও ১২০টির বেশি ডিজিটাল পোর্টাল সার্বক্ষণিক সংরক্ষণ ও নিরীক্ষণ।'
-                  )}
-                </p>
-
-              </div>
-            </div>
-
-            {/* Key Box 3: Monitoring & Public Insights (Content Box with Bold Theme) */}
-            <div className="rounded-3xl border border-[#c0e82c] bg-[#D2F843] text-[#0B2A20] p-8 sm:p-9 transition-all duration-300 hover:shadow-lg hover:scale-[1.01] flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between pb-6 mb-6 border-b border-[#0B2A20]/20">
-                  <span className="font-mono text-3xl font-extrabold text-[#0B2A20]">
-                    02
-                  </span>
-                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#0B2A20] text-[#D2F843] shadow-sm">
-                    <Radio className="w-6 h-6" />
-                  </div>
-                </div>
-
-                <h3 className="font-sans text-2xl font-extrabold tracking-tight mb-3 text-[#0B2A20]">
-                  {t('MONITORING & PUBLIC INSIGHTS', 'মনিটরিং ও জনস্বার্থ ইনসাইট')}
-                </h3>
-
-                <p className="font-sans text-sm leading-relaxed mb-6 text-[#0B2A20]/85">
-                  {t(
-                    'We monitor news narratives, algorithmic distribution, and audience perception across broadcast and digital platforms, producing reproducible open datasets for civic accountability.',
-                    'আমরা প্রচার মাধ্যম ও প্ল্যাটফর্ম অ্যালগরিদম নিরীক্ষণ করে নাগরিক দায়বদ্ধতার জন্য উন্মুক্ত ও নির্ভরযোগ্য তথ্য-উপাত্ত তৈরি করি।'
-                  )}
-                </p>
-              </div>
-
-            </div>
-          </div>
+          {renderWhatWeDo()}
         </div>
       </section>
 
@@ -571,21 +628,13 @@ export default function HomePage() {
             title={t('Areas We Explore', 'আমরা যেসব ক্ষেত্রে কাজ করি')}
             description={t(
               'Six specialized research domains addressing the systemic questions of news integrity, platform dynamics, and civic reception.',
-              'সংবাদের বস্তুনিষ্ঠতা, প্ল্যাটফর্মের প্রভাব এবং নাগরিক প্রতিক্রিয়ার মূল প্রশ্নসমূহ নিয়ে নিবেদিত ৬টি বিশেষ গবেষণা ক্ষেত্র।'
+              'সংবাদের বস্তুনিষ্ঠতা, প্ল্যাটফর্মের প্রভাব এবং নাগরিক প্রতিক্রিয়ার মূল প্রশ্নসমূহ নিয়ে নিবেদিত ৬টি বিশেষ গবেষণা ক্ষেত্র।'
             )}
           />
 
           <FocusAreaList
             onSelectArea={(area) => {
               if (onSelectInvestigation) {
-                const beatMap: Record<string, string> = {
-                  '01': 'media-journalism',
-                  '02': 'digital-media',
-                  '03': 'media-monitoring',
-                  '04': 'public-opinion',
-                  '05': 'media-democracy',
-                  '06': 'technology-ai',
-                };
                 const targetId = beatMap[area.number] || 'media-journalism';
                 onSelectInvestigation(targetId);
                 onNavigate('investigation');
@@ -614,21 +663,23 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 text-center space-y-8 relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-[#D2F843] text-xs font-bold uppercase tracking-widest border border-white/15">
             <span className="w-2 h-2 rounded-full bg-[#D2F843] shadow-[0_0_8px_#D2F843]" />
-            {t('INSTITUTIONAL CORE TENET', 'প্রতিষ্ঠানের মূল দর্শন')}
+            {tenetBadge || t('INSTITUTIONAL CORE TENET', 'প্রতিষ্ঠানের মূল দর্শন')}
           </div>
 
           <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl font-extrabold leading-[1.06] tracking-tight text-white">
-            {t(
-              '“Better understanding begins with better research.”',
-              '“সঠিক অনুধাবনের ভিত্তি হলো নির্ভুল ও নির্মোহ গবেষণা।”'
-            )}
+            {tenetQuote ||
+              t(
+                '“Better understanding begins with better research.”',
+                '“সঠিক অনুধাবনের ভিত্তি হলো নির্ভুল ও নির্মোহ গবেষণা।”'
+              )}
           </h2>
 
           <p className="text-base sm:text-xl font-sans text-white/80 max-w-2xl mx-auto font-normal leading-relaxed">
-            {t(
-              'Our work seeks to make the changing media environment easier to understand through independent research and thoughtful analysis.',
-              'আমাদের কাজ স্বাধীন গবেষণা ও গঠনমূলক বিশ্লেষণের মাধ্যমে পরিবর্তনশীল গণমাধ্যম ব্যবস্থাকে আরো সুস্পষ্টভাবে অনুধাবন করতে সাহায্য করে।'
-            )}
+            {tenetSubtitle ||
+              t(
+                'Our work seeks to make the changing media environment easier to understand through independent research and thoughtful analysis.',
+                'আমাদের কাজ স্বাধীন গবেষণা ও গঠনমূলক বিশ্লেষণের মাধ্যমে পরিবর্তনশীল গণমাধ্যম ব্যবস্থাকে আরো সুস্পষ্টভাবে অনুধাবন করতে সাহায্য করে।'
+              )}
           </p>
 
           <div className="pt-4">
@@ -654,11 +705,10 @@ export default function HomePage() {
             title={t('How We Work', 'আমরা যেভাবে কাজ করি')}
             description={t(
               "We combine research, evidence, monitoring, and analysis to develop a clearer understanding of the issues shaping today's information environment.",
-              'তথ্য ও গণমাধ্যম পরিবেশকে সুস্পষ্টভাবে অনুধাবন করতে আমরা গবেষণা, প্রমাণাদি, নিরীক্ষণ ও গভীর বিশ্লেষণের সমন্বয় ঘটাই।'
+              'তথ্য ও গণমাধ্যম পরিবেশকে সুস্পষ্টভাবে অনুধাবন করতে আমরা গবেষণা, প্রমাণাদি, নিরীক্ষণ ও গভীর বিশ্লেষণের সমন্বয় ঘটাই।'
             )}
           />
 
-          {/* Modern 4-Step Process Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
             {currentApproachSteps.map((step) => (
               <div
@@ -671,7 +721,7 @@ export default function HomePage() {
                       {step.number}
                     </span>
                     <span className="text-[10px] font-bold uppercase tracking-wider text-[#556B62]">
-                      {t('PIPELINE', 'পর্যায়')}
+                      {t('PIPELINE', 'পর্যায়')}
                     </span>
                   </div>
 
@@ -708,7 +758,7 @@ export default function HomePage() {
               title={t('The People Behind the Research', 'গবেষণার নেপথ্যের গবেষক দল')}
               description={t(
                 "Our team brings together researchers, analysts, media professionals, and experts committed to understanding today's rapidly changing information environment.",
-                'আমাদের দলে রয়েছেন অভিজ্ঞ গবেষক, ডেটা অ্যানালিস্ট এবং গণমাধ্যম বিশেষজ্ঞ।'
+                'আমাদের দলে রয়েছেন অভিজ্ঞ গবেষক, ডেটা অ্যানালিস্ট এবং গণমাধ্যম বিশেষজ্ঞ।'
               )}
               className="mb-0!"
             />
