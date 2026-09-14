@@ -1,0 +1,10 @@
+﻿import React from 'react';
+import { CmsShell } from './_components/CmsShell';
+
+export default function CmsLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="cms-shell antialiased selection:bg-[#E8E5FF] selection:text-[#6E56CF]">
+      <CmsShell>{children}</CmsShell>
+    </div>
+  );
+}

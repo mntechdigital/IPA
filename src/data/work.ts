@@ -1,0 +1,123 @@
+import { WorkCategory } from '../types';
+
+export const WORK_AREAS: WorkCategory[] = [
+  {
+    id: 'media-journalism',
+    name: 'Media & Journalism',
+    tagline: 'Newsroom structures, editorial independence, and the future of reportage.',
+    description: 'Researching journalism, news organizations, editorial practices, newsroom transformation, and the future of news in an era of platform restructuring.',
+    methods: ['Content analysis', 'Newsroom ethnographies', 'Financial disclosures audit', 'In-depth editor interviews'],
+    sampleInquiries: [
+      'The Economics of Local Press: Survival Strategies of Regional Newsrooms (2023–2025)',
+      'Editorial Autonomy Under Digital Platform Pressures: A Comparative South Asian Study',
+      'Fact-Checking Verification Protocols Across 40 Major Daily Newsrooms',
+    ],
+    image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80',
+    outputsCount: '24 Reports & Monographs',
+  },
+  {
+    id: 'digital-media',
+    name: 'Digital Media',
+    tagline: 'Platform dynamics, feed architecture, and digital audience behaviour.',
+    description: 'Examining how digital platforms are transforming the production, distribution, and consumption of information across mobile and network channels.',
+    methods: ['Algorithmic auditing', 'Network graph mapping', 'Audience telemetry analysis', 'Platform API harvesting'],
+    sampleInquiries: [
+      'Short-Form Video News Consumption Patterns Among Young Adults (18–25)',
+      'Cross-Platform Disinformation Trajectories During Breaking Humanitarian Events',
+      'Feed Recommendation Velocity and Informational Narrowing: A 12-Month Field Study',
+    ],
+    image: 'https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1200&q=80',
+    outputsCount: '31 Inquiries & Policy Papers',
+  },
+  {
+    id: 'media-monitoring',
+    name: 'Media Monitoring',
+    tagline: 'Systematic observation across broadcast, print, and digital spectrums.',
+    description: 'Tracking media coverage, narratives, trends, and emerging issues across television, print, online media, and social platforms using standardized coding metrics.',
+    methods: ['24/7 Automated Broadcast Recording', 'Optical Character Recognition for Print', 'Lexical Sentiment Indexing', 'Multi-Language Tagging'],
+    sampleInquiries: [
+      'National Broadcast Framing of Climate & Monsoonal Displacement: 2020–2025',
+      'Representation and Voice: Women as News Sources in Prime-Time Television',
+      'Quarterly Cross-Outlet Monitor on Public Health Communications',
+    ],
+    image: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80',
+    outputsCount: '18 Longitudinal Datasets',
+  },
+  {
+    id: 'public-opinion',
+    name: 'Public Opinion',
+    tagline: 'Citizen reception, institutional trust, and factual comprehension.',
+    description: 'Exploring how people consume, interpret, and respond to news and information through nationwide survey panels and qualitative focus sessions.',
+    methods: ['Stratified Random Sampling', 'Deliberative Polling Panels', 'Cognitive Reception Interviews', 'Misperception Diagnostics'],
+    sampleInquiries: [
+      'The National Media Trust Index: 5th Annual Citizen Perception Survey',
+      'How Voters Navigate Contradictory Claims on Social Platforms During General Elections',
+      'Socioeconomic Factors in Rural vs. Urban Digital Information Access',
+    ],
+    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+    outputsCount: '12 Nationwide Polls',
+  },
+  {
+    id: 'media-democracy',
+    name: 'Media & Democracy',
+    tagline: 'Public interest journalism, civic discourse, and institutional accountability.',
+    description: 'Examining the relationship between media, public discourse, democratic participation, and society in both established and transitioning informational environments.',
+    methods: ['Legislative record tracing', 'Defamation & media law reviews', 'Civic dialogue observation', 'Electoral debate discourse analysis'],
+    sampleInquiries: [
+      'The State of Press Freedom and Digital Regulatory Frameworks in South Asia',
+      'Civic Deliberation in the Age of Coordinated Disinformation Campaigns',
+      'Public Service Media Funding Models: Global Precedents and Regional Applications',
+    ],
+    image: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80',
+    outputsCount: '19 Research Monographs',
+  },
+  {
+    id: 'technology-ai',
+    name: 'Technology & AI',
+    tagline: 'Machine intelligence, synthesis engines, and computational ethics in media.',
+    description: 'Studying how artificial intelligence, algorithms, and emerging technologies are transforming media production, automated editing, and public knowledge verification.',
+    methods: ['Model reverse engineering', 'Synthetic media benchmark testing', 'Newsroom automation audits', 'Provenance verification trials'],
+    sampleInquiries: [
+      'Generative AI in the Newsroom: A Survey of Adoption, Editorial Oversight, and Guidelines',
+      'Watermarking and Cryptographic Provenance in High-Risk Visual Evidence',
+      'The Impact of Large Language Models on Search Retrieval and Citation of Investigative Journalism',
+    ],
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+    outputsCount: '15 Whitepapers & Guidelines',
+  },
+];
+
+export const WORK_PROCESS_PILLARS = [
+  {
+    id: 'research',
+    number: '01',
+    title: 'Research',
+    subtitle: 'Rigorous Primary Inquiry',
+    description: 'We formulate hypothesis-driven research agendas that investigate structural changes in journalism, platform power, and audience behavior using empirical methods.',
+    highlights: ['Multi-method survey design', 'Archival historical analysis', 'Longitudinal panel monitoring'],
+  },
+  {
+    id: 'analysis',
+    number: '02',
+    title: 'Analysis',
+    subtitle: 'Pattern & Narrative Synthesis',
+    description: 'We deconstruct complex information flows, coding news content against objective criteria to identify institutional biases, structural shifts, and narrative framing.',
+    highlights: ['Computational text analysis', 'Comparative framing indexes', 'Disinformation flow mapping'],
+  },
+  {
+    id: 'monitoring',
+    number: '03',
+    title: 'Monitoring',
+    subtitle: 'Continuous Environmental Tracking',
+    description: 'We maintain continuous monitoring across hundreds of broadcast channels, digital outlets, and print editions, creating longitudinal datasets of record.',
+    highlights: ['Multi-lingual indexing', 'Real-time narrative alerts', 'Broadcast transcript archiving'],
+  },
+  {
+    id: 'insights',
+    number: '04',
+    title: 'Insights',
+    subtitle: 'Actionable Public Knowledge',
+    description: 'We translate complex empirical datasets into clear, accessible briefs, monographs, and policy frameworks designed for civic understanding and institutional reform.',
+    highlights: ['Open-access research briefs', 'Executive policy briefings', 'Interactive data repositories'],
+  },
+];

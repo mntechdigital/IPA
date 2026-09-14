@@ -1,0 +1,6 @@
+{
+  "name": "IPA Media Research — Website & CMS",
+  "description": "Single Next.js 15 (App Router) codebase for IPA — Institute of Public Accountability, organized into two route-group panels under src/app/: (site)/ is the public media-research observatory website (/, /about, /work, /team, /contact, /investigation/<id>) with server pages + client sections in _components/, and (dashboard)/cms is the CMS dashboard at /cms with real per-section routes, an API-backed client (api/cms/**), and MySQL persistence via Prisma.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

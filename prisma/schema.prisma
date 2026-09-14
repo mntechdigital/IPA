@@ -1,0 +1,135 @@
+// Prisma schema for IPA Media Research CMS.
+// The database is the CMS's dynamic layer. Static site defaults stay in src/data.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Singleton config rows (wholesale-edited JSON blobs) ----------
+
+model CmsMeta {
+  id          Int      @id
+  version     String
+  lastUpdated DateTime @db.DateTime(3)
+}
+
+model SiteSettings {
+  id   Int  @id
+  data Json
+}
+
+model HomePageData {
+  id   Int  @id
+  data Json
+}
+
+model AboutPageData {
+  id   Int  @id
+  data Json
+}
+
+model ContactPageData {
+  id   Int  @id
+  data Json
+}
+
+model MonitoringTelemetry {
+  id   Int  @id
+  data Json
+}
+
+// ---------- CRUD entities ----------
+
+model ResearchBeat {
+  id                   String  @id
+  beatNumber           String
+  category             String
+  name                 String
+  tagline              String
+  description          String  @db.Text
+  image                String
+  outputsCount         String
+  timeframe            String
+  status               String
+  leadFellows          Json
+  metrics              Json
+  overview             Json
+  keyQuestions         Json
+  methodologyDetails   Json
+  caseStudies          Json
+  publications         Json
+  summary              String?
+  methodology          String? @db.Text
+  primaryMethodologies Json
+  imageTitle           String?
+  imageSubtitle        String?
+  researchNarrative    String? @db.Text
+  viewCount            Int?
+  createdAt            DateTime @default(now()) @db.DateTime(3)
+  updatedAt            DateTime @updatedAt @db.DateTime(3)
+}
+
+model TeamMember {
+  id                 String @id
+  name               String
+  role               String
+  category           String
+  teamType           String?
+  image              String
+  bio                String @db.Text
+  fullBio            String? @db.Text
+  researchInterests  Json
+  focusAreas         Json
+  education          String?
+  recentPublications Json
+  email              String
+  twitter            String?
+  linkedin             String?
+  scholar              String?
+  order                Int?
+  createdAt            DateTime @default(now()) @db.DateTime(3)
+  updatedAt            DateTime @updatedAt @db.DateTime(3)
+}
+
+model Publication {
+  id          String  @id
+  title       String  @db.Text
+  type        String
+  date        String
+  pagesOrSize String
+  beatId      String?
+  downloadUrl String?
+  abstract    String? @db.Text
+  status      String?
+  createdAt   DateTime @default(now()) @db.DateTime(3)
+  updatedAt   DateTime @updatedAt @db.DateTime(3)
+}
+
+model Inquiry {
+  id               String  @id
+  date             String
+  name             String  @db.Text
+  organization     String  @db.Text
+  email            String
+  topic            String  @db.Text
+  message          String  @db.Text
+  requestedDataset String?
+  status           String
+  notes            String? @db.Text
+  createdAt        DateTime @default(now()) @db.DateTime(3)
+  updatedAt        DateTime @updatedAt @db.DateTime(3)
+}
+
+model ActivityLog {
+  id        String   @id
+  timestamp String
+  action    String
+  section   String
+  user      String
+  createdAt DateTime @default(now()) @db.DateTime(3)
+}
