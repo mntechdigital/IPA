@@ -4,14 +4,10 @@ import React from 'react';
 import { PageId } from '../../../types';
 import { PageTransition } from '../PageTransition';
 import { motion } from 'motion/react';
-import { ORGANIZATION } from '../../../data/navigation';
-import { PageHero } from '../../../components/PageHero';
-import { CORE_VALUES, PROCESS_PIPELINE } from '../../../data/approach';
 import { CTASection } from '../../../components/CTASection';
 import { useLanguage } from '../../../context/LanguageContext';
-import { CORE_VALUES_BN, PROCESS_PIPELINE_BN } from '../../../data/translations';
 
-export default function AboutPage() {
+export default function AboutPage({ aboutPage, siteSettings }: { aboutPage: any; siteSettings: any }) {
   const { isBn, t } = useLanguage();
 
   return (
@@ -45,11 +41,11 @@ export default function AboutPage() {
               </h2>
 
               <div className="space-y-5 text-base sm:text-lg text-[#0D1F18] font-sans font-normal leading-relaxed">
-                <p>
-                  <strong>{isBn ? ORGANIZATION.nameBn : ORGANIZATION.name}</strong>{' '}
+<p>
+                  <strong>{isBn ? siteSettings?.organization?.nameBn : siteSettings?.organization?.name}</strong>{' '}
                   {t(
                     'is an independent media research organization dedicated to developing a deeper understanding of media, journalism, and information.',
-                    'একটি স্বাধীন গণমাধ্যম গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।'
+                    'একটি স্বাধীন গণমূলক গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।'
                   )}
                 </p>
                 <p className="text-[#556B62]">
@@ -261,36 +257,41 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="space-y-4">
-            {CORE_VALUES.map((val, idx) => {
-              const localizedVal = isBn && CORE_VALUES_BN[idx] ? CORE_VALUES_BN[idx] : null;
-              return (
-                <div
-                  key={val.number}
-                  className="p-8 sm:p-10 rounded-3xl border border-[#E2EAE4] bg-[#FFFFFF] hover:border-[#0B2A20] hover:shadow-md transition-all grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 items-start"
-                >
-                  <div className="md:col-span-2">
-                    <span className="w-10 h-10 rounded-2xl bg-[#0B2A20] text-[#D2F843] flex items-center justify-center font-mono text-sm font-bold">
-                      {isBn ? `০${idx + 1}` : val.number}
-                    </span>
-                  </div>
+<div className="space-y-4">
+              {((aboutPage?.coreValues ?? []) as any[]).map((val: any, idx: number) => {
+                const bnValue = isBn && aboutPage?.coreValuesBN?.[idx] ? aboutPage.coreValuesBN[idx] : null;
+                return (
+                  <div
+                    key={val.number}
+                    className="p-8 sm:p-10 rounded-3xl border border-[#E2EAE4] bg-[#FFFFFF] hover:border-[#0B2A20] hover:shadow-md transition-all grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 items-start"
+                  >
+                    <div className="md:col-span-2">
+                      <span className="w-10 h-10 rounded-2xl bg-[#0B2A20] text-[#D2F843] flex items-center justify-center font-mono text-sm font-bold">
+                        {isBn ? `০${idx + 1}` : val.number}
+                      </span>
+                    </div>
 
-                  <div className="md:col-span-4">
-                    <h3 className="font-sans text-2xl sm:text-3xl text-[#0B2A20] font-extrabold mb-2">
-                      {localizedVal ? localizedVal.titleBn : val.title}
-                    </h3>
-                    <p className="font-sans text-base text-[#195642] font-medium">
-                      {localizedVal ? localizedVal.descriptionBn : val.description}
-                    </p>
-                  </div>
+                    <div className="md:col-span-4">
+                      <h3 className="font-sans text-2xl sm:text-3xl text-[#0B2A20] font-extrabold mb-2">
+                        {bnValue ? bnValue.titleBn : val.title}
+                      </h3>
+                      <p className="font-sans text-base text-[#195642] font-medium">
+                        {bnValue ? bnValue.descriptionBn : val.description}
+                      </p>
+                    </div>
 
-                  <div className="md:col-span-6 font-sans text-xs sm:text-sm text-[#556B62] leading-relaxed pt-1 font-normal">
-                    {localizedVal ? localizedVal.detailBn : val.detail}
+                    <div className="md:col-span-6 font-sans text-xs sm:text-sm text-[#556B62] leading-relaxed pt-1 font-normal">
+                      {bnValue ? bnValue.detailBn : val.detail}
+                    </div>
                   </div>
+                );
+              })}
+              {(aboutPage?.coreValues?.length ?? 0) === 0 && (
+                <div className="text-center py-12">
+                  <p>{t('Core values coming soon...', 'খারিজ মূল্যবোধ Sekhoni...')}</p>
                 </div>
-              );
-            })}
-          </div>
+              )}
+            </div>
         </div>
       </section>
 

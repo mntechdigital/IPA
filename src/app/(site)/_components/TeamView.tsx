@@ -8,25 +8,29 @@ import { RotateCw } from 'lucide-react';
 import { motion } from 'motion/react';
 import { PageId, TeamMember } from '../../../types';
 import { PageHero } from '../../../components/PageHero';
-import { TEAM_MEMBERS } from '../../../data/team';
 import { TeamCard, TeamMemberModal } from '../../../components/TeamCard';
+import type { TeamMember } from '../../../types';
 import { CTASection } from '../../../components/CTASection';
 import { TeamCardSkeleton } from '../../../components/Skeleton';
 import { useLanguage } from '../../../context/LanguageContext';
 
-export default function TeamPage() {
+interface TeamViewProps {
+  teamMembers: TeamMember[];
+}
+
+export default function TeamPage({ teamMembers }: TeamViewProps) {
   return (
     <Suspense fallback={null}>
-      <TeamPageContent />
+      <TeamPageContent teamMembers={teamMembers} />
     </Suspense>
   );
 }
 
-function TeamPageContent() {
+function TeamPageContent({ teamMembers }: { teamMembers: TeamMember[] }) {
   const router = useRouter();
   const params = useSearchParams();
   const memberId = params.get('member');
-  const selectedMember = TEAM_MEMBERS.find((m) => m.id === memberId) ?? null;
+  const selectedMember = teamMembers.find((m) => m.id === memberId) ?? null;
   const onNavigate = (page: PageId) => {
     if (page === 'investigation') return;
     const routes: Record<string, string> = { home: '/', about: '/about', work: '/work', team: '/team', contact: '/contact' };
@@ -70,8 +74,8 @@ function TeamPageContent() {
     }, 400);
   };
 
-  const leadership = TEAM_MEMBERS.filter((m) => m.category === 'leadership');
-  const researchers = TEAM_MEMBERS.filter((m) => m.category === 'research');
+  const leadership = teamMembers.filter((m) => m.category === 'leadership');
+  const researchers = teamMembers.filter((m) => m.category === 'research');
 
   return (
     <PageTransition>
