@@ -4,14 +4,14 @@ export interface SectionAppTileDef {
   title: string;
   tagline: string;
   icon: string;
-  category: 'home' | 'about' | 'research' | 'teams' | 'contact' | 'branding';
+  category: 'home' | 'about' | 'research' | 'teams' | 'contact' | 'branding' | 'work';
   badgeColor?: 'purple' | 'green' | 'blue' | 'amber' | 'rose';
   fieldsCount: number;
   previewHint: string;
 }
 
 export interface PageAppHubDef {
-  pageId: 'home' | 'about' | 'research' | 'teams' | 'contact' | 'branding';
+  pageId: 'home' | 'about' | 'research' | 'teams' | 'contact' | 'branding' | 'work';
   pageTitle: string;
   pageSubtitle: string;
   routePath: string;
@@ -328,6 +328,36 @@ export const APP_GRID_PAGES: Record<string, PageAppHubDef> = {
         badgeColor: 'green',
         fieldsCount: 6,
         previewHint: 'Dynamic social media handles'
+      }
+    ]
+  },
+  work: {
+    pageId: 'work',
+    pageTitle: 'Work & Research Areas App Grid',
+    pageSubtitle: 'Manage research work areas and the 4-step process pillars',
+    routePath: '/admin/pages/work',
+    apps: [
+      {
+        id: 'work-areas',
+        appNumber: 'App 1',
+        title: 'Research Work Areas',
+        tagline: 'Six research domains with names, descriptions, methods, and sample inquiries',
+        icon: 'FolderKanban',
+        category: 'work',
+        badgeColor: 'blue',
+        fieldsCount: 8,
+        previewHint: 'Media & Journalism, Digital Media, Media Monitoring, Public Opinion, Media & Democracy, Technology & AI'
+      },
+      {
+        id: 'work-process',
+        appNumber: 'App 2',
+        title: 'Process Pillars',
+        tagline: 'Four-step methodological workflow: Research, Analysis, Monitoring, Insights',
+        icon: 'GitBranch',
+        category: 'work',
+        badgeColor: 'green',
+        fieldsCount: 5,
+        previewHint: 'Inquiry → Evidence → Analysis → Public Knowledge'
       }
     ]
   }

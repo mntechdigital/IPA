@@ -11,12 +11,22 @@ interface TeamCardProps {
 
 export const TeamCard: React.FC<TeamCardProps> = ({ member, onSelect }) => {
   const { isBn, t } = useLanguage();
-  const bn = TEAM_MEMBERS_BN[member.id];
+  const bn = TEAM_MEMBERS_BN[member.id] as any;
 
-  const name = isBn && bn ? bn.nameBn : member.name;
-  const role = isBn && bn ? bn.roleBn : member.role;
-  const bio = isBn && bn ? bn.bioBn : member.bio;
-  const researchInterests = isBn && bn ? bn.researchInterestsBn : member.researchInterests;
+  const pick = (en: any, dbBn: any, staticBn: any) => {
+    if (!isBn) return en;
+    if (Array.isArray(dbBn) && dbBn.length > 0 && dbBn.some((v: any) => String(v).trim().length > 0)) return dbBn;
+    if (typeof dbBn === 'string' && dbBn.trim().length > 0) return dbBn;
+    if (Array.isArray(staticBn) && staticBn.length > 0) return staticBn;
+    if (typeof staticBn === 'string' && staticBn.trim().length > 0) return staticBn;
+    return en;
+  };
+
+  const name = pick(member.name, (member as any).nameBn, bn?.nameBn);
+  const role = pick(member.role, (member as any).roleBn, bn?.roleBn);
+  const bio = pick(member.bio, (member as any).bioBn, bn?.bioBn);
+  const researchInterests = pick(member.researchInterests ?? [], (member as any).researchInterestsBn, bn?.researchInterestsBn) as string[];
+  const focusAreas = pick((member as any).focusAreas ?? [], (member as any).focusAreasBn, bn?.focusAreasBn) as string[];
 
   return (
     <div className="group rounded-3xl border border-[#E2EAE4] bg-[#FFFFFF] flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:border-[#0B2A20] overflow-hidden">
@@ -94,12 +104,20 @@ export const TeamMemberModal: React.FC<{
   const { isBn, t } = useLanguage();
   if (!member) return null;
 
-  const bn = TEAM_MEMBERS_BN[member.id];
-  const name = isBn && bn ? bn.nameBn : member.name;
-  const role = isBn && bn ? bn.roleBn : member.role;
-  const fullBio = isBn && bn ? bn.fullBioBn : member.fullBio;
-  const education = isBn && bn ? bn.educationBn : member.education;
-  const researchInterests = isBn && bn ? bn.researchInterestsBn : member.researchInterests;
+  const bn = TEAM_MEMBERS_BN[member.id] as any;
+  const pick = (en: any, dbBn: any, staticBn: any) => {
+    if (!isBn) return en;
+    if (Array.isArray(dbBn) && dbBn.length > 0 && dbBn.some((v: any) => String(v).trim().length > 0)) return dbBn;
+    if (typeof dbBn === 'string' && dbBn.trim().length > 0) return dbBn;
+    if (Array.isArray(staticBn) && staticBn.length > 0) return staticBn;
+    if (typeof staticBn === 'string' && staticBn.trim().length > 0) return staticBn;
+    return en;
+  };
+  const name = pick(member.name, (member as any).nameBn, bn?.nameBn);
+  const role = pick(member.role, (member as any).roleBn, bn?.roleBn);
+  const fullBio = pick(member.fullBio, (member as any).fullBioBn, bn?.fullBioBn);
+  const education = pick(member.education, (member as any).educationBn, bn?.educationBn);
+  const researchInterests = pick(member.researchInterests ?? [], (member as any).researchInterestsBn, bn?.researchInterestsBn) as string[];
 
   return (
     <div

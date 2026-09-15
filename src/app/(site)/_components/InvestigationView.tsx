@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { PageId } from '../../../types';
+import { ResearchBeat } from '../../../types';
 import { PageTransition } from '../PageTransition';
 import {
   ArrowLeft,
@@ -26,14 +27,14 @@ import {
   Link2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { INVESTIGATIONS_DETAIL } from '../../../data/investigationsDetail';
 import { WORK_AREAS } from '../../../data/work';
+import { INVESTIGATIONS_DETAIL } from '../../../data/investigationsDetail';
 import { INVESTIGATIONS_DETAIL_BN } from '../../../data/translations';
 import { useLanguage } from '../../../context/LanguageContext';
 import { RelatedInsightsCarousel } from '../../../components/RelatedInsightsCarousel';
 import { RequestDatasetModal } from '../../../components/RequestDatasetModal';
 
-export default function InvestigationView({ id }: { id: string }) {
+export default function InvestigationView({ beat, id }: { beat: ResearchBeat | null | undefined; id: string }) {
   const router = useRouter();
   const investigationId = id;
   const onNavigate = (page: PageId) => {
@@ -48,51 +49,50 @@ export default function InvestigationView({ id }: { id: string }) {
   };
   const { isBn, t } = useLanguage();
 
-  const enInvestigation =
-    INVESTIGATIONS_DETAIL[investigationId] || INVESTIGATIONS_DETAIL['media-journalism'];
+  const fallback = INVESTIGATIONS_DETAIL[investigationId] || INVESTIGATIONS_DETAIL['media-journalism'];
+  const base = (beat || fallback) as ResearchBeat;
   const bnData = INVESTIGATIONS_DETAIL_BN[investigationId] || INVESTIGATIONS_DETAIL_BN['media-journalism'];
 
-  // Current investigation localized properties
   const currentInvestigation = {
-    ...enInvestigation,
-    name: isBn && bnData?.nameBn ? bnData.nameBn : enInvestigation.name,
-    tagline: isBn && bnData?.taglineBn ? bnData.taglineBn : enInvestigation.tagline,
-    status: isBn && bnData?.statusBn ? bnData.statusBn : enInvestigation.status,
-    timeframe: isBn && bnData?.timeframeBn ? bnData.timeframeBn : enInvestigation.timeframe,
-    leadFellows: isBn && bnData?.leadFellowsBn ? bnData.leadFellowsBn : enInvestigation.leadFellows,
-    metrics: isBn && bnData?.metricsBn
-      ? bnData.metricsBn.map((m) => ({ label: m.labelBn, value: m.valueBn, detail: m.detailBn }))
-      : enInvestigation.metrics,
-    overview: isBn && bnData?.overviewBn ? bnData.overviewBn : enInvestigation.overview,
-    keyQuestions: isBn && bnData?.keyQuestionsBn ? bnData.keyQuestionsBn : enInvestigation.keyQuestions,
-    methodologyDetails: isBn && bnData?.methodologyDetailsBn
-      ? bnData.methodologyDetailsBn.map((m) => ({
-          title: m.titleBn,
-          protocol: m.protocolBn,
-          frequency: m.frequencyBn,
-          description: m.descriptionBn,
+    ...base,
+    name: isBn && base.nameBn ? base.nameBn : base.name,
+    tagline: isBn && base.taglineBn ? base.taglineBn : base.tagline,
+    status: isBn && base.statusBn ? base.statusBn : base.status,
+    timeframe: isBn && base.timeframeBn ? base.timeframeBn : base.timeframe,
+    leadFellows: isBn && base.leadFellowsBn && base.leadFellowsBn.length > 0 ? base.leadFellowsBn : base.leadFellows,
+    metrics: isBn && base.metricsBn && base.metricsBn.length > 0
+      ? base.metricsBn.map((m) => ({ label: m.label || '', value: m.value || '', detail: m.detail || '' }))
+      : base.metrics,
+    overview: isBn && base.overviewBn && base.overviewBn.length > 0 ? base.overviewBn : base.overview,
+    keyQuestions: isBn && base.keyQuestionsBn && base.keyQuestionsBn.length > 0 ? base.keyQuestionsBn : base.keyQuestions,
+    methodologyDetails: isBn && base.methodologyDetailsBn && base.methodologyDetailsBn.length > 0
+      ? base.methodologyDetailsBn.map((m) => ({
+          title: m.title || '',
+          protocol: m.protocol || '',
+          frequency: m.frequency || '',
+          description: m.description || '',
         }))
-      : enInvestigation.methodologyDetails,
-    caseStudies: isBn && bnData?.caseStudiesBn
-      ? bnData.caseStudiesBn.map((c) => ({
-          title: c.titleBn,
-          year: c.yearBn,
-          summary: c.summaryBn,
-          impact: c.impactBn,
+      : base.methodologyDetails,
+    caseStudies: isBn && base.caseStudiesBn && base.caseStudiesBn.length > 0
+      ? base.caseStudiesBn.map((c) => ({
+          title: c.title || '',
+          year: c.year || '',
+          summary: c.summary || '',
+          impact: c.impact || '',
         }))
-      : enInvestigation.caseStudies,
-    publications: isBn && bnData?.publicationsBn
-      ? bnData.publicationsBn.map((p, idx) => ({
-          ...enInvestigation.publications[idx],
-          title: p.titleBn,
-          type: p.typeBn,
-          date: p.dateBn,
-          pagesOrSize: p.pagesOrSizeBn,
+      : base.caseStudies,
+    publications: isBn && base.publicationsBn && base.publicationsBn.length > 0
+      ? base.publicationsBn.map((p, idx) => ({
+          ...base.publications[idx],
+          title: p.title || '',
+          type: p.type || '',
+          date: p.date || '',
+          pagesOrSize: p.pagesOrSize || '',
         }))
-      : enInvestigation.publications,
+      : base.publications,
   };
 
-  const currentWorkArea = WORK_AREAS.find((area) => area.id === investigationId);
+  const currentWorkArea = WORK_AREAS.find((area) => area.id === (beat?.category || investigationId));
 
   const [activeTab, setActiveTab] = useState<'overview' | 'methodology' | 'cases' | 'publications'>('overview');
   const [copiedLink, setCopiedLink] = useState(false);
@@ -153,15 +153,15 @@ export default function InvestigationView({ id }: { id: string }) {
 
           {/* Research Selector Pill Bar (One Line, smooth horizontal scroll) */}
           <div className="hidden">
-            {allResearch.map((beat) => {
-              const isCurrent = beat.id === currentInvestigation.id;
-              const beatBn = INVESTIGATIONS_DETAIL_BN[beat.id];
-              const beatName = isBn && beatBn?.nameBn ? beatBn.nameBn : beat.name;
+            {allResearch.map((b) => {
+              const isCurrent = b.id === currentInvestigation.id;
+              const beatBn = INVESTIGATIONS_DETAIL_BN[b.id];
+              const beatName = isBn && beatBn?.nameBn ? beatBn.nameBn : b.name;
               return (
                 <button
-                  key={beat.id}
+                  key={b.id}
                   onClick={() => {
-                    onSelectInvestigation(beat.id);
+                    onSelectInvestigation(b.id);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   className={`px-4 py-2 rounded-full text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 flex items-center gap-2 ${
@@ -171,7 +171,7 @@ export default function InvestigationView({ id }: { id: string }) {
                   }`}
                 >
                   <span className={isCurrent ? 'text-[#0B2A20]' : 'text-[#D2F843]'}>
-                    {beat.beatNumber}
+                    {b.beatNumber}
                   </span>
                   <span>{beatName}</span>
                 </button>
@@ -197,7 +197,7 @@ export default function InvestigationView({ id }: { id: string }) {
               </h1>
 
               <p className="font-sans text-lg sm:text-2xl text-[#D2F843] font-medium leading-relaxed mb-6">
-                “{currentInvestigation.tagline}”
+                &ldquo;{currentInvestigation.tagline}&rdquo;
               </p>
 
               <div className="flex flex-wrap items-center gap-6 text-xs font-mono text-white/70">

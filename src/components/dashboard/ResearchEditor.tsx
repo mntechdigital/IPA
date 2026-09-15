@@ -11,7 +11,8 @@ import {
   FileText,
   TrendingUp,
   Layers,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Languages
 } from 'lucide-react';
 import { useCms } from '../../context/CmsContext';
 import {
@@ -41,6 +42,8 @@ export const ResearchEditor: React.FC = () => {
   const [activeBeatId, setActiveBeatId] = useState<string>(
     selectedBeatId || beats[0]?.id || 'media-journalism'
   );
+
+  const [activeLangTab, setActiveLangTab] = useState<'en' | 'bn'>('en');
 
   useEffect(() => {
     if (selectedBeatId) {
@@ -75,9 +78,14 @@ export const ResearchEditor: React.FC = () => {
     updateResearchBeat(activeBeatId, formData);
   };
 
-  const handleMetricChange = (index: number, field: keyof MetricItem, value: string) => {
+  const handleMetricChange = (index: number, field: string, value: string) => {
     const metrics = [...(formData.metrics || [])];
-    metrics[index] = { ...metrics[index], [field]: value };
+    const bnField = field + 'Bn' as keyof MetricItem;
+    if (activeLangTab === 'bn') {
+      metrics[index] = { ...metrics[index], [bnField]: value };
+    } else {
+      metrics[index] = { ...metrics[index], [field]: value };
+    }
     setFormData({ ...formData, metrics });
   };
 
@@ -98,8 +106,14 @@ export const ResearchEditor: React.FC = () => {
 
   const handleKeyQuestionChange = (index: number, value: string) => {
     const questions = [...(formData.keyQuestions || [])];
-    questions[index] = value;
-    setFormData({ ...formData, keyQuestions: questions });
+    const bnQuestions = [...(formData.keyQuestionsBn || [])];
+    if (activeLangTab === 'bn') {
+      bnQuestions[index] = value;
+      setFormData({ ...formData, keyQuestionsBn: bnQuestions });
+    } else {
+      questions[index] = value;
+      setFormData({ ...formData, keyQuestions: questions });
+    }
   };
 
   const handleAddKeyQuestion = () => {
@@ -107,13 +121,20 @@ export const ResearchEditor: React.FC = () => {
   };
 
   const handleRemoveKeyQuestion = (index: number) => {
-    setFormData({ ...formData, keyQuestions: (formData.keyQuestions || []).filter((_, i) => i !== index) });
+    const questions = (formData.keyQuestions || []).filter((_, i) => i !== index);
+    setFormData({ ...formData, keyQuestions: questions });
   };
 
   const handleOverviewChange = (index: number, value: string) => {
     const overview = [...(formData.overview || [])];
-    overview[index] = value;
-    setFormData({ ...formData, overview });
+    const overviewBn = [...(formData.overviewBn || [])];
+    if (activeLangTab === 'bn') {
+      overviewBn[index] = value;
+      setFormData({ ...formData, overviewBn });
+    } else {
+      overview[index] = value;
+      setFormData({ ...formData, overview });
+    }
   };
 
   const handleAddOverviewParagraph = () => {
@@ -121,7 +142,8 @@ export const ResearchEditor: React.FC = () => {
   };
 
   const handleRemoveOverviewParagraph = (index: number) => {
-    setFormData({ ...formData, overview: (formData.overview || []).filter((_, i) => i !== index) });
+    const overview = (formData.overview || []).filter((_, i) => i !== index);
+    setFormData({ ...formData, overview });
   };
 
   const handleAddCaseStudy = () => {
@@ -135,10 +157,17 @@ export const ResearchEditor: React.FC = () => {
     setFormData({ ...formData, caseStudies: [...(formData.caseStudies || []), newCs] });
   };
 
-  const handleCaseStudyChange = (index: number, field: keyof CaseStudy, value: string) => {
+  const handleCaseStudyChange = (index: number, field: string, value: string) => {
     const studies = [...(formData.caseStudies || [])];
-    studies[index] = { ...studies[index], [field]: value };
-    setFormData({ ...formData, caseStudies: studies });
+    const studiesBn = [...(formData.caseStudiesBn || [])];
+    const bnField = field + 'Bn' as keyof CaseStudy;
+    if (activeLangTab === 'bn') {
+      studiesBn[index] = { ...studiesBn[index], [bnField]: value };
+      setFormData({ ...formData, caseStudiesBn: studiesBn });
+    } else {
+      studies[index] = { ...studies[index], [field]: value };
+      setFormData({ ...formData, caseStudies: studies });
+    }
   };
 
   const handleRemoveCaseStudy = (index: number) => {
@@ -156,10 +185,17 @@ export const ResearchEditor: React.FC = () => {
     setFormData({ ...formData, methodologyDetails: [...(formData.methodologyDetails || []), newP] });
   };
 
-  const handleProtocolChange = (index: number, field: keyof MethodologyProtocol, value: string) => {
+  const handleProtocolChange = (index: number, field: string, value: string) => {
     const protos = [...(formData.methodologyDetails || [])];
-    protos[index] = { ...protos[index], [field]: value };
-    setFormData({ ...formData, methodologyDetails: protos });
+    const protosBn = [...(formData.methodologyDetailsBn || [])];
+    const bnField = field + 'Bn' as keyof MethodologyProtocol;
+    if (activeLangTab === 'bn') {
+      protosBn[index] = { ...protosBn[index], [bnField]: value };
+      setFormData({ ...formData, methodologyDetailsBn: protosBn });
+    } else {
+      protos[index] = { ...protos[index], [field]: value };
+      setFormData({ ...formData, methodologyDetails: protos });
+    }
   };
 
   const handleRemoveProtocol = (index: number) => {
@@ -168,7 +204,11 @@ export const ResearchEditor: React.FC = () => {
 
   const handleLeadFellowsChange = (val: string) => {
     const fellows = val.split(',').map(s => s.trim()).filter(Boolean);
-    setFormData({ ...formData, leadFellows: fellows });
+    if (activeLangTab === 'bn') {
+      setFormData({ ...formData, leadFellowsBn: fellows });
+    } else {
+      setFormData({ ...formData, leadFellows: fellows });
+    }
   };
 
   const handleCreateNewBeat = () => {
@@ -218,6 +258,63 @@ export const ResearchEditor: React.FC = () => {
     setSelectedBeatId(newBeat.id);
     setShowNewBeatModal(false);
     setNewBeatName('');
+  };
+
+  const langLabel = (en: string, bn: string) => activeLangTab === 'bn' ? bn : en;
+  const langSuffix = activeLangTab === 'bn' ? 'Bn' : '';
+
+  const scalarField = (label: string, field: string, bnField: string, placeholder?: string) => {
+    const bnVal = (formData as any)[bnField] || '';
+    const enVal = (formData as any)[field] || '';
+    return activeLangTab === 'en' ? (
+      <div>
+        <label className="block text-xs font-semibold text-slate-300 mb-1.5">{label} (English)</label>
+        <input
+          type="text"
+          value={enVal}
+          onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+          className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+          placeholder={placeholder}
+        />
+      </div>
+    ) : (
+      <div>
+        <label className="block text-xs font-semibold text-slate-300 mb-1.5">{label} (Bengali)</label>
+        <input
+          type="text"
+          value={bnVal}
+          onChange={(e) => setFormData({ ...formData, [bnField]: e.target.value })}
+          className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+          placeholder={placeholder}
+        />
+      </div>
+    );
+  };
+
+  const scalarTextarea = (label: string, field: string, bnField: string, rows: number = 2) => {
+    const bnVal = (formData as any)[bnField] || '';
+    const enVal = (formData as any)[field] || '';
+    return activeLangTab === 'en' ? (
+      <div>
+        <label className="block text-xs font-semibold text-slate-300 mb-1.5">{label} (English)</label>
+        <textarea
+          rows={rows}
+          value={enVal}
+          onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+          className="w-full bg-[#081811] border border-[#16382B] rounded-lg p-2.5 text-xs text-slate-200 outline-none leading-relaxed"
+        />
+      </div>
+    ) : (
+      <div>
+        <label className="block text-xs font-semibold text-slate-300 mb-1.5">{label} (Bengali)</label>
+        <textarea
+          rows={rows}
+          value={bnVal}
+          onChange={(e) => setFormData({ ...formData, [bnField]: e.target.value })}
+          className="w-full bg-[#081811] border border-[#16382B] rounded-lg p-2.5 text-xs text-slate-200 outline-none leading-relaxed"
+        />
+      </div>
+    );
   };
 
   return (
@@ -295,6 +392,38 @@ export const ResearchEditor: React.FC = () => {
           </div>
         </div>
 
+        {/* Language Toggle Pills */}
+        <div className="flex items-center justify-between bg-[#0C2219] p-3 rounded-xl border border-[#16382B]">
+          <div className="flex items-center gap-2">
+            <Languages className="w-4 h-4 text-[#D2F818]" />
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-300">Editing Translation:</span>
+          </div>
+          <div className="flex gap-1 bg-[#06140E] p-1 rounded-lg border border-[#16382B]">
+            <button
+              type="button"
+              onClick={() => setActiveLangTab('en')}
+              className={`px-3 py-1 rounded text-xs font-semibold transition-colors cursor-pointer ${
+                activeLangTab === 'en'
+                  ? 'bg-[#154635] text-[#D2F818]'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              English (Primary)
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveLangTab('bn')}
+              className={`px-3 py-1 rounded text-xs font-semibold transition-colors cursor-pointer ${
+                activeLangTab === 'bn'
+                  ? 'bg-[#154635] text-[#D2F818]'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              বাংলা (Bengali)
+            </button>
+          </div>
+        </div>
+
         {/* 1. Basic Metadata & Banner */}
         <div className="bg-[#0C2218] border border-[#16382B] rounded-xl p-6 space-y-4 shadow-sm">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 border-b border-[#16382B] pb-2">
@@ -312,65 +441,137 @@ export const ResearchEditor: React.FC = () => {
                 className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white font-mono outline-none"
               />
             </div>
+            {activeLangTab === 'en' ? (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Sub-Category Name (English)</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white font-bold outline-none"
+                />
+              </div>
+            ) : (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Sub-Category Name (Bengali)</label>
+                <input
+                  type="text"
+                  value={formData.nameBn || ''}
+                  onChange={(e) => setFormData({ ...formData, nameBn: e.target.value })}
+                  className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white font-bold outline-none"
+                />
+              </div>
+            )}
+            {activeLangTab === 'en' ? (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Status Badge (English)</label>
+                <input
+                  type="text"
+                  value={formData.status}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+                />
+              </div>
+            ) : (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Status Badge (Bengali)</label>
+                <input
+                  type="text"
+                  value={formData.statusBn || ''}
+                  onChange={(e) => setFormData({ ...formData, statusBn: e.target.value })}
+                  className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+                />
+              </div>
+            )}
+          </div>
+
+          {activeLangTab === 'en' ? (
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Sub-Category Name</label>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Tagline (English)</label>
               <input
                 type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white font-bold outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Status Badge</label>
-              <input
-                type="text"
-                value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                value={formData.tagline}
+                onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
                 className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
               />
             </div>
-          </div>
+          ) : (
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Tagline (Bengali)</label>
+              <input
+                type="text"
+                value={formData.taglineBn || ''}
+                onChange={(e) => setFormData({ ...formData, taglineBn: e.target.value })}
+                className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+              />
+            </div>
+          )}
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">Tagline</label>
-            <input
-              type="text"
-              value={formData.tagline}
-              onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
-              className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">Brief Summary Description</label>
-            <textarea
-              rows={2}
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full bg-[#081811] border border-[#16382B] rounded-lg p-2.5 text-xs text-slate-200 outline-none leading-relaxed"
-            />
-          </div>
+          {activeLangTab === 'en' ? (
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Brief Summary Description (English)</label>
+              <textarea
+                rows={2}
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                className="w-full bg-[#081811] border border-[#16382B] rounded-lg p-2.5 text-xs text-slate-200 outline-none leading-relaxed"
+              />
+            </div>
+          ) : (
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Brief Summary Description (Bengali)</label>
+              <textarea
+                rows={2}
+                value={formData.descriptionBn || ''}
+                onChange={(e) => setFormData({ ...formData, descriptionBn: e.target.value })}
+                className="w-full bg-[#081811] border border-[#16382B] rounded-lg p-2.5 text-xs text-slate-200 outline-none leading-relaxed"
+              />
+            </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Outputs Count Tag</label>
-              <input
-                type="text"
-                value={formData.outputsCount}
-                onChange={(e) => setFormData({ ...formData, outputsCount: e.target.value })}
-                className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Observation Timeframe</label>
-              <input
-                type="text"
-                value={formData.timeframe}
-                onChange={(e) => setFormData({ ...formData, timeframe: e.target.value })}
-                className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
-              />
-            </div>
+            {activeLangTab === 'en' ? (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Outputs Count Tag (English)</label>
+                <input
+                  type="text"
+                  value={formData.outputsCount}
+                  onChange={(e) => setFormData({ ...formData, outputsCount: e.target.value })}
+                  className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+                />
+              </div>
+            ) : (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Outputs Count Tag (Bengali)</label>
+                <input
+                  type="text"
+                  value={formData.outputsCountBn || ''}
+                  onChange={(e) => setFormData({ ...formData, outputsCountBn: e.target.value })}
+                  className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+                />
+              </div>
+            )}
+            {activeLangTab === 'en' ? (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Observation Timeframe (English)</label>
+                <input
+                  type="text"
+                  value={formData.timeframe}
+                  onChange={(e) => setFormData({ ...formData, timeframe: e.target.value })}
+                  className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+                />
+              </div>
+            ) : (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Observation Timeframe (Bengali)</label>
+                <input
+                  type="text"
+                  value={formData.timeframeBn || ''}
+                  onChange={(e) => setFormData({ ...formData, timeframeBn: e.target.value })}
+                  className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+                />
+              </div>
+            )}
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">Cover Image URL</label>
               <input
@@ -382,18 +583,39 @@ export const ResearchEditor: React.FC = () => {
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Lead Research Fellows (Comma-separated)
-            </label>
-            <input
-              type="text"
-              value={(formData.leadFellows || []).join(', ')}
-              onChange={(e) => handleLeadFellowsChange(e.target.value)}
-              className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
-              placeholder="e.g. Dr. Eleanor Vance, Tariq Rahman, Maya Lin"
-            />
-          </div>
+          {activeLangTab === 'en' ? (
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                Lead Research Fellows (Comma-separated) (English)
+              </label>
+              <input
+                type="text"
+                value={(formData.leadFellows || []).join(', ')}
+                onChange={(e) => {
+                  const fellows = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
+                  setFormData({ ...formData, leadFellows: fellows });
+                }}
+                className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+                placeholder="e.g. Dr. Eleanor Vance, Tariq Rahman, Maya Lin"
+              />
+            </div>
+          ) : (
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                Lead Research Fellows (Comma-separated) (Bengali)
+              </label>
+              <input
+                type="text"
+                value={(formData.leadFellowsBn || []).join(', ')}
+                onChange={(e) => {
+                  const fellows = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
+                  setFormData({ ...formData, leadFellowsBn: fellows });
+                }}
+                className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+                placeholder="e.g. ড. তরিকুল ইসলাম, ড. এলেনা রোস্টোভা"
+              />
+            </div>
+          )}
         </div>
 
         {/* 2. Track Metrics (4 items) */}
@@ -427,28 +649,67 @@ export const ResearchEditor: React.FC = () => {
                   </button>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <input
-                    type="text"
-                    value={m.value}
-                    placeholder="Value (e.g. 48 Outlets)"
-                    onChange={(e) => handleMetricChange(index, 'value', e.target.value)}
-                    className="bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-white font-bold"
-                  />
-                  <input
-                    type="text"
-                    value={m.label}
-                    placeholder="Label (e.g. Newsrooms Audited)"
-                    onChange={(e) => handleMetricChange(index, 'label', e.target.value)}
-                    className="bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-white"
-                  />
+                  <div>
+                    <label className="block text-[10px] text-slate-400 mb-1">Value {activeLangTab === 'bn' ? '(Bengali)' : '(English)'}</label>
+                    {activeLangTab === 'en' ? (
+                      <input
+                        type="text"
+                        value={m.value}
+                        placeholder="Value (e.g. 48 Outlets)"
+                        onChange={(e) => handleMetricChange(index, 'value', e.target.value)}
+                        className="bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-white font-bold"
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        value={m.valueBn || ''}
+                        placeholder="Value (Bengali)"
+                        onChange={(e) => handleMetricChange(index, 'value', e.target.value)}
+                        className="bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-white font-bold"
+                      />
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-[10px] text-slate-400 mb-1">Label {activeLangTab === 'bn' ? '(Bengali)' : '(English)'}</label>
+                    {activeLangTab === 'en' ? (
+                      <input
+                        type="text"
+                        value={m.label}
+                        placeholder="Label (e.g. Newsrooms Audited)"
+                        onChange={(e) => handleMetricChange(index, 'label', e.target.value)}
+                        className="bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-white"
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        value={m.labelBn || ''}
+                        placeholder="Label (Bengali)"
+                        onChange={(e) => handleMetricChange(index, 'label', e.target.value)}
+                        className="bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-white"
+                      />
+                    )}
+                  </div>
                 </div>
-                <input
-                  type="text"
-                  value={m.detail}
-                  placeholder="Detail context"
-                  onChange={(e) => handleMetricChange(index, 'detail', e.target.value)}
-                  className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-slate-300"
-                />
+                <div>
+                  <label className="block text-[10px] text-slate-400 mb-1">Detail context {activeLangTab === 'bn' ? '(Bengali)' : '(English)'}</label>
+                  {activeLangTab === 'en' ? (
+                    <input
+                      type="text"
+                      value={m.detail}
+                      placeholder="Detail context"
+                      onChange={(e) => handleMetricChange(index, 'detail', e.target.value)}
+                      className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-slate-300"
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      value={m.detailBn || ''}
+                      placeholder="Detail context (Bengali)"
+                      onChange={(e) => handleMetricChange(index, 'detail', e.target.value)}
+                      className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-slate-300"
+                    />
+                  )}
+                </div>
               </div>
             ))}
           </div>
@@ -471,7 +732,7 @@ export const ResearchEditor: React.FC = () => {
             </div>
 
             <div className="space-y-3">
-              {(formData.overview || []).map((p, idx) => (
+              {(activeLangTab === 'en' ? (formData.overview || []) : (formData.overviewBn || [])).map((p, idx) => (
                 <div key={idx} className="flex gap-2">
                   <textarea
                     rows={3}
@@ -506,7 +767,7 @@ export const ResearchEditor: React.FC = () => {
             </div>
 
             <div className="space-y-2.5">
-              {(formData.keyQuestions || []).map((q, idx) => (
+              {(activeLangTab === 'en' ? (formData.keyQuestions || []) : (formData.keyQuestionsBn || [])).map((q, idx) => (
                 <div key={idx} className="flex gap-2">
                   <span className="font-mono text-xs text-[#D2F818] pt-2">Q{idx + 1}</span>
                   <input
@@ -546,56 +807,95 @@ export const ResearchEditor: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {(formData.methodologyDetails || []).map((proto, idx) => (
-              <div key={proto.id || idx} className="p-4 bg-[#081811] border border-[#16382B] rounded-lg space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <input
-                    type="text"
-                    value={proto.title}
-                    onChange={(e) => handleProtocolChange(idx, 'title', e.target.value)}
-                    className="bg-transparent border-b border-[#16382B] text-xs font-bold text-white px-1 py-0.5 outline-none flex-1 mr-2"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveProtocol(idx)}
-                    className="text-slate-500 hover:text-rose-400 p-1"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="block text-[10px] text-slate-400 mb-1">Protocol Protocol</label>
-                    <input
-                      type="text"
-                      value={proto.protocol}
-                      onChange={(e) => handleProtocolChange(idx, 'protocol', e.target.value)}
-                      className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-slate-300"
-                    />
+            {(formData.methodologyDetails || []).map((proto, idx) => {
+              const protoBn = (formData.methodologyDetailsBn || [])[idx] || {};
+              return (
+                <div key={proto.id || idx} className="p-4 bg-[#081811] border border-[#16382B] rounded-lg space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    {activeLangTab === 'en' ? (
+                      <input
+                        type="text"
+                        value={proto.title}
+                        onChange={(e) => handleProtocolChange(idx, 'title', e.target.value)}
+                        className="bg-transparent border-b border-[#16382B] text-xs font-bold text-white px-1 py-0.5 outline-none flex-1 mr-2"
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        value={protoBn.title || ''}
+                        onChange={(e) => handleProtocolChange(idx, 'title', e.target.value)}
+                        className="bg-transparent border-b border-[#16382B] text-xs font-bold text-white px-1 py-0.5 outline-none flex-1 mr-2"
+                      />
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveProtocol(idx)}
+                      className="text-slate-500 hover:text-rose-400 p-1"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
                   </div>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-[10px] text-slate-400 mb-1">Protocol {activeLangTab === 'bn' ? '(Bengali)' : '(English)'}</label>
+                      {activeLangTab === 'en' ? (
+                        <input
+                          type="text"
+                          value={proto.protocol}
+                          onChange={(e) => handleProtocolChange(idx, 'protocol', e.target.value)}
+                          className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-slate-300"
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          value={protoBn.protocol || ''}
+                          onChange={(e) => handleProtocolChange(idx, 'protocol', e.target.value)}
+                          className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-slate-300"
+                        />
+                      )}
+                    </div>
+                    <div>
+                      <label className="block text-[10px] text-slate-400 mb-1">Frequency {activeLangTab === 'bn' ? '(Bengali)' : '(English)'}</label>
+                      {activeLangTab === 'en' ? (
+                        <input
+                          type="text"
+                          value={proto.frequency}
+                          onChange={(e) => handleProtocolChange(idx, 'frequency', e.target.value)}
+                          className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-slate-300"
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          value={protoBn.frequency || ''}
+                          onChange={(e) => handleProtocolChange(idx, 'frequency', e.target.value)}
+                          className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-slate-300"
+                        />
+                      )}
+                    </div>
+                  </div>
+
                   <div>
-                    <label className="block text-[10px] text-slate-400 mb-1">Frequency</label>
-                    <input
-                      type="text"
-                      value={proto.frequency}
-                      onChange={(e) => handleProtocolChange(idx, 'frequency', e.target.value)}
-                      className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-slate-300"
-                    />
+                    <label className="block text-[10px] text-slate-400 mb-1">Detailed Description {activeLangTab === 'bn' ? '(Bengali)' : '(English)'}</label>
+                    {activeLangTab === 'en' ? (
+                      <textarea
+                        rows={2}
+                        value={proto.description}
+                        onChange={(e) => handleProtocolChange(idx, 'description', e.target.value)}
+                        className="w-full bg-[#0C2218] border border-[#16382B] rounded p-2 text-xs text-slate-300 leading-relaxed"
+                      />
+                    ) : (
+                      <textarea
+                        rows={2}
+                        value={protoBn.description || ''}
+                        onChange={(e) => handleProtocolChange(idx, 'description', e.target.value)}
+                        className="w-full bg-[#0C2218] border border-[#16382B] rounded p-2 text-xs text-slate-300 leading-relaxed"
+                      />
+                    )}
                   </div>
                 </div>
-
-                <div>
-                  <label className="block text-[10px] text-slate-400 mb-1">Detailed Description</label>
-                  <textarea
-                    rows={2}
-                    value={proto.description}
-                    onChange={(e) => handleProtocolChange(idx, 'description', e.target.value)}
-                    className="w-full bg-[#0C2218] border border-[#16382B] rounded p-2 text-xs text-slate-300 leading-relaxed"
-                  />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -617,51 +917,157 @@ export const ResearchEditor: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {(formData.caseStudies || []).map((cs, idx) => (
-              <div key={cs.id || idx} className="p-4 bg-[#081811] border border-[#16382B] rounded-lg space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <input
-                    type="text"
-                    value={cs.title}
-                    onChange={(e) => handleCaseStudyChange(idx, 'title', e.target.value)}
-                    className="bg-transparent border-b border-[#16382B] text-xs font-bold text-white px-1 py-0.5 outline-none flex-1 mr-2"
-                  />
-                  <input
-                    type="text"
-                    value={cs.year}
-                    onChange={(e) => handleCaseStudyChange(idx, 'year', e.target.value)}
-                    className="bg-[#0C2218] border border-[#16382B] rounded px-2 py-0.5 text-xs text-[#D2F818] font-mono w-24 text-right"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveCaseStudy(idx)}
-                    className="text-slate-500 hover:text-rose-400 p-1 ml-1"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+            {(formData.caseStudies || []).map((cs, idx) => {
+              const csBn = (formData.caseStudiesBn || [])[idx] || {};
+              return (
+                <div key={cs.id || idx} className="p-4 bg-[#081811] border border-[#16382B] rounded-lg space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    {activeLangTab === 'en' ? (
+                      <input
+                        type="text"
+                        value={cs.title}
+                        onChange={(e) => handleCaseStudyChange(idx, 'title', e.target.value)}
+                        className="bg-transparent border-b border-[#16382B] text-xs font-bold text-white px-1 py-0.5 outline-none flex-1 mr-2"
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        value={csBn.title || ''}
+                        onChange={(e) => handleCaseStudyChange(idx, 'title', e.target.value)}
+                        className="bg-transparent border-b border-[#16382B] text-xs font-bold text-white px-1 py-0.5 outline-none flex-1 mr-2"
+                      />
+                    )}
+                    {activeLangTab === 'en' ? (
+                      <input
+                        type="text"
+                        value={cs.year}
+                        onChange={(e) => handleCaseStudyChange(idx, 'year', e.target.value)}
+                        className="bg-[#0C2218] border border-[#16382B] rounded px-2 py-0.5 text-xs text-[#D2F818] font-mono w-24 text-right"
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        value={csBn.year || ''}
+                        onChange={(e) => handleCaseStudyChange(idx, 'year', e.target.value)}
+                        className="bg-[#0C2218] border border-[#16382B] rounded px-2 py-0.5 text-xs text-[#D2F818] font-mono w-24 text-right"
+                      />
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveCaseStudy(idx)}
+                      className="text-slate-500 hover:text-rose-400 p-1 ml-1"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
 
-                <div>
-                  <label className="block text-[10px] text-slate-400 mb-1">Study Summary</label>
-                  <textarea
-                    rows={2}
-                    value={cs.summary}
-                    onChange={(e) => handleCaseStudyChange(idx, 'summary', e.target.value)}
-                    className="w-full bg-[#0C2218] border border-[#16382B] rounded p-2 text-xs text-slate-300 leading-relaxed"
-                  />
-                </div>
+                  <div>
+                    <label className="block text-[10px] text-slate-400 mb-1">Study Summary {activeLangTab === 'bn' ? '(Bengali)' : '(English)'}</label>
+                    {activeLangTab === 'en' ? (
+                      <textarea
+                        rows={2}
+                        value={cs.summary}
+                        onChange={(e) => handleCaseStudyChange(idx, 'summary', e.target.value)}
+                        className="w-full bg-[#0C2218] border border-[#16382B] rounded p-2 text-xs text-slate-300 leading-relaxed"
+                      />
+                    ) : (
+                      <textarea
+                        rows={2}
+                        value={csBn.summary || ''}
+                        onChange={(e) => handleCaseStudyChange(idx, 'summary', e.target.value)}
+                        className="w-full bg-[#0C2218] border border-[#16382B] rounded p-2 text-xs text-slate-300 leading-relaxed"
+                      />
+                    )}
+                  </div>
 
-                <div>
-                  <label className="block text-[10px] text-slate-400 mb-1">Societal / Policy Impact</label>
-                  <input
-                    type="text"
-                    value={cs.impact}
-                    onChange={(e) => handleCaseStudyChange(idx, 'impact', e.target.value)}
-                    className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-emerald-300"
-                  />
+                  <div>
+                    <label className="block text-[10px] text-slate-400 mb-1">Societal / Policy Impact {activeLangTab === 'bn' ? '(Bengali)' : '(English)'}</label>
+                    {activeLangTab === 'en' ? (
+                      <input
+                        type="text"
+                        value={cs.impact}
+                        onChange={(e) => handleCaseStudyChange(idx, 'impact', e.target.value)}
+                        className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-emerald-300"
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        value={csBn.impact || ''}
+                        onChange={(e) => handleCaseStudyChange(idx, 'impact', e.target.value)}
+                        className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2 py-1 text-xs text-emerald-300"
+                      />
+                    )}
+                  </div>
                 </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 6. Summary & Methodology Narrative */}
+        <div className="bg-[#0C2218] border border-[#16382B] rounded-xl p-6 space-y-4 shadow-sm">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 border-b border-[#16382B] pb-2">
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+            <span>Extended Narrative & Methodology</span>
+          </h3>
+
+          {scalarField('Research Summary', 'summary', 'summaryBn', 'e.g. A multi-year longitudinal analysis of media integrity...')}
+
+          {scalarField('Methodology Overview', 'methodology', 'methodologyBn')}
+
+          {scalarTextarea('Research Narrative', 'researchNarrative', 'researchNarrativeBn', 4)}
+        </div>
+
+        {/* 7. Image Header Text */}
+        <div className="bg-[#0C2218] border border-[#16382B] rounded-xl p-6 space-y-4 shadow-sm">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 border-b border-[#16382B] pb-2">
+            <ImageIcon className="w-4 h-4 text-emerald-400" />
+            <span>Hero Image Text Overlay</span>
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {activeLangTab === 'en' ? (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Image Title (English)</label>
+                <input
+                  type="text"
+                  value={formData.imageTitle || ''}
+                  onChange={(e) => setFormData({ ...formData, imageTitle: e.target.value })}
+                  className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white font-bold outline-none"
+                />
               </div>
-            ))}
+            ) : (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Image Title (Bengali)</label>
+                <input
+                  type="text"
+                  value={formData.imageTitleBn || ''}
+                  onChange={(e) => setFormData({ ...formData, imageTitleBn: e.target.value })}
+                  className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white font-bold outline-none"
+                />
+              </div>
+            )}
+            {activeLangTab === 'en' ? (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Image Subtitle (English)</label>
+                <input
+                  type="text"
+                  value={formData.imageSubtitle || ''}
+                  onChange={(e) => setFormData({ ...formData, imageSubtitle: e.target.value })}
+                  className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+                />
+              </div>
+            ) : (
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Image Subtitle (Bengali)</label>
+                <input
+                  type="text"
+                  value={formData.imageSubtitleBn || ''}
+                  onChange={(e) => setFormData({ ...formData, imageSubtitleBn: e.target.value })}
+                  className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+                />
+              </div>
+            )}
           </div>
         </div>
 

@@ -68,7 +68,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
 };
 
 interface AppGridHubProps {
-  pageId: 'home' | 'about' | 'research' | 'teams' | 'contact' | 'branding';
+  pageId: 'home' | 'about' | 'research' | 'teams' | 'contact' | 'branding' | 'work';
 }
 
 export const AppGridHub: React.FC<AppGridHubProps> = ({ pageId }) => {

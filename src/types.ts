@@ -49,6 +49,39 @@ export interface FocusAreaItem {
   expandedDetails?: string[];
 }
 
+export interface WorkArea {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  methods: string[];
+  sampleInquiries: string[];
+  image: string;
+  outputsCount: string;
+  timeframe: string;
+  status: string;
+  nameBn?: string;
+  taglineBn?: string;
+  descriptionBn?: string;
+  methodsBn?: string[];
+  sampleInquiriesBn?: string[];
+  imageBn?: string;
+  outputsCountBn?: string;
+}
+
+export interface WorkProcessPillar {
+  id: string;
+  step: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  highlights: string[];
+  titleBn?: string;
+  subtitleBn?: string;
+  descriptionBn?: string;
+  highlightsBn?: string[];
+}
+
 export interface WorkCategory {
   id: string;
   name: string;
@@ -63,15 +96,22 @@ export interface WorkCategory {
 export interface TeamMember {
   id: string;
   name: string;
+  nameBn?: string;
   role: string;
+  roleBn?: string;
   category: 'leadership' | 'research' | 'advisory' | 'Senior Fellow' | 'Research Fellow' | 'Leadership' | 'Technical Staff' | string;
   teamType?: 'INSTITUTE GOVERNANCE' | 'INVESTIGATIVE CORPS' | string;
   image: string;
   bio: string;
+  bioBn?: string;
   fullBio?: string;
+  fullBioBn?: string;
   researchInterests?: string[];
+  researchInterestsBn?: string[];
   focusAreas?: string[];
+  focusAreasBn?: string[];
   education?: string;
+  educationBn?: string;
   recentPublications?: string[];
   email: string;
   twitter?: string;
@@ -105,14 +145,19 @@ export interface ContactFormData {
 export interface MetricItem {
   id?: string;
   label: string;
+  labelBn?: string;
   value: string;
+  valueBn?: string;
   detail: string;
+  detailBn?: string;
 }
 
 export interface MethodologyStep {
   step: string;
   label: string;
   summary: string;
+  labelBn?: string;
+  summaryBn?: string;
 }
 
 export interface MethodologyProtocol {
@@ -169,6 +214,24 @@ export interface ResearchBeat {
   imageTitle?: string;
   imageSubtitle?: string;
   researchNarrative?: string;
+  nameBn?: string;
+  taglineBn?: string;
+  descriptionBn?: string;
+  summaryBn?: string;
+  methodologyBn?: string;
+  researchNarrativeBn?: string;
+  statusBn?: string;
+  timeframeBn?: string;
+  outputsCountBn?: string;
+  imageTitleBn?: string;
+  imageSubtitleBn?: string;
+  leadFellowsBn?: string[];
+  metricsBn?: { label?: string; value?: string; detail?: string }[];
+  overviewBn?: string[];
+  keyQuestionsBn?: string[];
+  methodologyDetailsBn?: { title?: string; protocol?: string; frequency?: string; description?: string }[];
+  caseStudiesBn?: { title?: string; year?: string; summary?: string; impact?: string }[];
+  publicationsBn?: { title?: string; type?: string; date?: string; pagesOrSize?: string }[];
 }
 
 export interface CoreTenet {
@@ -177,6 +240,9 @@ export interface CoreTenet {
   title: string;
   description: string;
   detail: string;
+  titleBn?: string;
+  descriptionBn?: string;
+  detailBn?: string;
 }
 
 export interface WhatWeDoCard {
@@ -189,6 +255,8 @@ export interface WhatWeDoCard {
   cardType?: 'text' | 'image';
   image?: string;
   theme?: 'light' | 'image' | 'accent';
+  titleBn?: string;
+  descriptionBn?: string;
 }
 
 export interface ProcessStep {
@@ -196,6 +264,9 @@ export interface ProcessStep {
   title: string;
   description: string;
   subheading?: string;
+  titleBn?: string;
+  descriptionBn?: string;
+  subheadingBn?: string;
 }
 
 export interface FaqItem {
@@ -205,6 +276,10 @@ export interface FaqItem {
   question: string;
   answer: string;
   highlights?: string[];
+  questionBn?: string;
+  answerBn?: string;
+  highlightsBn?: string[];
+  categoryLabelBn?: string;
 }
 
 export interface FooterLinkItem {
@@ -227,9 +302,13 @@ export interface HomePageData {
   establishedTag: string;
   heroImage: string;
   countersBadge?: string;
+  countersBadgeBn?: string;
   primaryCtaText: string;
+  primaryCtaTextBn?: string;
   secondaryCtaText: string;
+  secondaryCtaTextBn?: string;
   tenetBadge: string;
+  tenetBadgeBn?: string;
   tenetQuote: string;
   tenetQuoteBn: string;
   tenetSubtitle: string;
@@ -244,11 +323,23 @@ export interface HomePageData {
     mediaUrl: string;
     keyPoints?: string[];
     ctaText?: string;
+    titleBn?: string;
+    descriptionBn?: string;
+    badgeBn?: string;
+    ctaTextBn?: string;
   };
   whatWeDo?: {
     header: string;
     subheader: string;
     cards: WhatWeDoCard[];
+    headerBn?: string;
+    subheaderBn?: string;
+    cardsBn?: {
+      id: string;
+      title: string;
+      description: string;
+      image?: string;
+    }[];
   };
   areasOfInvestigation?: {
     title: string;
@@ -256,18 +347,32 @@ export interface HomePageData {
     filterLabel?: string;
     activeCategoryIds: string[];
     cards?: InvestigationCard[];
+    titleBn?: string;
+    subtitleBn?: string;
+    filterLabelBn?: string;
   };
   howWeWork?: {
     badge: string;
     title: string;
     subtitle: string;
     steps: ProcessStep[];
+    badgeBn?: string;
+    titleBn?: string;
+    subtitleBn?: string;
+    stepsBn?: {
+      step: string;
+      title: string;
+      description: string;
+      subheading?: string;
+    }[];
   };
   featuredTeam?: {
     title: string;
     subtitle: string;
     showOnHome: boolean;
     featuredMemberIds: string[];
+    titleBn?: string;
+    subtitleBn?: string;
   };
   bottomCta?: {
     title: string;
@@ -276,6 +381,10 @@ export interface HomePageData {
     primaryCtaUrl: string;
     secondaryCtaText: string;
     secondaryCtaUrl: string;
+    titleBn?: string;
+    narrativeBn?: string;
+    primaryCtaTextBn?: string;
+    secondaryCtaTextBn?: string;
   };
 }
 
@@ -288,17 +397,26 @@ export interface InvestigationCard {
 
 export interface AboutPageData {
   missionBadge: string;
+  missionBadgeBn?: string;
   missionTitle: string;
+  missionTitleBn?: string;
   missionStory: string[];
+  missionStoryBn?: string[];
   principles: CoreTenet[];
   methodologySteps: MethodologyStep[];
   governanceEthics: string[];
+  governanceEthicsBn?: string[];
   observatories: {
     name: string;
     role: string;
     address: string;
     phone: string;
     email: string;
+    nameBn?: string;
+    roleBn?: string;
+    addressBn?: string;
+    phoneLabel?: string;
+    emailLabel?: string;
   }[];
   heroBanner?: {
     title: string;
@@ -306,6 +424,10 @@ export interface AboutPageData {
     bgStyle: 'gradient' | 'minimal' | 'solid' | string;
     badgeText: string;
     bgImage?: string;
+    badgeTextBn?: string;
+    titleBn?: string;
+    subtextBn?: string;
+    bgImageBn?: string;
   };
   whoWeAre?: {
     heading?: string;
@@ -315,6 +437,12 @@ export interface AboutPageData {
     mainPhoto: string;
     highlightCardText: string;
     foundedYear: string;
+    headingBn?: string;
+    descriptionBn?: string;
+    badgeTextBn?: string;
+    narrativeBn?: string[];
+    highlightCardTextBn?: string;
+    mainPhotoBn?: string;
   };
   missionPillars?: {
     id: string;
@@ -323,12 +451,20 @@ export interface AboutPageData {
     badge: string;
     description: string;
     image?: string;
+    badgeBn?: string;
+    titleBn?: string;
+    quoteBn?: string;
+    descriptionBn?: string;
+    imageBn?: string;
   }[];
   fromQuestionsToInsight?: {
     heading: string;
     subheading: string;
     ctaText: string;
     destinationUrl: string;
+    headingBn?: string;
+    subheadingBn?: string;
+    ctaTextBn?: string;
   };
 }
 
@@ -355,12 +491,18 @@ export interface ContactPageData {
     workingHours: string;
     workingHoursBn?: string;
     googleMapsUrl?: string;
+    phoneLabelBn?: string;
+    tollFreePhoneLabelBn?: string;
+    supportEmailLabelBn?: string;
+    researchDeskEmailLabelBn?: string;
+    pressEmailLabelBn?: string;
   };
   messageSettings: {
     targetEmail: string;
     autoReply: boolean;
     subjectPrefix: string;
     requireAffiliation: boolean;
+    subjectPrefixBn?: string;
   };
   faqs: FaqItem[];
 }
@@ -377,7 +519,13 @@ export interface SiteSettings {
   establishedYear: string;
   teamHero?: {
     heading: string;
+    headingBn?: string;
     subheading: string;
+    subheadingBn?: string;
+    label?: string;
+    labelBn?: string;
+    metadata?: string;
+    metadataBn?: string;
     image: string;
   };
   defaultLanguage: 'en' | 'bn';
@@ -457,6 +605,8 @@ export interface CmsState {
   monitoring: MonitoringTelemetry;
   inquiries: InquirySubmission[];
   activityLogs: ActivityLog[];
+  workAreas: WorkArea[];
+  workProcessPillars: WorkProcessPillar[];
 }
 
 export type ViewMode = 'cms' | 'frontend' | 'split';

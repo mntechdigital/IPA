@@ -6,27 +6,27 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { PageTransition } from '../PageTransition';
 import { RotateCw } from 'lucide-react';
 import { motion } from 'motion/react';
-import { PageId, TeamMember } from '../../../types';
+import { PageId, TeamMember, SiteSettings } from '../../../types';
 import { PageHero } from '../../../components/PageHero';
 import { TeamCard, TeamMemberModal } from '../../../components/TeamCard';
-import type { TeamMember } from '../../../types';
 import { CTASection } from '../../../components/CTASection';
 import { TeamCardSkeleton } from '../../../components/Skeleton';
 import { useLanguage } from '../../../context/LanguageContext';
 
 interface TeamViewProps {
   teamMembers: TeamMember[];
+  siteSettings?: SiteSettings | null;
 }
 
-export default function TeamPage({ teamMembers }: TeamViewProps) {
+export default function TeamPage({ teamMembers, siteSettings }: TeamViewProps) {
   return (
     <Suspense fallback={null}>
-      <TeamPageContent teamMembers={teamMembers} />
+      <TeamPageContent teamMembers={teamMembers} siteSettings={siteSettings} />
     </Suspense>
   );
 }
 
-function TeamPageContent({ teamMembers }: { teamMembers: TeamMember[] }) {
+function TeamPageContent({ teamMembers, siteSettings }: { teamMembers: TeamMember[]; siteSettings?: SiteSettings | null }) {
   const router = useRouter();
   const params = useSearchParams();
   const memberId = params.get('member');
@@ -45,8 +45,29 @@ function TeamPageContent({ teamMembers }: { teamMembers: TeamMember[] }) {
       router.replace('/team', { scroll: false });
     }
   };
-  const { t } = useLanguage();
+  const { t, isBn } = useLanguage();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const hero = siteSettings?.teamHero;
+  const heroImage = hero?.image?.trim() ? hero.image : 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2200&q=85';
+  const pickHero = (en?: string, bn?: string, fallbackEn?: string, fallbackBn?: string) => {
+    if (isBn) {
+      if (bn && bn.trim()) return bn;
+      if (en && en.trim()) return en;
+      return fallbackBn || fallbackEn || '';
+    }
+    if (en && en.trim()) return en;
+    return fallbackEn || '';
+  };
+  const heroLabel = pickHero(hero?.label, hero?.labelBn, 'OUR TEAM', 'আমাদের টিম');
+  const heroTitle = pickHero(hero?.heading, hero?.headingBn, 'The People Behind Our Work.', 'আমাদের কাজের পেছনের গবেষক দল');
+  const heroDesc = pickHero(
+    hero?.subheading,
+    hero?.subheadingBn,
+    'Our team brings together researchers, analysts, and professionals with diverse experience across media, journalism, research, technology, and communications.',
+    'আমাদের দলে রয়েছেন গণমাধ্যম, সাংবাদিকতা, প্রযুক্তি ও যোগাযোগ খাতের অভিজ্ঞ গবেষক ও বিশ্লেষকবৃন্দ।'
+  );
+  const heroMeta = pickHero(hero?.metadata, hero?.metadataBn, 'Fellows, Directors & Methodologists', 'ফেলো, পরিচালক ও গবেষকবৃন্দ');
   const [isFilterLoading, setIsFilterLoading] = useState<boolean>(false);
   const [filterRole, setFilterRole] = useState<'all' | 'leadership' | 'research'>('all');
 
@@ -82,14 +103,11 @@ function TeamPageContent({ teamMembers }: { teamMembers: TeamMember[] }) {
       <div className="bg-[#F6F9F4] text-[#0D1F18]">
       {/* 24. HERO */}
       <PageHero
-        backgroundImage="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2200&q=85"
-        label={t('OUR TEAM', 'আমাদের টিম')}
-        title={t('The People Behind Our Work.', 'আমাদের কাজের পেছনের গবেষক দল')}
-        description={t(
-          'Our team brings together researchers, analysts, and professionals with diverse experience across media, journalism, research, technology, and communications.',
-          'আমাদের দলে রয়েছেন গণমাধ্যম, সাংবাদিকতা, প্রযুক্তি ও যোগাযোগ খাতের অভিজ্ঞ গবেষক ও বিশ্লেষকবৃন্দ।'
-        )}
-        metadata={t('Fellows, Directors & Methodologists', 'ফেলো, পরিচালক ও গবেষকবৃন্দ')}
+        backgroundImage={heroImage}
+        label={heroLabel}
+        title={heroTitle}
+        description={heroDesc}
+        metadata={heroMeta}
       />
 
       {/* FILTER BAR */}

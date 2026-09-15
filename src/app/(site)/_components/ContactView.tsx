@@ -8,26 +8,58 @@ import { ORGANIZATION } from '../../../data/navigation';
 import { PageHero } from '../../../components/PageHero';
 import { ContactForm } from '../../../components/ContactForm';
 import { useLanguage } from '../../../context/LanguageContext';
+import type { ContactPageData, SiteSettings } from '../../../types';
 
-export default function ContactPage() {
-  const { isBn, t } = useLanguage();
+export default function ContactPage({
+  contactPage,
+  siteSettings,
+}: {
+  contactPage: ContactPageData | null;
+  siteSettings: Partial<SiteSettings> | null;
+}) {
+  const { isBn } = useLanguage();
+
+  const cp = contactPage ?? null;
+  const fallback = ORGANIZATION.contact;
+
+  const heroHeading = isBn ? cp?.hero?.headingBn : cp?.hero?.heading;
+  const heroSubtitle = isBn ? cp?.hero?.subtitleBn : cp?.hero?.subtitle;
+  const heroBadge = isBn ? cp?.hero?.badgeBn : cp?.hero?.badge;
+  const heroBgImage = cp?.hero?.bgImage;
+
+  const phone = cp?.directDetails?.phone ?? fallback.phone;
+  const phoneLabel = isBn
+    ? cp?.directDetails?.phoneLabelBn || cp?.directDetails?.phoneLabel
+    : cp?.directDetails?.phoneLabel;
+  const tollFreePhone = cp?.directDetails?.tollFreePhone ?? fallback.secondaryPhone;
+  const tollFreePhoneLabel = isBn
+    ? cp?.directDetails?.tollFreePhoneLabelBn || cp?.directDetails?.tollFreePhoneLabel
+    : cp?.directDetails?.tollFreePhoneLabel;
+  const supportEmail = cp?.directDetails?.supportEmail ?? fallback.generalEmail;
+  const researchDeskEmail = cp?.directDetails?.researchDeskEmail ?? fallback.researchEmail;
+  const pressEmail = cp?.directDetails?.pressEmail ?? fallback.mediaEmail;
+  const officeLocation = isBn
+    ? cp?.directDetails?.officeLocationBn || cp?.directDetails?.officeLocation
+    : cp?.directDetails?.officeLocation;
+  const workingHours = isBn
+    ? cp?.directDetails?.workingHoursBn || cp?.directDetails?.workingHours
+    : cp?.directDetails?.workingHours;
+
+  const faqs = cp?.faqs && cp.faqs.length > 0 ? cp.faqs : undefined;
 
   return (
     <PageTransition>
       <div className="bg-[#F6F9F4] text-[#0D1F18]">
-      {/* 26. HERO */}
+      {/* HERO */}
       <PageHero
-        backgroundImage="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=2200&q=85"
-        label={t('CONTACT', 'যোগাযোগ')}
-        title={t('Let’s Start a Conversation.', 'আমাদের সাথে যোগাযোগ করুন')}
-        description={t(
-          'Whether you have a question about our work, are interested in collaboration, or would like to connect with our team, we’d be glad to hear from you.',
-          'আমাদের কাজ, যৌথ গবেষণা বা যেকোনো বিষয়ে তথ্যের জন্য আমাদের সাথে যোগাযোগ করতে পারেন।'
-        )}
-        metadata={t('Direct Communications & Field Office', 'সরাসরি যোগাযোগ ও সচিবালয়')}
+        backgroundImage={heroBgImage}
+        label={heroBadge}
+        title={heroHeading}
+        description={heroSubtitle}
+        metadata={isBn ? 'সরাসরি যোগাযোগ ও সচিবালয়' : 'Direct Communications & Field Office'}
       />
 
-      {/* 27. CONTACT INFORMATION & 28. CONTACT FORM */}
+      {/* CONTACT INFORMATION & CONTACT FORM */}
       <section id="contact-form-section" className="py-16 sm:py-24 border-b border-[#E2EAE4] bg-[#FFFFFF]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
@@ -40,11 +72,11 @@ export default function ContactPage() {
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#D2F843] shadow-[0_0_6px_#D2F843]" />
                     <span className="text-[11px] font-mono font-bold tracking-widest uppercase text-[#0B2A20]">
-                      {t('DIRECT CONTACT INFO', 'সরাসরি যোগাযোগের তথ্য')}
+                      {isBn ? 'সরাসরি যোগাযোগের তথ্য' : 'DIRECT CONTACT INFO'}
                     </span>
                   </div>
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] font-bold uppercase border border-[#0B2A20]/10">
-                    {t('DHAKA HQ', 'ঢাকা প্রধান কার্যালয়')}
+                    {isBn ? 'ঢাকা প্রধান কার্যালয়' : 'DHAKA HQ'}
                   </span>
                 </div>
 
@@ -55,7 +87,7 @@ export default function ContactPage() {
                       <Phone className="w-3.5 h-3.5" />
                     </div>
                     <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-[#556B62]">
-                      {t('TELEPHONE (2 LINES)', 'টেলিফোন (২টি লাইন)')}
+                      {isBn ? 'টেলিফোন (২টি লাইন)' : 'TELEPHONE (2 LINES)'}
                     </span>
                   </div>
 
@@ -63,32 +95,32 @@ export default function ContactPage() {
                     {/* Line 1 */}
                     <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
                       <a
-                        href={`tel:${ORGANIZATION.contact.phone.replace(/\s+/g, '')}`}
+                        href={`tel:${phone.replace(/\s+/g, '')}`}
                         className="font-sans font-extrabold text-base sm:text-lg text-[#0B2A20] hover:text-[#195642] transition-colors tracking-tight"
                       >
-                        {ORGANIZATION.contact.phone}
+                        {phone}
                       </a>
                       <span className="text-xs font-mono text-[#556B62]">
-                        {t('Main Secretariat', 'প্রধান সচিবালয়')}
+                        {isBn ? 'প্রধান সচিবালয়' : (phoneLabel || 'Main Secretariat')}
                       </span>
                     </div>
 
                     {/* Line 2 */}
                     <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
                       <a
-                        href={`tel:${ORGANIZATION.contact.secondaryPhone.replace(/\s+/g, '')}`}
+                        href={`tel:${tollFreePhone.replace(/\s+/g, '')}`}
                         className="font-sans font-extrabold text-base sm:text-lg text-[#0B2A20] hover:text-[#195642] transition-colors tracking-tight"
                       >
-                        {ORGANIZATION.contact.secondaryPhone}
+                        {tollFreePhone}
                       </a>
                       <span className="text-xs font-mono text-[#556B62]">
-                        {t('Research Desk & Media', 'গবেষণা ও গণমাধ্যম শাখা')}
+                        {isBn ? 'গবেষণা ও গণমাধ্যম শাখা' : (tollFreePhoneLabel || 'Research Desk & Media')}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-1.5 text-xs font-mono text-[#556B62] pt-1">
                       <Clock className="w-3.5 h-3.5 text-[#195642] shrink-0" />
-                      <span>{isBn ? 'রবি - বৃহঃ, সকাল ৯:০০ - বিকাল ৫:০০ (বিএসটি)' : ORGANIZATION.contact.hours}</span>
+                      <span>{workingHours || (isBn ? 'রবি - বৃহঃ, সকাল ৯:০০ - বিকাল ৫:০০ (বিএসটি)' : fallback.hours)}</span>
                     </div>
                   </div>
                 </div>
@@ -102,22 +134,21 @@ export default function ContactPage() {
                       <Mail className="w-3.5 h-3.5" />
                     </div>
                     <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-[#556B62]">
-                      {t('OFFICIAL EMAIL', 'অফিসিয়াল ইমেইল')}
+                      {isBn ? 'অফিসিয়াল ইমেইল' : 'OFFICIAL EMAIL'}
                     </span>
                   </div>
 
                   <div className="pl-1 space-y-0.5">
                     <a
-                      href={`mailto:${ORGANIZATION.contact.generalEmail}`}
+                      href={`mailto:${supportEmail}`}
                       className="font-sans font-extrabold text-base sm:text-lg text-[#0B2A20] hover:text-[#195642] transition-colors break-all block tracking-tight"
                     >
-                      {ORGANIZATION.contact.generalEmail}
+                      {supportEmail}
                     </a>
                     <p className="text-xs font-sans text-[#556B62]">
-                      {t(
-                        'Inquiries, press commentary requests, and research correspondence.',
-                        'গবেষণা অনুসন্ধান, প্রেস মন্তব্য ও সাধারণ যোগাযোগ।'
-                      )}
+                      {isBn
+                        ? 'গবেষণা অনুসন্ধান, প্রেস মন্তব্য ও সাধারণ যোগাযোগ।'
+                        : 'Inquiries, press commentary requests, and research correspondence.'}
                     </p>
                   </div>
                 </div>
@@ -131,24 +162,22 @@ export default function ContactPage() {
                       <MapPin className="w-3.5 h-3.5" />
                     </div>
                     <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-[#556B62]">
-                      {t('SECRETARIAT ADDRESS', 'সচিবালয়ের ঠিকানা')}
+                      {isBn ? 'সচিবালয়ের ঠিকানা' : 'SECRETARIAT ADDRESS'}
                     </span>
                   </div>
 
                   <div className="pl-1 space-y-1.5">
                     <p className="font-sans text-sm text-[#0D1F18] font-medium leading-relaxed">
-                      {isBn
-                        ? '৪২ গুলশান অ্যাভিনিউ, সার্কেল-২, ঢাকা ১২১২, বাংলাদেশ'
-                        : ORGANIZATION.contact.address}
+                      {officeLocation || (isBn ? fallback.addressBn : fallback.address)}
                     </p>
                     <div className="pt-2 flex items-center justify-between">
                       <a
-                        href="https://maps.google.com/?q=42+Gulshan+Avenue,+Dhaka+1212"
+                        href={cp?.directDetails?.googleMapsUrl || 'https://maps.google.com/?q=42+Gulshan+Avenue,+Dhaka+1212'}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#0B2A20] hover:text-[#195642] uppercase tracking-wider transition-colors group"
                       >
-                        <span>{t('Open in Google Maps', 'গুগল ম্যাপে দেখুন')}</span>
+                        <span>{isBn ? 'গুগল ম্যাপে দেখুন' : 'Open in Google Maps'}</span>
                         <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </a>
                       <span className="text-[11px] font-mono text-[#556B62]">
@@ -165,11 +194,11 @@ export default function ContactPage() {
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#D2F843] shadow-[0_0_6px_#D2F843]" />
                     <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#0B2A20]">
-                      {t('Secretariat Location Map', 'সচিবালয়ের অবস্থান মানচিত্র')}
+                      {isBn ? 'সচিবালয়ের অবস্থান মানচিত্র' : 'Secretariat Location Map'}
                     </span>
                   </div>
                   <span className="text-[10px] font-mono text-[#556B62] uppercase">
-                    {t('Interactive View', 'ইন্টারেক্টিভ ভিউ')}
+                    {isBn ? 'ইন্টারেক্টিভ ভিউ' : 'Interactive View'}
                   </span>
                 </div>
 
@@ -195,7 +224,7 @@ export default function ContactPage() {
                     rel="noopener noreferrer"
                     className="font-mono font-bold text-[#0B2A20] hover:text-[#195642] transition-colors inline-flex items-center gap-1"
                   >
-                    <span>{t('Get Directions', 'দিকনির্দেশনা পান')}</span>
+                    <span>{isBn ? 'দিকনির্দেশনা পান' : 'Get Directions'}</span>
                     <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
@@ -210,8 +239,8 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* 29. FREQUENTLY ASKED QUESTIONS (ACCORDION INTERFACE) */}
-      <FAQSection />
+      {/* FREQUENTLY ASKED QUESTIONS (ACCORDION INTERFACE) */}
+      <FAQSection faqs={faqs} />
       </div>
     </PageTransition>
   );

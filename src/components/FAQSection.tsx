@@ -6,11 +6,15 @@ import { FAQS_BN } from '../data/translations';
 
 export interface FAQItem {
   id: string;
-  category: 'methodology' | 'resources' | 'ethics' | 'partnerships';
-  categoryLabel: string;
+  category: string;
+  categoryLabel?: string;
   question: string;
   answer: string;
   highlights?: string[];
+  questionBn?: string;
+  answerBn?: string;
+  highlightsBn?: string[];
+  categoryLabelBn?: string;
 }
 
 export const FAQ_DATA: FAQItem[] = [
@@ -94,7 +98,7 @@ export const FAQ_DATA: FAQItem[] = [
   },
 ];
 
-export const FAQSection: React.FC = () => {
+export const FAQSection: React.FC<{ faqs?: FAQItem[] }> = ({ faqs }) => {
   const { isBn, t } = useLanguage();
   const [openId, setOpenId] = useState<string | null>('faq-datasets');
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -104,7 +108,18 @@ export const FAQSection: React.FC = () => {
     setOpenId((prev) => (prev === id ? null : id));
   };
 
-  const localizedFaqs = FAQ_DATA.map((faq) => {
+  const sourceFaqs = faqs && faqs.length > 0 ? faqs : FAQ_DATA;
+
+  const localizedFaqs = sourceFaqs.map((faq) => {
+    if (isBn && faqs && faqs.length > 0) {
+      return {
+        ...faq,
+        categoryLabel: faq.categoryLabelBn || faq.categoryLabel,
+        question: faq.questionBn || faq.question,
+        answer: faq.answerBn || faq.answer,
+        highlights: (faq.highlightsBn && faq.highlightsBn.length > 0) ? faq.highlightsBn : faq.highlights,
+      };
+    }
     const bnItem = FAQS_BN[faq.id];
     if (isBn && bnItem) {
       return {
@@ -161,7 +176,7 @@ export const FAQSection: React.FC = () => {
                   : 'bg-white text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
               }`}
             >
-              {t('All Topics', 'সকল বিষয়')} ({FAQ_DATA.length})
+              {t('All Topics', 'সকল বিষয়')} ({sourceFaqs.length})
             </button>
             <button
               onClick={() => setActiveCategory('resources')}

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { PageId } from '../../../types';
+import { PageId, WorkArea, WorkProcessPillar } from '../../../types';
 import { PageTransition } from '../PageTransition';
 import { Layers, BookOpen, Search, Radio, BarChart2, Cpu, RotateCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -12,9 +12,13 @@ import { WorkCard } from '../../../components/WorkCard';
 import { CTASection } from '../../../components/CTASection';
 import { WorkCardSkeleton, PillarCardSkeleton } from '../../../components/Skeleton';
 import { useLanguage } from '../../../context/LanguageContext';
-import { WORK_PROCESS_PILLARS_BN } from '../../../data/translations';
 
-export default function WorkPage() {
+interface WorkViewProps {
+  workAreas: WorkArea[];
+  workProcessPillars: WorkProcessPillar[];
+}
+
+export default function WorkView({ workAreas, workProcessPillars }: WorkViewProps) {
   const router = useRouter();
   const onNavigate = (page: PageId) => {
     if (page === 'investigation') return;
@@ -26,12 +30,11 @@ export default function WorkPage() {
     router.push(`/investigation/${encodeURIComponent(id)}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-  const { isBn, t } = useLanguage();
+  const { isBn } = useLanguage();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isFilterLoading, setIsFilterLoading] = useState<boolean>(false);
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'journalism' | 'platforms' | 'public'>('all');
 
-  // Perceived initial loading simulation
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -55,7 +58,13 @@ export default function WorkPage() {
     }, 400);
   };
 
-  const filteredWorks = WORK_AREAS.filter((area) => {
+  const getAreaName = (area: WorkArea) => isBn && area.nameBn ? area.nameBn : area.name;
+  const getAreaTagline = (area: WorkArea) => isBn && area.taglineBn ? area.taglineBn : area.tagline;
+  const getAreaDescription = (area: WorkArea) => isBn && area.descriptionBn ? area.descriptionBn : area.description;
+  const getAreaMethods = (area: WorkArea) => isBn && area.methodsBn && area.methodsBn.length > 0 ? area.methodsBn : area.methods;
+  const getAreaImage = (area: WorkArea) => isBn && area.imageBn ? area.imageBn : area.image;
+
+  const filteredWorks = workAreas.filter((area) => {
     if (selectedFilter === 'journalism') {
       return area.id === 'media-journalism' || area.id === 'media-monitoring';
     }
@@ -74,13 +83,10 @@ export default function WorkPage() {
       {/* 21. HERO */}
       <PageHero
         backgroundImage="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2200&q=85"
-        label={t('RESEARCHES', 'গবেষণাসমূহ')}
-        title={t('Exploring the Forces Shaping Media.', 'গণমাধ্যম ও সমাজের পারস্পরিক গতিশীলতা নিয়ে গবেষণা।')}
-        description={t(
-          'Our work examines the changing relationships between media, technology, journalism, information, and society.',
-          'আমাদের গবেষণাসমূহ গণমাধ্যম, প্রযুক্তি, সাংবাদিকতা এবং সমাজের আন্তঃসম্পর্ককে তথ্য-প্রমাণের ভিত্তিতে বিশ্লেষণ করে।'
-        )}
-        metadata={t('Research Portfolio & Inquiry Areas', 'গবেষণা পোর্টফোলিও ও অনুসন্ধানী ক্ষেত্রসমূহ')}
+        label="RESEARCHES"
+        title="Exploring the Forces Shaping Media."
+        description="Our work examines the changing relationships between media, technology, journalism, information, and society."
+        metadata="Research Portfolio & Inquiry Areas"
       />
 
       {/* 23. WHAT OUR WORK LOOKS LIKE (4 VISUAL CATEGORIES) */}
@@ -89,16 +95,13 @@ export default function WorkPage() {
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider border border-[#0B2A20]/10 mb-4">
               <span className="w-2 h-2 rounded-full bg-[#D2F843]" />
-              <span>{t('CORE MODALITIES', 'মূল কর্মপদ্ধতি')}</span>
+              <span>CORE MODALITIES</span>
             </div>
             <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold tracking-tight mb-4">
-              {t('What Our Work Looks Like', 'আমাদের কাজের রূপরেখা')}
+              What Our Work Looks Like
             </h2>
             <p className="text-base sm:text-lg text-[#556B62] font-sans font-normal">
-              {t(
-                'We execute research through four distinct operational pillars, spanning long-term scientific inquiry to real-time broadcast monitoring.',
-                'আমরা চারটি পৃথক স্তম্ভের মাধ্যমে গবেষণা পরিচালনা করি—দীর্ঘমেয়াদী বৈজ্ঞানিক অনুসন্ধান থেকে শুরু করে রিয়েল-টাইম সম্প্রচার পর্যবেক্ষণ।'
-              )}
+              We execute research through four distinct operational pillars, spanning long-term scientific inquiry to real-time broadcast monitoring.
             </p>
           </div>
 
@@ -107,11 +110,12 @@ export default function WorkPage() {
               ? Array.from({ length: 4 }).map((_, idx) => (
                   <PillarCardSkeleton key={`pillar-skel-${idx}`} />
                 ))
-              : WORK_PROCESS_PILLARS.map((pillar) => {
-                  const localizedPillar =
-                    isBn && WORK_PROCESS_PILLARS_BN[pillar.id]
-                      ? WORK_PROCESS_PILLARS_BN[pillar.id]
-                      : null;
+              : workProcessPillars.map((pillar, pIdx) => {
+                  const number = pillar.step || String(pIdx + 1).padStart(2, '0');
+                  const title = isBn && pillar.titleBn ? pillar.titleBn : pillar.title;
+                  const subtitle = isBn && pillar.subtitleBn ? pillar.subtitleBn : pillar.subtitle;
+                  const description = isBn && pillar.descriptionBn ? pillar.descriptionBn : pillar.description;
+                  const highlights = isBn && pillar.highlightsBn && pillar.highlightsBn.length > 0 ? pillar.highlightsBn : pillar.highlights;
                   return (
                     <div
                       key={pillar.id}
@@ -120,32 +124,29 @@ export default function WorkPage() {
                       <div>
                         <div className="flex items-center justify-between text-xs font-mono text-[#0B2A20] mb-4 font-bold">
                           <span className="px-2.5 py-1 rounded-full bg-[#0B2A20] text-[#D2F843]">
-                            {isBn ? `স্তম্ভ ০${pillar.number}` : `PILLAR ${pillar.number}`}
+                            {isBn ? `স্তম্ভ ০${number}` : `PILLAR ${number}`}
                           </span>
                           <span className="text-[#556B62] uppercase">{pillar.id}</span>
                         </div>
 
                         <h3 className="font-sans text-2xl sm:text-3xl text-[#0B2A20] font-extrabold mb-1">
-                          {localizedPillar ? localizedPillar.titleBn : pillar.title}
+                          {title}
                         </h3>
 
                         <div className="text-xs font-mono uppercase text-[#556B62] font-semibold mb-3">
-                          {localizedPillar ? localizedPillar.subtitleBn : pillar.subtitle}
+                          {subtitle}
                         </div>
 
                         <p className="font-sans text-xs sm:text-sm text-[#556B62] leading-relaxed mb-6 font-normal">
-                          {localizedPillar ? localizedPillar.descriptionBn : pillar.description}
+                          {description}
                         </p>
                       </div>
 
                       <div className="pt-4 border-t border-[#E2EAE4] space-y-2">
                         <span className="text-[10px] font-mono tracking-wider uppercase text-[#556B62] font-semibold block">
-                          {t('Core Outputs', 'মূল ফলাফল')}
+                          Core Outputs
                         </span>
-                        {(localizedPillar
-                          ? localizedPillar.highlightsBn
-                          : pillar.highlights
-                        ).map((item, idx) => (
+                        {highlights.map((item, idx) => (
                           <div
                             key={idx}
                             className="flex items-center gap-2 text-xs font-sans text-[#0D1F18]"
@@ -170,15 +171,15 @@ export default function WorkPage() {
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider border border-[#0B2A20]/10 mb-4">
                 <span className="w-2 h-2 rounded-full bg-[#D2F843]" />
-                <span>{t('SIX RESEARCH AREAS', 'ছয়টি প্রধান গবেষণা ক্ষেত্র')}</span>
+                <span>SIX RESEARCH AREAS</span>
               </div>
               <div className="flex items-center gap-3">
                 <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold tracking-tight">
-                  {t('Areas of Investigation', 'অনুসন্ধানের ক্ষেত্রসমূহ')}
+                  Areas of Investigation
                 </h2>
                 <button
                   onClick={handleReload}
-                  title={t('Refresh Research Catalog', 'গবেষণা তালিকা রিফ্রেশ করুন')}
+                  title="Refresh Research Catalog"
                   className="p-2 rounded-full border border-[#E2EAE4] bg-white text-[#556B62] hover:text-[#0B2A20] hover:border-[#0B2A20] transition-colors cursor-pointer text-xs"
                 >
                   <RotateCw className={`w-3.5 h-3.5 ${isFilterLoading || isLoading ? 'animate-spin text-[#0B2A20]' : ''}`} />
@@ -196,7 +197,7 @@ export default function WorkPage() {
                     : 'bg-[#FFFFFF] text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
                 }`}
               >
-                  {t('All Research Areas (6)', 'সকল গবেষণা ক্ষেত্র (৬)')}
+                  All Research Areas (6)
               </button>
               <button
                 onClick={() => handleFilterChange('journalism')}
@@ -206,7 +207,7 @@ export default function WorkPage() {
                     : 'bg-[#FFFFFF] text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
                 }`}
               >
-                {t('Journalism & Newsrooms', 'সাংবাদিকতা ও নিউজরুম')}
+                Journalism & Newsrooms
               </button>
               <button
                 onClick={() => handleFilterChange('platforms')}
@@ -216,7 +217,7 @@ export default function WorkPage() {
                     : 'bg-[#FFFFFF] text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
                 }`}
               >
-                {t('Platforms & AI', 'প্ল্যাটফর্ম ও এআই')}
+                Platforms & AI
               </button>
               <button
                 onClick={() => handleFilterChange('public')}
@@ -226,7 +227,7 @@ export default function WorkPage() {
                     : 'bg-[#FFFFFF] text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
                 }`}
               >
-                {t('Public & Democracy', 'জনমত ও গণতন্ত্র')}
+                Public & Democracy
               </button>
             </div>
           </div>
@@ -245,20 +246,29 @@ export default function WorkPage() {
               transition={{ duration: 0.3 }}
               className="space-y-10 sm:space-y-14"
             >
-              {filteredWorks.map((work, idx) => (
-                <WorkCard
-                  key={work.id}
-                  work={work}
-                  index={idx}
-                  onExplore={(w) => {
-                    if (onSelectInvestigation) {
-                      onSelectInvestigation(w.id);
-                    }
-                    onNavigate('investigation');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                />
-              ))}
+              {filteredWorks.map((work, idx) => {
+                const localizedWork = {
+                  name: getAreaName(work),
+                  tagline: getAreaTagline(work),
+                  description: getAreaDescription(work),
+                  methods: getAreaMethods(work),
+                  image: getAreaImage(work),
+                };
+                return (
+                  <WorkCard
+                    key={work.id}
+                    work={{ ...work, ...localizedWork } as any}
+                    index={idx}
+                    onExplore={(w) => {
+                      if (onSelectInvestigation) {
+                        onSelectInvestigation(w.id);
+                      }
+                      onNavigate('investigation');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                  />
+                );
+              })}
             </motion.div>
           )}
         </div>

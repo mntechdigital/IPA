@@ -13,6 +13,8 @@ import {
   ResearchBeat,
   SiteSettings,
   TeamMember,
+  WorkArea,
+  WorkProcessPillar,
 } from '../types';
 import { INITIAL_CMS_STATE } from '../data/initialData';
 import { SINGLETON, translateSeedState } from './seed-ids';
@@ -113,6 +115,24 @@ export async function createResearchBeat(data: ResearchBeat): Promise<ResearchBe
       imageSubtitle: data.imageSubtitle,
       researchNarrative: data.researchNarrative,
       viewCount: data.viewCount ?? 0,
+      nameBn: (data as any).nameBn ?? null,
+      taglineBn: (data as any).taglineBn ?? null,
+      descriptionBn: (data as any).descriptionBn ?? null,
+      summaryBn: (data as any).summaryBn ?? null,
+      methodologyBn: (data as any).methodologyBn ?? null,
+      researchNarrativeBn: (data as any).researchNarrativeBn ?? null,
+      statusBn: (data as any).statusBn ?? null,
+      timeframeBn: (data as any).timeframeBn ?? null,
+      outputsCountBn: (data as any).outputsCountBn ?? null,
+      imageTitleBn: (data as any).imageTitleBn ?? null,
+      imageSubtitleBn: (data as any).imageSubtitleBn ?? null,
+      leadFellowsBn: ((data as any).leadFellowsBn ?? null) as never,
+      metricsBn: ((data as any).metricsBn ?? null) as never,
+      overviewBn: ((data as any).overviewBn ?? null) as never,
+      keyQuestionsBn: ((data as any).keyQuestionsBn ?? null) as never,
+      methodologyDetailsBn: ((data as any).methodologyDetailsBn ?? null) as never,
+      caseStudiesBn: ((data as any).caseStudiesBn ?? null) as never,
+      publicationsBn: ((data as any).publicationsBn ?? null) as never,
     },
   });
   return row as unknown as ResearchBeat;
@@ -145,6 +165,24 @@ export async function updateResearchBeat(id: string, data: ResearchBeat): Promis
       imageSubtitle: data.imageSubtitle,
       researchNarrative: data.researchNarrative,
       viewCount: data.viewCount ?? 0,
+      nameBn: (data as any).nameBn ?? null,
+      taglineBn: (data as any).taglineBn ?? null,
+      descriptionBn: (data as any).descriptionBn ?? null,
+      summaryBn: (data as any).summaryBn ?? null,
+      methodologyBn: (data as any).methodologyBn ?? null,
+      researchNarrativeBn: (data as any).researchNarrativeBn ?? null,
+      statusBn: (data as any).statusBn ?? null,
+      timeframeBn: (data as any).timeframeBn ?? null,
+      outputsCountBn: (data as any).outputsCountBn ?? null,
+      imageTitleBn: (data as any).imageTitleBn ?? null,
+      imageSubtitleBn: (data as any).imageSubtitleBn ?? null,
+      leadFellowsBn: ((data as any).leadFellowsBn ?? null) as never,
+      metricsBn: ((data as any).metricsBn ?? null) as never,
+      overviewBn: ((data as any).overviewBn ?? null) as never,
+      keyQuestionsBn: ((data as any).keyQuestionsBn ?? null) as never,
+      methodologyDetailsBn: ((data as any).methodologyDetailsBn ?? null) as never,
+      caseStudiesBn: ((data as any).caseStudiesBn ?? null) as never,
+      publicationsBn: ((data as any).publicationsBn ?? null) as never,
     },
   });
   return row as unknown as ResearchBeat;
@@ -152,6 +190,110 @@ export async function updateResearchBeat(id: string, data: ResearchBeat): Promis
 
 export async function deleteResearchBeat(id: string): Promise<void> {
   await db.researchBeat.delete({ where: { id } });
+}
+
+// ---------- Work ----------
+
+export async function listWorkAreas(): Promise<WorkArea[]> {
+  const rows = await db.workArea.findMany({ orderBy: { id: 'asc' } });
+  return rows as unknown as WorkArea[];
+}
+
+export async function getWorkArea(id: string): Promise<WorkArea | null> {
+  const row = await db.workArea.findUnique({ where: { id } });
+  return row ? (row as unknown as WorkArea) : null;
+}
+
+export async function upsertWorkAreas(areas: WorkArea[]): Promise<WorkArea[]> {
+  const result: WorkArea[] = [];
+  for (const area of areas) {
+    const row = await db.workArea.upsert({
+      where: { id: area.id },
+      update: {
+        name: area.name,
+        tagline: area.tagline,
+        description: area.description,
+        methods: (area.methods ?? []) as never,
+        sampleInquiries: (area.sampleInquiries ?? []) as never,
+        image: area.image,
+        outputsCount: area.outputsCount,
+        timeframe: area.timeframe,
+        status: area.status,
+        nameBn: area.nameBn ?? null,
+        taglineBn: area.taglineBn ?? null,
+        descriptionBn: area.descriptionBn ?? null,
+        methodsBn: (area.methodsBn ?? null) as never,
+        sampleInquiriesBn: (area.sampleInquiriesBn ?? null) as never,
+        imageBn: area.imageBn ?? null,
+        outputsCountBn: area.outputsCountBn ?? null,
+      },
+      create: {
+        id: area.id,
+        name: area.name,
+        tagline: area.tagline,
+        description: area.description,
+        methods: (area.methods ?? []) as never,
+        sampleInquiries: (area.sampleInquiries ?? []) as never,
+        image: area.image,
+        outputsCount: area.outputsCount,
+        timeframe: area.timeframe,
+        status: area.status,
+        nameBn: area.nameBn ?? null,
+        taglineBn: area.taglineBn ?? null,
+        descriptionBn: area.descriptionBn ?? null,
+        methodsBn: (area.methodsBn ?? null) as never,
+        sampleInquiriesBn: (area.sampleInquiriesBn ?? null) as never,
+        imageBn: area.imageBn ?? null,
+        outputsCountBn: area.outputsCountBn ?? null,
+      },
+    });
+    result.push(row as unknown as WorkArea);
+  }
+  return result;
+}
+
+export async function listWorkProcessPillars(): Promise<WorkProcessPillar[]> {
+  const rows = await db.workProcessPillar.findMany({ orderBy: { id: 'asc' } });
+  return rows as unknown as WorkProcessPillar[];
+}
+
+export async function getWorkProcessPillar(id: string): Promise<WorkProcessPillar | null> {
+  const row = await db.workProcessPillar.findUnique({ where: { id } });
+  return row ? (row as unknown as WorkProcessPillar) : null;
+}
+
+export async function upsertWorkProcessPillars(pillars: WorkProcessPillar[]): Promise<WorkProcessPillar[]> {
+  const result: WorkProcessPillar[] = [];
+  for (const pillar of pillars) {
+    const row = await db.workProcessPillar.upsert({
+      where: { id: pillar.id },
+      update: {
+        step: pillar.step,
+        title: pillar.title,
+        subtitle: pillar.subtitle,
+        description: pillar.description,
+        highlights: (pillar.highlights ?? []) as never,
+        titleBn: pillar.titleBn ?? null,
+        subtitleBn: pillar.subtitleBn ?? null,
+        descriptionBn: pillar.descriptionBn ?? null,
+        highlightsBn: (pillar.highlightsBn ?? null) as never,
+      },
+      create: {
+        id: pillar.id,
+        step: pillar.step,
+        title: pillar.title,
+        subtitle: pillar.subtitle,
+        description: pillar.description,
+        highlights: (pillar.highlights ?? []) as never,
+        titleBn: pillar.titleBn ?? null,
+        subtitleBn: pillar.subtitleBn ?? null,
+        descriptionBn: pillar.descriptionBn ?? null,
+        highlightsBn: (pillar.highlightsBn ?? null) as never,
+      },
+    });
+    result.push(row as unknown as WorkProcessPillar);
+  }
+  return result;
 }
 
 // ---------- Team ----------
@@ -171,15 +313,22 @@ export async function createTeamMember(data: TeamMember): Promise<TeamMember> {
     data: {
       id: data.id || undefined,
       name: data.name,
+      nameBn: (data as any).nameBn ?? null,
       role: data.role,
+      roleBn: (data as any).roleBn ?? null,
       category: data.category,
       teamType: data.teamType,
       image: data.image,
       bio: data.bio,
+      bioBn: (data as any).bioBn ?? null,
       fullBio: data.fullBio,
+      fullBioBn: (data as any).fullBioBn ?? null,
       researchInterests: (data.researchInterests ?? []) as never,
+      researchInterestsBn: ((data as any).researchInterestsBn ?? null) as never,
       focusAreas: (data.focusAreas ?? []) as never,
+      focusAreasBn: ((data as any).focusAreasBn ?? null) as never,
       education: data.education,
+      educationBn: (data as any).educationBn ?? null,
       recentPublications: (data.recentPublications ?? []) as never,
       email: data.email,
       twitter: data.twitter,
@@ -196,15 +345,22 @@ export async function updateTeamMember(id: string, data: TeamMember): Promise<Te
     where: { id },
     data: {
       name: data.name,
+      nameBn: (data as any).nameBn ?? null,
       role: data.role,
+      roleBn: (data as any).roleBn ?? null,
       category: data.category,
       teamType: data.teamType,
       image: data.image,
       bio: data.bio,
+      bioBn: (data as any).bioBn ?? null,
       fullBio: data.fullBio,
+      fullBioBn: (data as any).fullBioBn ?? null,
       researchInterests: (data.researchInterests ?? []) as never,
+      researchInterestsBn: ((data as any).researchInterestsBn ?? null) as never,
       focusAreas: (data.focusAreas ?? []) as never,
+      focusAreasBn: ((data as any).focusAreasBn ?? null) as never,
       education: data.education,
+      educationBn: (data as any).educationBn ?? null,
       recentPublications: (data.recentPublications ?? []) as never,
       email: data.email,
       twitter: data.twitter,
@@ -353,6 +509,8 @@ export async function resetCmsData(): Promise<void> {
   await db.publication.deleteMany();
   await db.teamMember.deleteMany();
   await db.researchBeat.deleteMany();
+  await db.workArea.deleteMany();
+  await db.workProcessPillar.deleteMany();
   await db.monitoringTelemetry.deleteMany();
   await db.contactPageData.deleteMany();
   await db.aboutPageData.deleteMany();
@@ -368,16 +526,22 @@ export async function resetCmsData(): Promise<void> {
   if (s.contactPage) await db.contactPageData.create({ data: { id: SINGLETON.contact, data: s.contactPage as object } });
   await db.monitoringTelemetry.create({ data: { id: SINGLETON.monitoring, data: s.monitoring as object } });
   for (const beat of Object.values(s.researchBeats)) {
-    await db.researchBeat.create({ data: { id: beat.id, slug: beat.slug ?? null, beatNumber: beat.beatNumber, category: beat.category, name: beat.name, tagline: beat.tagline, description: beat.description, image: beat.image, outputsCount: beat.outputsCount, timeframe: beat.timeframe, status: beat.status, leadFellows: (beat.leadFellows ?? []) as never, metrics: (beat.metrics ?? []) as never, overview: (beat.overview ?? []) as never, keyQuestions: (beat.keyQuestions ?? []) as never, methodologyDetails: (beat.methodologyDetails ?? []) as never, caseStudies: (beat.caseStudies ?? []) as never, publications: (beat.publications ?? []) as never, summary: beat.summary, methodology: beat.methodology, primaryMethodologies: (beat.primaryMethodologies ?? []) as never, imageTitle: beat.imageTitle, imageSubtitle: beat.imageSubtitle, researchNarrative: beat.researchNarrative, viewCount: beat.viewCount ?? 0 } });
+    await db.researchBeat.create({ data: { id: beat.id, slug: beat.slug ?? null, beatNumber: beat.beatNumber, category: beat.category, name: beat.name, tagline: beat.tagline, description: beat.description, image: beat.image, outputsCount: beat.outputsCount, timeframe: beat.timeframe, status: beat.status, leadFellows: (beat.leadFellows ?? []) as never, metrics: (beat.metrics ?? []) as never, overview: (beat.overview ?? []) as never, keyQuestions: (beat.keyQuestions ?? []) as never, methodologyDetails: (beat.methodologyDetails ?? []) as never, caseStudies: (beat.caseStudies ?? []) as never, publications: (beat.publications ?? []) as never, summary: beat.summary, methodology: beat.methodology, primaryMethodologies: (beat.primaryMethodologies ?? []) as never, imageTitle: beat.imageTitle, imageSubtitle: beat.imageSubtitle, researchNarrative: beat.researchNarrative, viewCount: beat.viewCount ?? 0, nameBn: (beat as any).nameBn ?? null, taglineBn: (beat as any).taglineBn ?? null, descriptionBn: (beat as any).descriptionBn ?? null, summaryBn: (beat as any).summaryBn ?? null, methodologyBn: (beat as any).methodologyBn ?? null, researchNarrativeBn: (beat as any).researchNarrativeBn ?? null, statusBn: (beat as any).statusBn ?? null, timeframeBn: (beat as any).timeframeBn ?? null, outputsCountBn: (beat as any).outputsCountBn ?? null, imageTitleBn: (beat as any).imageTitleBn ?? null, imageSubtitleBn: (beat as any).imageSubtitleBn ?? null, leadFellowsBn: ((beat as any).leadFellowsBn ?? null) as never, metricsBn: ((beat as any).metricsBn ?? null) as never, overviewBn: ((beat as any).overviewBn ?? null) as never, keyQuestionsBn: ((beat as any).keyQuestionsBn ?? null) as never, methodologyDetailsBn: ((beat as any).methodologyDetailsBn ?? null) as never, caseStudiesBn: ((beat as any).caseStudiesBn ?? null) as never, publicationsBn: ((beat as any).publicationsBn ?? null) as never } });
   }
-  for (let i = 0; i < s.team.length; i++) { const m = s.team[i]; await db.teamMember.create({ data: { id: m.id, name: m.name, role: m.role, category: m.category, teamType: m.teamType, image: m.image, bio: m.bio, fullBio: m.fullBio, researchInterests: (m.researchInterests ?? []) as never, focusAreas: (m.focusAreas ?? []) as never, education: m.education, recentPublications: (m.recentPublications ?? []) as never, email: m.email, twitter: m.twitter, linkedin: m.linkedin, scholar: m.scholar, order: m.order ?? i } }); }
+  for (const area of (s.workAreas ?? [])) {
+    await db.workArea.create({ data: { id: area.id, name: area.name, tagline: area.tagline, description: area.description, methods: (area.methods ?? []) as never, sampleInquiries: (area.sampleInquiries ?? []) as never, image: area.image, outputsCount: area.outputsCount, timeframe: area.timeframe, status: area.status, nameBn: (area as any).nameBn ?? null, taglineBn: (area as any).taglineBn ?? null, descriptionBn: (area as any).descriptionBn ?? null, methodsBn: ((area as any).methodsBn ?? null) as never, sampleInquiriesBn: ((area as any).sampleInquiriesBn ?? null) as never, imageBn: (area as any).imageBn ?? null, outputsCountBn: (area as any).outputsCountBn ?? null } });
+  }
+  for (const pillar of (s.workProcessPillars ?? [])) {
+    await db.workProcessPillar.create({ data: { id: pillar.id, step: pillar.step, title: pillar.title, subtitle: pillar.subtitle, description: pillar.description, highlights: (pillar.highlights ?? []) as never, titleBn: (pillar as any).titleBn ?? null, subtitleBn: (pillar as any).subtitleBn ?? null, descriptionBn: (pillar as any).descriptionBn ?? null, highlightsBn: ((pillar as any).highlightsBn ?? null) as never } });
+  }
+  for (let i = 0; i < s.team.length; i++) { const m: any = s.team[i]; await db.teamMember.create({ data: { id: m.id, name: m.name, nameBn: m.nameBn ?? null, role: m.role, roleBn: m.roleBn ?? null, category: m.category, teamType: m.teamType, image: m.image, bio: m.bio, bioBn: m.bioBn ?? null, fullBio: m.fullBio, fullBioBn: m.fullBioBn ?? null, researchInterests: (m.researchInterests ?? []) as never, researchInterestsBn: (m.researchInterestsBn ?? null) as never, focusAreas: (m.focusAreas ?? []) as never, focusAreasBn: (m.focusAreasBn ?? null) as never, education: m.education, educationBn: m.educationBn ?? null, recentPublications: (m.recentPublications ?? []) as never, email: m.email, twitter: m.twitter, linkedin: m.linkedin, scholar: m.scholar, order: m.order ?? i } }); }
   for (const pub of s.publications) { await db.publication.create({ data: { id: pub.id, title: pub.title, type: pub.type, date: pub.date, pagesOrSize: pub.pagesOrSize ?? '', beatId: pub.beatId ?? null, downloadUrl: pub.downloadUrl ?? null, abstract: pub.abstract ?? null, status: pub.status ?? null } }); }
   for (const q of s.inquiries) { await db.inquiry.create({ data: { id: q.id, date: q.date, name: q.name, organization: q.organization, email: q.email, topic: q.topic, message: q.message, requestedDataset: q.requestedDataset ?? null, status: q.status, notes: q.notes ?? null } }); }
   for (const log of s.activityLogs) { await db.activityLog.create({ data: { id: log.id, timestamp: log.timestamp, action: log.action, section: log.section, user: log.user } }); }
 }
 
 export async function importCmsState(payload: Partial<CmsState>): Promise<void> {
-  const merged = { ...INITIAL_CMS_STATE, ...payload, settings: { ...INITIAL_CMS_STATE.settings, ...(payload.settings || {}) }, homePage: { ...INITIAL_CMS_STATE.homePage, ...(payload.homePage || {}) }, aboutPage: { ...INITIAL_CMS_STATE.aboutPage, ...(payload.aboutPage || {}) }, contactPage: payload.contactPage || INITIAL_CMS_STATE.contactPage, researchBeats: payload.researchBeats ?? INITIAL_CMS_STATE.researchBeats, team: payload.team ?? INITIAL_CMS_STATE.team, publications: payload.publications ?? INITIAL_CMS_STATE.publications, monitoring: payload.monitoring ?? INITIAL_CMS_STATE.monitoring, inquiries: payload.inquiries ?? INITIAL_CMS_STATE.inquiries, activityLogs: payload.activityLogs ?? [] };
+  const merged = { ...INITIAL_CMS_STATE, ...payload, settings: { ...INITIAL_CMS_STATE.settings, ...(payload.settings || {}) }, homePage: { ...INITIAL_CMS_STATE.homePage, ...(payload.homePage || {}) }, aboutPage: { ...INITIAL_CMS_STATE.aboutPage, ...(payload.aboutPage || {}) }, contactPage: payload.contactPage || INITIAL_CMS_STATE.contactPage, researchBeats: payload.researchBeats ?? INITIAL_CMS_STATE.researchBeats, team: payload.team ?? INITIAL_CMS_STATE.team, publications: payload.publications ?? INITIAL_CMS_STATE.publications, monitoring: payload.monitoring ?? INITIAL_CMS_STATE.monitoring, inquiries: payload.inquiries ?? INITIAL_CMS_STATE.inquiries, activityLogs: payload.activityLogs ?? [], workAreas: payload.workAreas ?? INITIAL_CMS_STATE.workAreas, workProcessPillars: payload.workProcessPillars ?? INITIAL_CMS_STATE.workProcessPillars };
   const s = translateSeedState(merged);
   await resetCmsData();
   await db.cmsMeta.update({ where: { id: SINGLETON.meta }, data: { version: s.version ?? '1.0.0', lastUpdated: new Date(s.lastUpdated ?? Date.now()) } });
@@ -387,9 +551,15 @@ export async function importCmsState(payload: Partial<CmsState>): Promise<void> 
   if (s.contactPage) { await db.contactPageData.upsert({ where: { id: SINGLETON.contact }, update: { data: s.contactPage as object }, create: { id: SINGLETON.contact, data: s.contactPage as object } }); }
   await db.monitoringTelemetry.update({ where: { id: SINGLETON.monitoring }, data: { data: s.monitoring as object } });
   for (const beat of Object.values(s.researchBeats)) {
-    await db.researchBeat.upsert({ where: { id: beat.id }, update: { slug: beat.slug ?? null, beatNumber: beat.beatNumber, category: beat.category, name: beat.name, tagline: beat.tagline, description: beat.description, image: beat.image, outputsCount: beat.outputsCount, timeframe: beat.timeframe, status: beat.status, leadFellows: (beat.leadFellows ?? []) as never, metrics: (beat.metrics ?? []) as never, overview: (beat.overview ?? []) as never, keyQuestions: (beat.keyQuestions ?? []) as never, methodologyDetails: (beat.methodologyDetails ?? []) as never, caseStudies: (beat.caseStudies ?? []) as never, publications: (beat.publications ?? []) as never, summary: beat.summary, methodology: beat.methodology, primaryMethodologies: (beat.primaryMethodologies ?? []) as never, imageTitle: beat.imageTitle, imageSubtitle: beat.imageSubtitle, researchNarrative: beat.researchNarrative, viewCount: beat.viewCount ?? 0 }, create: { id: beat.id, slug: beat.slug ?? null, beatNumber: beat.beatNumber, category: beat.category, name: beat.name, tagline: beat.tagline, description: beat.description, image: beat.image, outputsCount: beat.outputsCount, timeframe: beat.timeframe, status: beat.status, leadFellows: (beat.leadFellows ?? []) as never, metrics: (beat.metrics ?? []) as never, overview: (beat.overview ?? []) as never, keyQuestions: (beat.keyQuestions ?? []) as never, methodologyDetails: (beat.methodologyDetails ?? []) as never, caseStudies: (beat.caseStudies ?? []) as never, publications: (beat.publications ?? []) as never, summary: beat.summary, methodology: beat.methodology, primaryMethodologies: (beat.primaryMethodologies ?? []) as never, imageTitle: beat.imageTitle, imageSubtitle: beat.imageSubtitle, researchNarrative: beat.researchNarrative, viewCount: beat.viewCount ?? 0 } });
+    await db.researchBeat.upsert({ where: { id: beat.id }, update: { slug: beat.slug ?? null, beatNumber: beat.beatNumber, category: beat.category, name: beat.name, tagline: beat.tagline, description: beat.description, image: beat.image, outputsCount: beat.outputsCount, timeframe: beat.timeframe, status: beat.status, leadFellows: (beat.leadFellows ?? []) as never, metrics: (beat.metrics ?? []) as never, overview: (beat.overview ?? []) as never, keyQuestions: (beat.keyQuestions ?? []) as never, methodologyDetails: (beat.methodologyDetails ?? []) as never, caseStudies: (beat.caseStudies ?? []) as never, publications: (beat.publications ?? []) as never, summary: beat.summary, methodology: beat.methodology, primaryMethodologies: (beat.primaryMethodologies ?? []) as never, imageTitle: beat.imageTitle, imageSubtitle: beat.imageSubtitle, researchNarrative: beat.researchNarrative, viewCount: beat.viewCount ?? 0, nameBn: (beat as any).nameBn ?? null, taglineBn: (beat as any).taglineBn ?? null, descriptionBn: (beat as any).descriptionBn ?? null, summaryBn: (beat as any).summaryBn ?? null, methodologyBn: (beat as any).methodologyBn ?? null, researchNarrativeBn: (beat as any).researchNarrativeBn ?? null, statusBn: (beat as any).statusBn ?? null, timeframeBn: (beat as any).timeframeBn ?? null, outputsCountBn: (beat as any).outputsCountBn ?? null, imageTitleBn: (beat as any).imageTitleBn ?? null, imageSubtitleBn: (beat as any).imageSubtitleBn ?? null, leadFellowsBn: ((beat as any).leadFellowsBn ?? null) as never, metricsBn: ((beat as any).metricsBn ?? null) as never, overviewBn: ((beat as any).overviewBn ?? null) as never, keyQuestionsBn: ((beat as any).keyQuestionsBn ?? null) as never, methodologyDetailsBn: ((beat as any).methodologyDetailsBn ?? null) as never, caseStudiesBn: ((beat as any).caseStudiesBn ?? null) as never, publicationsBn: ((beat as any).publicationsBn ?? null) as never }, create: { id: beat.id, slug: beat.slug ?? null, beatNumber: beat.beatNumber, category: beat.category, name: beat.name, tagline: beat.tagline, description: beat.description, image: beat.image, outputsCount: beat.outputsCount, timeframe: beat.timeframe, status: beat.status, leadFellows: (beat.leadFellows ?? []) as never, metrics: (beat.metrics ?? []) as never, overview: (beat.overview ?? []) as never, keyQuestions: (beat.keyQuestions ?? []) as never, methodologyDetails: (beat.methodologyDetails ?? []) as never, caseStudies: (beat.caseStudies ?? []) as never, publications: (beat.publications ?? []) as never, summary: beat.summary, methodology: beat.methodology, primaryMethodologies: (beat.primaryMethodologies ?? []) as never, imageTitle: beat.imageTitle, imageSubtitle: beat.imageSubtitle, researchNarrative: beat.researchNarrative, viewCount: beat.viewCount ?? 0, nameBn: (beat as any).nameBn ?? null, taglineBn: (beat as any).taglineBn ?? null, descriptionBn: (beat as any).descriptionBn ?? null, summaryBn: (beat as any).summaryBn ?? null, methodologyBn: (beat as any).methodologyBn ?? null, researchNarrativeBn: (beat as any).researchNarrativeBn ?? null, statusBn: (beat as any).statusBn ?? null, timeframeBn: (beat as any).timeframeBn ?? null, outputsCountBn: (beat as any).outputsCountBn ?? null, imageTitleBn: (beat as any).imageTitleBn ?? null, imageSubtitleBn: (beat as any).imageSubtitleBn ?? null, leadFellowsBn: ((beat as any).leadFellowsBn ?? null) as never, metricsBn: ((beat as any).metricsBn ?? null) as never, overviewBn: ((beat as any).overviewBn ?? null) as never, keyQuestionsBn: ((beat as any).keyQuestionsBn ?? null) as never, methodologyDetailsBn: ((beat as any).methodologyDetailsBn ?? null) as never, caseStudiesBn: ((beat as any).caseStudiesBn ?? null) as never, publicationsBn: ((beat as any).publicationsBn ?? null) as never } });
   }
-  for (let i = 0; i < s.team.length; i++) { const m = s.team[i]; await db.teamMember.upsert({ where: { id: m.id }, update: { name: m.name, role: m.role, category: m.category, teamType: m.teamType, image: m.image, bio: m.bio, fullBio: m.fullBio, researchInterests: (m.researchInterests ?? []) as never, focusAreas: (m.focusAreas ?? []) as never, education: m.education, recentPublications: (m.recentPublications ?? []) as never, email: m.email, twitter: m.twitter, linkedin: m.linkedin, scholar: m.scholar, order: m.order ?? i }, create: { id: m.id, name: m.name, role: m.role, category: m.category, teamType: m.teamType, image: m.image, bio: m.bio, fullBio: m.fullBio, researchInterests: (m.researchInterests ?? []) as never, focusAreas: (m.focusAreas ?? []) as never, education: m.education, recentPublications: (m.recentPublications ?? []) as never, email: m.email, twitter: m.twitter, linkedin: m.linkedin, scholar: m.scholar, order: m.order ?? i } }); }
+  for (const area of (s.workAreas ?? [])) {
+    await db.workArea.upsert({ where: { id: area.id }, update: { name: area.name, tagline: area.tagline, description: area.description, methods: (area.methods ?? []) as never, sampleInquiries: (area.sampleInquiries ?? []) as never, image: area.image, outputsCount: area.outputsCount, timeframe: area.timeframe, status: area.status, nameBn: (area as any).nameBn ?? null, taglineBn: (area as any).taglineBn ?? null, descriptionBn: (area as any).descriptionBn ?? null, methodsBn: ((area as any).methodsBn ?? null) as never, sampleInquiriesBn: ((area as any).sampleInquiriesBn ?? null) as never, imageBn: (area as any).imageBn ?? null, outputsCountBn: (area as any).outputsCountBn ?? null }, create: { id: area.id, name: area.name, tagline: area.tagline, description: area.description, methods: (area.methods ?? []) as never, sampleInquiries: (area.sampleInquiries ?? []) as never, image: area.image, outputsCount: area.outputsCount, timeframe: area.timeframe, status: area.status, nameBn: (area as any).nameBn ?? null, taglineBn: (area as any).taglineBn ?? null, descriptionBn: (area as any).descriptionBn ?? null, methodsBn: ((area as any).methodsBn ?? null) as never, sampleInquiriesBn: ((area as any).sampleInquiriesBn ?? null) as never, imageBn: (area as any).imageBn ?? null, outputsCountBn: (area as any).outputsCountBn ?? null } });
+  }
+  for (const pillar of (s.workProcessPillars ?? [])) {
+    await db.workProcessPillar.upsert({ where: { id: pillar.id }, update: { step: pillar.step, title: pillar.title, subtitle: pillar.subtitle, description: pillar.description, highlights: (pillar.highlights ?? []) as never, titleBn: (pillar as any).titleBn ?? null, subtitleBn: (pillar as any).subtitleBn ?? null, descriptionBn: (pillar as any).descriptionBn ?? null, highlightsBn: ((pillar as any).highlightsBn ?? null) as never }, create: { id: pillar.id, step: pillar.step, title: pillar.title, subtitle: pillar.subtitle, description: pillar.description, highlights: (pillar.highlights ?? []) as never, titleBn: (pillar as any).titleBn ?? null, subtitleBn: (pillar as any).subtitleBn ?? null, descriptionBn: (pillar as any).descriptionBn ?? null, highlightsBn: ((pillar as any).highlightsBn ?? null) as never } });
+  }
+  for (let i = 0; i < s.team.length; i++) { const m: any = s.team[i]; await db.teamMember.upsert({ where: { id: m.id }, update: { name: m.name, nameBn: m.nameBn ?? null, role: m.role, roleBn: m.roleBn ?? null, category: m.category, teamType: m.teamType, image: m.image, bio: m.bio, bioBn: m.bioBn ?? null, fullBio: m.fullBio, fullBioBn: m.fullBioBn ?? null, researchInterests: (m.researchInterests ?? []) as never, researchInterestsBn: (m.researchInterestsBn ?? null) as never, focusAreas: (m.focusAreas ?? []) as never, focusAreasBn: (m.focusAreasBn ?? null) as never, education: m.education, educationBn: m.educationBn ?? null, recentPublications: (m.recentPublications ?? []) as never, email: m.email, twitter: m.twitter, linkedin: m.linkedin, scholar: m.scholar, order: m.order ?? i }, create: { id: m.id, name: m.name, nameBn: m.nameBn ?? null, role: m.role, roleBn: m.roleBn ?? null, category: m.category, teamType: m.teamType, image: m.image, bio: m.bio, bioBn: m.bioBn ?? null, fullBio: m.fullBio, fullBioBn: m.fullBioBn ?? null, researchInterests: (m.researchInterests ?? []) as never, researchInterestsBn: (m.researchInterestsBn ?? null) as never, focusAreas: (m.focusAreas ?? []) as never, focusAreasBn: (m.focusAreasBn ?? null) as never, education: m.education, educationBn: m.educationBn ?? null, recentPublications: (m.recentPublications ?? []) as never, email: m.email, twitter: m.twitter, linkedin: m.linkedin, scholar: m.scholar, order: m.order ?? i } }); }
   for (const pub of s.publications) { await db.publication.upsert({ where: { id: pub.id }, update: { title: pub.title, type: pub.type, date: pub.date, pagesOrSize: pub.pagesOrSize ?? '', beatId: pub.beatId ?? null, downloadUrl: pub.downloadUrl ?? null, abstract: pub.abstract ?? null, status: pub.status ?? null }, create: { id: pub.id, title: pub.title, type: pub.type, date: pub.date, pagesOrSize: pub.pagesOrSize ?? '', beatId: pub.beatId ?? null, downloadUrl: pub.downloadUrl ?? null, abstract: pub.abstract ?? null, status: pub.status ?? null } }); }
   for (const q of s.inquiries) { await db.inquiry.upsert({ where: { id: q.id }, update: { date: q.date, name: q.name, organization: q.organization, email: q.email, topic: q.topic, message: q.message, requestedDataset: q.requestedDataset ?? null, status: q.status, notes: q.notes ?? null }, create: { id: q.id, date: q.date, name: q.name, organization: q.organization, email: q.email, topic: q.topic, message: q.message, requestedDataset: q.requestedDataset ?? null, status: q.status, notes: q.notes ?? null } }); }
 }
@@ -397,7 +567,7 @@ export async function importCmsState(payload: Partial<CmsState>): Promise<void> 
 // ---------- Full snapshot ----------
 
 export async function getCmsStateSnapshot(): Promise<Partial<CmsState>> {
-  const [settings, homePage, aboutPage, contactPage, researchBeats, team, publications, monitoring, inquiries, activityLogs, meta] =
+  const [settings, homePage, aboutPage, contactPage, researchBeats, team, publications, monitoring, inquiries, activityLogs, meta, workAreas, workProcessPillars] =
     await Promise.all([
       getSiteSettings(),
       getHomePage(),
@@ -410,6 +580,8 @@ export async function getCmsStateSnapshot(): Promise<Partial<CmsState>> {
       listInquiries(),
       listActivityLogs(),
       getCmsMeta(),
+      listWorkAreas(),
+      listWorkProcessPillars(),
     ]);
 
   const beatsRecord: Record<string, ResearchBeat> = {};
@@ -429,5 +601,7 @@ export async function getCmsStateSnapshot(): Promise<Partial<CmsState>> {
     monitoring,
     inquiries,
     activityLogs,
+    workAreas,
+    workProcessPillars,
   };
 }

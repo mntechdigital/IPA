@@ -14,6 +14,8 @@ import {
   MonitoringTelemetry,
   SiteSettings,
   InquirySubmission,
+  WorkArea,
+  WorkProcessPillar,
 } from '../types';
 import { INITIAL_CMS_STATE } from '../data/initialData';
 
@@ -21,6 +23,7 @@ const TAB_ROUTES: Record<string, string> = {
   overview: '/cms',
   home: '/cms/home',
   about: '/cms/about',
+  work: '/cms/work',
   research: '/cms/research',
   teams: '/cms/teams',
   contact: '/cms/contact',
@@ -65,6 +68,8 @@ interface CmsContextType {
   recordResearchView: (beatId: string) => void;
   addResearchBeat: (beat: ResearchBeat) => void;
   deleteResearchBeat: (beatId: string) => void;
+  updateWorkAreas: (areas: WorkArea[]) => void;
+  updateWorkProcessPillars: (pillars: WorkProcessPillar[]) => void;
   updateTeamMember: (member: TeamMember) => void;
   addTeamMember: (member: TeamMember) => void;
   deleteTeamMember: (id: string) => void;
@@ -125,7 +130,7 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       try {
         const snapshot = await apiGet<Partial<CmsState>>('/api/cms/state');
         if (!cancelled) {
-          setState((prev) => ({ ...prev, ...snapshot, settings: { ...prev.settings, ...(snapshot.settings || {}) }, homePage: { ...prev.homePage, ...(snapshot.homePage || {}) }, aboutPage: { ...prev.aboutPage, ...(snapshot.aboutPage || {}) } }));
+          setState((prev) => ({ ...prev, ...snapshot, settings: { ...prev.settings, ...(snapshot.settings || {}) }, homePage: { ...prev.homePage, ...(snapshot.homePage || {}) }, aboutPage: { ...prev.aboutPage, ...(snapshot.aboutPage || {}) }, workAreas: snapshot.workAreas ?? prev.workAreas, workProcessPillars: snapshot.workProcessPillars ?? prev.workProcessPillars }));
         }
       } catch (e) {
         console.error('Failed to load CMS state from API:', e);
@@ -213,6 +218,24 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     });
     setSelectedBeatId(null);
     setNotification({ message: 'Research track removed.', type: 'info' });
+  }, [recordLog]);
+
+  const updateWorkAreas = useCallback((areas: WorkArea[]) => {
+    setState((prev) => {
+      apiMutate('/api/cms/work-areas', 'PUT', areas).catch((e) => console.error('Failed to save work areas:', e));
+      const log = recordLog('Updated Work Areas', 'Work');
+      return { ...prev, lastUpdated: new Date().toISOString(), workAreas: areas, activityLogs: [log, ...prev.activityLogs.slice(0, 20)] };
+    });
+    setNotification({ message: 'Work Areas updated successfully.', type: 'success' });
+  }, [recordLog]);
+
+  const updateWorkProcessPillars = useCallback((pillars: WorkProcessPillar[]) => {
+    setState((prev) => {
+      apiMutate('/api/cms/work-process', 'PUT', pillars).catch((e) => console.error('Failed to save work process pillars:', e));
+      const log = recordLog('Updated Work Process Pillars', 'Work');
+      return { ...prev, lastUpdated: new Date().toISOString(), workProcessPillars: pillars, activityLogs: [log, ...prev.activityLogs.slice(0, 20)] };
+    });
+    setNotification({ message: 'Work Process updated successfully.', type: 'success' });
   }, [recordLog]);
 
   const updateTeamMember = useCallback((member: TeamMember) => {
@@ -402,6 +425,8 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         recordResearchView,
         addResearchBeat,
         deleteResearchBeat,
+        updateWorkAreas,
+        updateWorkProcessPillars,
         updateTeamMember,
         addTeamMember,
         deleteTeamMember,

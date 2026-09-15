@@ -14,7 +14,8 @@ import {
   Upload,
   Image as ImageIcon,
   BookOpen,
-  Briefcase
+  Briefcase,
+  Languages
 } from 'lucide-react';
 import { useCms } from '../../context/CmsContext';
 import { TeamMember } from '../../types';
@@ -28,9 +29,17 @@ export const TeamsDirectoryView: React.FC = () => {
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
   const [isNewMember, setIsNewMember] = useState<boolean>(false);
   const [showTeamHeroEditor, setShowTeamHeroEditor] = useState(false);
+  const [activeHeroLangTab, setActiveHeroLangTab] = useState<'en' | 'bn'>('en');
+  const [activeMemberLangTab, setActiveMemberLangTab] = useState<'en' | 'bn'>('en');
   const [teamHeroDraft, setTeamHeroDraft] = useState({
     heading: state.settings.teamHero?.heading || 'Meet the Researchers',
+    headingBn: state.settings.teamHero?.headingBn || '',
     subheading: state.settings.teamHero?.subheading || 'Researchers, analysts, and institutional leaders working across our observatories.',
+    subheadingBn: state.settings.teamHero?.subheadingBn || '',
+    label: state.settings.teamHero?.label || 'OUR TEAM',
+    labelBn: state.settings.teamHero?.labelBn || '',
+    metadata: state.settings.teamHero?.metadata || 'Fellows, Directors & Methodologists',
+    metadataBn: state.settings.teamHero?.metadataBn || '',
     image: state.settings.teamHero?.image || ''
   });
 
@@ -38,12 +47,19 @@ export const TeamsDirectoryView: React.FC = () => {
   const [formState, setFormState] = useState<{
     id: string;
     name: string;
+    nameBn: string;
     role: string;
+    roleBn: string;
     category?: string;
     teamType: 'INSTITUTE GOVERNANCE' | 'INVESTIGATIVE CORPS';
     bio: string;
+    bioBn: string;
+    fullBio: string;
+    fullBioBn: string;
     focusAreas: string;
+    focusAreasBn: string;
     education: string;
+    educationBn: string;
     email: string;
     image: string;
     twitter?: string;
@@ -52,12 +68,19 @@ export const TeamsDirectoryView: React.FC = () => {
   }>({
     id: '',
     name: '',
+    nameBn: '',
     role: '',
+    roleBn: '',
     category: 'Research Fellow',
     teamType: 'INVESTIGATIVE CORPS',
     bio: '',
+    bioBn: '',
+    fullBio: '',
+    fullBioBn: '',
     focusAreas: '',
+    focusAreasBn: '',
     education: '',
+    educationBn: '',
     email: '',
     image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
     twitter: '',
@@ -79,12 +102,19 @@ export const TeamsDirectoryView: React.FC = () => {
     setFormState({
       id: crypto.randomUUID(),
       name: '',
+      nameBn: '',
       role: '',
+      roleBn: '',
       category: 'Research Fellow',
       teamType: 'INVESTIGATIVE CORPS',
       bio: '',
+      bioBn: '',
+      fullBio: '',
+      fullBioBn: '',
       focusAreas: 'Media Audits, Public Opinion',
+      focusAreasBn: '',
       education: 'Ph.D. in Communications / Data Science',
+      educationBn: '',
       email: '',
       image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
       twitter: 'https://twitter.com/',
@@ -93,6 +123,7 @@ export const TeamsDirectoryView: React.FC = () => {
     });
     setEditingMember(null);
     setIsNewMember(true);
+    setActiveMemberLangTab('en');
     setIsModalOpen(true);
   };
 
@@ -100,12 +131,19 @@ export const TeamsDirectoryView: React.FC = () => {
     setFormState({
       id: member.id,
       name: member.name,
+      nameBn: (member as any).nameBn || '',
       role: member.role,
+      roleBn: (member as any).roleBn || '',
       category: member.category || 'Research Fellow',
       teamType: member.teamType === 'INSTITUTE GOVERNANCE' ? 'INSTITUTE GOVERNANCE' : 'INVESTIGATIVE CORPS',
       bio: member.bio || '',
+      bioBn: (member as any).bioBn || '',
+      fullBio: (member as any).fullBio || '',
+      fullBioBn: (member as any).fullBioBn || '',
       focusAreas: (member.focusAreas || []).join(', '),
+      focusAreasBn: ((member as any).focusAreasBn || []).join(', '),
       education: member.education || '',
+      educationBn: (member as any).educationBn || '',
       email: member.email || '',
       image: member.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
       twitter: member.twitter || '',
@@ -114,6 +152,7 @@ export const TeamsDirectoryView: React.FC = () => {
     });
     setEditingMember(member);
     setIsNewMember(false);
+    setActiveMemberLangTab('en');
     setIsModalOpen(true);
   };
 
@@ -141,9 +180,16 @@ export const TeamsDirectoryView: React.FC = () => {
   const openTeamHeroEditor = () => {
     setTeamHeroDraft({
       heading: state.settings.teamHero?.heading || 'Meet the Researchers',
+      headingBn: state.settings.teamHero?.headingBn || '',
       subheading: state.settings.teamHero?.subheading || 'Researchers, analysts, and institutional leaders working across our observatories.',
+      subheadingBn: state.settings.teamHero?.subheadingBn || '',
+      label: state.settings.teamHero?.label || 'OUR TEAM',
+      labelBn: state.settings.teamHero?.labelBn || '',
+      metadata: state.settings.teamHero?.metadata || 'Fellows, Directors & Methodologists',
+      metadataBn: state.settings.teamHero?.metadataBn || '',
       image: state.settings.teamHero?.image || ''
     });
+    setActiveHeroLangTab('en');
     setShowTeamHeroEditor(true);
   };
 
@@ -161,18 +207,36 @@ export const TeamsDirectoryView: React.FC = () => {
       return;
     }
 
-    const payload: TeamMember = {
+    const payload: any = {
       id: formState.id || crypto.randomUUID(),
       name: formState.name.trim(),
+      nameBn: formState.nameBn.trim() || null,
       role: formState.role.trim(),
+      roleBn: formState.roleBn.trim() || null,
       category: formState.category || 'Research Fellow',
       teamType: formState.teamType,
       bio: formState.bio.trim(),
+      bioBn: formState.bioBn.trim() || null,
+      fullBio: formState.fullBio.trim() || null,
+      fullBioBn: formState.fullBioBn.trim() || null,
       focusAreas: formState.focusAreas
         .split(',')
         .map(s => s.trim())
         .filter(Boolean),
+      focusAreasBn: formState.focusAreasBn
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean),
+      researchInterests: formState.focusAreas
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean),
+      researchInterestsBn: formState.focusAreasBn
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean),
       education: formState.education.trim(),
+      educationBn: formState.educationBn.trim() || null,
       email: formState.email.trim(),
       image: formState.image.trim() || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
       twitter: formState.twitter?.trim(),
@@ -207,21 +271,63 @@ export const TeamsDirectoryView: React.FC = () => {
         </button>
         <div>
           <h1 className="text-2xl font-bold text-[#1E1B4B]">Team Hero Banner</h1>
-          <p className="text-xs text-slate-500 mt-1">Manage the heading, subheading, and hero image for the team page.</p>
+          <p className="text-xs text-slate-500 mt-1">Manage the heading, subheading, label, metadata, and hero image for the team page. Bangla fields are optional — English will be shown when Bangla is empty.</p>
+        </div>
+        <div className="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200">
+          <div className="flex items-center gap-2">
+            <Languages className="w-4 h-4 text-[#6E56CF]" />
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-600">Editing Language</span>
+          </div>
+          <div className="flex gap-1 bg-white p-1 rounded-lg border border-slate-200">
+            <button type="button" onClick={() => setActiveHeroLangTab('en')} className={`px-3 py-1 rounded text-xs font-semibold cursor-pointer ${activeHeroLangTab === 'en' ? 'bg-[#6E56CF] text-white' : 'text-slate-500 hover:text-slate-800'}`}>English</button>
+            <button type="button" onClick={() => setActiveHeroLangTab('bn')} className={`px-3 py-1 rounded text-xs font-semibold cursor-pointer ${activeHeroLangTab === 'bn' ? 'bg-[#6E56CF] text-white' : 'text-slate-500 hover:text-slate-800'}`}>বাংলা (Bangla)</button>
+          </div>
         </div>
         <form onSubmit={saveTeamHero} className="bg-white rounded-2xl border border-slate-200 p-6 space-y-5 shadow-sm">
-          <div className="space-y-2">
-            <label className="text-xs font-bold text-slate-700">Heading</label>
-            <input type="text" value={teamHeroDraft.heading} onChange={e => setTeamHeroDraft(prev => ({ ...prev, heading: e.target.value }))} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800" />
-          </div>
-          <div className="space-y-2">
-            <label className="text-xs font-bold text-slate-700">Subheading</label>
-            <textarea rows={3} value={teamHeroDraft.subheading} onChange={e => setTeamHeroDraft(prev => ({ ...prev, subheading: e.target.value }))} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800" />
-          </div>
-          <div className="space-y-2">
-            <label className="text-xs font-bold text-slate-700">Hero Image</label>
+          {activeHeroLangTab === 'en' ? (
+            <>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700">Label (English) — e.g. OUR TEAM</label>
+                <input type="text" value={teamHeroDraft.label} onChange={e => setTeamHeroDraft(prev => ({ ...prev, label: e.target.value }))} placeholder="OUR TEAM" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700">Heading (English)</label>
+                <input type="text" value={teamHeroDraft.heading} onChange={e => setTeamHeroDraft(prev => ({ ...prev, heading: e.target.value }))} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700">Subheading (English)</label>
+                <textarea rows={3} value={teamHeroDraft.subheading} onChange={e => setTeamHeroDraft(prev => ({ ...prev, subheading: e.target.value }))} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700">Metadata (English) — e.g. Fellows, Directors & Methodologists</label>
+                <input type="text" value={teamHeroDraft.metadata} onChange={e => setTeamHeroDraft(prev => ({ ...prev, metadata: e.target.value }))} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800" />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700">Label (Bangla) — যদি খালি থাকে তবে ইংরেজি দেখাবে</label>
+                <input type="text" value={teamHeroDraft.labelBn} onChange={e => setTeamHeroDraft(prev => ({ ...prev, labelBn: e.target.value }))} placeholder="আমাদের টিম" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700">Heading (Bangla)</label>
+                <input type="text" value={teamHeroDraft.headingBn} onChange={e => setTeamHeroDraft(prev => ({ ...prev, headingBn: e.target.value }))} placeholder="আমাদের কাজের পেছনের গবেষক দল" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700">Subheading (Bangla)</label>
+                <textarea rows={3} value={teamHeroDraft.subheadingBn} onChange={e => setTeamHeroDraft(prev => ({ ...prev, subheadingBn: e.target.value }))} placeholder="আমাদের দলে রয়েছেন গণমাধ্যম, সাংবাদিকতা, প্রযুক্তি ও যোগাযোগ খাতের অভিজ্ঞ গবেষক ও বিশ্লেষকবৃন্দ।" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700">Metadata (Bangla)</label>
+                <input type="text" value={teamHeroDraft.metadataBn} onChange={e => setTeamHeroDraft(prev => ({ ...prev, metadataBn: e.target.value }))} placeholder="ফেলো, পরিচালক ও গবেষকবৃন্দ" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800" />
+              </div>
+            </>
+          )}
+          <div className="space-y-2 pt-2 border-t border-slate-100">
+            <label className="text-xs font-bold text-slate-700">Hero Image (shared for both languages)</label>
             <input type="file" accept="image/*" onChange={handleTeamHeroImageUpload} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs" />
             {teamHeroDraft.image && <img src={teamHeroDraft.image} alt="Team hero preview" className="w-full h-48 object-cover rounded-xl border border-slate-200" />}
+            {!teamHeroDraft.image && <p className="text-[11px] text-slate-400">If empty, default Unsplash team photo will be used on the live site.</p>}
           </div>
           <div className="flex justify-end">
             <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#6E56CF] text-white text-xs font-bold">Save Team Hero Banner</button>
@@ -460,7 +566,7 @@ export const TeamsDirectoryView: React.FC = () => {
 
             {/* Modal Form Body */}
             <form onSubmit={handleSaveForm} className="flex-1 overflow-y-auto p-6 space-y-5">
-              {/* Profile Image & Upload */}
+              {/* Profile Image & Upload — shared for both languages */}
               <div className="p-4 rounded-2xl bg-purple-50/40 border border-purple-100/60 flex flex-col sm:flex-row items-center gap-5">
                 <div className="relative group">
                   <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#6E56CF] shadow-md bg-white shrink-0">
@@ -503,87 +609,170 @@ export const TeamsDirectoryView: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Full Name */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">
-                    Full Name <span className="text-rose-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formState.name}
-                    onChange={(e) => setFormState(prev => ({ ...prev, name: e.target.value }))}
-                    placeholder="e.g. Dr. Sabrina Farhana"
-                    className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all font-medium"
-                  />
+              <div className="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <div className="flex items-center gap-2">
+                  <Languages className="w-4 h-4 text-[#6E56CF]" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-600">Editing Language</span>
+                  <span className="text-[11px] text-slate-400 hidden sm:inline">— Bangla empty = English fallback on live site</span>
                 </div>
-
-                {/* Designation */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">
-                    Designation / Role <span className="text-rose-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formState.role}
-                    onChange={(e) => setFormState(prev => ({ ...prev, role: e.target.value }))}
-                    placeholder="e.g. Lead Computational Journalist"
-                    className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all font-medium"
-                  />
-                </div>
-
-                {/* Email */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Official Email</label>
-                  <input
-                    type="email"
-                    value={formState.email}
-                    onChange={(e) => setFormState(prev => ({ ...prev, email: e.target.value }))}
-                    placeholder="researcher@mediaresearch.org"
-                    className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all font-mono"
-                  />
-                </div>
-
-                {/* Education */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Education Background</label>
-                  <input
-                    type="text"
-                    value={formState.education}
-                    onChange={(e) => setFormState(prev => ({ ...prev, education: e.target.value }))}
-                    placeholder="Ph.D. in Computational Media, University of Dhaka"
-                    className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all"
-                  />
+                <div className="flex gap-1 bg-white p-1 rounded-lg border border-slate-200">
+                  <button type="button" onClick={() => setActiveMemberLangTab('en')} className={`px-3 py-1 rounded text-xs font-semibold cursor-pointer ${activeMemberLangTab === 'en' ? 'bg-[#6E56CF] text-white' : 'text-slate-500 hover:text-slate-800'}`}>English</button>
+                  <button type="button" onClick={() => setActiveMemberLangTab('bn')} className={`px-3 py-1 rounded text-xs font-semibold cursor-pointer ${activeMemberLangTab === 'bn' ? 'bg-[#6E56CF] text-white' : 'text-slate-500 hover:text-slate-800'}`}>বাংলা (Bangla)</button>
                 </div>
               </div>
 
-              {/* Bio */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Biographical Narrative</label>
-                <textarea
-                  rows={3}
-                  value={formState.bio}
-                  onChange={(e) => setFormState(prev => ({ ...prev, bio: e.target.value }))}
-                  placeholder="Summarize research background, methodological competencies, newsroom audit experience..."
-                  className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl p-3 text-xs text-slate-800 outline-none transition-all leading-relaxed"
-                />
-              </div>
-
-              {/* Research Domains and Team Type */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">
-                  Research Domains <span className="text-slate-400 font-normal">(comma-separated)</span>
-                </label>
-                <input
-                  type="text"
-                  value={formState.focusAreas}
-                  onChange={(e) => setFormState(prev => ({ ...prev, focusAreas: e.target.value }))}
-                  placeholder="Algorithmic Accountability, Newsroom Safety, Sentiment Pipelines"
-                  className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all"
-                />
-              </div>
+              {activeMemberLangTab === 'en' ? (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">
+                        Full Name (English) <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required={activeMemberLangTab === 'en'}
+                        value={formState.name}
+                        onChange={(e) => setFormState(prev => ({ ...prev, name: e.target.value }))}
+                        placeholder="e.g. Dr. Sabrina Farhana"
+                        className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all font-medium"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">
+                        Designation / Role (English) <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required={activeMemberLangTab === 'en'}
+                        value={formState.role}
+                        onChange={(e) => setFormState(prev => ({ ...prev, role: e.target.value }))}
+                        placeholder="e.g. Lead Computational Journalist"
+                        className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all font-medium"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">Official Email</label>
+                      <input
+                        type="email"
+                        value={formState.email}
+                        onChange={(e) => setFormState(prev => ({ ...prev, email: e.target.value }))}
+                        placeholder="researcher@mediaresearch.org"
+                        className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all font-mono"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">Education Background (English)</label>
+                      <input
+                        type="text"
+                        value={formState.education}
+                        onChange={(e) => setFormState(prev => ({ ...prev, education: e.target.value }))}
+                        placeholder="Ph.D. in Computational Media, University of Dhaka"
+                        className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Biographical Narrative — Short Bio (English)</label>
+                    <textarea
+                      rows={3}
+                      value={formState.bio}
+                      onChange={(e) => setFormState(prev => ({ ...prev, bio: e.target.value }))}
+                      placeholder="Summarize research background, methodological competencies, newsroom audit experience..."
+                      className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl p-3 text-xs text-slate-800 outline-none transition-all leading-relaxed"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Full Bio / Detailed Background (English)</label>
+                    <textarea
+                      rows={4}
+                      value={formState.fullBio}
+                      onChange={(e) => setFormState(prev => ({ ...prev, fullBio: e.target.value }))}
+                      placeholder="Detailed biography shown in the profile modal..."
+                      className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl p-3 text-xs text-slate-800 outline-none transition-all leading-relaxed"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">
+                      Research Domains / Focus Areas (English) <span className="text-slate-400 font-normal">(comma-separated)</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formState.focusAreas}
+                      onChange={(e) => setFormState(prev => ({ ...prev, focusAreas: e.target.value }))}
+                      placeholder="Algorithmic Accountability, Newsroom Safety, Sentiment Pipelines"
+                      className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="rounded-xl bg-amber-50 border border-amber-200 px-3 py-2 text-[11px] text-amber-800">বাংলা ঘরগুলো খালি থাকলে লাইভ সাইটে ইংরেজি স্বয়ংক্রিয়ভাবে দেখাবে। শুধু যেগুলো অনুবাদ করতে চান সেগুলো পূরণ করুন।</div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">Full Name (Bangla)</label>
+                      <input
+                        type="text"
+                        value={formState.nameBn}
+                        onChange={(e) => setFormState(prev => ({ ...prev, nameBn: e.target.value }))}
+                        placeholder="যেমন: ড. সাবরিনা ফারহানা"
+                        className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all font-medium"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">Designation / Role (Bangla)</label>
+                      <input
+                        type="text"
+                        value={formState.roleBn}
+                        onChange={(e) => setFormState(prev => ({ ...prev, roleBn: e.target.value }))}
+                        placeholder="যেমন: প্রধান কম্পিউটেশনাল সাংবাদিক"
+                        className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all font-medium"
+                      />
+                    </div>
+                    <div className="space-y-1.5 md:col-span-2">
+                      <label className="text-xs font-bold text-slate-700">Education Background (Bangla)</label>
+                      <input
+                        type="text"
+                        value={formState.educationBn}
+                        onChange={(e) => setFormState(prev => ({ ...prev, educationBn: e.target.value }))}
+                        placeholder="যেমন: ঢাকা বিশ্ববিদ্যালয়, কম্পিউটেশনাল মিডিয়ায় পিএইচডি"
+                        className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Biographical Narrative — Short Bio (Bangla)</label>
+                    <textarea
+                      rows={3}
+                      value={formState.bioBn}
+                      onChange={(e) => setFormState(prev => ({ ...prev, bioBn: e.target.value }))}
+                      placeholder="গবেষকের সংক্ষিপ্ত জীবনী বাংলায় লিখুন..."
+                      className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl p-3 text-xs text-slate-800 outline-none transition-all leading-relaxed"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Full Bio / Detailed Background (Bangla)</label>
+                    <textarea
+                      rows={4}
+                      value={formState.fullBioBn}
+                      onChange={(e) => setFormState(prev => ({ ...prev, fullBioBn: e.target.value }))}
+                      placeholder="প্রোফাইল মোডালে দেখানোর জন্য বিস্তারিত জীবনী..."
+                      className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl p-3 text-xs text-slate-800 outline-none transition-all leading-relaxed"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">
+                      Research Domains / Focus Areas (Bangla) <span className="text-slate-400 font-normal">(কমা দিয়ে আলাদা করুন)</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formState.focusAreasBn}
+                      onChange={(e) => setFormState(prev => ({ ...prev, focusAreasBn: e.target.value }))}
+                      placeholder="যেমন: অ্যালগরিদমিক জবাবদিহিতা, সংবাদকক্ষ নিরাপত্তা"
+                      className="w-full bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#6E56CF] rounded-xl px-3.5 py-2 text-xs text-slate-800 outline-none transition-all"
+                    />
+                  </div>
+                </>
+              )}
 
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Team Type</label>

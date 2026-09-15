@@ -62,7 +62,18 @@ export const INITIAL_CMS_STATE: CmsState = {
           { "label": "Academic Fellowships", "url": "/teams#fellowships" }
         ]
       }
-    ]
+    ],
+    "teamHero": {
+      "heading": "The People Behind Our Work.",
+      "headingBn": "আমাদের কাজের পেছনের গবেষক দল",
+      "subheading": "Our team brings together researchers, analysts, and professionals with diverse experience across media, journalism, research, technology, and communications.",
+      "subheadingBn": "আমাদের দলে রয়েছেন গণমাধ্যম, সাংবাদিকতা, প্রযুক্তি ও যোগাযোগ খাতের অভিজ্ঞ গবেষক ও বিশ্লেষকবৃন্দ।",
+      "label": "OUR TEAM",
+      "labelBn": "আমাদের টিম",
+      "metadata": "Fellows, Directors & Methodologists",
+      "metadataBn": "ফেলো, পরিচালক ও গবেষকবৃন্দ",
+      "image": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2200&q=85"
+    }
   },
   "homePage": {
     "badge": "INDEPENDENT MEDIA RESEARCH OBSERVATORY",
@@ -74,9 +85,13 @@ export const INITIAL_CMS_STATE: CmsState = {
     "establishedTag": "Established 2021 · Dhaka & Global Partner Observatories",
     "heroImage": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=2200&q=85",
     "countersBadge": "COUNTERS BAR",
+    "countersBadgeBn": "",
     "primaryCtaText": "Explore Researches",
+    "primaryCtaTextBn": "",
     "secondaryCtaText": "Read Methodology",
+    "secondaryCtaTextBn": "",
     "tenetBadge": "INSTITUTIONAL CORE TENET",
+    "tenetBadgeBn": "",
     "tenetQuote": "“Better understanding begins with better research.”",
     "tenetQuoteBn": "“সঠিক অনুধাবনের ভিত্তি হলো নির্ভুল ও নির্মোহ গবেষণা।”",
     "tenetSubtitle": "Our work seeks to make the changing media environment easier to understand through independent research and thoughtful analysis.",
@@ -85,26 +100,38 @@ export const INITIAL_CMS_STATE: CmsState = {
       {
         "id": "m1",
         "label": "Experience",
+        "labelBn": "",
         "value": "12+ Years",
-        "detail": "Empirical media research & monitoring"
+        "valueBn": "",
+        "detail": "Empirical media research & monitoring",
+        "detailBn": ""
       },
       {
         "id": "m2",
         "label": "Research Lines",
+        "labelBn": "",
         "value": "6 Beats",
-        "detail": "Active continuous investigation domains"
+        "valueBn": "",
+        "detail": "Active continuous investigation domains",
+        "detailBn": ""
       },
       {
         "id": "m3",
         "label": "Indexed Records",
+        "labelBn": "",
         "value": "480,000+",
-        "detail": "Broadcast, print & algorithmic archives"
+        "valueBn": "",
+        "detail": "Broadcast, print & algorithmic archives",
+        "detailBn": ""
       },
       {
         "id": "m4",
         "label": "Replication Benchmark",
+        "labelBn": "",
         "value": "99.4%",
-        "detail": "Inter-coder reliability cross-validated"
+        "valueBn": "",
+        "detail": "Inter-coder reliability cross-validated",
+        "detailBn": ""
       }
     ],
     "featuredInquiryIds": [
@@ -117,21 +144,29 @@ export const INITIAL_CMS_STATE: CmsState = {
     ],
     "publicInterestBanner": {
       "badge": "BUILT FOR PUBLIC INTEREST",
+      "badgeBn": "",
       "title": "Empirical Research For Transparent Institutions",
+      "titleBn": "",
       "description": "The Institute of Public Accountability conducts independent, evidence-based research into news ecosystems, algorithmic feeds, broadcast coverage, and public perceptions to defend press freedom and civic awareness.",
+      "descriptionBn": "",
       "mediaUrl": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1600&q=80",
       "keyPoints": ["Independent research", "Open-access evidence", "Public-interest methods", "Transparent institutions"],
-      "ctaText": "Explore Research Beats"
+      "ctaText": "Explore Research Beats",
+      "ctaTextBn": ""
     },
     "whatWeDo": {
       "header": "What We Do",
+      "headerBn": "",
       "subheader": "Independent inquiry across the digital and broadcast media landscape",
+      "subheaderBn": "",
       "cards": [
         {
           "id": "wwd-1",
           "icon": "Search",
           "title": "Research",
+          "titleBn": "",
           "description": "We formulate rigorous empirical questions targeting institutional shifts, journalistic autonomy, and media transformations.",
+          "descriptionBn": "",
           "linkUrl": "/research",
           "cardType": "text",
           "theme": "light"
@@ -140,7 +175,9 @@ export const INITIAL_CMS_STATE: CmsState = {
           "id": "wwd-2",
           "icon": "Database",
           "title": "Evidence",
+          "titleBn": "",
           "description": "We assemble verifiable empirical material: multi-channel broadcast archives, stratified audience panels, and computational traces.",
+          "descriptionBn": "",
           "linkUrl": "/research",
           "cardType": "image",
           "theme": "image",
@@ -150,7 +187,9 @@ export const INITIAL_CMS_STATE: CmsState = {
           "id": "wwd-3",
           "icon": "BarChart3",
           "title": "Monitoring & Public Insights",
+          "titleBn": "",
           "description": "We monitor narratives, algorithmic distribution, and audience perception across broadcast and digital platforms.",
+          "descriptionBn": "",
           "linkUrl": "/research",
           "cardType": "text",
           "theme": "accent"
@@ -159,8 +198,11 @@ export const INITIAL_CMS_STATE: CmsState = {
     },
     "areasOfInvestigation": {
       "title": "Areas of Investigation",
+      "titleBn": "",
       "subtitle": "Explore our six active longitudinal research programs monitoring media and democracy",
+      "subtitleBn": "",
       "filterLabel": "All Research Tracks",
+      "filterLabelBn": "",
       "activeCategoryIds": [
         "media-journalism",
         "digital-media",
@@ -172,113 +214,159 @@ export const INITIAL_CMS_STATE: CmsState = {
     },
     "howWeWork": {
       "badge": "OUR METHODOLOGICAL DISCIPLINE",
+      "badgeBn": "",
       "title": "How We Work",
+      "titleBn": "",
       "subtitle": "From urgent inquiries to open-access public knowledge",
+      "subtitleBn": "",
       "steps": [
         {
           "step": "01",
           "subheading": "PIPELINE",
+          "subheadingBn": "",
           "title": "Research",
-          "description": "We formulate rigorous empirical questions targeting institutional shifts, journalistic autonomy, and media transformations."
+          "titleBn": "",
+          "description": "We formulate rigorous empirical questions targeting institutional shifts, journalistic autonomy, and media transformations.",
+          "descriptionBn": ""
         },
         {
           "step": "02",
           "subheading": "PIPELINE",
+          "subheadingBn": "",
           "title": "Evidence",
-          "description": "We assemble verifiable empirical material: multi-channel broadcast archives, stratified audience panels, and computational traces."
+          "titleBn": "",
+          "description": "We assemble verifiable empirical material: multi-channel broadcast archives, stratified audience panels, and computational traces.",
+          "descriptionBn": ""
         },
         {
           "step": "03",
           "subheading": "PIPELINE",
+          "subheadingBn": "",
           "title": "Analysis",
-          "description": "We deploy cross-verified quantitative coding, network topology, and qualitative ethnography to detect patterns and anomalies."
+          "titleBn": "",
+          "description": "We deploy cross-verified quantitative coding, network topology, and qualitative ethnography to detect patterns and anomalies.",
+          "descriptionBn": ""
         },
         {
           "step": "04",
           "subheading": "PIPELINE",
+          "subheadingBn": "",
           "title": "Insight",
-          "description": "We translate complex findings into accessible monographs, interactive visual repositories, and policy briefings for civic stakeholders."
+          "titleBn": "",
+          "description": "We translate complex findings into accessible monographs, interactive visual repositories, and policy briefings for civic stakeholders.",
+          "descriptionBn": ""
         }
       ]
     },
     "featuredTeam": {
       "title": "Featured Researchers",
+      "titleBn": "",
       "subtitle": "Interdisciplinary scholars, investigative journalists, and computational scientists leading our observatories",
+      "subtitleBn": "",
       "showOnHome": true,
       "featuredMemberIds": ["tariqul-islam", "elena-rostova", "marcus-chen", "ayesha-siddiqua"]
     },
     "bottomCta": {
       "title": "Support Independent Media Research",
+      "titleBn": "",
       "narrative": "Explore open datasets, request specialized newsroom audits, or collaborate with our empirical research fellows.",
+      "narrativeBn": "",
       "primaryCtaText": "Request Dataset Access",
+      "primaryCtaTextBn": "",
       "primaryCtaUrl": "/contact",
       "secondaryCtaText": "Download Annual Report",
+      "secondaryCtaTextBn": "",
       "secondaryCtaUrl": "/publications"
     }
   },
   "aboutPage": {
     "missionBadge": "ABOUT THE ORGANIZATION",
+    "missionBadgeBn": "",
     "missionTitle": "Researching Media. Understanding Society.",
+    "missionTitleBn": "",
     "missionStory": [
       "The Institute of Public Accountability (IPA) was founded in 2021 as an independent, non-partisan research observatory dedicated to empirical investigation into newsroom health, digital platform algorithms, public opinion, and institutional governance.",
       "In an era where information ecosystems are rapidly shifting toward proprietary algorithms, algorithmic feeds, and declining commercial news revenues, society requires neutral, transparent, and rigorous scientific inquiry into how information flows and where power resides.",
       "IPA maintains 24/7 continuous broadcast monitoring facilities, computational web scrapers, representative audience panels, and embedded newsroom ethnographic programs. All our research methodologies, codebooks, and datasets are made available openly for civil society, researchers, and citizens."
     ],
+    "missionStoryBn": ["", "", ""],
     "principles": [
       {
         "id": "p1",
         "number": "01",
         "title": "Independence",
+        "titleBn": "",
         "description": "We protect the independence and integrity of our research.",
-        "detail": "Our operational governance is strictly insulated from partisan agendas, commercial pressure, and external funders. Research questions and methodological determinations belong entirely to our investigative fellows."
+        "descriptionBn": "",
+        "detail": "Our operational governance is strictly insulated from partisan agendas, commercial pressure, and external funders. Research questions and methodological determinations belong entirely to our investigative fellows.",
+        "detailBn": ""
       },
       {
         "id": "p2",
         "number": "02",
         "title": "Evidence",
+        "titleBn": "",
         "description": "Every finding is rooted in rigorous empirical proof.",
-        "detail": "We do not publish opinion or speculation. Every paper, dashboard, and metric is supported by reproducible data pipelines, cross-coded datasets, and rigorous statistical scrutiny."
+        "descriptionBn": "",
+        "detail": "We do not publish opinion or speculation. Every paper, dashboard, and metric is supported by reproducible data pipelines, cross-coded datasets, and rigorous statistical scrutiny.",
+        "detailBn": ""
       },
       {
         "id": "p3",
         "number": "03",
         "title": "Transparency",
+        "titleBn": "",
         "description": "Open methodology, codebooks, and accessible data.",
-        "detail": "We believe in radical epistemic openness. We publish our survey weighting algorithms, NLP classification codebooks, and sampling criteria under Creative Commons licensing."
+        "descriptionBn": "",
+        "detail": "We believe in radical epistemic openness. We publish our survey weighting algorithms, NLP classification codebooks, and sampling criteria under Creative Commons licensing.",
+        "detailBn": ""
       },
       {
         "id": "p4",
         "number": "04",
         "title": "Public Interest",
+        "titleBn": "",
         "description": "Research that remains open, useful, and accountable.",
-        "detail": "Our ultimate mandate is democratic resilience. We translate complex computational findings into actionable policy briefs for regulatory bodies, editorial newsrooms, and civic educators."
+        "descriptionBn": "",
+        "detail": "Our ultimate mandate is democratic resilience. We translate complex computational findings into actionable policy briefs for regulatory bodies, editorial newsrooms, and civic educators.",
+        "detailBn": ""
       }
     ],
     "methodologySteps": [
       {
         "step": "QUESTION",
         "label": "Identify Critical Inquiries",
-        "summary": "Framing urgent social questions about information power, newsroom stability, and digital media dynamics."
+        "labelBn": "",
+        "summary": "Framing urgent social questions about information power, newsroom stability, and digital media dynamics.",
+        "summaryBn": ""
       },
       {
         "step": "RESEARCH",
         "label": "Design Rigorous Methodology",
-        "summary": "Selecting multi-method protocols spanning survey instruments, ethnographic observation, and platform telemetry."
+        "labelBn": "",
+        "summary": "Selecting multi-method protocols spanning survey instruments, ethnographic observation, and platform telemetry.",
+        "summaryBn": ""
       },
       {
         "step": "EVIDENCE",
         "label": "Gather Primary Datasets",
-        "summary": "Harvesting raw multi-channel broadcasts, newspaper archives, and stratified representative sample panels."
+        "labelBn": "",
+        "summary": "Harvesting raw multi-channel broadcasts, newspaper archives, and stratified representative sample panels.",
+        "summaryBn": ""
       },
       {
         "step": "ANALYSIS",
         "label": "Decode Underlying Patterns",
-        "summary": "Executing computational NLP, longitudinal sentiment trends, and qualitative thematic evaluations."
+        "labelBn": "",
+        "summary": "Executing computational NLP, longitudinal sentiment trends, and qualitative thematic evaluations.",
+        "summaryBn": ""
       },
       {
         "step": "INSIGHT",
         "label": "Publish Civic Knowledge",
-        "summary": "Delivering open-access research briefs, executive policy briefings, and interactive datasets for society."
+        "labelBn": "",
+        "summary": "Delivering open-access research briefs, executive policy briefings, and interactive datasets for society.",
+        "summaryBn": ""
       }
     ],
     "governanceEthics": [
@@ -287,75 +375,110 @@ export const INITIAL_CMS_STATE: CmsState = {
       "Double-blind peer review on all long-form research monographs prior to public dissemination.",
       "Mandatory public disclosure of all grant funding, research fellowships, and institutional partnerships."
     ],
+    "governanceEthicsBn": ["", "", "", ""],
     "observatories": [
       {
         "name": "Central Research Headquarters",
+        "nameBn": "",
         "role": "Main Administration, Qualitative Desks & Executive Office",
+        "roleBn": "",
         "address": "Level 7, Press & Research Tower, 42 Gulshan Avenue, Dhaka 1212",
+        "addressBn": "",
         "phone": "+880 2 988 4120",
         "email": "office@mediaresearch.org"
       },
       {
         "name": "Broadcast & Telemetry Laboratory",
+        "nameBn": "",
         "role": "Continuous 24/7 Broadcast Archiving & Computational NLP Cluster",
+        "roleBn": "",
         "address": "Dhanmondi Media Hub, Road 27, Dhaka",
+        "addressBn": "",
         "phone": "+880 2 811 7450",
         "email": "telemetry@mediaresearch.org"
       }
     ],
     "heroBanner": {
       "badgeText": "ABOUT THE ORGANIZATION",
+      "badgeTextBn": "",
       "title": "Researching Media. Understanding Society.",
+      "titleBn": "",
       "subtext": "An independent empirical research institute observing newsrooms, platforms, public opinion, and institutional accountability.",
+      "subtextBn": "",
       "bgStyle": "gradient"
     },
     "whoWeAre": {
       "heading": "Institute of Public Accountability",
+      "headingBn": "",
       "description": "An independent media research organization focused on understanding the changing landscape of journalism, information, and public trust.",
+      "descriptionBn": "",
       "badgeText": "INDEPENDENT RESEARCH · EVIDENCE-DRIVEN",
+      "badgeTextBn": "",
       "foundedYear": "2021",
       "mainPhoto": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80",
+      "mainPhotoBn": "",
       "highlightCardText": "Operating independent empirical observatories tracking journalism, broadcast streams, digital platform algorithms, and democratic trust.",
+      "highlightCardTextBn": "",
       "narrative": [
         "The Institute of Public Accountability (IPA) was founded in 2021 as an independent, non-partisan research observatory dedicated to empirical investigation into newsroom health, digital platform algorithms, public opinion, and institutional governance.",
         "In an era where information ecosystems are rapidly shifting toward proprietary algorithms, algorithmic feeds, and declining commercial news revenues, society requires neutral, transparent, and rigorous scientific inquiry into how information flows and where power resides.",
         "IPA maintains 24/7 continuous broadcast monitoring facilities, computational web scrapers, representative audience panels, and embedded newsroom ethnographic programs."
-      ]
+      ],
+      "narrativeBn": ["", "", ""]
     },
     "missionPillars": [
       {
         "id": "pil-1",
         "badge": "01 · PILLAR",
+        "badgeBn": "",
         "title": "Editorial & Academic Independence",
-        "quote": "“Insulated from commercial, political, and funder interference.”",
-        "description": "Our operational governance is strictly insulated from partisan agendas, commercial advertisers, and political patrons. Research questions and methodological determinations belong entirely to our investigative fellows."
+        "titleBn": "",
+        "quote": "Insulated from commercial, political, and funder interference.",
+        "quoteBn": "",
+        "description": "Our operational governance is strictly insulated from partisan agendas, commercial advertisers, and political patrons. Research questions and methodological determinations belong entirely to our investigative fellows.",
+        "descriptionBn": ""
       },
       {
         "id": "pil-2",
         "badge": "02 · PILLAR",
+        "badgeBn": "",
         "title": "Empirical Verification",
-        "quote": "“Every finding backed by open, reproducible evidence.”",
-        "description": "We do not publish opinion or speculation. Every paper, dashboard, and metric is supported by reproducible data pipelines, cross-coded datasets, and rigorous statistical scrutiny."
+        "titleBn": "",
+        "quote": "Every finding backed by open, reproducible evidence.",
+        "quoteBn": "",
+        "description": "We do not publish opinion or speculation. Every paper, dashboard, and metric is supported by reproducible data pipelines, cross-coded datasets, and rigorous statistical scrutiny.",
+        "descriptionBn": ""
       },
       {
         "id": "pil-3",
         "badge": "03 · PILLAR",
+        "badgeBn": "",
         "title": "Open Civic Knowledge",
-        "quote": "“Public methodology, codebooks, and datasets.”",
-        "description": "We believe in radical epistemic openness. We publish our survey weighting algorithms, NLP classification codebooks, and sampling criteria under Creative Commons licensing."
+        "titleBn": "",
+        "quote": "Public methodology, codebooks, and datasets.",
+        "quoteBn": "",
+        "description": "We believe in radical epistemic openness. We publish our survey weighting algorithms, NLP classification codebooks, and sampling criteria under Creative Commons licensing.",
+        "descriptionBn": ""
       },
       {
         "id": "pil-4",
         "badge": "04 · PILLAR",
+        "badgeBn": "",
         "title": "Public Interest Defense",
-        "quote": "“Research aimed at strengthening democratic resilience.”",
-        "description": "Our ultimate mandate is democratic resilience. We translate complex computational findings into actionable policy briefs for regulatory bodies, editorial newsrooms, and civic educators."
+        "titleBn": "",
+        "quote": "Research aimed at strengthening democratic resilience.",
+        "quoteBn": "",
+        "description": "Our ultimate mandate is democratic resilience. We translate complex computational findings into actionable policy briefs for regulatory bodies, editorial newsrooms, and civic educators.",
+        "descriptionBn": ""
       }
     ],
     "fromQuestionsToInsight": {
       "heading": "From Questions to Empirical Insight",
+      "headingBn": "",
       "subheading": "How IPA designs longitudinal research studies to defend the public sphere",
+      "subheadingBn": "",
       "ctaText": "Explore Research Beats",
+      "ctaTextBn": "",
       "destinationUrl": "/research"
     }
   },
@@ -371,10 +494,17 @@ export const INITIAL_CMS_STATE: CmsState = {
     },
     "directDetails": {
       "phone": "+880 2 984 5512",
+      "phoneLabel": "Phone",
+      "phoneLabelBn": "",
       "tollFreePhone": "+880 171 000 9821",
+      "tollFreePhoneLabel": "Toll-Free",
+      "tollFreePhoneLabelBn": "",
       "supportEmail": "info@mediaresearch.org",
+      "supportEmailLabelBn": "",
       "researchDeskEmail": "research@mediaresearch.org",
+      "researchDeskEmailLabelBn": "",
       "pressEmail": "media@mediaresearch.org",
+      "pressEmailLabelBn": "",
       "officeLocation": "Level 7, Press & Research Tower, 42 Gulshan Avenue, Dhaka 1212, Bangladesh",
       "officeLocationBn": "লেভেল ৭, প্রেস অ্যান্ড রিসার্চ টাওয়ার, ৪২ গুলশান অ্যাভিনিউ, ঢাকা ১২১২, বাংলাদেশ",
       "workingHours": "Sunday – Thursday: 09:00 – 17:30 BST",
@@ -385,6 +515,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       "targetEmail": "inquiries@mediaresearch.org",
       "autoReply": true,
       "subjectPrefix": "[IPA Research Inquiry]",
+      "subjectPrefixBn": "",
       "requireAffiliation": false
     },
     "faqs": [
@@ -392,73 +523,97 @@ export const INITIAL_CMS_STATE: CmsState = {
         "id": "faq-datasets",
         "category": "resources",
         "categoryLabel": "Public Resources",
+        "categoryLabelBn": "",
         "question": "How can academic researchers and institutions request access to IPA datasets?",
+        "questionBn": "",
         "answer": "We provide open access to anonymized survey microdata, platform audit logs, and longitudinal media tracking corpora to accredited researchers, universities, and civil society investigators under open academic data agreements. Dataset requests can be submitted via the contact form above or sent directly to research@mediaresearch.org with a brief outline of the research intent and institutional affiliation.",
+        "answerBn": "",
         "highlights": [
           "Accessible via Open Academic License",
           "Longitudinal newsroom tracking archives (2019–present)",
           "Algorithmic recommendation scrape logs with full provenance metadata"
-        ]
+        ],
+        "highlightsBn": ["", "", ""]
       },
       {
         "id": "faq-methodology",
         "category": "methodology",
         "categoryLabel": "Methodology & Audits",
+        "categoryLabelBn": "",
         "question": "What scientific standards and peer-review protocols govern IPA published studies?",
+        "questionBn": "",
         "answer": "Every investigation published by IPA follows rigorous pre-registered methodologies, statistical validation checks, and reproducible open-science protocols. Primary empirical briefs undergo double-blind peer review by external methodologists from affiliated universities before publication. All computational pipelines and audit models are benchmarked against standardized algorithmic ethics guidelines.",
+        "answerBn": "",
         "highlights": [
           "Pre-registered research designs & transparency registries",
           "Dual-analyst independent qualitative and quantitative verification",
           "Open-source computational codebooks hosted on public research repos"
-        ]
+        ],
+        "highlightsBn": ["", "", ""]
       },
       {
         "id": "faq-licensing",
         "category": "resources",
         "categoryLabel": "Public Resources",
+        "categoryLabelBn": "",
         "question": "Are IPA publications, policy frameworks, and monitors freely accessible to the public?",
+        "questionBn": "",
         "answer": "Yes. In accordance with our public interest mission, all research reports, quarterly monitors, whitepapers, and pedagogical toolkits are published free of paywalls under Creative Commons licensing (CC BY-NC 4.0). Academic institutions, civil society organizations, and civic journalists are encouraged to read, cite, and redistribute our findings with appropriate attribution.",
+        "answerBn": "",
         "highlights": [
           "100% open-access without subscription or paywall tiers",
           "Complete citation bibliographies & DOIs provided for scholarly indexation",
           "High-resolution charts and infographics available for classroom instruction"
-        ]
+        ],
+        "highlightsBn": ["", "", ""]
       },
       {
         "id": "faq-ethics-sources",
         "category": "ethics",
         "categoryLabel": "Ethics & Confidentiality",
+        "categoryLabelBn": "",
         "question": "How does the institute safeguard whistleblower sources and interview respondent privacy?",
+        "questionBn": "",
         "answer": "IPA conducts research under Institutional Review Board (IRB) ethical approval and strict cryptographic source-protection protocols. Respondent survey identifiers are cryptographically salted and anonymized before analytical ingestion. Qualitative interview notes and whistleblower submissions are maintained in air-gapped, encrypted volumes accessible exclusively to principal investigators.",
+        "answerBn": "",
         "highlights": [
           "Institutional Review Board (IRB) compliance for human-subject research",
           "Cryptographic identity stripping and differential privacy mechanisms",
           "Strict non-disclosure commitments for institutional source interviews"
-        ]
+        ],
+        "highlightsBn": ["", "", ""]
       },
       {
         "id": "faq-newsroom-collabs",
         "category": "partnerships",
         "categoryLabel": "Partnerships",
+        "categoryLabelBn": "",
         "question": "How can newsrooms and civic organizations partner with IPA on investigative audits?",
+        "questionBn": "",
         "answer": "We regularly partner with regional, national, and community newsrooms to perform computational data investigations, verify digital platform amplification anomalies, and map disinformation ecosystems. We provide newsrooms with computational tool training, specialized data journalism workshops, and collaborative forensic assistance on public interest investigations.",
+        "answerBn": "",
         "highlights": [
           "Tailored newsroom data audit clinics and investigative tooling",
           "Joint investigation syndication across public media channels",
           "Data verification assistance for contested computational claims"
-        ]
+        ],
+        "highlightsBn": ["", "", ""]
       },
       {
         "id": "faq-press-commentary",
         "category": "partnerships",
         "categoryLabel": "Partnerships",
+        "categoryLabelBn": "",
         "question": "Can journalists quote IPA fellows or request broadcast commentary on breaking developments?",
+        "questionBn": "",
         "answer": "Yes. Our resident researchers, directors, and methodology fellows regularly provide expert commentary, background briefings, and television analysis on media policy, algorithmic accountability, and civic information trends. Urgent broadcast or press inquiries submitted to media@mediaresearch.org or our hotline are typically addressed within two hours.",
+        "answerBn": "",
         "highlights": [
           "Rapid response desk for breaking media & platform policy developments",
           "Bilingual expert spokespersons for broadcast, radio, and print outlets",
           "Embargoed advance research briefings for credentialed science reporters"
-        ]
+        ],
+        "highlightsBn": ["", "", ""]
       }
     ]
   },
@@ -474,6 +629,37 @@ export const INITIAL_CMS_STATE: CmsState = {
       "outputsCount": "24 Reports & Monographs",
       "timeframe": "2021 – Present (Longitudinal)",
       "status": "Active Longitudinal Beat",
+      "nameBn": "",
+      "taglineBn": "",
+      "descriptionBn": "",
+      "statusBn": "",
+      "timeframeBn": "",
+      "outputsCountBn": "",
+      "imageTitleBn": "",
+      "imageSubtitleBn": "",
+      "leadFellowsBn": ["", "", ""],
+      "metricsBn": [
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" }
+      ],
+      "overviewBn": ["", "", ""],
+      "keyQuestionsBn": ["", "", "", ""],
+      "methodologyDetailsBn": [
+        { "title": "", "protocol": "", "frequency": "", "description": "" },
+        { "title": "", "protocol": "", "frequency": "", "description": "" },
+        { "title": "", "protocol": "", "frequency": "", "description": "" }
+      ],
+      "caseStudiesBn": [
+        { "title": "", "year": "", "summary": "", "impact": "" },
+        { "title": "", "year": "", "summary": "", "impact": "" }
+      ],
+      "publicationsBn": [
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" },
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" },
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" }
+      ],
       "leadFellows": [
         "Dr. Eleanor Vance",
         "Tariq Rahman",
@@ -578,6 +764,37 @@ export const INITIAL_CMS_STATE: CmsState = {
       "outputsCount": "31 Inquiries & Policy Papers",
       "timeframe": "2020 – Present (Continuous)",
       "status": "Continuous Monitoring",
+      "nameBn": "",
+      "taglineBn": "",
+      "descriptionBn": "",
+      "statusBn": "",
+      "timeframeBn": "",
+      "outputsCountBn": "",
+      "imageTitleBn": "",
+      "imageSubtitleBn": "",
+      "leadFellowsBn": ["", "", ""],
+      "metricsBn": [
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" }
+      ],
+      "overviewBn": ["", "", ""],
+      "keyQuestionsBn": ["", "", "", ""],
+      "methodologyDetailsBn": [
+        { "title": "", "protocol": "", "frequency": "", "description": "" },
+        { "title": "", "protocol": "", "frequency": "", "description": "" },
+        { "title": "", "protocol": "", "frequency": "", "description": "" }
+      ],
+      "caseStudiesBn": [
+        { "title": "", "year": "", "summary": "", "impact": "" },
+        { "title": "", "year": "", "summary": "", "impact": "" }
+      ],
+      "publicationsBn": [
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" },
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" },
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" }
+      ],
       "leadFellows": [
         "Dr. Sarah Jenkins",
         "Tariq Rahman",
@@ -682,6 +899,37 @@ export const INITIAL_CMS_STATE: CmsState = {
       "outputsCount": "18 Longitudinal Datasets",
       "timeframe": "2019 – Present (Continuous 24/7)",
       "status": "Continuous Monitoring",
+      "nameBn": "",
+      "taglineBn": "",
+      "descriptionBn": "",
+      "statusBn": "",
+      "timeframeBn": "",
+      "outputsCountBn": "",
+      "imageTitleBn": "",
+      "imageSubtitleBn": "",
+      "leadFellowsBn": ["", "", ""],
+      "metricsBn": [
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" }
+      ],
+      "overviewBn": ["", "", ""],
+      "keyQuestionsBn": ["", "", "", ""],
+      "methodologyDetailsBn": [
+        { "title": "", "protocol": "", "frequency": "", "description": "" },
+        { "title": "", "protocol": "", "frequency": "", "description": "" },
+        { "title": "", "protocol": "", "frequency": "", "description": "" }
+      ],
+      "caseStudiesBn": [
+        { "title": "", "year": "", "summary": "", "impact": "" },
+        { "title": "", "year": "", "summary": "", "impact": "" }
+      ],
+      "publicationsBn": [
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" },
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" },
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" }
+      ],
       "leadFellows": [
         "Dr. Marcus Vance",
         "Nusrat Jahan",
@@ -786,6 +1034,37 @@ export const INITIAL_CMS_STATE: CmsState = {
       "outputsCount": "12 Nationwide Polls",
       "timeframe": "2020 – Present (Annual Surveys)",
       "status": "Annual Cycle",
+      "nameBn": "",
+      "taglineBn": "",
+      "descriptionBn": "",
+      "statusBn": "",
+      "timeframeBn": "",
+      "outputsCountBn": "",
+      "imageTitleBn": "",
+      "imageSubtitleBn": "",
+      "leadFellowsBn": ["", "", ""],
+      "metricsBn": [
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" }
+      ],
+      "overviewBn": ["", "", ""],
+      "keyQuestionsBn": ["", "", "", ""],
+      "methodologyDetailsBn": [
+        { "title": "", "protocol": "", "frequency": "", "description": "" },
+        { "title": "", "protocol": "", "frequency": "", "description": "" },
+        { "title": "", "protocol": "", "frequency": "", "description": "" }
+      ],
+      "caseStudiesBn": [
+        { "title": "", "year": "", "summary": "", "impact": "" },
+        { "title": "", "year": "", "summary": "", "impact": "" }
+      ],
+      "publicationsBn": [
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" },
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" },
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" }
+      ],
       "leadFellows": [
         "Dr. Marcus Vance",
         "Maya Lin",
@@ -890,6 +1169,37 @@ export const INITIAL_CMS_STATE: CmsState = {
       "outputsCount": "19 Research Monographs",
       "timeframe": "2019 – Present (Longitudinal)",
       "status": "Active Longitudinal Beat",
+      "nameBn": "",
+      "taglineBn": "",
+      "descriptionBn": "",
+      "statusBn": "",
+      "timeframeBn": "",
+      "outputsCountBn": "",
+      "imageTitleBn": "",
+      "imageSubtitleBn": "",
+      "leadFellowsBn": ["", "", ""],
+      "metricsBn": [
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" }
+      ],
+      "overviewBn": ["", "", ""],
+      "keyQuestionsBn": ["", "", "", ""],
+      "methodologyDetailsBn": [
+        { "title": "", "protocol": "", "frequency": "", "description": "" },
+        { "title": "", "protocol": "", "frequency": "", "description": "" },
+        { "title": "", "protocol": "", "frequency": "", "description": "" }
+      ],
+      "caseStudiesBn": [
+        { "title": "", "year": "", "summary": "", "impact": "" },
+        { "title": "", "year": "", "summary": "", "impact": "" }
+      ],
+      "publicationsBn": [
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" },
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" },
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" }
+      ],
       "leadFellows": [
         "Dr. Eleanor Vance",
         "Farhan Kabir",
@@ -994,6 +1304,37 @@ export const INITIAL_CMS_STATE: CmsState = {
       "outputsCount": "15 Whitepapers & Guidelines",
       "timeframe": "2022 – Present (High-Growth)",
       "status": "Active Longitudinal Beat",
+      "nameBn": "",
+      "taglineBn": "",
+      "descriptionBn": "",
+      "statusBn": "",
+      "timeframeBn": "",
+      "outputsCountBn": "",
+      "imageTitleBn": "",
+      "imageSubtitleBn": "",
+      "leadFellowsBn": ["", "", ""],
+      "metricsBn": [
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" },
+        { "label": "", "value": "", "detail": "" }
+      ],
+      "overviewBn": ["", "", ""],
+      "keyQuestionsBn": ["", "", "", ""],
+      "methodologyDetailsBn": [
+        { "title": "", "protocol": "", "frequency": "", "description": "" },
+        { "title": "", "protocol": "", "frequency": "", "description": "" },
+        { "title": "", "protocol": "", "frequency": "", "description": "" }
+      ],
+      "caseStudiesBn": [
+        { "title": "", "year": "", "summary": "", "impact": "" },
+        { "title": "", "year": "", "summary": "", "impact": "" }
+      ],
+      "publicationsBn": [
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" },
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" },
+        { "title": "", "type": "", "date": "", "pagesOrSize": "" }
+      ],
       "leadFellows": [
         "Dr. Sarah Jenkins",
         "Farhan Kabir",
@@ -1088,22 +1429,185 @@ export const INITIAL_CMS_STATE: CmsState = {
       ]
     }
   },
+  "workAreas": [
+    {
+      "id": "wa-1",
+      "name": "Technology Accountability & AI Governance",
+      "nameBn": "",
+      "tagline": "Auditing algorithmic systems, synthetic media, and platform governance.",
+      "taglineBn": "",
+      "description": "Investigating how AI and algorithmic systems shape media production, distribution, and public knowledge verification.",
+      "descriptionBn": "",
+      "methods": [
+        "Algorithmic auditing",
+        "Synthetic media detection",
+        "Platform governance analysis"
+      ],
+      "methodsBn": ["", "", ""],
+      "sampleInquiries": [
+        "How do recommendation engines prioritize emotionally charged content?",
+        "What safeguards exist against AI-generated misinformation?"
+      ],
+      "sampleInquiriesBn": ["", ""],
+      "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+      "imageBn": "",
+      "outputsCount": "15 Whitepapers & Guidelines",
+      "outputsCountBn": "",
+      "timeframe": "2022 – Present (High-Growth)",
+      "timeframeBn": "",
+      "status": "Active Longitudinal Beat",
+      "statusBn": ""
+    },
+    {
+      "id": "wa-2",
+      "name": "Media Monitoring & Broadcast Analysis",
+      "nameBn": "",
+      "tagline": "Systematic observation across broadcast, print, and digital spectrums.",
+      "taglineBn": "",
+      "description": "Tracking media coverage, narratives, trends, and emerging issues across television, print, online media, and social platforms.",
+      "descriptionBn": "",
+      "methods": [
+        "24/7 broadcast recording",
+        "OCR print archiving",
+        "Sentiment & framing analysis"
+      ],
+      "methodsBn": ["", "", ""],
+      "sampleInquiries": [
+        "How do broadcast debates frame marginalized communities?",
+        "What biases exist in visual representation across news networks?"
+      ],
+      "sampleInquiriesBn": ["", ""],
+      "image": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80",
+      "imageBn": "",
+      "outputsCount": "18 Longitudinal Datasets",
+      "outputsCountBn": "",
+      "timeframe": "2019 – Present (Continuous 24/7)",
+      "timeframeBn": "",
+      "status": "Continuous Monitoring",
+      "statusBn": ""
+    },
+    {
+      "id": "wa-3",
+      "name": "Public Opinion & Civic Engagement",
+      "nameBn": "",
+      "tagline": "Citizen reception, institutional trust, and factual comprehension.",
+      "taglineBn": "",
+      "description": "Exploring how people consume, interpret, and respond to news and information through nationwide survey panels and qualitative focus sessions.",
+      "descriptionBn": "",
+      "methods": [
+        "Nationwide stratified surveys",
+        "Deliberative polling panels",
+        "Cognitive misperception diagnostics"
+      ],
+      "methodsBn": ["", "", ""],
+      "sampleInquiries": [
+        "What factors determine institutional trust versus viral misinformation?",
+        "How does digital literacy correlate with factual knowledge?"
+      ],
+      "sampleInquiriesBn": ["", ""],
+      "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
+      "imageBn": "",
+      "outputsCount": "12 Nationwide Polls",
+      "outputsCountBn": "",
+      "timeframe": "2020 – Present (Annual Surveys)",
+      "timeframeBn": "",
+      "status": "Annual Cycle",
+      "statusBn": ""
+    }
+  ],
+  "workProcessPillars": [
+    {
+      "id": "wp-1",
+      "step": "01",
+      "title": "Question",
+      "titleBn": "",
+      "subtitle": "Identify Critical Inquiries",
+      "subtitleBn": "",
+      "description": "Framing urgent social questions about information power, newsroom stability, and digital media dynamics.",
+      "descriptionBn": "",
+      "highlights": [
+        "Empirical question formulation",
+        "Stakeholder landscape mapping",
+        "Priority scoping & feasibility review"
+      ],
+      "highlightsBn": ["", "", ""]
+    },
+    {
+      "id": "wp-2",
+      "step": "02",
+      "title": "Research",
+      "titleBn": "",
+      "subtitle": "Design Rigorous Methodology",
+      "subtitleBn": "",
+      "description": "Selecting multi-method protocols spanning survey instruments, ethnographic observation, and platform telemetry.",
+      "descriptionBn": "",
+      "highlights": [
+        "Multi-method protocol design",
+        "Sampling & instrumentation",
+        "Ethical review & IRB clearance"
+      ],
+      "highlightsBn": ["", "", ""]
+    },
+    {
+      "id": "wp-3",
+      "step": "03",
+      "title": "Evidence",
+      "titleBn": "",
+      "subtitle": "Gather Primary Datasets",
+      "subtitleBn": "",
+      "description": "Harvesting raw multi-channel broadcasts, newspaper archives, and stratified representative sample panels.",
+      "descriptionBn": "",
+      "highlights": [
+        "Continuous broadcast archiving",
+        "Stratified panel recruitment",
+        "Computational data pipelines"
+      ],
+      "highlightsBn": ["", "", ""]
+    },
+    {
+      "id": "wp-4",
+      "step": "04",
+      "title": "Analysis",
+      "titleBn": "",
+      "subtitle": "Decode Underlying Patterns",
+      "subtitleBn": "",
+      "description": "Executing computational NLP, longitudinal sentiment trends, and qualitative thematic evaluations.",
+      "descriptionBn": "",
+      "highlights": [
+        "Cross-coded reliability verification",
+        "Network topology & sentiment modelling",
+        "Peer review & replication checks"
+      ],
+      "highlightsBn": ["", "", ""]
+    }
+  ],
   "team": [
     {
       "id": "tariqul-islam",
       "name": "Dr. Tariqul Islam",
+      "nameBn": "ড. তারিকুল ইসলাম",
       "role": "Research Director",
+      "roleBn": "গবেষণা পরিচালক",
       "category": "leadership",
       "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80",
       "bio": "Oversees the institute’s research agenda, methodology standards, and academic partnerships. Two decades of experience in media sociology and public communications.",
+      "bioBn": "প্রতিষ্ঠানের গবেষণা কর্মসূচি, পদ্ধতিগত মান এবং একাডেমিক অংশীদারিত্ব পরিচালনা করেন। গণমাধ্যম সমাজবিজ্ঞান ও জনসম্পর্কে দুই দশকের অভিজ্ঞতা।",
       "fullBio": "Dr. Tariqul Islam has directed media sociology programs across South Asia and Europe. Prior to co-founding the Institute of Public Accountability, he held research appointments at the Reuters Institute and the London School of Economics. His scholarly work focuses on newsroom institutional transformation, editorial autonomy under political transition, and the structural economics of independent press in emerging democracies.",
+      "fullBioBn": "ড. তারিকুল ইসলাম দক্ষিণ এশিয়া ও ইউরোপ জুড়ে গণমাধ্যম সমাজবিজ্ঞান কার্যক্রম পরিচালনা করেছেন। পাবলিক অ্যাকাউন্টেবিলিটি ইনস্টিটিউট সহ-প্রতিষ্ঠার পূর্বে তিনি রয়টার্স ইনস্টিটিউট ও লন্ডন স্কুল অব ইকোনমিক্সে গবেষণা পদে কাজ করেছেন। তাঁর গবেষণা কাজের মূল বিষয়সমূহ হলো সংবাদালয়ের প্রাতিষ্ঠানিক রূপান্তর, রাজনৈতিক উত্তরণের সময়ে সম্পাদকীয় স্বাধীনতা এবং উদীয়মান গণতন্ত্রে স্বাধীন সংবাদমাধ্যমের কাঠামোগত অর্থনীতি।",
       "researchInterests": [
         "Media & Journalism",
         "Media & Democracy",
         "Editorial Autonomy",
         "Comparative Media Systems"
       ],
+      "researchInterestsBn": [
+        "গণমাধ্যম ও সাংবাদিকতা",
+        "গণমাধ্যম ও গণতন্ত্র",
+        "সম্পাদকীয় স্বাধীনতা",
+        "তুলনামূলক গণমাধ্যম ব্যবস্থা"
+      ],
       "education": "Ph.D. in Media & Communication Studies, University of London",
+      "educationBn": "লন্ডন বিশ্ববিদ্যালয়, গণমাধ্যম ও যোগাযোগ অধ্যয়নে পিএইচডি",
       "recentPublications": [
         "Structural Precarity: The Economic Reorganization of Regional Newsrooms (2024)",
         "Press Freedom in South Asia: Legal Regimes and Digital Realities (2023)"
@@ -1113,18 +1617,29 @@ export const INITIAL_CMS_STATE: CmsState = {
     {
       "id": "elena-rostova",
       "name": "Dr. Elena Rostova",
+      "nameBn": "ড. এলেনা রোস্তোভা",
       "role": "Deputy Director & Head of Methodologies",
+      "roleBn": "উপ-পরিচালক ও পদ্ধতি বিভাগ প্রধান",
       "category": "leadership",
       "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80",
       "bio": "Leads computational social science frameworks, survey design, and data ethics across all research tracks.",
+      "bioBn": "কম্পিউটেশনাল সোশ্যাল সায়েন্স ফ্রেমওয়ার্ক, সার্ভে ডিজাইন এবং সকল গবেষণা ট্র্যাকে ডেটা নীতিশাস্ত্র পরিচালনা করেন।",
       "fullBio": "Dr. Elena Rostova specializes in quantitative methodology, computational text analysis, and representative survey design. She previously led public opinion modeling initiatives at the European Center for Media Studies. At IPA, she directs our continuous monitoring infrastructure and establishes methodological benchmarks for cross-platform data collection.",
+      "fullBioBn": "ড. এলেনা রোস্তোভা পরিমাণমূলক পদ্ধতিবিদ্যা, কম্পিউটেশনাল টেক্সট বিশ্লেষণ এবং প্রতিনিধিত্বমূলক সার্ভে নকশাকরণে বিশেষজ্ঞ। তিনি ইউরোপীয় মিডিয়া স্টাডিজ সেন্টারে জনমত মডেলিং উদ্যোগ পরিচালনা করেছেন। আইপিএ-তে তিনি আমাদের ক্রমাগত মনিটরিং অবকাঠামো পরিচালনা করেন এবং ক্রস-প্ল্যাটফর্ম ডেটা সংগ্রহের জন্য পদ্ধতিগত বেঞ্চমার্ক নির্ধারণ করেন।",
       "researchInterests": [
         "Public Opinion",
         "Computational Social Science",
         "Survey Methodology",
         "Algorithmic Auditing"
       ],
+      "researchInterestsBn": [
+        "জনমত",
+        "কম্পিউটেশনাল সোশ্যাল সায়েন্স",
+        "সার্ভে পদ্ধতিবিদ্যা",
+        "অ্যালগরিদমিক অডিটিং"
+      ],
       "education": "Ph.D. in Quantitative Sociology, University of Oxford",
+      "educationBn": "অক্সফোর্ড বিশ্ববিদ্যালয়, পরিমাণমূলক সমাজবিজ্ঞানে পিএইচডি",
       "recentPublications": [
         "Disentangling Noise: Methodological Frameworks for High-Volume Social Data (2024)",
         "The National Media Trust Barometer: Methodological Review (2023)"
@@ -1134,18 +1649,29 @@ export const INITIAL_CMS_STATE: CmsState = {
     {
       "id": "marcus-chen",
       "name": "Marcus Chen",
+      "nameBn": "মার্কাস চেন",
       "role": "Head of Policy & Institutional Partnerships",
+      "roleBn": "নীতি ও প্রাতিষ্ঠানিক অংশীদারিত্ব বিভাগ প্রধান",
       "category": "leadership",
       "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80",
       "bio": "Coordinates engagement with civil society, press councils, international research networks, and policy bodies.",
+      "bioBn": "নাগরিক সমাজ, সংবাদ পরিষদ, আন্তর্জাতিক গবেষণা নেটওয়ার্ক এবং নীতি প্রতিষ্ঠানগুলোর সাথে সম্পর্ক সমন্বয় করেন।",
       "fullBio": "Marcus Chen brings fifteen years of international experience bridging empirical research and public policy. A former investigative journalist and media law advisor, he translates research findings into actionable policy submissions for independent regulatory consultations, international press freedom tribunals, and academic symposia.",
+      "fullBioBn": "মার্কাস চেন অভিজ্ঞতামূলক গবেষণা ও জননীতির মধ্যে সেতুবন্ধন তৈরিতে পনেরো বছরের আন্তর্জাতিক অভিজ্ঞতা নিয়ে এসেছেন। একজন তদন্তকারী সাংবাদিক ও গণমাধ্যম আইন উপদেষ্টা হিসেবে তিনি গবেষণাফলাফলকে স্বাধীন নিয়ন্ত্রক পরামর্শ, আন্তর্জাতিক সংবাদ স্বাধীনতা ট্রাইবুনাল এবং একাডেমিক সম্মেলনের জন্য কার্যকর নীতি প্রতিবেদনে রূপান্তরিত করেন।",
       "researchInterests": [
         "Media Law",
         "Platform Governance",
         "Public Service Broadcasting",
         "Information Rights"
       ],
+      "researchInterestsBn": [
+        "গণমাধ্যম আইন",
+        "প্ল্যাটফর্ম শাসন",
+        "জনসেবা সম্প্রচার",
+        "তথ্য অধিকার"
+      ],
       "education": "LL.M. in International Information & Media Law, Columbia University",
+      "educationBn": "কলাম্বিয়া বিশ্ববিদ্যালয়, আন্তর্জাতিক তথ্য ও গণমাধ্যম আইনে এলএলএম",
       "recentPublications": [
         "Regulatory Frontiers: Balancing Platform Accountability with Free Expression (2024)"
       ],
@@ -1154,18 +1680,29 @@ export const INITIAL_CMS_STATE: CmsState = {
     {
       "id": "ayesha-siddiqua",
       "name": "Ayesha Siddiqua",
+      "nameBn": "আয়েশা সিদ্দিকা",
       "role": "Senior Media Analyst — Broadcast & Newsroom Studies",
+      "roleBn": "বরিষ্ঠ গণমাধ্যম বিশ্লেষক — সম্প্রচার ও সংবাদালয় গবেষণা",
       "category": "research",
       "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80",
       "bio": "Directs qualitative newsroom investigations, editor interviews, and prime-time broadcast content framing audits.",
+      "bioBn": "গুণগত সংবাদালয় তদন্ত, সম্পাদক সাক্ষাৎকার এবং প্রাইম-টাইম সম্প্রচার বিষয়বস্তু ফ্রেমিং অডিট পরিচালনা করেন।",
       "fullBio": "Ayesha Siddiqua has spent a decade analyzing newsroom workflows, representation in prime-time television, and conflict reporting ethics. Her field research spans more than 60 newsrooms across South Asia, focusing on gender representation in editorial boards and safety protocols for investigative journalists.",
+      "fullBioBn": "আয়েশা সিদ্দিকা এক দশক ধরে সংবাদালয়ের কার্যপ্রবাহ, প্রাইম-টাইম টেলিভিশনে প্রতিনিধিত্ব এবং সংঘাত রিপোর্টিং নীতিশাস্ত্র বিশ্লেষণ করে আসছেন। তাঁর ক্ষেত্রগবেষণা দক্ষিণ এশিয়া জুড়ে ৬০-এর বেশি সংবাদালয়কে অন্তর্ভুক্ত করে, যা সম্পাদকীয় পরিষদে লিঙ্গ প্রতিনিধিত্ব এবং তদন্তকারী সাংবাদিকদের নিরাপত্তা প্রোটোকলে মনোযোগী।",
       "researchInterests": [
         "Broadcast Framing",
         "Newsroom Ethnography",
         "Gender Representation",
         "Investigative Journalism"
       ],
+      "researchInterestsBn": [
+        "সম্প্রচার ফ্রেমিং",
+        "সংবাদালয় নৃতত্ত্ব",
+        "লিঙ্গ প্রতিনিধিত্ব",
+        "তদন্তকারী সাংবাদিকতা"
+      ],
       "education": "M.Phil. in Journalism Studies, University of Dhaka",
+      "educationBn": "ঢাকা বিশ্ববিদ্যালয়, সাংবাদিকতা অধ্যয়নে এমফিল",
       "recentPublications": [
         "Gender and Voice in Prime-Time Television Broadcasts: A Five-Year Audit (2024)"
       ],
@@ -1174,18 +1711,29 @@ export const INITIAL_CMS_STATE: CmsState = {
     {
       "id": "david-k-thorne",
       "name": "Dr. David K. Thorne",
+      "nameBn": "ড. ডেভিড কে. থর্ন",
       "role": "Lead Computational Scientist & AI Fellow",
+      "roleBn": "প্রধান কম্পিউটেশনাল বিজ্ঞানী ও এআই ফেলো",
       "category": "research",
       "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80",
       "bio": "Researches synthetic media generation, algorithmic curation engines, and machine learning models in journalism.",
+      "bioBn": "সিন্থেটিক মিডিয়া উৎপাদন, অ্যালগরিদমিক কিউরেশন ইঞ্জিন এবং সাংবাদিকতায় মেশিন লার্নিং মডেল নিয়ে গবেষণা করেন।",
       "fullBio": "Dr. David Thorne works at the intersection of natural language processing and media studies. He investigates algorithmic curation transparency, newsroom AI tool deployment, and provenance architectures for visual and audio documentation. He is a frequent contributor to open-source algorithmic auditing toolkits.",
+      "fullBioBn": "ড. ডেভিড থর্ন ন্যাচারাল ল্যাঙ্গুয়েজ প্রসেসিং ও গণমাধ্যম অধ্যয়নের ছেদবিন্দুতে কাজ করেন। তিনি অ্যালগরিদমিক কিউরেশনের স্বচ্ছতা, সংবাদালয়ে এআই সরঞ্জাম মোতায়েন এবং দৃশ্য-শ্রব্য নথিপত্রের উৎস সনাক্তকরণ স্থাপত্য অনুসন্ধান করেন। তিনি ওপেন-সোর্স অ্যালগরিদমিক অডিটিং টুলকিটের নিয়মিত অবদানকারী।",
       "researchInterests": [
         "Technology & AI",
         "Synthetic Media",
         "Algorithmic Transparency",
         "Natural Language Processing"
       ],
+      "researchInterestsBn": [
+        "প্রযুক্তি ও এআই",
+        "সিন্থেটিক মিডিয়া",
+        "অ্যালগরিদমিক স্বচ্ছতা",
+        "ন্যাচারাল ল্যাঙ্গুয়েজ প্রসেসিং"
+      ],
       "education": "Ph.D. in Computer Science & Information Science, ETH Zurich",
+      "educationBn": "ইটিএইচ জুরিখ, কম্পিউটার বিজ্ঞান ও তথ্য বিজ্ঞানে পিএইচডি",
       "recentPublications": [
         "Provenance and Veracity: Auditing Generative Media in Public Discourse (2025)",
         "Automated Journalism in Practice: Editorial Safeguards and Omission Biases (2024)"
@@ -1195,18 +1743,29 @@ export const INITIAL_CMS_STATE: CmsState = {
     {
       "id": "nusrat-jahan",
       "name": "Nusrat Jahan",
+      "nameBn": "নুসরাত জাহান",
       "role": "Lead Public Opinion Analyst & Survey Methodologist",
+      "roleBn": "প্রধান জনমত বিশ্লেষক ও সার্ভে পদ্ধতিবিদ্যা বিশেষজ্ঞ",
       "category": "research",
       "image": "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=800&q=80",
       "bio": "Designs national representative survey instruments, focus group protocols, and public perception tracking indices.",
+      "bioBn": "জাতীয় প্রতিনিধিত্বমূলক সার্ভে সরঞ্জাম, ফোকাস গ্রুপ প্রোটোকল এবং জনমত ট্র্যাকিং সূচক নকশা করেন।",
       "fullBio": "Nusrat Jahan leads the organization’s annual National Media Trust Barometer. Her research investigates the cognitive mechanisms through which citizens process disputed news events, evaluate authoritative sourcing, and negotiate information scarcity in rural communities.",
+      "fullBioBn": "নুসরাত জাহান প্রতিষ্ঠানের বার্ষিক জাতীয় গণমাধ্যম বিশ্বাস ব্যারোমিটার পরিচালনা করেন। তাঁর গবেষণা নাগরিকরা বিতর্কিত সংবাদ ঘটনা কীভাবে প্রক্রিয়াকরণ করেন, কর্তৃপক্ষের উৎস মূল্যায়ন করেন এবং গ্রামীণ সম্প্রদায়ে তথ্য অভাবের মধ্যে কীভাবে মোকাবিলা করেন — তার জ্ঞানতাত্ত্বিক কাঠামো অনুসন্ধান করে।",
       "researchInterests": [
         "Public Opinion",
         "Media Trust Indices",
         "Cognitive Reception",
         "Civic Literacy"
       ],
+      "researchInterestsBn": [
+        "জনমত",
+        "গণমাধ্যম বিশ্বাস সূচক",
+        "জ্ঞানতাত্ত্বিক গ্রহণ",
+        "নাগরিক সাক্ষরতা"
+      ],
       "education": "M.Sc. in Social Research Methods, London School of Economics",
+      "educationBn": "লন্ডন স্কুল অব ইকোনমিক্স, সামাজিক গবেষণা পদ্ধতিতে এমএসসি",
       "recentPublications": [
         "Citizens in Uncertainty: Cognitive Patterns of Media Verification (2024)"
       ],
@@ -1215,18 +1774,29 @@ export const INITIAL_CMS_STATE: CmsState = {
     {
       "id": "julian-richter",
       "name": "Julian Richter",
+      "nameBn": "জুলিয়ান রিখটার",
       "role": "Digital Investigations & Platform Governance Lead",
+      "roleBn": "ডিজিটাল তদন্ত ও প্ল্যাটফর্ম শাসন বিভাগ প্রধান",
       "category": "research",
       "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80",
       "bio": "Specializes in network analysis of digital information ecosystems, viral distribution mechanics, and coordination networks.",
+      "bioBn": "ডিজিটাল তথ্য বাস্তুতন্ত্রের নেটওয়ার্ক বিশ্লেষণ, ভাইরাল বিতরণ বিদ্যুত এবং সমন্বয় নেটওয়ার্কে বিশেষজ্ঞ।",
       "fullBio": "Julian Richter directs open-source investigations into cross-platform coordinated campaigns, digital influence operations, and micro-targeting in public elections. His analytical models have unraveled bot networks and documented automated harassment campaigns targeting civic reporters.",
+      "fullBioBn": "জুলিয়ান রিখটার ক্রস-প্ল্যাটফর্ম সমন্বিত প্রচারণা, ডিজিটাল প্রভাব অপারেশন এবং জননির্বাচনে মাইক্রো-টার্গেটিং বিষয়ে ওপেন-সোর্স তদন্ত পরিচালনা করেন। তাঁর বিশ্লেষণাত্মক মডেল বট নেটওয়ার্ক উন্মোচন করেছে এবং নাগরিক সাংবাদিকদের লক্ষ্য করে স্বয়ংক্রিয় হয়রানি প্রচারণার নথিভুক্ত করেছে।",
       "researchInterests": [
         "Digital Media",
         "Information Ecosystems",
         "Network Analysis",
         "Disinformation Mechanics"
       ],
+      "researchInterestsBn": [
+        "ডিজিটাল মিডিয়া",
+        "তথ্য বাস্তুতন্ত্র",
+        "নেটওয়ার্ক বিশ্লেষণ",
+        "ভুয়াল তথ্য বিদ্যুত"
+      ],
       "education": "M.A. in Digital Humanities & Data Science, King’s College London",
+      "educationBn": "কিংস কলেজ লন্ডন, ডিজিটাল হিউম্যানিটিজ ও ডেটা সায়েন্সে এমএ",
       "recentPublications": [
         "Mapping Information Cascades: Velocity and Amplification on Short-Form Video (2024)"
       ],
@@ -1235,18 +1805,29 @@ export const INITIAL_CMS_STATE: CmsState = {
     {
       "id": "farhana-kabir",
       "name": "Farhana Kabir",
+      "nameBn": "ফারহানা কাবির",
       "role": "Longitudinal Media Monitoring Coordinator",
+      "roleBn": "দীর্ঘমেয়াদি গণমাধ্যম মনিটরিং সমন্বয়ক",
       "category": "research",
       "image": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80",
       "bio": "Coordinates 24/7 broadcast and digital print recording operations, archival coding teams, and metadata indexing.",
+      "bioBn": "২৪/৭ সম্প্রচার ও ডিজিটাল প্রিন্ট রেকর্ডিং অপারেশন, সংরক্ষণাগার কোডিং দল এবং মেটাডেটা ইনডেক্সিং সমন্বয় করেন।",
       "fullBio": "Farhana Kabir oversees the daily operations of IPA’s monitoring laboratory, which archives 18 broadcast television feeds, 32 national daily newspapers, and 120 digital portals. She ensures strict inter-coder reliability and maintains our proprietary news taxonomy schema.",
+      "fullBioBn": "ফারহানা কাবির আইপিএ মনিটরিং ল্যাবরাটরির দৈনিক অপারেশন তত্ত্বাবধান করেন, যা ১৮টি সম্প্রচার টেলিভিশন ফিড, ৩২টি জাতীয় দৈনিক পত্রিকা এবং ১২০টি ডিজিটাল পোর্টাল সংরক্ষণ করে। তিনি কঠোর ইন্টার-কোডার নির্ভুলতা নিশ্চিত করেন এবং আমাদের স্বতন্ত্র সংবাদ শ্রেণিবিন্যাস স্কিমা বজায় রাখেন।",
       "researchInterests": [
         "Media Monitoring",
         "Content Analysis",
         "Broadcast Archiving",
         "Taxonomy Design"
       ],
+      "researchInterestsBn": [
+        "গণমাধ্যম মনিটরিং",
+        "বিষয়বস্তু বিশ্লেষণ",
+        "সম্প্রচার সংরক্ষণ",
+        "শ্রেণিবিন্যাস নকশাকরণ"
+      ],
       "education": "M.S.S. in Mass Communication and Journalism, University of Rajshahi",
+      "educationBn": "রাজশাহী বিশ্ববিদ্যালয়, গণযোগাযোগ ও সাংবাদিকতায় এমএসএস",
       "recentPublications": [
         "The IPA Broadcast Coding Standard: An Operational Guide (2023)"
       ],

@@ -73,23 +73,48 @@ model ResearchBeat {
   viewCount            Int?
   createdAt            DateTime @default(now()) @db.DateTime(3)
   updatedAt            DateTime @updatedAt @db.DateTime(3)
+  nameBn               String? @db.Text
+  taglineBn            String? @db.Text
+  descriptionBn        String? @db.Text
+  summaryBn            String? @db.Text
+  methodologyBn        String? @db.Text
+  researchNarrativeBn  String? @db.Text
+  statusBn             String? @db.Text
+  timeframeBn          String? @db.Text
+  outputsCountBn       String? @db.Text
+  imageTitleBn         String? @db.Text
+  imageSubtitleBn      String? @db.Text
+  leadFellowsBn        Json?
+  metricsBn            Json?
+  overviewBn           Json?
+  keyQuestionsBn       Json?
+  methodologyDetailsBn Json?
+  caseStudiesBn        Json?
+  publicationsBn       Json?
 }
 
 model TeamMember {
-  id                 String @id @default(uuid())
-  name               String
-  role               String
-  category           String
-  teamType           String?
-  image              String
-  bio                String @db.Text
-  fullBio            String? @db.Text
-  researchInterests  Json
-  focusAreas         Json
-  education          String?
-  recentPublications Json
-  email              String
-  twitter            String?
+  id                   String  @id @default(uuid())
+  name                 String
+  nameBn               String? @db.Text
+  role                 String
+  roleBn               String? @db.Text
+  category             String
+  teamType             String?
+  image                String
+  bio                  String  @db.Text
+  bioBn                String? @db.Text
+  fullBio              String? @db.Text
+  fullBioBn            String? @db.Text
+  researchInterests    Json
+  researchInterestsBn  Json?
+  focusAreas           Json
+  focusAreasBn         Json?
+  education            String?
+  educationBn          String? @db.Text
+  recentPublications   Json
+  email                String
+  twitter              String?
   linkedin             String?
   scholar              String?
   order                Int?
@@ -112,18 +137,55 @@ model Publication {
 }
 
 model Inquiry {
-  id               String  @id @default(uuid())
+  id               String   @id @default(uuid())
   date             String
-  name             String  @db.Text
-  organization     String  @db.Text
+  name             String   @db.Text
+  organization     String   @db.Text
   email            String
-  topic            String  @db.Text
-  message          String  @db.Text
+  topic            String   @db.Text
+  message          String   @db.Text
   requestedDataset String?
   status           String
   notes            String? @db.Text
   createdAt        DateTime @default(now()) @db.DateTime(3)
   updatedAt        DateTime @updatedAt @db.DateTime(3)
+}
+
+model WorkArea {
+  id               String   @id @default(uuid())
+  name             String
+  tagline          String   @db.Text
+  description      String   @db.Text
+  methods          Json
+  sampleInquiries  Json
+  image            String
+  outputsCount     String
+  timeframe        String
+  status           String
+  nameBn           String?  @db.Text
+  taglineBn        String?  @db.Text
+  descriptionBn    String?  @db.Text
+  methodsBn        Json?
+  sampleInquiriesBn Json?
+  imageBn          String?
+  outputsCountBn   String?
+  createdAt        DateTime @default(now()) @db.DateTime(3)
+  updatedAt        DateTime @updatedAt @db.DateTime(3)
+}
+
+model WorkProcessPillar {
+  id          String   @id @default(uuid())
+  step        String
+  title       String
+  subtitle    String
+  description String   @db.Text
+  highlights  Json
+  titleBn     String?  @db.Text
+  subtitleBn  String?  @db.Text
+  descriptionBn String? @db.Text
+  highlightsBn Json?
+  createdAt   DateTime @default(now()) @db.DateTime(3)
+  updatedAt   DateTime @updatedAt @db.DateTime(3)
 }
 
 model ActivityLog {

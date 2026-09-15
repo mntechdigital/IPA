@@ -1,4 +1,4 @@
-import { WorkCategory } from '../types';
+import { WorkCategory, WorkProcessPillar } from '../types';
 
 export const WORK_AREAS: WorkCategory[] = [
   {
@@ -87,10 +87,10 @@ export const WORK_AREAS: WorkCategory[] = [
   },
 ];
 
-export const WORK_PROCESS_PILLARS = [
+export const WORK_PROCESS_PILLARS: WorkProcessPillar[] = [
   {
     id: 'research',
-    number: '01',
+    step: '01',
     title: 'Research',
     subtitle: 'Rigorous Primary Inquiry',
     description: 'We formulate hypothesis-driven research agendas that investigate structural changes in journalism, platform power, and audience behavior using empirical methods.',
@@ -98,7 +98,7 @@ export const WORK_PROCESS_PILLARS = [
   },
   {
     id: 'analysis',
-    number: '02',
+    step: '02',
     title: 'Analysis',
     subtitle: 'Pattern & Narrative Synthesis',
     description: 'We deconstruct complex information flows, coding news content against objective criteria to identify institutional biases, structural shifts, and narrative framing.',
@@ -106,7 +106,7 @@ export const WORK_PROCESS_PILLARS = [
   },
   {
     id: 'monitoring',
-    number: '03',
+    step: '03',
     title: 'Monitoring',
     subtitle: 'Continuous Environmental Tracking',
     description: 'We maintain continuous monitoring across hundreds of broadcast channels, digital outlets, and print editions, creating longitudinal datasets of record.',
@@ -114,7 +114,7 @@ export const WORK_PROCESS_PILLARS = [
   },
   {
     id: 'insights',
-    number: '04',
+    step: '04',
     title: 'Insights',
     subtitle: 'Actionable Public Knowledge',
     description: 'We translate complex empirical datasets into clear, accessible briefs, monographs, and policy frameworks designed for civic understanding and institutional reform.',

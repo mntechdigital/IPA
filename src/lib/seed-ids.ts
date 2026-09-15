@@ -7,6 +7,8 @@ import type {
   PublicationItem,
   ResearchBeat,
   TeamMember,
+  WorkArea,
+  WorkProcessPillar,
 } from '../types';
 
 const NAMESPACE = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
@@ -55,6 +57,20 @@ export function translateSeedState(s: CmsState): CmsState {
     return { ...m, id: uuid };
   });
 
+  const workAreaMap = new Map<string, string>();
+  const workAreas: WorkArea[] = (s.workAreas ?? []).map((wa) => {
+    const uuid = isUuid(wa.id) ? wa.id : stableUuid(`work-area:${wa.id}`);
+    workAreaMap.set(wa.id, uuid);
+    return { ...wa, id: uuid };
+  });
+
+  const workPillarMap = new Map<string, string>();
+  const workProcessPillars: WorkProcessPillar[] = (s.workProcessPillars ?? []).map((wp) => {
+    const uuid = isUuid(wp.id) ? wp.id : stableUuid(`work-pillar:${wp.id}`);
+    workPillarMap.set(wp.id, uuid);
+    return { ...wp, id: uuid };
+  });
+
   const publications: PublicationItem[] = s.publications.map((p) => ({
     ...p,
     id: isUuid(p.id) ? p.id : stableUuid(`pub:${p.id}`),
@@ -79,5 +95,15 @@ export function translateSeedState(s: CmsState): CmsState {
   const inquiries: InquirySubmission[] = s.inquiries.map((q) => ({ ...q, id: isUuid(q.id) ? q.id : stableUuid(`inq:${q.id}`) }));
   const activityLogs: ActivityLog[] = (s.activityLogs ?? []).map((l) => ({ ...l, id: isUuid(l.id) ? l.id : stableUuid(`act:${l.id}`) }));
 
-  return { ...s, homePage, researchBeats, team, publications, inquiries, activityLogs };
+  return {
+    ...s,
+    homePage,
+    researchBeats,
+    team,
+    publications,
+    inquiries,
+    activityLogs,
+    workAreas,
+    workProcessPillars,
+  };
 }

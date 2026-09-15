@@ -25,7 +25,7 @@ import { TEAM_MEMBERS } from '../../../data/team';
 import { APPROACH_STEPS } from '../../../data/approach';
 import { CTASection } from '../../../components/CTASection';
 import { useLanguage } from '../../../context/LanguageContext';
-import { APPROACH_STEPS_BN, TEAM_MEMBERS_BN } from '../../../data/translations';
+import { APPROACH_STEPS_BN } from '../../../data/translations';
 
 const STATIC_BEAT_MAP: Record<string, string> = {
   '01': 'media-journalism',
@@ -59,14 +59,48 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
   const heroBadge = isBn ? content?.homePage?.badgeBn : content?.homePage?.badge;
   const heroHeadline = isBn ? content?.homePage?.heroHeadlineBn : content?.homePage?.heroHeadline;
   const heroSubtitle = isBn ? content?.homePage?.heroSubtitleBn : content?.homePage?.heroSubtitle;
-  const primaryCta = content?.homePage?.primaryCtaText;
+  const primaryCta = isBn ? content?.homePage?.primaryCtaTextBn : content?.homePage?.primaryCtaText;
+  const secondaryCta = isBn ? content?.homePage?.secondaryCtaTextBn : content?.homePage?.secondaryCtaText;
+  const countersBadge = isBn ? content?.homePage?.countersBadgeBn : content?.homePage?.countersBadge;
   const homeMetrics = (content?.homePage?.homeMetrics ?? []).filter((m) => m.label && m.value);
 
   const tenetQuote = isBn ? content?.homePage?.tenetQuoteBn : content?.homePage?.tenetQuote;
   const tenetSubtitle = isBn ? content?.homePage?.tenetSubtitleBn : content?.homePage?.tenetSubtitle;
-  const tenetBadge = content?.homePage?.tenetBadge;
+  const tenetBadge = isBn ? content?.homePage?.tenetBadgeBn : content?.homePage?.tenetBadge;
 
-  const whatWeDoCards = content?.homePage?.whatWeDo?.cards?.slice(0, 3) ?? [];
+  const rawWhatWeDo = content?.homePage?.whatWeDo;
+  const whatWeDoCards = rawWhatWeDo
+    ? (isBn ? rawWhatWeDo.cardsBn ?? [] : rawWhatWeDo.cards ?? []).slice(0, 3).map((card, idx) => ({
+        ...card,
+        ...(isBn && rawWhatWeDo.cards?.[idx] ? rawWhatWeDo.cards[idx] : {}),
+      }))
+    : [];
+
+  const publicInterest = content?.homePage?.publicInterestBanner;
+  const publicInterestBadge = isBn ? publicInterest?.badgeBn : publicInterest?.badge;
+  const publicInterestTitle = isBn ? publicInterest?.titleBn : publicInterest?.title;
+  const publicInterestDescription = isBn ? publicInterest?.descriptionBn : publicInterest?.description;
+  const publicInterestCtaText = isBn ? publicInterest?.ctaTextBn : publicInterest?.ctaText;
+
+  const areasOfInvestigation = content?.homePage?.areasOfInvestigation;
+  const areasTitle = isBn ? areasOfInvestigation?.titleBn : areasOfInvestigation?.title;
+  const areasSubtitle = isBn ? areasOfInvestigation?.subtitleBn : areasOfInvestigation?.subtitle;
+  const areasFilterLabel = isBn ? areasOfInvestigation?.filterLabelBn : areasOfInvestigation?.filterLabel;
+
+  const howWeWorkData = content?.homePage?.howWeWork;
+  const howWeWorkBadge = isBn ? howWeWorkData?.badgeBn : howWeWorkData?.badge;
+  const howWeWorkTitle = isBn ? howWeWorkData?.titleBn : howWeWorkData?.title;
+  const howWeWorkSubtitle = isBn ? howWeWorkData?.subtitleBn : howWeWorkData?.subtitle;
+
+  const featuredTeamData = content?.homePage?.featuredTeam;
+  const featuredTeamTitle = isBn ? featuredTeamData?.titleBn : featuredTeamData?.title;
+  const featuredTeamSubtitle = isBn ? featuredTeamData?.subtitleBn : featuredTeamData?.subtitle;
+
+  const bottomCtaData = content?.homePage?.bottomCta;
+  const bottomCtaTitle = isBn ? bottomCtaData?.titleBn : bottomCtaData?.title;
+  const bottomCtaNarrative = isBn ? bottomCtaData?.narrativeBn : bottomCtaData?.narrative;
+  const bottomCtaPrimaryText = isBn ? bottomCtaData?.primaryCtaTextBn : bottomCtaData?.primaryCtaText;
+  const bottomCtaSecondaryText = isBn ? bottomCtaData?.secondaryCtaTextBn : bottomCtaData?.secondaryCtaText;
 
   const beatTargets =
     content && content.featuredBeats.length
@@ -80,7 +114,8 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
   });
   const beatMap = { ...STATIC_BEAT_MAP, ...dynamicBeatMap };
 
-  const dbSteps = content?.homePage?.howWeWork?.steps;
+  const dbSteps = howWeWorkData?.steps;
+  const dbStepsBn = howWeWorkData?.stepsBn;
   const staticApproachSteps = APPROACH_STEPS.map((step, idx) => {
     const bn = APPROACH_STEPS_BN[idx];
     return bn
@@ -94,7 +129,23 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
       : step;
   });
   const currentApproachSteps =
-    dbSteps && dbSteps.length ? dbSteps : isBn ? staticApproachSteps : APPROACH_STEPS;
+    dbSteps && dbSteps.length
+      ? isBn && dbStepsBn
+        ? dbStepsBn.map((s) => ({
+            number: s.step,
+            title: s.title,
+            subtitle: s.subheading ?? '',
+            description: s.description,
+          }))
+        : dbSteps.map((s) => ({
+            number: s.step,
+            title: s.title,
+            subtitle: s.subheading ?? '',
+            description: s.description,
+          }))
+      : isBn
+        ? staticApproachSteps
+        : APPROACH_STEPS;
 
   const previewTeam =
     content && content.featuredTeamMembers.length ? content.featuredTeamMembers : TEAM_MEMBERS.slice(0, 4);
@@ -153,7 +204,14 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
   const renderMetrics = () => {
     if (homeMetrics.length >= 4) {
       return homeMetrics.slice(0, 4).map((m, i) =>
-        renderMetricCard(i, METRIC_ICONS[i] ?? Calendar, t(m.label, m.label), m.value, m.label, m.detail)
+        renderMetricCard(
+          i,
+          METRIC_ICONS[i] ?? Calendar,
+          isBn && m.labelBn ? m.labelBn : m.label,
+          isBn && m.valueBn ? m.valueBn : m.value,
+          isBn && m.labelBn ? m.labelBn : m.label,
+          isBn && m.detailBn ? m.detailBn : m.detail
+        )
       );
     }
     return (
@@ -423,21 +481,23 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
             <div className="lg:col-span-7 space-y-5">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] border border-[#0B2A20]/10 text-[11px] sm:text-xs font-bold uppercase tracking-wider">
                 <span className="w-2 h-2 rounded-full bg-[#D2F843] shadow-[0_0_8px_#D2F843]" />
-                <span>{t('Built for Public Interest', 'জনস্বার্থে নিবেদিত')}</span>
+                <span>{publicInterestBadge || t('Built for Public Interest', 'জনস্বার্থে নিবেদিত')}</span>
               </div>
 
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B2A20] leading-snug sm:leading-tight tracking-tight">
-                {t(
-                  'Started as an independent research observatory, now monitoring across 6 key inquiry beats for society.',
-                  'একটি স্বাধীন গবেষণা মানমন্দির হিসেবে যাত্রা শুরু করে বর্তমানে সমাজের জন্য ৬টি গুরুত্বপূর্ণ ক্ষেত্রে নিয়োজিত।'
-                )}
+                {publicInterestTitle ||
+                  t(
+                    'Started as an independent research observatory, now monitoring across 6 key inquiry beats for society.',
+                    'একটি স্বাধীন গবেষণা মানমন্দির হিসেবে যাত্রা শুরু করে বর্তমানে সমাজের জন্য ৬টি গুরুত্বপূর্ণ ক্ষেত্রে নিয়োজিত।'
+                  )}
               </h2>
 
               <p className="text-sm sm:text-base text-[#556B62] leading-relaxed max-w-2xl font-normal">
-                {t(
-                  'We investigate information integrity, algorithmic amplification, and press sustainability. All investigative findings and microdata are released open-access to empower journalists, policymakers, and civic institutions with verified evidence.',
-                  'আমরা তথ্যের বস্তুনিষ্ঠতা, অ্যালগরিদম বিস্তার এবং গণমাধ্যমের টেকসই রূপান্তর নিরীক্ষণ করি। আমাদের সকল গবেষণা প্রতিবেদন ও ডেটাসেট উন্মুক্তভাবে প্রকাশিত হয় যাতে সাংবাদিক ও নাগরিক প্রতিষ্ঠানগুলো যাচাইকৃত প্রমাণাদি ব্যবহার করতে পারে।'
-                )}
+                {publicInterestDescription ||
+                  t(
+                    'We investigate information integrity, algorithmic amplification, and press sustainability. All investigative findings and microdata are released open-access to empower journalists, policymakers, and civic institutions with verified evidence.',
+                    'আমরা তথ্যের বস্তুনিষ্ঠতা, অ্যালগরিদম বিস্তার এবং গণমাধ্যমের টেকসই রূপান্তর নিরীক্ষণ করি। আমাদের সকল গবেষণা প্রতিবেদন ও ডেটাসেট উন্মুক্তভাবে প্রকাশিত হয় যাতে সাংবাদিক ও নাগরিক প্রতিষ্ঠানগুলো যাচাইকৃত প্রমাণাদি ব্যবহার করতে পারে।'
+                  )}
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-3">
@@ -625,11 +685,14 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
           <SectionHeading
             label={t('AREAS OF FOCUS', 'গবেষণার ক্ষেত্রসমূহ')}
             index="03 / 05"
-            title={t('Areas We Explore', 'আমরা যেসব ক্ষেত্রে কাজ করি')}
-            description={t(
-              'Six specialized research domains addressing the systemic questions of news integrity, platform dynamics, and civic reception.',
-              'সংবাদের বস্তুনিষ্ঠতা, প্ল্যাটফর্মের প্রভাব এবং নাগরিক প্রতিক্রিয়ার মূল প্রশ্নসমূহ নিয়ে নিবেদিত ৬টি বিশেষ গবেষণা ক্ষেত্র।'
-            )}
+            title={areasTitle || t('Areas We Explore', 'আমরা যেসব ক্ষেত্রে কাজ করি')}
+            description={
+              areasSubtitle ||
+              t(
+                'Six specialized research domains addressing the systemic questions of news integrity, platform dynamics, and civic reception.',
+                'সংবাদের বস্তুনিষ্ঠতা, প্ল্যাটফর্মের প্রভাব এবং নাগরিক প্রতিক্রিয়ার মূল প্রশ্নসমূহ নিয়ে নিবেদিত ৬টি বিশেষ গবেষণা ক্ষেত্র।'
+              )
+            }
           />
 
           <FocusAreaList
@@ -702,11 +765,14 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
           <SectionHeading
             label={t('OUR APPROACH', 'আমাদের কর্মপদ্ধতি')}
             index="04 / 05"
-            title={t('How We Work', 'আমরা যেভাবে কাজ করি')}
-            description={t(
-              "We combine research, evidence, monitoring, and analysis to develop a clearer understanding of the issues shaping today's information environment.",
-              'তথ্য ও গণমাধ্যম পরিবেশকে সুস্পষ্টভাবে অনুধাবন করতে আমরা গবেষণা, প্রমাণাদি, নিরীক্ষণ ও গভীর বিশ্লেষণের সমন্বয় ঘটাই।'
-            )}
+            title={howWeWorkTitle || t('How We Work', 'আমরা যেভাবে কাজ করি')}
+            description={
+              howWeWorkSubtitle ||
+              t(
+                "We combine research, evidence, monitoring, and analysis to develop a clearer understanding of the issues shaping today's information environment.",
+                'তথ্য ও গণমাধ্যম পরিবেশকে সুস্পষ্টভাবে অনুধাবনicate আমরা গবেষণা, প্রমাণাদি, নিরীক্ষণ ও গভীর বিশ্লেষণের সমন্বয় ঘটাই।'
+              )
+            }
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
@@ -779,10 +845,9 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {previewTeam.map((member) => {
-              const bnMember = TEAM_MEMBERS_BN[member.id];
-              const displayName = isBn && bnMember ? bnMember.nameBn : member.name;
-              const displayRole = isBn && bnMember ? bnMember.roleBn : member.role;
-              const displayBio = isBn && bnMember ? bnMember.bioBn : member.bio;
+              const displayName = isBn && member.nameBn ? member.nameBn : member.name;
+              const displayRole = isBn && member.roleBn ? member.roleBn : member.role;
+              const displayBio = isBn && member.bioBn ? member.bioBn : member.bio;
 
               return (
                 <div

@@ -56,20 +56,27 @@ async function main() {
 
   await prisma.teamMember.deleteMany();
   for (let i = 0; i < s.team.length; i++) {
-    const m = s.team[i];
+    const m: any = s.team[i];
     await prisma.teamMember.create({
       data: {
         id: m.id,
         name: m.name,
+        nameBn: m.nameBn ?? null,
         role: m.role,
+        roleBn: m.roleBn ?? null,
         category: m.category,
         teamType: m.teamType,
         image: m.image,
         bio: m.bio,
+        bioBn: m.bioBn ?? null,
         fullBio: m.fullBio,
+        fullBioBn: m.fullBioBn ?? null,
         researchInterests: (m.researchInterests ?? []) as never,
+        researchInterestsBn: (m.researchInterestsBn ?? null) as never,
         focusAreas: (m.focusAreas ?? []) as never,
+        focusAreasBn: (m.focusAreasBn ?? null) as never,
         education: m.education,
+        educationBn: m.educationBn ?? null,
         recentPublications: (m.recentPublications ?? []) as never,
         email: m.email,
         twitter: m.twitter,

@@ -1,6 +1,6 @@
 ﻿import type { Metadata } from 'next';
 import AboutView from '../_components/AboutView';
-import { getAboutPage, getSiteSettings } from '../../lib/cms-store';
+import { getAboutPage, getSiteSettings } from '../../../lib/cms-store';
 
 export const metadata: Metadata = {
   title: 'About Us — IPA Media Research',
