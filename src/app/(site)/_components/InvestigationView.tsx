@@ -28,15 +28,22 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { WORK_AREAS } from '../../../data/work';
-import { INVESTIGATIONS_DETAIL } from '../../../data/investigationsDetail';
-import { INVESTIGATIONS_DETAIL_BN } from '../../../data/translations';
+import { INITIAL_CMS_STATE } from '../../../data/initialData';
 import { useLanguage } from '../../../context/LanguageContext';
 import { RelatedInsightsCarousel } from '../../../components/RelatedInsightsCarousel';
 import { RequestDatasetModal } from '../../../components/RequestDatasetModal';
 
-export default function InvestigationView({ beat, id }: { beat: ResearchBeat | null | undefined; id: string }) {
+interface InvestigationViewProps {
+  beat: ResearchBeat | null | undefined;
+  id: string;
+  allBeats?: ResearchBeat[];
+}
+
+export default function InvestigationView({ beat, id, allBeats = [] }: InvestigationViewProps) {
   const router = useRouter();
   const investigationId = id;
+  const { isBn, t } = useLanguage();
+
   const onNavigate = (page: PageId) => {
     if (page === 'investigation') return;
     const routes: Record<string, string> = { home: '/', about: '/about', work: '/work', team: '/team', contact: '/contact' };
@@ -47,52 +54,62 @@ export default function InvestigationView({ beat, id }: { beat: ResearchBeat | n
     router.push(`/investigation/${encodeURIComponent(id)}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-  const { isBn, t } = useLanguage();
 
-  const fallback = INVESTIGATIONS_DETAIL[investigationId] || INVESTIGATIONS_DETAIL['media-journalism'];
-  const base = (beat || fallback) as ResearchBeat;
-  const bnData = INVESTIGATIONS_DETAIL_BN[investigationId] || INVESTIGATIONS_DETAIL_BN['media-journalism'];
+  const base = beat;
+  const currentWorkArea = WORK_AREAS.find((area) => area.id === (beat?.category || investigationId));
 
   const currentInvestigation = {
     ...base,
-    name: isBn && base.nameBn ? base.nameBn : base.name,
-    tagline: isBn && base.taglineBn ? base.taglineBn : base.tagline,
-    status: isBn && base.statusBn ? base.statusBn : base.status,
-    timeframe: isBn && base.timeframeBn ? base.timeframeBn : base.timeframe,
-    leadFellows: isBn && base.leadFellowsBn && base.leadFellowsBn.length > 0 ? base.leadFellowsBn : base.leadFellows,
-    metrics: isBn && base.metricsBn && base.metricsBn.length > 0
+    name: isBn && base?.nameBn ? base.nameBn : base?.name ?? '',
+    tagline: isBn && base?.taglineBn ? base.taglineBn : base?.tagline ?? '',
+    status: isBn && base?.statusBn ? base.statusBn : base?.status ?? '',
+    timeframe: isBn && base?.timeframeBn ? base.timeframeBn : base?.timeframe ?? '',
+    leadFellows: isBn && base?.leadFellowsBn && base.leadFellowsBn.length > 0 ? base.leadFellowsBn : base?.leadFellows ?? [],
+    metrics: isBn && base?.metricsBn && base.metricsBn.length > 0
       ? base.metricsBn.map((m) => ({ label: m.label || '', value: m.value || '', detail: m.detail || '' }))
-      : base.metrics,
-    overview: isBn && base.overviewBn && base.overviewBn.length > 0 ? base.overviewBn : base.overview,
-    keyQuestions: isBn && base.keyQuestionsBn && base.keyQuestionsBn.length > 0 ? base.keyQuestionsBn : base.keyQuestions,
-    methodologyDetails: isBn && base.methodologyDetailsBn && base.methodologyDetailsBn.length > 0
+      : base?.metrics ?? [],
+    overview: isBn && base?.overviewBn && base.overviewBn.length > 0 ? base.overviewBn : base?.overview ?? [],
+    keyQuestions: isBn && base?.keyQuestionsBn && base.keyQuestionsBn.length > 0 ? base.keyQuestionsBn : base?.keyQuestions ?? [],
+    methodologyDetails: isBn && base?.methodologyDetailsBn && base.methodologyDetailsBn.length > 0
       ? base.methodologyDetailsBn.map((m) => ({
           title: m.title || '',
           protocol: m.protocol || '',
           frequency: m.frequency || '',
           description: m.description || '',
         }))
-      : base.methodologyDetails,
-    caseStudies: isBn && base.caseStudiesBn && base.caseStudiesBn.length > 0
+      : base?.methodologyDetails ?? [],
+    caseStudies: isBn && base?.caseStudiesBn && base.caseStudiesBn.length > 0
       ? base.caseStudiesBn.map((c) => ({
           title: c.title || '',
           year: c.year || '',
           summary: c.summary || '',
           impact: c.impact || '',
         }))
-      : base.caseStudies,
-    publications: isBn && base.publicationsBn && base.publicationsBn.length > 0
+      : base?.caseStudies ?? [],
+    publications: isBn && base?.publicationsBn && base.publicationsBn.length > 0
       ? base.publicationsBn.map((p, idx) => ({
-          ...base.publications[idx],
+          ...base?.publications[idx] ?? { title: '', type: '', date: '', pagesOrSize: '' },
           title: p.title || '',
           type: p.type || '',
           date: p.date || '',
           pagesOrSize: p.pagesOrSize || '',
         }))
-      : base.publications,
+      : base?.publications ?? [],
+    id: base?.id ?? '',
+    beatNumber: base?.beatNumber ?? '',
+    category: base?.category ?? '',
+    description: isBn && base?.descriptionBn ? base.descriptionBn : (base?.description ?? ''),
+    image: isBn && base?.imageBn ? base.imageBn : (base?.image ?? ''),
+    outputsCount: isBn && base?.outputsCountBn ? base.outputsCountBn : (base?.outputsCount ?? ''),
+    summary: isBn && base?.summaryBn ? base.summaryBn : (base?.summary ?? ''),
+    methodology: isBn && base?.methodologyBn ? base.methodologyBn : (base?.methodology ?? ''),
+    primaryMethodologies: isBn && base?.primaryMethodologiesBn && base.primaryMethodologiesBn.length > 0
+      ? base.primaryMethodologiesBn
+      : (base?.primaryMethodologies && base.primaryMethodologies.length > 0 ? base.primaryMethodologies : (currentWorkArea?.methods ?? [])),
+    imageTitle: isBn && base?.imageTitleBn ? base.imageTitleBn : (base?.imageTitle ?? ''),
+    imageSubtitle: isBn && base?.imageSubtitleBn ? base.imageSubtitleBn : (base?.imageSubtitle ?? ''),
+    researchNarrative: isBn && base?.researchNarrativeBn ? base.researchNarrativeBn : (base?.researchNarrative ?? ''),
   };
-
-  const currentWorkArea = WORK_AREAS.find((area) => area.id === (beat?.category || investigationId));
 
   const [activeTab, setActiveTab] = useState<'overview' | 'methodology' | 'cases' | 'publications'>('overview');
   const [copiedLink, setCopiedLink] = useState(false);
@@ -103,7 +120,9 @@ export default function InvestigationView({ beat, id }: { beat: ResearchBeat | n
     setCurrentUrl(window.location.href);
   }, []);
 
-  const allResearch = Object.values(INVESTIGATIONS_DETAIL);
+  const allResearch = allBeats && allBeats.length > 0
+    ? allBeats
+    : Object.values(INITIAL_CMS_STATE.researchBeats);
 
   const shareTitle = `${currentInvestigation.name} — Institute of Public Accountability (IPA)`;
   const shareSummary = `Empirical research insight: "${currentInvestigation.tagline}" via IPA Research #${currentInvestigation.beatNumber}.`;
@@ -155,8 +174,7 @@ export default function InvestigationView({ beat, id }: { beat: ResearchBeat | n
           <div className="hidden">
             {allResearch.map((b) => {
               const isCurrent = b.id === currentInvestigation.id;
-              const beatBn = INVESTIGATIONS_DETAIL_BN[b.id];
-              const beatName = isBn && beatBn?.nameBn ? beatBn.nameBn : b.name;
+              const beatName = isBn && b.nameBn ? b.nameBn : b.name;
               return (
                 <button
                   key={b.id}
@@ -197,7 +215,7 @@ export default function InvestigationView({ beat, id }: { beat: ResearchBeat | n
               </h1>
 
               <p className="font-sans text-lg sm:text-2xl text-[#D2F843] font-medium leading-relaxed mb-6">
-                &ldquo;{currentInvestigation.tagline}&rdquo;
+                “{currentInvestigation.tagline}”
               </p>
 
               <div className="flex flex-wrap items-center gap-6 text-xs font-mono text-white/70">
@@ -365,7 +383,10 @@ export default function InvestigationView({ beat, id }: { beat: ResearchBeat | n
                     {t('Primary Methodologies', 'প্রধান গবেষণা পদ্ধতি')}
                   </h2>
                   <div className="flex flex-wrap gap-2.5">
-                    {currentWorkArea?.methods.map((method) => (
+                    {(currentInvestigation.primaryMethodologies.length > 0
+                      ? currentInvestigation.primaryMethodologies
+                      : (currentWorkArea?.methods ?? [])
+                    ).map((method) => (
                       <span
                         key={method}
                         className="px-3.5 py-2 rounded-xl bg-[#F6F9F4] border border-[#E2EAE4] text-sm text-[#0D1F18] font-medium"
@@ -727,10 +748,12 @@ export default function InvestigationView({ beat, id }: { beat: ResearchBeat | n
             <div className="flex items-center gap-3">
               <span className="text-xs font-mono text-[#556B62]">{t('Next Research:', 'পরবর্তী গবেষণা:')}</span>
               {(() => {
+                if (!allResearch || allResearch.length === 0) return null;
                 const currentIndex = allResearch.findIndex((b) => b.id === currentInvestigation.id);
-                const nextResearch = allResearch[(currentIndex + 1) % allResearch.length];
-                const nextBn = INVESTIGATIONS_DETAIL_BN[nextResearch.id];
-                const nextName = isBn && nextBn?.nameBn ? nextBn.nameBn : nextResearch.name;
+                const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % allResearch.length : 0;
+                const nextResearch = allResearch[nextIndex];
+                if (!nextResearch) return null;
+                const nextName = isBn && nextResearch.nameBn ? nextResearch.nameBn : nextResearch.name;
                 return (
                   <button
                     onClick={() => {

@@ -11,6 +11,7 @@ import {
   MonitoringTelemetry,
   PublicationItem,
   ResearchBeat,
+  ResearchPageData,
   SiteSettings,
   TeamMember,
   WorkArea,
@@ -55,6 +56,19 @@ export async function getContactPage(): Promise<ContactPageData | null> {
 
 export async function updateContactPage(data: ContactPageData): Promise<void> {
   await db.contactPageData.upsert({ where: { id: SINGLETON.contact }, update: { data: data as object }, create: { id: SINGLETON.contact, data: data as object } });
+}
+
+export async function getResearchPage(): Promise<ResearchPageData> {
+  const row = await db.researchPageData.findUnique({ where: { id: SINGLETON.research } });
+  return (row?.data ?? {}) as unknown as ResearchPageData;
+}
+
+export async function updateResearchPage(data: ResearchPageData): Promise<void> {
+  await db.researchPageData.upsert({
+    where: { id: SINGLETON.research },
+    update: { data: data as object },
+    create: { id: SINGLETON.research, data: data as object },
+  });
 }
 
 export async function getSiteSettings(): Promise<SiteSettings> {
@@ -133,6 +147,10 @@ export async function createResearchBeat(data: ResearchBeat): Promise<ResearchBe
       methodologyDetailsBn: ((data as any).methodologyDetailsBn ?? null) as never,
       caseStudiesBn: ((data as any).caseStudiesBn ?? null) as never,
       publicationsBn: ((data as any).publicationsBn ?? null) as never,
+      primaryMethodologiesBn: ((data as any).primaryMethodologiesBn ?? null) as never,
+      sampleInquiries: (data.sampleInquiries ?? []) as never,
+      sampleInquiriesBn: ((data as any).sampleInquiriesBn ?? null) as never,
+      imageBn: (data as any).imageBn ?? null,
     },
   });
   return row as unknown as ResearchBeat;
@@ -183,6 +201,10 @@ export async function updateResearchBeat(id: string, data: ResearchBeat): Promis
       methodologyDetailsBn: ((data as any).methodologyDetailsBn ?? null) as never,
       caseStudiesBn: ((data as any).caseStudiesBn ?? null) as never,
       publicationsBn: ((data as any).publicationsBn ?? null) as never,
+      primaryMethodologiesBn: ((data as any).primaryMethodologiesBn ?? null) as never,
+      sampleInquiries: (data.sampleInquiries ?? []) as never,
+      sampleInquiriesBn: ((data as any).sampleInquiriesBn ?? null) as never,
+      imageBn: (data as any).imageBn ?? null,
     },
   });
   return row as unknown as ResearchBeat;
@@ -513,6 +535,7 @@ export async function resetCmsData(): Promise<void> {
   await db.workProcessPillar.deleteMany();
   await db.monitoringTelemetry.deleteMany();
   await db.contactPageData.deleteMany();
+  await db.researchPageData.deleteMany();
   await db.aboutPageData.deleteMany();
   await db.homePageData.deleteMany();
   await db.siteSettings.deleteMany();
@@ -524,9 +547,10 @@ export async function resetCmsData(): Promise<void> {
   await db.homePageData.create({ data: { id: SINGLETON.home, data: s.homePage as object } });
   await db.aboutPageData.create({ data: { id: SINGLETON.about, data: s.aboutPage as object } });
   if (s.contactPage) await db.contactPageData.create({ data: { id: SINGLETON.contact, data: s.contactPage as object } });
+  if (s.researchPage) await db.researchPageData.create({ data: { id: SINGLETON.research, data: s.researchPage as object } });
   await db.monitoringTelemetry.create({ data: { id: SINGLETON.monitoring, data: s.monitoring as object } });
   for (const beat of Object.values(s.researchBeats)) {
-    await db.researchBeat.create({ data: { id: beat.id, slug: beat.slug ?? null, beatNumber: beat.beatNumber, category: beat.category, name: beat.name, tagline: beat.tagline, description: beat.description, image: beat.image, outputsCount: beat.outputsCount, timeframe: beat.timeframe, status: beat.status, leadFellows: (beat.leadFellows ?? []) as never, metrics: (beat.metrics ?? []) as never, overview: (beat.overview ?? []) as never, keyQuestions: (beat.keyQuestions ?? []) as never, methodologyDetails: (beat.methodologyDetails ?? []) as never, caseStudies: (beat.caseStudies ?? []) as never, publications: (beat.publications ?? []) as never, summary: beat.summary, methodology: beat.methodology, primaryMethodologies: (beat.primaryMethodologies ?? []) as never, imageTitle: beat.imageTitle, imageSubtitle: beat.imageSubtitle, researchNarrative: beat.researchNarrative, viewCount: beat.viewCount ?? 0, nameBn: (beat as any).nameBn ?? null, taglineBn: (beat as any).taglineBn ?? null, descriptionBn: (beat as any).descriptionBn ?? null, summaryBn: (beat as any).summaryBn ?? null, methodologyBn: (beat as any).methodologyBn ?? null, researchNarrativeBn: (beat as any).researchNarrativeBn ?? null, statusBn: (beat as any).statusBn ?? null, timeframeBn: (beat as any).timeframeBn ?? null, outputsCountBn: (beat as any).outputsCountBn ?? null, imageTitleBn: (beat as any).imageTitleBn ?? null, imageSubtitleBn: (beat as any).imageSubtitleBn ?? null, leadFellowsBn: ((beat as any).leadFellowsBn ?? null) as never, metricsBn: ((beat as any).metricsBn ?? null) as never, overviewBn: ((beat as any).overviewBn ?? null) as never, keyQuestionsBn: ((beat as any).keyQuestionsBn ?? null) as never, methodologyDetailsBn: ((beat as any).methodologyDetailsBn ?? null) as never, caseStudiesBn: ((beat as any).caseStudiesBn ?? null) as never, publicationsBn: ((beat as any).publicationsBn ?? null) as never } });
+    await db.researchBeat.create({ data: { id: beat.id, slug: beat.slug ?? null, beatNumber: beat.beatNumber, category: beat.category, name: beat.name, tagline: beat.tagline, description: beat.description, image: beat.image, outputsCount: beat.outputsCount, timeframe: beat.timeframe, status: beat.status, leadFellows: (beat.leadFellows ?? []) as never, metrics: (beat.metrics ?? []) as never, overview: (beat.overview ?? []) as never, keyQuestions: (beat.keyQuestions ?? []) as never, methodologyDetails: (beat.methodologyDetails ?? []) as never, caseStudies: (beat.caseStudies ?? []) as never, publications: (beat.publications ?? []) as never, summary: beat.summary, methodology: beat.methodology, primaryMethodologies: (beat.primaryMethodologies ?? []) as never, primaryMethodologiesBn: ((beat as any).primaryMethodologiesBn ?? null) as never, sampleInquiries: (beat.sampleInquiries ?? []) as never, sampleInquiriesBn: ((beat as any).sampleInquiriesBn ?? null) as never, imageBn: (beat as any).imageBn ?? null, imageTitle: beat.imageTitle, imageSubtitle: beat.imageSubtitle, researchNarrative: beat.researchNarrative, viewCount: beat.viewCount ?? 0, nameBn: (beat as any).nameBn ?? null, taglineBn: (beat as any).taglineBn ?? null, descriptionBn: (beat as any).descriptionBn ?? null, summaryBn: (beat as any).summaryBn ?? null, methodologyBn: (beat as any).methodologyBn ?? null, researchNarrativeBn: (beat as any).researchNarrativeBn ?? null, statusBn: (beat as any).statusBn ?? null, timeframeBn: (beat as any).timeframeBn ?? null, outputsCountBn: (beat as any).outputsCountBn ?? null, imageTitleBn: (beat as any).imageTitleBn ?? null, imageSubtitleBn: (beat as any).imageSubtitleBn ?? null, leadFellowsBn: ((beat as any).leadFellowsBn ?? null) as never, metricsBn: ((beat as any).metricsBn ?? null) as never, overviewBn: ((beat as any).overviewBn ?? null) as never, keyQuestionsBn: ((beat as any).keyQuestionsBn ?? null) as never, methodologyDetailsBn: ((beat as any).methodologyDetailsBn ?? null) as never, caseStudiesBn: ((beat as any).caseStudiesBn ?? null) as never, publicationsBn: ((beat as any).publicationsBn ?? null) as never } });
   }
   for (const area of (s.workAreas ?? [])) {
     await db.workArea.create({ data: { id: area.id, name: area.name, tagline: area.tagline, description: area.description, methods: (area.methods ?? []) as never, sampleInquiries: (area.sampleInquiries ?? []) as never, image: area.image, outputsCount: area.outputsCount, timeframe: area.timeframe, status: area.status, nameBn: (area as any).nameBn ?? null, taglineBn: (area as any).taglineBn ?? null, descriptionBn: (area as any).descriptionBn ?? null, methodsBn: ((area as any).methodsBn ?? null) as never, sampleInquiriesBn: ((area as any).sampleInquiriesBn ?? null) as never, imageBn: (area as any).imageBn ?? null, outputsCountBn: (area as any).outputsCountBn ?? null } });
@@ -541,7 +565,7 @@ export async function resetCmsData(): Promise<void> {
 }
 
 export async function importCmsState(payload: Partial<CmsState>): Promise<void> {
-  const merged = { ...INITIAL_CMS_STATE, ...payload, settings: { ...INITIAL_CMS_STATE.settings, ...(payload.settings || {}) }, homePage: { ...INITIAL_CMS_STATE.homePage, ...(payload.homePage || {}) }, aboutPage: { ...INITIAL_CMS_STATE.aboutPage, ...(payload.aboutPage || {}) }, contactPage: payload.contactPage || INITIAL_CMS_STATE.contactPage, researchBeats: payload.researchBeats ?? INITIAL_CMS_STATE.researchBeats, team: payload.team ?? INITIAL_CMS_STATE.team, publications: payload.publications ?? INITIAL_CMS_STATE.publications, monitoring: payload.monitoring ?? INITIAL_CMS_STATE.monitoring, inquiries: payload.inquiries ?? INITIAL_CMS_STATE.inquiries, activityLogs: payload.activityLogs ?? [], workAreas: payload.workAreas ?? INITIAL_CMS_STATE.workAreas, workProcessPillars: payload.workProcessPillars ?? INITIAL_CMS_STATE.workProcessPillars };
+  const merged = { ...INITIAL_CMS_STATE, ...payload, settings: { ...INITIAL_CMS_STATE.settings, ...(payload.settings || {}) }, homePage: { ...INITIAL_CMS_STATE.homePage, ...(payload.homePage || {}) }, aboutPage: { ...INITIAL_CMS_STATE.aboutPage, ...(payload.aboutPage || {}) }, contactPage: payload.contactPage || INITIAL_CMS_STATE.contactPage, researchPage: payload.researchPage || INITIAL_CMS_STATE.researchPage, researchBeats: payload.researchBeats ?? INITIAL_CMS_STATE.researchBeats, team: payload.team ?? INITIAL_CMS_STATE.team, publications: payload.publications ?? INITIAL_CMS_STATE.publications, monitoring: payload.monitoring ?? INITIAL_CMS_STATE.monitoring, inquiries: payload.inquiries ?? INITIAL_CMS_STATE.inquiries, activityLogs: payload.activityLogs ?? [], workAreas: payload.workAreas ?? INITIAL_CMS_STATE.workAreas, workProcessPillars: payload.workProcessPillars ?? INITIAL_CMS_STATE.workProcessPillars };
   const s = translateSeedState(merged);
   await resetCmsData();
   await db.cmsMeta.update({ where: { id: SINGLETON.meta }, data: { version: s.version ?? '1.0.0', lastUpdated: new Date(s.lastUpdated ?? Date.now()) } });
@@ -549,9 +573,10 @@ export async function importCmsState(payload: Partial<CmsState>): Promise<void> 
   await db.homePageData.update({ where: { id: SINGLETON.home }, data: { data: s.homePage as object } });
   await db.aboutPageData.update({ where: { id: SINGLETON.about }, data: { data: s.aboutPage as object } });
   if (s.contactPage) { await db.contactPageData.upsert({ where: { id: SINGLETON.contact }, update: { data: s.contactPage as object }, create: { id: SINGLETON.contact, data: s.contactPage as object } }); }
+  if (s.researchPage) { await db.researchPageData.upsert({ where: { id: SINGLETON.research }, update: { data: s.researchPage as object }, create: { id: SINGLETON.research, data: s.researchPage as object } }); }
   await db.monitoringTelemetry.update({ where: { id: SINGLETON.monitoring }, data: { data: s.monitoring as object } });
   for (const beat of Object.values(s.researchBeats)) {
-    await db.researchBeat.upsert({ where: { id: beat.id }, update: { slug: beat.slug ?? null, beatNumber: beat.beatNumber, category: beat.category, name: beat.name, tagline: beat.tagline, description: beat.description, image: beat.image, outputsCount: beat.outputsCount, timeframe: beat.timeframe, status: beat.status, leadFellows: (beat.leadFellows ?? []) as never, metrics: (beat.metrics ?? []) as never, overview: (beat.overview ?? []) as never, keyQuestions: (beat.keyQuestions ?? []) as never, methodologyDetails: (beat.methodologyDetails ?? []) as never, caseStudies: (beat.caseStudies ?? []) as never, publications: (beat.publications ?? []) as never, summary: beat.summary, methodology: beat.methodology, primaryMethodologies: (beat.primaryMethodologies ?? []) as never, imageTitle: beat.imageTitle, imageSubtitle: beat.imageSubtitle, researchNarrative: beat.researchNarrative, viewCount: beat.viewCount ?? 0, nameBn: (beat as any).nameBn ?? null, taglineBn: (beat as any).taglineBn ?? null, descriptionBn: (beat as any).descriptionBn ?? null, summaryBn: (beat as any).summaryBn ?? null, methodologyBn: (beat as any).methodologyBn ?? null, researchNarrativeBn: (beat as any).researchNarrativeBn ?? null, statusBn: (beat as any).statusBn ?? null, timeframeBn: (beat as any).timeframeBn ?? null, outputsCountBn: (beat as any).outputsCountBn ?? null, imageTitleBn: (beat as any).imageTitleBn ?? null, imageSubtitleBn: (beat as any).imageSubtitleBn ?? null, leadFellowsBn: ((beat as any).leadFellowsBn ?? null) as never, metricsBn: ((beat as any).metricsBn ?? null) as never, overviewBn: ((beat as any).overviewBn ?? null) as never, keyQuestionsBn: ((beat as any).keyQuestionsBn ?? null) as never, methodologyDetailsBn: ((beat as any).methodologyDetailsBn ?? null) as never, caseStudiesBn: ((beat as any).caseStudiesBn ?? null) as never, publicationsBn: ((beat as any).publicationsBn ?? null) as never }, create: { id: beat.id, slug: beat.slug ?? null, beatNumber: beat.beatNumber, category: beat.category, name: beat.name, tagline: beat.tagline, description: beat.description, image: beat.image, outputsCount: beat.outputsCount, timeframe: beat.timeframe, status: beat.status, leadFellows: (beat.leadFellows ?? []) as never, metrics: (beat.metrics ?? []) as never, overview: (beat.overview ?? []) as never, keyQuestions: (beat.keyQuestions ?? []) as never, methodologyDetails: (beat.methodologyDetails ?? []) as never, caseStudies: (beat.caseStudies ?? []) as never, publications: (beat.publications ?? []) as never, summary: beat.summary, methodology: beat.methodology, primaryMethodologies: (beat.primaryMethodologies ?? []) as never, imageTitle: beat.imageTitle, imageSubtitle: beat.imageSubtitle, researchNarrative: beat.researchNarrative, viewCount: beat.viewCount ?? 0, nameBn: (beat as any).nameBn ?? null, taglineBn: (beat as any).taglineBn ?? null, descriptionBn: (beat as any).descriptionBn ?? null, summaryBn: (beat as any).summaryBn ?? null, methodologyBn: (beat as any).methodologyBn ?? null, researchNarrativeBn: (beat as any).researchNarrativeBn ?? null, statusBn: (beat as any).statusBn ?? null, timeframeBn: (beat as any).timeframeBn ?? null, outputsCountBn: (beat as any).outputsCountBn ?? null, imageTitleBn: (beat as any).imageTitleBn ?? null, imageSubtitleBn: (beat as any).imageSubtitleBn ?? null, leadFellowsBn: ((beat as any).leadFellowsBn ?? null) as never, metricsBn: ((beat as any).metricsBn ?? null) as never, overviewBn: ((beat as any).overviewBn ?? null) as never, keyQuestionsBn: ((beat as any).keyQuestionsBn ?? null) as never, methodologyDetailsBn: ((beat as any).methodologyDetailsBn ?? null) as never, caseStudiesBn: ((beat as any).caseStudiesBn ?? null) as never, publicationsBn: ((beat as any).publicationsBn ?? null) as never } });
+    await db.researchBeat.upsert({ where: { id: beat.id }, update: { slug: beat.slug ?? null, beatNumber: beat.beatNumber, category: beat.category, name: beat.name, tagline: beat.tagline, description: beat.description, image: beat.image, outputsCount: beat.outputsCount, timeframe: beat.timeframe, status: beat.status, leadFellows: (beat.leadFellows ?? []) as never, metrics: (beat.metrics ?? []) as never, overview: (beat.overview ?? []) as never, keyQuestions: (beat.keyQuestions ?? []) as never, methodologyDetails: (beat.methodologyDetails ?? []) as never, caseStudies: (beat.caseStudies ?? []) as never, publications: (beat.publications ?? []) as never, summary: beat.summary, methodology: beat.methodology, primaryMethodologies: (beat.primaryMethodologies ?? []) as never, primaryMethodologiesBn: ((beat as any).primaryMethodologiesBn ?? null) as never, sampleInquiries: (beat.sampleInquiries ?? []) as never, sampleInquiriesBn: ((beat as any).sampleInquiriesBn ?? null) as never, imageBn: (beat as any).imageBn ?? null, imageTitle: beat.imageTitle, imageSubtitle: beat.imageSubtitle, researchNarrative: beat.researchNarrative, viewCount: beat.viewCount ?? 0, nameBn: (beat as any).nameBn ?? null, taglineBn: (beat as any).taglineBn ?? null, descriptionBn: (beat as any).descriptionBn ?? null, summaryBn: (beat as any).summaryBn ?? null, methodologyBn: (beat as any).methodologyBn ?? null, researchNarrativeBn: (beat as any).researchNarrativeBn ?? null, statusBn: (beat as any).statusBn ?? null, timeframeBn: (beat as any).timeframeBn ?? null, outputsCountBn: (beat as any).outputsCountBn ?? null, imageTitleBn: (beat as any).imageTitleBn ?? null, imageSubtitleBn: (beat as any).imageSubtitleBn ?? null, leadFellowsBn: ((beat as any).leadFellowsBn ?? null) as never, metricsBn: ((beat as any).metricsBn ?? null) as never, overviewBn: ((beat as any).overviewBn ?? null) as never, keyQuestionsBn: ((beat as any).keyQuestionsBn ?? null) as never, methodologyDetailsBn: ((beat as any).methodologyDetailsBn ?? null) as never, caseStudiesBn: ((beat as any).caseStudiesBn ?? null) as never, publicationsBn: ((beat as any).publicationsBn ?? null) as never }, create: { id: beat.id, slug: beat.slug ?? null, beatNumber: beat.beatNumber, category: beat.category, name: beat.name, tagline: beat.tagline, description: beat.description, image: beat.image, outputsCount: beat.outputsCount, timeframe: beat.timeframe, status: beat.status, leadFellows: (beat.leadFellows ?? []) as never, metrics: (beat.metrics ?? []) as never, overview: (beat.overview ?? []) as never, keyQuestions: (beat.keyQuestions ?? []) as never, methodologyDetails: (beat.methodologyDetails ?? []) as never, caseStudies: (beat.caseStudies ?? []) as never, publications: (beat.publications ?? []) as never, summary: beat.summary, methodology: beat.methodology, primaryMethodologies: (beat.primaryMethodologies ?? []) as never, primaryMethodologiesBn: ((beat as any).primaryMethodologiesBn ?? null) as never, sampleInquiries: (beat.sampleInquiries ?? []) as never, sampleInquiriesBn: ((beat as any).sampleInquiriesBn ?? null) as never, imageBn: (beat as any).imageBn ?? null, imageTitle: beat.imageTitle, imageSubtitle: beat.imageSubtitle, researchNarrative: beat.researchNarrative, viewCount: beat.viewCount ?? 0, nameBn: (beat as any).nameBn ?? null, taglineBn: (beat as any).taglineBn ?? null, descriptionBn: (beat as any).descriptionBn ?? null, summaryBn: (beat as any).summaryBn ?? null, methodologyBn: (beat as any).methodologyBn ?? null, researchNarrativeBn: (beat as any).researchNarrativeBn ?? null, statusBn: (beat as any).statusBn ?? null, timeframeBn: (beat as any).timeframeBn ?? null, outputsCountBn: (beat as any).outputsCountBn ?? null, imageTitleBn: (beat as any).imageTitleBn ?? null, imageSubtitleBn: (beat as any).imageSubtitleBn ?? null, leadFellowsBn: ((beat as any).leadFellowsBn ?? null) as never, metricsBn: ((beat as any).metricsBn ?? null) as never, overviewBn: ((beat as any).overviewBn ?? null) as never, keyQuestionsBn: ((beat as any).keyQuestionsBn ?? null) as never, methodologyDetailsBn: ((beat as any).methodologyDetailsBn ?? null) as never, caseStudiesBn: ((beat as any).caseStudiesBn ?? null) as never, publicationsBn: ((beat as any).publicationsBn ?? null) as never } });
   }
   for (const area of (s.workAreas ?? [])) {
     await db.workArea.upsert({ where: { id: area.id }, update: { name: area.name, tagline: area.tagline, description: area.description, methods: (area.methods ?? []) as never, sampleInquiries: (area.sampleInquiries ?? []) as never, image: area.image, outputsCount: area.outputsCount, timeframe: area.timeframe, status: area.status, nameBn: (area as any).nameBn ?? null, taglineBn: (area as any).taglineBn ?? null, descriptionBn: (area as any).descriptionBn ?? null, methodsBn: ((area as any).methodsBn ?? null) as never, sampleInquiriesBn: ((area as any).sampleInquiriesBn ?? null) as never, imageBn: (area as any).imageBn ?? null, outputsCountBn: (area as any).outputsCountBn ?? null }, create: { id: area.id, name: area.name, tagline: area.tagline, description: area.description, methods: (area.methods ?? []) as never, sampleInquiries: (area.sampleInquiries ?? []) as never, image: area.image, outputsCount: area.outputsCount, timeframe: area.timeframe, status: area.status, nameBn: (area as any).nameBn ?? null, taglineBn: (area as any).taglineBn ?? null, descriptionBn: (area as any).descriptionBn ?? null, methodsBn: ((area as any).methodsBn ?? null) as never, sampleInquiriesBn: ((area as any).sampleInquiriesBn ?? null) as never, imageBn: (area as any).imageBn ?? null, outputsCountBn: (area as any).outputsCountBn ?? null } });
@@ -567,12 +592,13 @@ export async function importCmsState(payload: Partial<CmsState>): Promise<void> 
 // ---------- Full snapshot ----------
 
 export async function getCmsStateSnapshot(): Promise<Partial<CmsState>> {
-  const [settings, homePage, aboutPage, contactPage, researchBeats, team, publications, monitoring, inquiries, activityLogs, meta, workAreas, workProcessPillars] =
+  const [settings, homePage, aboutPage, contactPage, researchPage, researchBeats, team, publications, monitoring, inquiries, activityLogs, meta, workAreas, workProcessPillars] =
     await Promise.all([
       getSiteSettings(),
       getHomePage(),
       getAboutPage(),
       getContactPage(),
+      getResearchPage(),
       listResearchBeats(),
       listTeamMembers(),
       listPublications(),
@@ -595,6 +621,7 @@ export async function getCmsStateSnapshot(): Promise<Partial<CmsState>> {
     homePage,
     aboutPage,
     contactPage: contactPage ?? undefined,
+    researchPage,
     researchBeats: beatsRecord,
     team,
     publications,

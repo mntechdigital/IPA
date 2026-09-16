@@ -29,6 +29,7 @@ export const SINGLETON = {
   home: stableUuid('ipa-home-page'),
   about: stableUuid('ipa-about-page'),
   contact: stableUuid('ipa-contact-page'),
+  research: stableUuid('ipa-research-page'),
   monitoring: stableUuid('ipa-monitoring'),
 };
 

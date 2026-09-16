@@ -4,6 +4,7 @@ import { Footer } from '../../components/Footer';
 import { ScrollProgress } from '../../components/ScrollProgress';
 import { LanguageProvider } from '../../context/LanguageContext';
 import { getSiteContent } from '../../lib/site-content';
+import PageTransitionWrapper from './PageTransitionWrapper';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +17,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <ScrollProgress />
         <Header settings={settings} />
         <main className="flex-1" id="main-content">
-          {children}
+          <PageTransitionWrapper>{children}</PageTransitionWrapper>
         </main>
         <Footer settings={settings} />
       </div>

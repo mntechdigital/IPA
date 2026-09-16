@@ -9,12 +9,12 @@ import {
   AboutPageData,
   ContactPageData,
   ResearchBeat,
+  ResearchPageData,
   TeamMember,
   PublicationItem,
   MonitoringTelemetry,
   SiteSettings,
   InquirySubmission,
-  WorkArea,
   WorkProcessPillar,
 } from '../types';
 import { INITIAL_CMS_STATE } from '../data/initialData';
@@ -23,7 +23,6 @@ const TAB_ROUTES: Record<string, string> = {
   overview: '/cms',
   home: '/cms/home',
   about: '/cms/about',
-  work: '/cms/work',
   research: '/cms/research',
   teams: '/cms/teams',
   contact: '/cms/contact',
@@ -64,12 +63,12 @@ interface CmsContextType {
   updateHomePage: (partial: Partial<HomePageData>) => void;
   updateAboutPage: (partial: Partial<AboutPageData>) => void;
   updateContactPage: (partial: Partial<ContactPageData>) => void;
+  updateResearchPage: (partial: Partial<ResearchPageData>) => void;
+  updateWorkProcessPillars: (pillars: WorkProcessPillar[]) => void;
   updateResearchBeat: (beatId: string, updated: ResearchBeat) => void;
   recordResearchView: (beatId: string) => void;
   addResearchBeat: (beat: ResearchBeat) => void;
   deleteResearchBeat: (beatId: string) => void;
-  updateWorkAreas: (areas: WorkArea[]) => void;
-  updateWorkProcessPillars: (pillars: WorkProcessPillar[]) => void;
   updateTeamMember: (member: TeamMember) => void;
   addTeamMember: (member: TeamMember) => void;
   deleteTeamMember: (id: string) => void;
@@ -130,7 +129,15 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       try {
         const snapshot = await apiGet<Partial<CmsState>>('/api/cms/state');
         if (!cancelled) {
-          setState((prev) => ({ ...prev, ...snapshot, settings: { ...prev.settings, ...(snapshot.settings || {}) }, homePage: { ...prev.homePage, ...(snapshot.homePage || {}) }, aboutPage: { ...prev.aboutPage, ...(snapshot.aboutPage || {}) }, workAreas: snapshot.workAreas ?? prev.workAreas, workProcessPillars: snapshot.workProcessPillars ?? prev.workProcessPillars }));
+          setState((prev) => ({
+            ...prev,
+            ...snapshot,
+            settings: { ...prev.settings, ...(snapshot.settings || {}) },
+            homePage: { ...prev.homePage, ...(snapshot.homePage || {}) },
+            aboutPage: { ...prev.aboutPage, ...(snapshot.aboutPage || {}) },
+            researchPage: { ...prev.researchPage, ...(snapshot.researchPage || {}) },
+            workProcessPillars: snapshot.workProcessPillars ?? prev.workProcessPillars,
+          }));
         }
       } catch (e) {
         console.error('Failed to load CMS state from API:', e);
@@ -181,6 +188,34 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setNotification({ message: 'Contact settings updated successfully.', type: 'success' });
   }, [recordLog]);
 
+  const updateResearchPage = useCallback((partial: Partial<ResearchPageData>) => {
+    setState((prev) => {
+      const current = prev.researchPage || (INITIAL_CMS_STATE.researchPage as ResearchPageData);
+      const merged: ResearchPageData = {
+        ...current,
+        ...partial,
+        hero: { ...current.hero, ...(partial.hero || {}) },
+        areasSection: { ...current.areasSection, ...(partial.areasSection || {}) },
+        filterPills: { ...current.filterPills, ...(partial.filterPills || {}) },
+        cta: { ...current.cta, ...(partial.cta || {}) },
+        whatOurWorkLooksLike: { ...current.whatOurWorkLooksLike, ...(partial.whatOurWorkLooksLike || {}) },
+      };
+      apiMutate('/api/cms/research-page', 'PUT', merged).catch((e) => console.error('Failed to save research page:', e));
+      const log = recordLog('Updated Research Page content', 'Research');
+      return { ...prev, lastUpdated: new Date().toISOString(), researchPage: merged, activityLogs: [log, ...prev.activityLogs.slice(0, 20)] };
+    });
+    setNotification({ message: 'Research Page settings updated successfully.', type: 'success' });
+  }, [recordLog]);
+
+  const updateWorkProcessPillars = useCallback((pillars: WorkProcessPillar[]) => {
+    setState((prev) => {
+      apiMutate('/api/cms/work-process', 'PUT', pillars).catch((e) => console.error('Failed to save pillars:', e));
+      const log = recordLog('Updated Research Pillars', 'Research');
+      return { ...prev, lastUpdated: new Date().toISOString(), workProcessPillars: pillars, activityLogs: [log, ...prev.activityLogs.slice(0, 20)] };
+    });
+    setNotification({ message: 'Research Pillars updated successfully.', type: 'success' });
+  }, [recordLog]);
+
   const updateResearchBeat = useCallback((beatId: string, updated: ResearchBeat) => {
     setState((prev) => {
       apiMutate(`/api/cms/research/${encodeURIComponent(beatId)}`, 'PATCH', updated).catch((e) => console.error('Failed to save research beat:', e));
@@ -218,24 +253,6 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     });
     setSelectedBeatId(null);
     setNotification({ message: 'Research track removed.', type: 'info' });
-  }, [recordLog]);
-
-  const updateWorkAreas = useCallback((areas: WorkArea[]) => {
-    setState((prev) => {
-      apiMutate('/api/cms/work-areas', 'PUT', areas).catch((e) => console.error('Failed to save work areas:', e));
-      const log = recordLog('Updated Work Areas', 'Work');
-      return { ...prev, lastUpdated: new Date().toISOString(), workAreas: areas, activityLogs: [log, ...prev.activityLogs.slice(0, 20)] };
-    });
-    setNotification({ message: 'Work Areas updated successfully.', type: 'success' });
-  }, [recordLog]);
-
-  const updateWorkProcessPillars = useCallback((pillars: WorkProcessPillar[]) => {
-    setState((prev) => {
-      apiMutate('/api/cms/work-process', 'PUT', pillars).catch((e) => console.error('Failed to save work process pillars:', e));
-      const log = recordLog('Updated Work Process Pillars', 'Work');
-      return { ...prev, lastUpdated: new Date().toISOString(), workProcessPillars: pillars, activityLogs: [log, ...prev.activityLogs.slice(0, 20)] };
-    });
-    setNotification({ message: 'Work Process updated successfully.', type: 'success' });
   }, [recordLog]);
 
   const updateTeamMember = useCallback((member: TeamMember) => {
@@ -421,12 +438,12 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         updateHomePage,
         updateAboutPage,
         updateContactPage,
+        updateResearchPage,
+        updateWorkProcessPillars,
         updateResearchBeat,
         recordResearchView,
         addResearchBeat,
         deleteResearchBeat,
-        updateWorkAreas,
-        updateWorkProcessPillars,
         updateTeamMember,
         addTeamMember,
         deleteTeamMember,

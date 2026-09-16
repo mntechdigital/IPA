@@ -31,7 +31,9 @@ import {
   ChevronRight,
   ExternalLink,
   Eye,
-  FolderKanban
+  FolderKanban,
+  ScrollText,
+  Navigation
 } from 'lucide-react';
 import { useCms } from '../../context/CmsContext';
 import { APP_GRID_PAGES } from '../../data/appGridDefinitions';
@@ -64,7 +66,9 @@ const ICON_MAP: Record<string, React.ElementType> = {
   HelpCircle,
   Globe,
   FileText,
-  Share2
+  Share2,
+  ScrollText,
+  Navigation
 };
 
 interface AppGridHubProps {

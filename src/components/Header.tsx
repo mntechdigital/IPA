@@ -24,7 +24,13 @@ export const Header: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
   const { language, setLanguage, isBn, t } = useLanguage();
 
   const branding = settings?.headerBranding;
-  const orgName = settings?.siteName || ORGANIZATION.name;
+  const orgName = isBn && (settings?.siteName && (settings as any)?.siteNameBn ? (settings as any).siteNameBn : ORGANIZATION.nameBn) ? (isBn && (branding?.lightLogoTextBn || ORGANIZATION.nameBn) ? branding?.lightLogoTextBn || ORGANIZATION.nameBn : settings?.siteName || ORGANIZATION.name) : (settings?.siteName || ORGANIZATION.name);
+  const navItems = settings?.navigation && settings.navigation.length ? settings.navigation : NAV_ITEMS.map((n, i) => ({ id: n.id, label: n.label, labelBn: undefined as string | undefined, url: PAGE_ROUTES[n.id as Exclude<PageId, 'investigation'>] || '/', order: i + 1 }));
+  const displayOrgName = (() => {
+    if (isBn && branding?.lightLogoTextBn) return branding.lightLogoTextBn;
+    if (branding?.lightLogoText) return branding.lightLogoText;
+    return orgName;
+  })();
 
   let currentPage: PageId = 'home';
   if (pathname === '/') {
@@ -110,20 +116,20 @@ export const Header: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
                   IPA
                 </span>
                 <span className="hidden lg:inline-block text-xs font-medium text-[#556B62] border-l border-[#E2EAE4] pl-2.5">
-                  {t(orgName, ORGANIZATION.nameBn)}
+                  {isBn ? (branding?.taglineBn || ORGANIZATION.nameBn) : (branding?.tagline || orgName)}
                 </span>
               </div>
             </button>
 
             {/* Desktop Navigation Links */}
             <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-              {NAV_ITEMS.map((item) => {
-                const isActive = currentPage === item.id;
-                const label = getNavLabel(item.id, item.label);
+              {navItems.map((item) => {
+                const isActive = currentPage === (item.id as PageId);
+                const label = isBn && item.labelBn ? item.labelBn : getNavLabel(item.id, item.label);
                 return (
                   <button
                     key={item.id}
-                    onClick={() => handleNavClick(item.id)}
+                    onClick={() => handleNavClick(item.id as PageId)}
                     className={`text-sm font-semibold transition-colors cursor-pointer relative py-1 ${
                       isActive
                         ? 'text-[#0B2A20] font-bold after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-4 after:h-0.5 after:bg-[#0B2A20] after:rounded-full'
@@ -177,7 +183,7 @@ export const Header: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
                 onClick={() => handleNavClick('contact')}
                 className="hidden sm:inline-flex group items-center gap-3 pl-4 sm:pl-5 pr-1.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#D2F843] text-[#0B2A20] hover:bg-[#bef024] hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer"
               >
-                <span>{branding?.navCtaText || t('Contact Us', 'যোগাযোগ')}</span>
+                <span>{isBn ? (branding?.navCtaTextBn || 'যোগাযোগ') : (branding?.navCtaText || 'Contact Us')}</span>
                 <span className="w-7 h-7 rounded-full bg-black text-white flex items-center justify-center transition-transform group-hover:translate-x-0.5">
                   <ArrowRight className="w-3.5 h-3.5" />
                 </span>
@@ -238,13 +244,13 @@ export const Header: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
               </div>
 
               <nav className="flex flex-col space-y-2">
-                {NAV_ITEMS.map((item, idx) => {
-                  const isActive = currentPage === item.id;
-                  const label = getNavLabel(item.id, item.label);
+                {navItems.map((item, idx) => {
+                  const isActive = currentPage === (item.id as PageId);
+                  const label = isBn && item.labelBn ? item.labelBn : getNavLabel(item.id, item.label);
                   return (
                     <button
                       key={item.id}
-                      onClick={() => handleNavClick(item.id)}
+                      onClick={() => handleNavClick(item.id as PageId)}
                       className={`flex items-center justify-between text-left p-4 rounded-2xl transition-all cursor-pointer ${
                         isActive
                           ? 'bg-[#0B2A20] text-[#D2F843]'
@@ -275,14 +281,14 @@ export const Header: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
                 onClick={() => handleNavClick('contact')}
                 className="w-full flex items-center justify-between pl-6 pr-2 py-2.5 rounded-full bg-[#D2F843] text-[#0B2A20] text-xs font-bold uppercase tracking-wider hover:bg-[#bef024] shadow-md transition-colors"
               >
-                <span>{t('Contact Us', 'যোগাযোগ করুন')}</span>
+                <span>{isBn ? (branding?.navCtaTextBn || 'যোগাযোগ করুন') : (branding?.navCtaText || 'Contact Us')}</span>
                 <span className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center">
                   <ArrowRight className="w-4 h-4" />
                 </span>
               </button>
 
               <div className="text-center text-xs text-[#556B62]">
-                {t(branding?.tagline || ORGANIZATION.tagline, ORGANIZATION.taglineBn)}
+                {isBn ? (branding?.taglineBn || ORGANIZATION.taglineBn) : (branding?.tagline || ORGANIZATION.tagline)}
               </div>
             </div>
           </motion.div>

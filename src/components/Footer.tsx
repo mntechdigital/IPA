@@ -28,11 +28,13 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
   const { t, isBn } = useLanguage();
 
   const orgName = settings?.siteName || ORGANIZATION.name;
-  const tagline =
-    settings?.footerBranding?.tagline ||
-    settings?.headerBranding?.tagline ||
-    'Researching Media. Understanding Society.';
+  const orgNameBn = (settings as any)?.siteNameBn || ORGANIZATION.nameBn;
+  const tagline = isBn
+    ? (settings?.footerBranding?.taglineBn || settings?.headerBranding?.taglineBn || 'গণমাধ্যম গবেষণা। সমাজ অনুধাবন।')
+    : (settings?.footerBranding?.tagline || settings?.headerBranding?.tagline || 'Researching Media. Understanding Society.');
   const establishedYear = settings?.establishedYear || ORGANIZATION.established;
+  const footerCols = settings?.footerNavigation && settings.footerNavigation.length ? settings.footerNavigation : null;
+  const bottomLinks = (settings as any)?.footerBottomLinks as { label: string; labelBn?: string; url?: string }[] | undefined;
   const footerSocials = settings?.socialLinks
     ? Object.entries(settings.socialLinks)
         .filter((entry): entry is [string, string] => Boolean(entry[1]))
@@ -128,7 +130,7 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
               </div>
               <div>
                 <h3 className="text-xl sm:text-2xl text-white font-extrabold tracking-tight">
-                  {isBn ? ORGANIZATION.nameBn : orgName}
+                  {isBn ? (settings?.footerBranding?.footerLogoTextBn || orgNameBn) : (settings?.footerBranding?.footerLogoText || orgName)}
                 </h3>
                 <span className="text-[10px] font-bold tracking-widest uppercase text-[#D2F843] block mt-0.5">
                   {t('Independent Research Observatory', 'স্বাধীন গবেষণা মানমন্দির')}
@@ -137,7 +139,7 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
             </div>
 
             <p className="text-lg font-bold text-[#D2F843]">
-              {t(`“${tagline}”`, '“গণমাধ্যম গবেষণা। সমাজ অনুধাবন।”')}
+              {isBn ? `“${tagline}”` : `“${tagline}”`}
             </p>
 
             <p className="text-sm text-white/70 font-sans leading-relaxed max-w-sm font-normal">
@@ -157,6 +159,29 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
 
           {/* Navigation Columns */}
           <div className="md:col-span-7 lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8">
+            {footerCols ? (
+              footerCols.map((col) => (
+                <div key={col.title}>
+                  <h4 className="text-xs font-bold tracking-widest uppercase text-white mb-6 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D2F843]" />
+                    {isBn && col.titleBn ? col.titleBn : col.title}
+                  </h4>
+                  <ul className="space-y-3.5 text-sm">
+                    {col.links.map((link) => (
+                      <li key={link.label}>
+                        <a
+                          href={link.url}
+                          className="text-white/70 hover:text-[#D2F843] transition-colors cursor-pointer text-left"
+                        >
+                          {isBn && link.labelBn ? link.labelBn : link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            ) : (
+              <>
             {/* About Column */}
             <div>
               <h4 className="text-xs font-bold tracking-widest uppercase text-white mb-6 flex items-center gap-2">
@@ -265,25 +290,27 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
                 </div>
               </div>
             </div>
+              </>
+            )}
           </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/50">
           <div>
-            © 2026 {isBn ? ORGANIZATION.nameBn : orgName}. {t('All rights reserved.', 'সর্বস্বত্ব সংরক্ষিত।')}
+            © 2026 {isBn ? orgNameBn : orgName}. {t('All rights reserved.', 'সর্বস্বত্ব সংরক্ষিত।')}
           </div>
 
           <div className="flex items-center gap-6 [&>span:last-child]:hidden">
-            <span className="hover:text-[#D2F843] transition-colors cursor-pointer">
-              {t('Privacy Policy', 'গোপনীয়তা নীতি')}
-            </span>
-            <span className="hover:text-[#D2F843] transition-colors cursor-pointer">
-              {t('Terms of Use', 'ব্যবহারের শর্তাবলী')}
-            </span>
-            <span className="hover:text-[#D2F843] transition-colors cursor-pointer">
-              {t('Research Ethics', 'গবেষণা নীতিমালা')}
-            </span>
+            {(bottomLinks && bottomLinks.length ? bottomLinks : [
+              { label: 'Privacy Policy', labelBn: 'গোপনীয়তা নীতি' },
+              { label: 'Terms of Use', labelBn: 'ব্যবহারের শর্তাবলী' },
+              { label: 'Research Ethics', labelBn: 'গবেষণা নীতিমালা' },
+            ]).map((l) => (
+              <span key={l.label} className="hover:text-[#D2F843] transition-colors cursor-pointer">
+                {isBn && l.labelBn ? l.labelBn : l.label}
+              </span>
+            ))}
           </div>
 
           <BackToTop />

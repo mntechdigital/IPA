@@ -1,7 +1,10 @@
-﻿import type { Metadata } from 'next';
-import { getResearchBeat } from '../../../../lib/cms-store';
-import { INVESTIGATIONS_DETAIL } from '../../../../data/investigationsDetail';
+import 'server-only';
+
+import type { Metadata } from 'next';
+import { getResearchBeat, listResearchBeats } from '../../../../lib/cms-store';
 import InvestigationView from '../../_components/InvestigationView';
+import { INITIAL_CMS_STATE } from '../../../../data/initialData';
+import type { ResearchBeat } from '../../../../types';
 
 interface InvestigationPageProps {
   params: Promise<{ id: string }>;
@@ -9,27 +12,60 @@ interface InvestigationPageProps {
 
 export async function generateMetadata({ params }: InvestigationPageProps): Promise<Metadata> {
   const { id } = await params;
-  let data;
+  let data: ResearchBeat | null = null;
   try {
-    const beat = await getResearchBeat(id);
-    if (beat) {
-      data = beat;
-    }
+    data = await getResearchBeat(id);
   } catch {
+    data = null;
   }
-  data = data || INVESTIGATIONS_DETAIL[id] || INVESTIGATIONS_DETAIL['media-journalism'];
+  if (!data) {
+    try {
+      const beats = await listResearchBeats();
+      data = beats.find(b => b.id === id || b.slug === id) || beats[0] || null;
+    } catch {
+      data = null;
+    }
+  }
+  if (!data) {
+    const fallback = Object.values(INITIAL_CMS_STATE.researchBeats).find(b => b.id === id) || Object.values(INITIAL_CMS_STATE.researchBeats)[0];
+    data = fallback || null;
+  }
+  if (!data) {
+    return { title: 'Research — IPA Media Research', description: 'Independent media research observatory.' };
+  }
   return {
-    title: `${data.name} â€” IPA Media Research`,
+    title: `${data.name} — IPA Media Research`,
     description: data.tagline,
   };
 }
 
 export default async function InvestigationPage({ params }: InvestigationPageProps) {
   const { id } = await params;
-  let beat;
+  let beat: ResearchBeat | null = null;
+  let allBeats: ResearchBeat[] = [];
+
   try {
-    beat = await getResearchBeat(id);
+    const [fetchedBeat, fetchedBeats] = await Promise.all([
+      getResearchBeat(id),
+      listResearchBeats(),
+    ]);
+    beat = fetchedBeat;
+    allBeats = fetchedBeats;
   } catch {
+    // Fallback
   }
-  return <InvestigationView beat={beat} id={id} />;
+
+  if (!beat && allBeats.length > 0) {
+    beat = allBeats.find(b => b.id === id || b.slug === id) || null;
+  }
+
+  if (!beat) {
+    beat = (INITIAL_CMS_STATE.researchBeats as Record<string, ResearchBeat>)[id] || Object.values(INITIAL_CMS_STATE.researchBeats)[0] || null;
+  }
+
+  if (allBeats.length === 0) {
+    allBeats = Object.values(INITIAL_CMS_STATE.researchBeats);
+  }
+
+  return <InvestigationView beat={beat} id={id} allBeats={allBeats} />;
 }

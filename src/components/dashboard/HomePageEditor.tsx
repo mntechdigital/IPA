@@ -795,7 +795,6 @@ export const HomePageEditor: React.FC = () => {
           </div>
 
           {formData.howWeWork.steps.map((step, index) => {
-            const stepBn = formData.howWeWork?.stepsBn?.[index];
             return (
               <div key={index} className="p-4 rounded-lg bg-[#081811] border border-[#16382B] space-y-3">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-[#D2F818]">Step {step.step}</span>
@@ -804,7 +803,7 @@ export const HomePageEditor: React.FC = () => {
                   {activeLangTab === 'en' ? (
                     <input
                       type="text"
-                      value={step.subheading}
+                      value={step.subheading || ''}
                       onChange={(e) => {
                         const updatedSteps = [...formData.howWeWork.steps];
                         updatedSteps[index] = { ...updatedSteps[index], subheading: e.target.value };
@@ -815,11 +814,11 @@ export const HomePageEditor: React.FC = () => {
                   ) : (
                     <input
                       type="text"
-                      value={stepBn?.subheading}
+                      value={step.subheadingBn || ''}
                       onChange={(e) => {
-                        const stepsBn = [...(formData.howWeWork?.stepsBn || [])];
-                        stepsBn[index] = { ...stepsBn[index], subheading: e.target.value };
-                        setFormData({ ...formData, howWeWork: { ...formData.howWeWork, stepsBn } });
+                        const updatedSteps = [...formData.howWeWork.steps];
+                        updatedSteps[index] = { ...updatedSteps[index], subheadingBn: e.target.value };
+                        setFormData({ ...formData, howWeWork: { ...formData.howWeWork, steps: updatedSteps } });
                       }}
                       className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2.5 py-1.5 text-xs text-white outline-none"
                     />
@@ -830,7 +829,7 @@ export const HomePageEditor: React.FC = () => {
                   {activeLangTab === 'en' ? (
                     <input
                       type="text"
-                      value={step.title}
+                      value={step.title || ''}
                       onChange={(e) => {
                         const updatedSteps = [...formData.howWeWork.steps];
                         updatedSteps[index] = { ...updatedSteps[index], title: e.target.value };
@@ -841,11 +840,11 @@ export const HomePageEditor: React.FC = () => {
                   ) : (
                     <input
                       type="text"
-                      value={stepBn?.title}
+                      value={step.titleBn || ''}
                       onChange={(e) => {
-                        const stepsBn = [...(formData.howWeWork?.stepsBn || [])];
-                        stepsBn[index] = { ...stepsBn[index], title: e.target.value };
-                        setFormData({ ...formData, howWeWork: { ...formData.howWeWork, stepsBn } });
+                        const updatedSteps = [...formData.howWeWork.steps];
+                        updatedSteps[index] = { ...updatedSteps[index], titleBn: e.target.value };
+                        setFormData({ ...formData, howWeWork: { ...formData.howWeWork, steps: updatedSteps } });
                       }}
                       className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2.5 py-1.5 text-xs text-white font-bold outline-none"
                     />
@@ -856,7 +855,7 @@ export const HomePageEditor: React.FC = () => {
                   {activeLangTab === 'en' ? (
                     <textarea
                       rows={2}
-                      value={step.description}
+                      value={step.description || ''}
                       onChange={(e) => {
                         const updatedSteps = [...formData.howWeWork.steps];
                         updatedSteps[index] = { ...updatedSteps[index], description: e.target.value };
@@ -867,11 +866,11 @@ export const HomePageEditor: React.FC = () => {
                   ) : (
                     <textarea
                       rows={2}
-                      value={stepBn?.description}
+                      value={step.descriptionBn || ''}
                       onChange={(e) => {
-                        const stepsBn = [...(formData.howWeWork?.stepsBn || [])];
-                        stepsBn[index] = { ...stepsBn[index], description: e.target.value };
-                        setFormData({ ...formData, howWeWork: { ...formData.howWeWork, stepsBn } });
+                        const updatedSteps = [...formData.howWeWork.steps];
+                        updatedSteps[index] = { ...updatedSteps[index], descriptionBn: e.target.value };
+                        setFormData({ ...formData, howWeWork: { ...formData.howWeWork, steps: updatedSteps } });
                       }}
                       className="w-full bg-[#0C2218] border border-[#16382B] rounded px-2.5 py-1.5 text-xs text-slate-300 outline-none"
                     />

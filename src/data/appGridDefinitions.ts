@@ -59,30 +59,52 @@ export const APP_GRID_PAGES: Record<string, PageAppHubDef> = {
         previewHint: 'Interactive 4-column cards (Newsroom Audits, Broadcast Archiving, etc.)'
       },
       {
-        id: 'home-who-we-are',
+        id: 'home-ticker',
+        appNumber: 'App 3',
+        title: 'Ticker Marquee',
+        tagline: 'Scrolling marquee items in English and Bangla with speed control',
+        icon: 'ScrollText',
+        category: 'home',
+        badgeColor: 'amber',
+        fieldsCount: 4,
+        previewHint: 'Infinite scrolling banner below public interest section'
+      },
+      {
+        id: 'home-who-we-are-home',
         appNumber: 'App 4',
-        title: 'Who We Are App',
-        tagline: 'Heading, description, and badge text displayed beneath the heading',
+        title: 'Who We Are (Home) Section',
+        tagline: 'Home Who We Are heading, descriptions, badge and CTA in both languages',
         icon: 'Building2',
         category: 'home',
         badgeColor: 'blue',
-        fieldsCount: 3,
-        previewHint: 'Institutional identity block with heading, narrative, and badge'
+        fieldsCount: 8,
+        previewHint: '01 / 05 introduction block on home page'
       },
       {
-        id: 'home-areas',
+        id: 'home-what-we-do-v2',
         appNumber: 'App 5',
-        title: 'Areas of Investigation Preview',
-        tagline: 'Section title, subtitle, and interactive category selector settings',
+        title: 'What We Do App',
+        tagline: 'Section header, subheader, and three dynamic cards with text or image content',
+        icon: 'LayoutGrid',
+        category: 'home',
+        badgeColor: 'blue',
+        fieldsCount: 6,
+        previewHint: 'Interactive 3-column cards (Newsroom Audits, Broadcast Archiving, etc.)'
+      },
+      {
+        id: 'home-focus-areas',
+        appNumber: 'App 6',
+        title: 'Focus Areas Items',
+        tagline: 'Manage 6 focus area cards with topic, description, image and expanded details (EN/BN)',
         icon: 'Compass',
         category: 'home',
-        badgeColor: 'purple',
-        fieldsCount: 4,
-        previewHint: 'Category switcher preview linking directly to 6 research beats'
+        badgeColor: 'green',
+        fieldsCount: 12,
+        previewHint: 'AREAS OF FOCUS 03 / 05 interactive list'
       },
       {
         id: 'home-quote',
-        appNumber: 'App 6',
+        appNumber: 'App 7',
         title: 'Core Quote Banner App',
         tagline: 'Main quote text, author subtitle, badge, and methodology CTA',
         icon: 'Quote',
@@ -93,7 +115,7 @@ export const APP_GRID_PAGES: Record<string, PageAppHubDef> = {
       },
       {
         id: 'home-how-we-work',
-        appNumber: 'App 7',
+        appNumber: 'App 8',
         title: 'How We Work App',
         tagline: '4-Step methodological process cards with step badges and summaries',
         icon: 'GitBranch',
@@ -104,7 +126,7 @@ export const APP_GRID_PAGES: Record<string, PageAppHubDef> = {
       },
       {
         id: 'home-featured-team',
-        appNumber: 'App 8',
+        appNumber: 'App 9',
         title: 'Featured Team Preview',
         tagline: 'Dynamic toggle & selection for researcher cards displayed on the home page',
         icon: 'Users',
@@ -115,15 +137,15 @@ export const APP_GRID_PAGES: Record<string, PageAppHubDef> = {
       },
       {
         id: 'home-bottom-cta',
-        appNumber: 'App 9',
+        appNumber: 'App 10',
         title: 'Bottom Call-to-Action Banner',
-        tagline: 'Final call-to-action title, narrative narrative, and primary action button',
+        tagline: 'Final call-to-action title, narrative and primary action button',
         icon: 'Megaphone',
         category: 'home',
         badgeColor: 'purple',
         fieldsCount: 4,
         previewHint: 'Pre-footer conversion banner for dataset inquiries'
-      }
+      },
     ]
   },
   about: {
@@ -169,31 +191,64 @@ export const APP_GRID_PAGES: Record<string, PageAppHubDef> = {
   },
   research: {
     pageId: 'research',
-    pageTitle: 'Research Architecture Apps',
-    pageSubtitle: 'Manage research categories and taxonomies, or view the master table of created research with creation tool',
+    pageTitle: 'Research Page App Grid',
+    pageSubtitle: 'Manage the public Research (/work) page: hero, tracks, filter pills, CTA, and operational pillars',
     routePath: '/admin/pages/research',
     apps: [
       {
-        id: 'research-categories',
+        id: 'research-hero',
         appNumber: 'App 1',
-        title: 'Category',
-        tagline: 'Manage research categories, beat titles, codes, and taxonomy classifications',
-        icon: 'Layers',
-        category: 'research',
-        badgeColor: 'blue',
-        fieldsCount: 6,
-        previewHint: 'Taxonomy classification, beat codes, and scope descriptions'
-      },
-      {
-        id: 'research-create',
-        appNumber: 'App 2',
-        title: 'Create Researches',
-        tagline: 'Table of all created research programs, lead fellows, metrics, and dedicated creation page',
-        icon: 'FileText',
+        title: 'Hero Section',
+        tagline: 'Research page headline, label, description, metadata tag, and background image (EN/BN)',
+        icon: 'Sparkles',
         category: 'research',
         badgeColor: 'purple',
-        fieldsCount: 12,
-        previewHint: 'All created research table with dedicated page creation tool'
+        fieldsCount: 6,
+        previewHint: 'Primary top banner with headline and background imagery'
+      },
+      {
+        id: 'research-areas',
+        appNumber: 'App 2',
+        title: 'Areas & Filters',
+        tagline: 'Section badge, title, catalog reload tooltip, and category filter button labels (EN/BN)',
+        icon: 'Filter',
+        category: 'research',
+        badgeColor: 'blue',
+        fieldsCount: 8,
+        previewHint: 'Header controls and filter pills (Journalism, Platforms, Public)'
+      },
+      {
+        id: 'research-tracks',
+        appNumber: 'App 3',
+        title: 'Research Tracks',
+        tagline: 'Manage the 6 core research programs, methodologies, inquiries, fellows, and metrics',
+        icon: 'Layers',
+        category: 'research',
+        badgeColor: 'green',
+        fieldsCount: 16,
+        previewHint: 'The 6 primary research beats driving both the cards on /work and the investigation details'
+      },
+      {
+        id: 'research-cta',
+        appNumber: 'App 4',
+        title: 'Call to Action (CTA)',
+        tagline: 'Institutional collaboration banner, badges, titles, descriptions, and action buttons (EN/BN)',
+        icon: 'MessageSquare',
+        category: 'research',
+        badgeColor: 'amber',
+        fieldsCount: 6,
+        previewHint: 'Bottom conversion section inviting researchers and partners to connect'
+      },
+      {
+        id: 'research-pillars',
+        appNumber: 'App 5',
+        title: 'Research Pillars',
+        tagline: 'Manage 4 operational modalities (Research, Analysis, Monitoring, Insights) with highlights (EN/BN)',
+        icon: 'Columns',
+        category: 'research',
+        badgeColor: 'purple',
+        fieldsCount: 10,
+        previewHint: '4 core operational modalities outlining institutional research methodology'
       }
     ]
   },
@@ -328,36 +383,28 @@ export const APP_GRID_PAGES: Record<string, PageAppHubDef> = {
         badgeColor: 'green',
         fieldsCount: 6,
         previewHint: 'Dynamic social media handles'
-      }
-    ]
-  },
-  work: {
-    pageId: 'work',
-    pageTitle: 'Work & Research Areas App Grid',
-    pageSubtitle: 'Manage research work areas and the 4-step process pillars',
-    routePath: '/admin/pages/work',
-    apps: [
-      {
-        id: 'work-areas',
-        appNumber: 'App 1',
-        title: 'Research Work Areas',
-        tagline: 'Six research domains with names, descriptions, methods, and sample inquiries',
-        icon: 'FolderKanban',
-        category: 'work',
-        badgeColor: 'blue',
-        fieldsCount: 8,
-        previewHint: 'Media & Journalism, Digital Media, Media Monitoring, Public Opinion, Media & Democracy, Technology & AI'
       },
       {
-        id: 'work-process',
-        appNumber: 'App 2',
-        title: 'Process Pillars',
-        tagline: 'Four-step methodological workflow: Research, Analysis, Monitoring, Insights',
-        icon: 'GitBranch',
-        category: 'work',
-        badgeColor: 'green',
+        id: 'branding-navigation',
+        appNumber: 'App 3',
+        title: 'Navigation Menu',
+        tagline: 'Manage header navigation items (EN/BN labels, URLs, order)',
+        icon: 'Navigation',
+        category: 'branding',
+        badgeColor: 'blue',
         fieldsCount: 5,
-        previewHint: 'Inquiry → Evidence → Analysis → Public Knowledge'
+        previewHint: 'Header Home, About, Researches, Team, Contact'
+      },
+      {
+        id: 'branding-footer',
+        appNumber: 'App 4',
+        title: 'Footer Branding & Bottom Links',
+        tagline: 'Manage footer tagline, copyright, license and bottom bar links (EN/BN)',
+        icon: 'LayoutGrid',
+        category: 'branding',
+        badgeColor: 'amber',
+        fieldsCount: 8,
+        previewHint: 'Footer tagline, copyright and privacy/terms links'
       }
     ]
   }

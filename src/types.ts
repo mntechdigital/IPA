@@ -47,6 +47,10 @@ export interface FocusAreaItem {
   description: string;
   image: string;
   expandedDetails?: string[];
+  topicBn?: string;
+  descriptionBn?: string;
+  expandedDetailsBn?: string[];
+  imageBn?: string;
 }
 
 export interface WorkArea {
@@ -91,6 +95,13 @@ export interface WorkCategory {
   sampleInquiries: string[];
   image: string;
   outputsCount: string;
+  nameBn?: string;
+  taglineBn?: string;
+  descriptionBn?: string;
+  methodsBn?: string[];
+  sampleInquiriesBn?: string[];
+  imageBn?: string;
+  outputsCountBn?: string;
 }
 
 export interface TeamMember {
@@ -232,6 +243,10 @@ export interface ResearchBeat {
   methodologyDetailsBn?: { title?: string; protocol?: string; frequency?: string; description?: string }[];
   caseStudiesBn?: { title?: string; year?: string; summary?: string; impact?: string }[];
   publicationsBn?: { title?: string; type?: string; date?: string; pagesOrSize?: string }[];
+  sampleInquiries?: string[];
+  sampleInquiriesBn?: string[];
+  primaryMethodologiesBn?: string[];
+  imageBn?: string;
 }
 
 export interface CoreTenet {
@@ -285,11 +300,13 @@ export interface FaqItem {
 export interface FooterLinkItem {
   label: string;
   url: string;
+  labelBn?: string;
 }
 
 export interface FooterColumn {
   title: string;
   links: FooterLinkItem[];
+  titleBn?: string;
 }
 
 export interface HomePageData {
@@ -300,6 +317,7 @@ export interface HomePageData {
   heroSubtitle: string;
   heroSubtitleBn: string;
   establishedTag: string;
+  establishedTagBn?: string;
   heroImage: string;
   countersBadge?: string;
   countersBadgeBn?: string;
@@ -315,6 +333,41 @@ export interface HomePageData {
   tenetSubtitleBn: string;
   tenetImage?: string;
   homeMetrics: MetricItem[];
+  ticker?: {
+    items: string[];
+    itemsBn?: string[];
+    speedSec?: number;
+  };
+  whoWeAreHome?: {
+    badge: string;
+    badgeBn?: string;
+    indexLabel: string;
+    indexLabelBn?: string;
+    heading: string;
+    headingBn?: string;
+    headingAccent?: string;
+    headingAccentBn?: string;
+    description: string;
+    descriptionBn?: string;
+    secondaryDescription: string;
+    secondaryDescriptionBn?: string;
+    badgeText: string;
+    badgeTextBn?: string;
+    ctaText: string;
+    ctaTextBn?: string;
+    ctaUrl: string;
+  };
+  focusAreas?: {
+    label?: string;
+    labelBn?: string;
+    indexLabel?: string;
+    indexLabelBn?: string;
+    title?: string;
+    titleBn?: string;
+    subtitle?: string;
+    subtitleBn?: string;
+    items: FocusAreaItem[];
+  };
   featuredInquiryIds: string[];
   publicInterestBanner?: {
     title: string;
@@ -322,6 +375,7 @@ export interface HomePageData {
     badge: string;
     mediaUrl: string;
     keyPoints?: string[];
+    keyPointsBn?: string[];
     ctaText?: string;
     titleBn?: string;
     descriptionBn?: string;
@@ -334,12 +388,6 @@ export interface HomePageData {
     cards: WhatWeDoCard[];
     headerBn?: string;
     subheaderBn?: string;
-    cardsBn?: {
-      id: string;
-      title: string;
-      description: string;
-      image?: string;
-    }[];
   };
   areasOfInvestigation?: {
     title: string;
@@ -359,12 +407,6 @@ export interface HomePageData {
     badgeBn?: string;
     titleBn?: string;
     subtitleBn?: string;
-    stepsBn?: {
-      step: string;
-      title: string;
-      description: string;
-      subheading?: string;
-    }[];
   };
   featuredTeam?: {
     title: string;
@@ -391,8 +433,11 @@ export interface HomePageData {
 export interface InvestigationCard {
   id: string;
   heading: string;
+  headingBn?: string;
   description: string;
+  descriptionBn?: string;
   image?: string;
+  imageBn?: string;
 }
 
 export interface AboutPageData {
@@ -507,6 +552,60 @@ export interface ContactPageData {
   faqs: FaqItem[];
 }
 
+export interface ResearchPageData {
+  hero: {
+    label: string;
+    labelBn?: string;
+    title: string;
+    titleBn?: string;
+    description: string;
+    descriptionBn?: string;
+    metadata: string;
+    metadataBn?: string;
+    backgroundImage: string;
+  };
+  areasSection: {
+    badge: string;
+    badgeBn?: string;
+    title: string;
+    titleBn?: string;
+    refreshTooltip: string;
+    refreshTooltipBn?: string;
+  };
+  filterPills: {
+    allLabel: string;
+    allLabelBn?: string;
+    journalismLabel: string;
+    journalismLabelBn?: string;
+    platformsLabel: string;
+    platformsLabelBn?: string;
+    publicLabel: string;
+    publicLabelBn?: string;
+  };
+  cta: {
+    badge: string;
+    badgeBn?: string;
+    title: string;
+    titleBn?: string;
+    narrative: string;
+    narrativeBn?: string;
+    primaryText: string;
+    primaryTextBn?: string;
+    primaryUrl: string;
+    secondaryText: string;
+    secondaryTextBn?: string;
+    secondaryUrl: string;
+  };
+  whatOurWorkLooksLike?: {
+    badge: string;
+    badgeBn?: string;
+    title: string;
+    titleBn?: string;
+    description: string;
+    descriptionBn?: string;
+  };
+}
+
 export interface SiteSettings {
   siteName: string;
   siteSubtitle: string;
@@ -538,21 +637,41 @@ export interface SiteSettings {
   };
   headerBranding?: {
     lightLogoText?: string;
+    lightLogoTextBn?: string;
     tagline: string;
+    taglineBn?: string;
     logoUrl?: string;
     darkLogoUrl?: string;
     navCtaText: string;
+    navCtaTextBn?: string;
     navCtaUrl: string;
     announcementBannerText?: string;
+    announcementBannerTextBn?: string;
     enableBanner?: boolean;
   };
   footerBranding?: {
     footerLogoText?: string;
+    footerLogoTextBn?: string;
     logoUrl?: string;
     tagline: string;
+    taglineBn?: string;
     copyrightNotice: string;
+    copyrightNoticeBn?: string;
     licenseNotice: string;
+    licenseNoticeBn?: string;
   };
+  navigation?: {
+    id: string;
+    label: string;
+    labelBn?: string;
+    url: string;
+    order?: number;
+  }[];
+  footerBottomLinks?: {
+    label: string;
+    labelBn?: string;
+    url?: string;
+  }[];
   accessControl?: {
     administrator: { manageSettings: boolean; manageContent: boolean; manageTeam: boolean };
     editor: { manageSettings: boolean; manageContent: boolean; manageTeam: boolean };
@@ -590,6 +709,7 @@ export interface MonitoringTelemetry {
   activeSurveys: number;
   serverUptime: string;
   lastIngestTimestamp: string;
+  tickerSpeedSec?: number;
 }
 
 export interface CmsState {
@@ -599,6 +719,7 @@ export interface CmsState {
   homePage: HomePageData;
   aboutPage: AboutPageData;
   contactPage?: ContactPageData;
+  researchPage: ResearchPageData;
   researchBeats: Record<string, ResearchBeat>;
   team: TeamMember[];
   publications: PublicationItem[];

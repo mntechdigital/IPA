@@ -10,21 +10,14 @@ import { MonitoringEditor } from '../../../../components/dashboard/MonitoringEdi
 import { InquiriesEditor } from '../../../../components/dashboard/InquiriesEditor';
 import { TeamsDirectoryView } from '../../../../components/dashboard/TeamsDirectoryView';
 import { ResearchManagerView } from '../../../../components/dashboard/ResearchManagerView';
-import { WorkPageEditor } from '../../../../components/dashboard/WorkPageEditor';
 import { LiveSitePreview } from '../../../../components/frontend/LiveSitePreview';
 
 export const CmsSectionView: React.FC<{ tab: string }> = ({ tab }) => {
   const { selectedSectionAppId, viewMode } = useCms();
 
   const renderEditor = () => {
-    if (selectedSectionAppId === 'research-categories' || selectedSectionAppId === 'research-category') {
-      return <ResearchManagerView initialApp="category" />;
-    }
-    if (selectedSectionAppId === 'research-create') {
-      return <ResearchManagerView initialApp="create" />;
-    }
-    if (selectedSectionAppId === 'work-areas' || selectedSectionAppId === 'work-process') {
-      return <WorkPageEditor appId={selectedSectionAppId} />;
+    if (selectedSectionAppId === 'research-tracks' || selectedSectionAppId === 'research-categories' || selectedSectionAppId === 'research-category' || selectedSectionAppId === 'research-create') {
+      return <ResearchManagerView />;
     }
     if (selectedSectionAppId) {
       return <SectionFormEditor appId={selectedSectionAppId} />;
@@ -38,13 +31,11 @@ export const CmsSectionView: React.FC<{ tab: string }> = ({ tab }) => {
       case 'about':
         return <AppGridHub pageId="about" />;
       case 'research':
-        return <ResearchManagerView />;
+        return <AppGridHub pageId="research" />;
       case 'teams':
         return <TeamsDirectoryView />;
       case 'contact':
         return <AppGridHub pageId="contact" />;
-      case 'work':
-        return <AppGridHub pageId="work" />;
       case 'branding':
         return <AppGridHub pageId="branding" />;
       case 'publications':

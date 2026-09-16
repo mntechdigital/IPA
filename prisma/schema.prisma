@@ -38,6 +38,11 @@ model ContactPageData {
   data Json
 }
 
+model ResearchPageData {
+  id   String @id @default(uuid())
+  data Json
+}
+
 model MonitoringTelemetry {
   id   String @id @default(uuid())
   data Json
@@ -91,6 +96,10 @@ model ResearchBeat {
   methodologyDetailsBn Json?
   caseStudiesBn        Json?
   publicationsBn       Json?
+  sampleInquiries      Json?
+  sampleInquiriesBn    Json?
+  primaryMethodologiesBn Json?
+  imageBn              String?
 }
 
 model TeamMember {

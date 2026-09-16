@@ -14,7 +14,15 @@ export const WorkCard: React.FC<WorkCardProps> = ({ work, index, onExplore }) =>
   const { isBn, t } = useLanguage();
   const isEven = index % 2 === 0;
   const numStr = (index + 1).toString().padStart(2, '0');
-  const localizedWork = isBn && WORK_AREAS_BN[work.id] ? WORK_AREAS_BN[work.id] : null;
+  const fallbackWork = isBn && WORK_AREAS_BN[work.id] ? WORK_AREAS_BN[work.id] : null;
+
+  const displayName = isBn ? (work.nameBn || fallbackWork?.nameBn || work.name) : work.name;
+  const displayTagline = isBn ? (work.taglineBn || fallbackWork?.taglineBn || work.tagline) : work.tagline;
+  const displayDescription = isBn ? (work.descriptionBn || fallbackWork?.descriptionBn || work.description) : work.description;
+  const displayMethods = isBn
+    ? ((work.methodsBn && work.methodsBn.length > 0) ? work.methodsBn : (fallbackWork?.methodsBn || work.methods))
+    : work.methods;
+  const displayImage = (isBn && work.imageBn) ? work.imageBn : work.image;
 
   return (
     <div className="rounded-3xl border border-[#E2EAE4] bg-[#FFFFFF] transition-all duration-300 hover:shadow-xl hover:border-[#0B2A20] overflow-hidden">
@@ -27,8 +35,8 @@ export const WorkCard: React.FC<WorkCardProps> = ({ work, index, onExplore }) =>
         >
           <div className="relative h-72 sm:h-88 lg:h-full min-h-[320px]">
             <img
-              src={work.image}
-              alt={localizedWork ? localizedWork.nameBn : work.name}
+              src={displayImage}
+              alt={displayName}
               className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
               loading="lazy"
             />
@@ -56,15 +64,15 @@ export const WorkCard: React.FC<WorkCardProps> = ({ work, index, onExplore }) =>
             </div>
 
             <h3 className="font-sans text-3xl sm:text-4xl text-[#0B2A20] font-extrabold tracking-tight mb-3">
-              {localizedWork ? localizedWork.nameBn : work.name}
+              {displayName}
             </h3>
 
             <p className="font-sans text-base sm:text-lg text-[#195642] mb-5 leading-snug font-medium">
-              “{localizedWork ? localizedWork.taglineBn : work.tagline}”
+              “{displayTagline}”
             </p>
 
             <p className="font-sans text-sm sm:text-base text-[#556B62] leading-relaxed mb-6 font-normal">
-              {localizedWork ? localizedWork.descriptionBn : work.description}
+              {displayDescription}
             </p>
 
             {/* Methodological Benchmarks */}
@@ -74,7 +82,7 @@ export const WorkCard: React.FC<WorkCardProps> = ({ work, index, onExplore }) =>
                 {t('Primary Methodologies', 'প্রধান গবেষণা পদ্ধতিসমূহ')}
               </div>
               <div className="flex flex-wrap gap-2">
-                {(localizedWork ? localizedWork.methodsBn : work.methods).map((method, mIdx) => (
+                {displayMethods.map((method, mIdx) => (
                   <span
                     key={mIdx}
                     className="inline-block text-xs font-sans px-3 py-1.5 rounded-xl bg-[#F6F9F4] border border-[#E2EAE4] text-[#0D1F18] font-medium"
@@ -92,7 +100,7 @@ export const WorkCard: React.FC<WorkCardProps> = ({ work, index, onExplore }) =>
                 {t('Sample Investigations & Datasets', 'নমুনা অনুসন্ধান ও উপাত্ত')}
               </div>
               <ul className="space-y-2 text-xs font-sans text-[#0D1F18]">
-                {(localizedWork ? localizedWork.sampleInquiriesBn : work.sampleInquiries).map((inquiry, iIdx) => (
+                {((isBn ? (work.sampleInquiriesBn || fallbackWork?.sampleInquiriesBn || work.sampleInquiries) : work.sampleInquiries) || []).map((inquiry, iIdx) => (
                   <li key={iIdx} className="flex items-start gap-2">
                     <span className="text-[#195642] font-mono mt-0.5">↳</span>
                     <span>{inquiry}</span>

@@ -16,43 +16,27 @@ import {
   BarChart3,
   Sparkles,
   Save,
-  Tag
+  Tag,
+  Globe,
+  Upload,
+  Loader2
 } from 'lucide-react';
 import { useCms } from '../../context/CmsContext';
 import { ResearchBeat } from '../../types';
 
-interface ResearchManagerViewProps {
-  initialApp?: 'category' | 'create';
-}
-
-export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initialApp = 'create' }) => {
+export const ResearchManagerView: React.FC = () => {
   const { state, updateResearchBeat, addResearchBeat, deleteResearchBeat, setNotification, setSelectedSectionAppId } = useCms();
 
-  // Active sub-app: 'category' or 'create'
-  const [activeApp, setActiveApp] = useState<'category' | 'create'>(initialApp);
-
-  // In 'create' app: 'table' view or 'editor-page' view
+  // In 'research-tracks': 'table' view or 'editor' view
   const [subView, setSubView] = useState<'table' | 'editor'>('table');
   const [editingBeatId, setEditingBeatId] = useState<string | null>(null);
   const [isNewBeat, setIsNewBeat] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [isLeadFellowsOpen, setIsLeadFellowsOpen] = useState<boolean>(false);
+  const [activeLang, setActiveLang] = useState<'en' | 'bn'>('en');
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   const richTextRef = useRef<HTMLDivElement>(null);
-
-  // Categories taxonomy state (derived & extendable)
-  const defaultCategories = [
-    { id: 'journalism', code: 'JRN-01', name: 'Media & Journalism', description: 'Newsroom structures, editorial independence, ownership concentration, and investigative audits' },
-    { id: 'platforms', code: 'PLT-02', name: 'Digital Media & Algorithms', description: 'Platform governance, viral engagement loops, generative automation, and recommendation audits' },
-    { id: 'monitoring', code: 'MON-03', name: 'Media Monitoring', description: 'Continuous broadcast archiving, print corpus scraping, NLP sentiment pipelines, and transcript indexing' },
-    { id: 'public', code: 'PUB-04', name: 'Public Opinion & Trust', description: 'Annual media trust indices, representative probability surveys, and citizen verification panels' },
-    { id: 'democracy', code: 'DEM-05', name: 'Media & Democracy', description: 'Press freedom legal harassment, state advertising allocations, and institutional pressure tracking' },
-    { id: 'ai', code: 'TEC-06', name: 'Technology & AI', description: 'Multimodal synthetic detection, deepfake risks, watermarking provenance, and automated newsrooms' }
-  ];
-
-  const [categoriesList, setCategoriesList] = useState(defaultCategories);
-  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState<boolean>(false);
-  const [editingCategory, setEditingCategory] = useState<{ id: string; code: string; name: string; description: string } | null>(null);
 
   // Dedicated Research Form State
   const [formBeat, setFormBeat] = useState<ResearchBeat>({
@@ -70,6 +54,9 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
     outputsCount: '4 Monograph Reports',
     methodology: 'Empirical cross-sectional surveys, broadcast archiving, NLP analysis.',
     primaryMethodologies: [],
+    primaryMethodologiesBn: [],
+    sampleInquiries: [],
+    sampleInquiriesBn: [],
     imageTitle: '',
     imageSubtitle: '',
     researchNarrative: '',
@@ -84,11 +71,15 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
     publications: []
   });
 
+  // Sync rich text editor when editing record or switching language
   useEffect(() => {
     if (richTextRef.current) {
-      richTextRef.current.innerHTML = formBeat.researchNarrative || formBeat.summary || '';
+      richTextRef.current.innerHTML =
+        activeLang === 'bn'
+          ? (formBeat.researchNarrativeBn || formBeat.summaryBn || '')
+          : (formBeat.researchNarrative || formBeat.summary || '');
     }
-  }, [formBeat.id]);
+  }, [formBeat.id, activeLang]);
 
   const beatsList = Object.values(state.researchBeats).sort((a, b) =>
     (a.beatNumber || '').localeCompare(b.beatNumber || '')
@@ -98,9 +89,10 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
     const q = searchQuery.toLowerCase();
     const matchesSearch =
       beat.name.toLowerCase().includes(q) ||
+      (beat.nameBn && beat.nameBn.toLowerCase().includes(q)) ||
       (beat.tagline && beat.tagline.toLowerCase().includes(q)) ||
       (beat.leadFellows || []).some(f => f.toLowerCase().includes(q)) ||
-      beat.beatNumber.toLowerCase().includes(q);
+      (beat.beatNumber || '').toLowerCase().includes(q);
     const matchesCategory = categoryFilter === 'all' || beat.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
@@ -116,12 +108,15 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
       description: '',
       image: '',
       timeframe: '2024 – Present',
-      leadFellows: ['Dr. Sabrina Farhana', 'Shahidul Alam'],
+      leadFellows: ['Dr. Sabrina Farhana'],
       status: 'active',
       summary: '',
       outputsCount: '2 Published Monographs',
       methodology: 'Triangulated empirical methodology combining qualitative newsroom interviews, open web corpus indexing, and statistical modeling.',
       primaryMethodologies: [],
+      primaryMethodologiesBn: [],
+      sampleInquiries: [],
+      sampleInquiriesBn: [],
       imageTitle: '',
       imageSubtitle: '',
       researchNarrative: '',
@@ -138,6 +133,7 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
     });
     setEditingBeatId(null);
     setIsNewBeat(true);
+    setActiveLang('en');
     setSubView('editor');
   };
 
@@ -145,10 +141,24 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
     setFormBeat({
       ...beat,
       leadFellows: [...(beat.leadFellows || [])],
-      metrics: [...(beat.metrics || [])]
+      leadFellowsBn: [...(beat.leadFellowsBn || [])],
+      metrics: (beat.metrics || []).map(m => ({ ...m })),
+      metricsBn: (beat.metricsBn || []).map(m => ({ ...m })),
+      overview: [...(beat.overview || [])],
+      overviewBn: [...(beat.overviewBn || [])],
+      keyQuestions: [...(beat.keyQuestions || [])],
+      keyQuestionsBn: [...(beat.keyQuestionsBn || [])],
+      primaryMethodologies: [...(beat.primaryMethodologies || [])],
+      primaryMethodologiesBn: [...(beat.primaryMethodologiesBn || [])],
+      sampleInquiries: [...(beat.sampleInquiries || [])],
+      sampleInquiriesBn: [...(beat.sampleInquiriesBn || [])],
+      methodologyDetails: (beat.methodologyDetails || []).map(m => ({ ...m })),
+      caseStudies: (beat.caseStudies || []).map(c => ({ ...c })),
+      publications: (beat.publications || []).map(p => ({ ...p }))
     });
     setEditingBeatId(beat.id);
     setIsNewBeat(false);
+    setActiveLang('en');
     setSubView('editor');
   };
 
@@ -159,19 +169,29 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
       return;
     }
 
+    const narrativeEn = formBeat.researchNarrative || formBeat.summary || '';
+    const narrativeBn = formBeat.researchNarrativeBn || formBeat.summaryBn || '';
+
     const researchToSave: ResearchBeat = {
       ...formBeat,
-      description: formBeat.researchNarrative || formBeat.summary || '',
-      summary: formBeat.researchNarrative || formBeat.summary || '',
-      overview: formBeat.researchNarrative || formBeat.summary ? [formBeat.researchNarrative || formBeat.summary] : []
+      description: formBeat.description || narrativeEn,
+      descriptionBn: formBeat.descriptionBn || narrativeBn,
+      summary: narrativeEn,
+      summaryBn: narrativeBn,
+      overview: (formBeat.overview && formBeat.overview.length > 0)
+        ? formBeat.overview
+        : (narrativeEn ? [narrativeEn] : []),
+      overviewBn: (formBeat.overviewBn && formBeat.overviewBn.length > 0)
+        ? formBeat.overviewBn
+        : (narrativeBn ? [narrativeBn] : []),
     };
 
     if (isNewBeat) {
       addResearchBeat(researchToSave);
-      setNotification({ message: `Research investigation "${formBeat.name}" created successfully.`, type: 'success' });
+      setNotification({ message: `Research track "${formBeat.name}" created successfully.`, type: 'success' });
     } else {
       updateResearchBeat(formBeat.id, researchToSave);
-      setNotification({ message: `Research investigation "${formBeat.name}" updated successfully.`, type: 'success' });
+      setNotification({ message: `Research track "${formBeat.name}" updated successfully.`, type: 'success' });
     }
 
     setSubView('table');
@@ -182,15 +202,36 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
     document.execCommand(command, false, value);
     if (richTextRef.current) {
       const narrative = richTextRef.current.innerHTML;
-      setFormBeat(prev => ({ ...prev, researchNarrative: narrative, summary: narrative }));
+      if (activeLang === 'bn') {
+        setFormBeat(prev => ({ ...prev, researchNarrativeBn: narrative, summaryBn: narrative }));
+      } else {
+        setFormBeat(prev => ({ ...prev, researchNarrative: narrative, summary: narrative }));
+      }
     }
   };
 
-  const handleResearchImageUpload = (file?: File) => {
+  const handleResearchImageUpload = async (file?: File) => {
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = event => setFormBeat(prev => ({ ...prev, image: event.target?.result as string }));
-    reader.readAsDataURL(file);
+    setIsUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      if (!res.ok) throw new Error('Upload failed');
+      const data = await res.json();
+      if (data.url) {
+        setFormBeat(prev => ({
+          ...prev,
+          image: activeLang === 'en' ? data.url : (prev.image || data.url),
+          imageBn: activeLang === 'bn' ? data.url : prev.imageBn,
+        }));
+        setNotification({ message: 'Research image uploaded successfully.', type: 'success' });
+      }
+    } catch {
+      setNotification({ message: 'Failed to upload image.', type: 'warning' });
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleDeleteResearch = (beat: ResearchBeat) => {
@@ -200,24 +241,9 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
     }
   };
 
-  const handleSaveCategory = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingCategory?.name.trim()) return;
-
-    if (categoriesList.some(c => c.id === editingCategory.id)) {
-      setCategoriesList(categoriesList.map(c => c.id === editingCategory.id ? editingCategory : c));
-      setNotification({ message: `Category "${editingCategory.name}" updated.`, type: 'success' });
-    } else {
-      setCategoriesList([...categoriesList, editingCategory]);
-      setNotification({ message: `Category "${editingCategory.name}" created.`, type: 'success' });
-    }
-    setIsCategoryModalOpen(false);
-    setEditingCategory(null);
-  };
-
   return (
     <div className="p-6 md:p-8 space-y-6 max-w-7xl mx-auto">
-      {/* Top App Switcher: Category App & Create Researches App */}
+      {/* Top Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div>
           <div className="flex items-center gap-2 mb-1">
@@ -226,192 +252,26 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
               Research Architecture Hub
             </span>
           </div>
-          <h1 className="text-2xl font-bold text-[#1E1B4B]">Research Management</h1>
+          <h1 className="text-2xl font-bold text-[#1E1B4B]">Research Tracks</h1>
           <p className="text-xs text-slate-500 mt-0.5">
-            Manage research taxonomies or maintain the master table of created investigations.
+            Configure empirical research programs, investigation topics, methodologies, and findings.
           </p>
         </div>
 
-        {/* 2 Apps Switcher Tabs */}
-        <div className="flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200/80">
-          <button
-            id="tab-app-category"
-            onClick={() => {
-              setActiveApp('category');
-              setSelectedSectionAppId('research-categories');
-            }}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              activeApp === 'category'
-                ? 'bg-white text-[#6E56CF] shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <Layers className="w-3.5 h-3.5" />
-            <span>Category App</span>
-          </button>
-          <button
-            id="tab-app-create-researches"
-            onClick={() => {
-              setActiveApp('create');
-              setSelectedSectionAppId('research-create');
-            }}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              activeApp === 'create'
-                ? 'bg-white text-[#6E56CF] shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <FileText className="w-3.5 h-3.5" />
-            <span>Create Researches App</span>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => setSelectedSectionAppId(null)}
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-600 transition-colors cursor-pointer self-start sm:self-auto"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Back to Apps Grid</span>
+        </button>
       </div>
 
       {/* ======================================================== */}
-      {/* APP 1: CATEGORY APP                                      */}
+      {/* SUBVIEW 1: RESEARCHES MASTER TABLE                       */}
       {/* ======================================================== */}
-      {activeApp === 'category' && (
-        <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
-            <div>
-              <h2 className="text-base font-bold text-[#1E1B4B] flex items-center gap-2">
-                <Layers className="w-4 h-4 text-[#6E56CF]" />
-                <span>Research Categories & Classification Taxonomy</span>
-              </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Define and categorize empirical tracks across journalism, platform governance, and AI forensics.
-              </p>
-            </div>
-            <button
-              onClick={() => {
-                setEditingCategory({
-                  id: 'cat-' + Date.now(),
-                  code: 'CAT-0' + (categoriesList.length + 1),
-                  name: '',
-                  description: ''
-                });
-                setIsCategoryModalOpen(true);
-              }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#6E56CF] hover:bg-[#5842c3] text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Add Category</span>
-            </button>
-          </div>
-
-          {/* Categories Grid Array */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {categoriesList.map((cat, idx) => {
-              const assignedBeatsCount = beatsList.filter(b => b.category === cat.id).length;
-              return (
-                <div
-                  key={cat.id || idx}
-                  className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:border-[#6E56CF]/40 transition-all flex flex-col justify-between"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="px-2.5 py-1 rounded-md bg-purple-50 text-[#6E56CF] font-mono text-[11px] font-bold border border-purple-100">
-                        {cat.code}
-                      </span>
-                      <span className="text-[11px] text-slate-400 font-semibold">
-                        {assignedBeatsCount} {assignedBeatsCount === 1 ? 'Investigation' : 'Investigations'}
-                      </span>
-                    </div>
-
-                    <h3 className="text-sm font-bold text-[#1E1B4B]">{cat.name}</h3>
-                    <p className="text-xs text-slate-500 leading-relaxed">{cat.description}</p>
-                  </div>
-
-                  <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
-                    <button
-                      onClick={() => {
-                        setEditingCategory({ ...cat });
-                        setIsCategoryModalOpen(true);
-                      }}
-                      className="px-2.5 py-1 rounded-lg text-slate-500 hover:text-[#6E56CF] hover:bg-purple-50 text-xs font-semibold cursor-pointer"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => {
-                        if (window.confirm(`Delete category "${cat.name}"?`)) {
-                          setCategoriesList(categoriesList.filter(c => c.id !== cat.id));
-                          setNotification({ message: `Category "${cat.name}" removed.`, type: 'info' });
-                        }
-                      }}
-                      className="px-2.5 py-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 text-xs font-semibold cursor-pointer"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Edit Category Modal */}
-          {isCategoryModalOpen && editingCategory && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-fade-in">
-              <div className="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-md w-full p-6 space-y-4 animate-scale-in">
-                <h3 className="text-sm font-bold text-[#1E1B4B]">
-                  {categoriesList.some(c => c.id === editingCategory.id) ? 'Edit Category' : 'Create Category'}
-                </h3>
-                <form onSubmit={handleSaveCategory} className="space-y-4 text-xs">
-                  <div>
-                    <label className="font-bold text-slate-700 block mb-1">Category Code</label>
-                    <input
-                      type="text"
-                      required
-                      value={editingCategory.code}
-                      onChange={e => setEditingCategory({ ...editingCategory, code: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-mono"
-                    />
-                  </div>
-                  <div>
-                    <label className="font-bold text-slate-700 block mb-1">Category Name</label>
-                    <input
-                      type="text"
-                      required
-                      value={editingCategory.name}
-                      onChange={e => setEditingCategory({ ...editingCategory, name: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-semibold"
-                    />
-                  </div>
-                  <div>
-                    <label className="font-bold text-slate-700 block mb-1">Scope & Description</label>
-                    <textarea
-                      rows={3}
-                      value={editingCategory.description}
-                      onChange={e => setEditingCategory({ ...editingCategory, description: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3"
-                    />
-                  </div>
-                  <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
-                    <button
-                      type="button"
-                      onClick={() => setIsCategoryModalOpen(false)}
-                      className="px-4 py-1.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="px-4 py-1.5 rounded-xl bg-[#6E56CF] text-white font-bold hover:bg-[#5842c3]"
-                    >
-                      Save Category
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* ======================================================== */}
-      {/* APP 2: CREATE RESEARCHES APP                             */}
-      {/* ======================================================== */}
-      {activeApp === 'create' && subView === 'table' && (
+      {subView === 'table' && (
         <div className="space-y-6">
           {/* Controls Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
@@ -436,11 +296,11 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
                   className="bg-transparent border-none text-slate-700 text-xs font-semibold outline-none cursor-pointer"
                 >
                   <option value="all">All Categories</option>
-                  <option value="journalism">Journalism</option>
+                  <option value="journalism">Journalism & Newsrooms</option>
                   <option value="platforms">Platforms & Algorithms</option>
-                  <option value="monitoring">Monitoring</option>
-                  <option value="public">Public Opinion</option>
-                  <option value="democracy">Democracy</option>
+                  <option value="monitoring">Media Monitoring</option>
+                  <option value="public">Public Opinion & Trust</option>
+                  <option value="democracy">Media & Democracy</option>
                   <option value="ai">Technology & AI</option>
                 </select>
               </div>
@@ -452,7 +312,7 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#6E56CF] hover:bg-[#5842c3] text-white text-xs font-bold transition-all shadow-sm shadow-purple-200 cursor-pointer shrink-0"
             >
               <Plus className="w-4 h-4" />
-              <span>Create Research</span>
+              <span>Create Research Track</span>
             </button>
           </div>
 
@@ -478,7 +338,7 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
                         <FileText className="w-10 h-10 mx-auto text-slate-300 mb-2" />
                         <p className="font-semibold text-slate-600">No research investigations found</p>
                         <p className="text-[11px] text-slate-400 mt-0.5">
-                          Click "Create Research" to configure and launch a new empirical investigation.
+                          Click "Create Research Track" to configure and launch a new empirical investigation.
                         </p>
                       </td>
                     </tr>
@@ -540,7 +400,7 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
                             <button
                               onClick={() => handleDeleteResearch(beat)}
                               className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
-                              title="Delete Research"
+                              title="Delete Research Track"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
@@ -557,9 +417,9 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
       )}
 
       {/* ======================================================== */}
-      {/* DEDICATED FULL-PAGE CREATE / EDIT VIEW                   */}
+      {/* SUBVIEW 2: DEDICATED FULL-PAGE CREATE / EDIT VIEW        */}
       {/* ======================================================== */}
-      {activeApp === 'create' && subView === 'editor' && (
+      {subView === 'editor' && (
         <div className="space-y-6 animate-fade-in" id="dedicated-research-create-page">
           {/* Back Bar */}
           <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
@@ -572,8 +432,36 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
             </button>
 
             <span className="text-xs font-mono px-3 py-1 rounded-full bg-purple-50 text-[#6E56CF] font-bold border border-purple-100">
-              {isNewBeat ? 'New Research Program' : `Editing Beat ${formBeat.beatNumber}`}
+              {isNewBeat ? 'New Research Track' : `Editing Beat ${formBeat.beatNumber}`}
             </span>
+          </div>
+
+          {/* Language Toggle */}
+          <div className="flex items-center justify-between p-4 bg-purple-50/50 rounded-2xl border border-purple-100">
+            <div className="flex items-center gap-2">
+              <Globe className="w-4 h-4 text-[#6E56CF]" />
+              <span className="text-xs font-semibold text-slate-700">Content Language</span>
+            </div>
+            <div className="flex bg-white p-1 rounded-xl border border-slate-200 text-xs">
+              <button
+                type="button"
+                onClick={() => setActiveLang('en')}
+                className={`px-3 py-1 rounded-lg font-semibold cursor-pointer transition-all ${
+                  activeLang === 'en' ? 'bg-[#6E56CF] text-white shadow-xs' : 'text-slate-500 hover:text-slate-900'
+                }`}
+              >
+                English
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveLang('bn')}
+                className={`px-3 py-1 rounded-lg font-semibold cursor-pointer transition-all ${
+                  activeLang === 'bn' ? 'bg-[#6E56CF] text-white shadow-xs' : 'text-slate-500 hover:text-slate-900'
+                }`}
+              >
+                বাংলা
+              </button>
+            </div>
           </div>
 
           {/* Main Full-Page Form */}
@@ -586,81 +474,88 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
               <div className="grid grid-cols-1 gap-5">
                 {/* Program Title */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Research Program Title</label>
+                  <label className="text-xs font-bold text-slate-700">
+                    {activeLang === 'bn' ? 'Research Program Title (বাংলা)' : 'Research Program Title'}
+                  </label>
                   <input
                     type="text"
                     required
-                    value={formBeat.name}
-                    onChange={e => setFormBeat({ ...formBeat, name: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-bold text-slate-800"
-                    placeholder="e.g. Media Concentration & Cross-Border Capital Flows"
+                    value={activeLang === 'bn' ? (formBeat.nameBn || '') : formBeat.name}
+                    onChange={e => setFormBeat({
+                      ...formBeat,
+                      nameBn: activeLang === 'bn' ? e.target.value : formBeat.nameBn,
+                      name: activeLang === 'en' ? e.target.value : formBeat.name
+                    })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-bold text-slate-800 focus:bg-white focus:border-[#6E56CF] outline-none transition-all"
+                    placeholder={activeLang === 'bn' ? 'যেমন: মিডিয়া কেন্দ্রীকরণ ও ক্রস-বর্ডার পুঁজি প্রবাহ' : 'e.g. Media Concentration & Cross-Border Capital Flows'}
                   />
                 </div>
 
-                {/* Category Dropdown (rendered below the tagline) */}
-                <div className="hidden">
-                  <label className="text-xs font-bold text-slate-700">Category</label>
-                  <select
-                    value={formBeat.category}
-                    onChange={e => setFormBeat({ ...formBeat, category: e.target.value as any })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
-                  >
-                    <option value="journalism">Media & Journalism</option>
-                    <option value="platforms">Digital Media & Algorithms</option>
-                    <option value="monitoring">Media Monitoring</option>
-                    <option value="public">Public Opinion & Trust</option>
-                    <option value="democracy">Media & Democracy</option>
-                    <option value="ai">Technology & AI</option>
-                  </select>
-                </div>
-
-                {/* Timeframe (rendered below the tagline) */}
-                <div className="hidden">
-                  <label className="text-xs font-bold text-slate-700">Investigation Timeframe</label>
+                {/* Tagline */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">
+                    {activeLang === 'bn' ? 'Focus Thesis / Tagline (বাংলা)' : 'Focus Thesis / Tagline'}
+                  </label>
                   <input
                     type="text"
-                    value={formBeat.timeframe}
-                    onChange={e => setFormBeat({ ...formBeat, timeframe: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800"
-                    placeholder="2024 – Present"
+                    value={activeLang === 'bn' ? (formBeat.taglineBn || '') : formBeat.tagline}
+                    onChange={e => setFormBeat({
+                      ...formBeat,
+                      taglineBn: activeLang === 'bn' ? e.target.value : formBeat.taglineBn,
+                      tagline: activeLang === 'en' ? e.target.value : formBeat.tagline
+                    })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 font-serif italic focus:bg-white focus:border-[#6E56CF] outline-none transition-all"
+                    placeholder={activeLang === 'bn' ? 'মালিকানা স্বচ্ছতা ও সম্পাদকীয় স্বায়ত্তশাসনের নীতিমূলক নিরীক্ষণ।' : 'Empirical auditing of ownership transparency and editorial autonomy.'}
                   />
                 </div>
 
-              </div>
-
-              {/* Tagline */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Focus Thesis / Tagline</label>
-                <input
-                  type="text"
-                  value={formBeat.tagline}
-                  onChange={e => setFormBeat({ ...formBeat, tagline: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 font-serif italic"
-                  placeholder="Empirical auditing of ownership transparency and editorial autonomy."
-                />
+                {/* Card Description */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">
+                    {activeLang === 'bn' ? 'Card Description (বাংলা)' : 'Card Description'}
+                    <span className="text-slate-400 font-normal ml-1">(Shown on the Research Portfolio card)</span>
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={activeLang === 'bn' ? (formBeat.descriptionBn || '') : formBeat.description}
+                    onChange={e => setFormBeat({
+                      ...formBeat,
+                      descriptionBn: activeLang === 'bn' ? e.target.value : formBeat.descriptionBn,
+                      description: activeLang === 'en' ? e.target.value : formBeat.description
+                    })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-800 focus:bg-white focus:border-[#6E56CF] outline-none transition-all"
+                    placeholder={activeLang === 'bn' ? 'গবেষণার সারসংক্ষেপ বর্ণনা লিখুন...' : 'Brief summary description for the research card...'}
+                  />
+                </div>
               </div>
 
               {/* Timeframe and Category */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Investigation Timeframe</label>
+                  <label className="text-xs font-bold text-slate-700">
+                    {activeLang === 'bn' ? 'Investigation Timeframe (বাংলা)' : 'Investigation Timeframe'}
+                  </label>
                   <input
                     type="text"
-                    value={formBeat.timeframe}
-                    onChange={e => setFormBeat({ ...formBeat, timeframe: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800"
-                    placeholder="Investigation period"
+                    value={activeLang === 'bn' ? (formBeat.timeframeBn || '') : formBeat.timeframe}
+                    onChange={e => setFormBeat({
+                      ...formBeat,
+                      timeframeBn: activeLang === 'bn' ? e.target.value : formBeat.timeframeBn,
+                      timeframe: activeLang === 'en' ? e.target.value : formBeat.timeframe
+                    })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800 focus:bg-white focus:border-[#6E56CF] outline-none transition-all"
+                    placeholder="2024 – Present"
                   />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700">Category</label>
                   <select
                     value={formBeat.category}
-                    onChange={e => setFormBeat({ ...formBeat, category: e.target.value as any })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
+                    onChange={e => setFormBeat({ ...formBeat, category: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#6E56CF] outline-none transition-all cursor-pointer"
                   >
-                    <option value="journalism">Media & Journalism</option>
-                    <option value="platforms">Digital Media & Algorithms</option>
+                    <option value="journalism">Journalism & Newsrooms</option>
+                    <option value="platforms">Platforms & Algorithms</option>
                     <option value="monitoring">Media Monitoring</option>
                     <option value="public">Public Opinion & Trust</option>
                     <option value="democracy">Media & Democracy</option>
@@ -671,13 +566,47 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
 
               {/* Primary Methodologies */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Primary Methodologies <span className="text-slate-400 font-normal">(comma-separated names)</span></label>
+                <label className="text-xs font-bold text-slate-700">
+                  {activeLang === 'bn' ? 'Primary Methodologies (বাংলা)' : 'Primary Methodologies'}
+                  <span className="text-slate-400 font-normal ml-1">(comma-separated)</span>
+                </label>
                 <input
                   type="text"
-                  value={(formBeat.primaryMethodologies || []).join(', ')}
-                  onChange={e => setFormBeat({ ...formBeat, primaryMethodologies: e.target.value.split(',').map(s => s.trim()).filter(Boolean), methodology: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800"
-                  placeholder="Ethnography, Corpus Analysis, Network Mapping"
+                  value={activeLang === 'bn' ? (formBeat.primaryMethodologiesBn || []).join(', ') : (formBeat.primaryMethodologies || []).join(', ')}
+                  onChange={e => {
+                    const val = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
+                    setFormBeat({
+                      ...formBeat,
+                      primaryMethodologiesBn: activeLang === 'bn' ? val : formBeat.primaryMethodologiesBn,
+                      primaryMethodologies: activeLang === 'en' ? val : formBeat.primaryMethodologies,
+                      methodology: activeLang === 'en' ? e.target.value : formBeat.methodology,
+                      methodologyBn: activeLang === 'bn' ? e.target.value : formBeat.methodologyBn
+                    });
+                  }}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#6E56CF] outline-none transition-all"
+                  placeholder={activeLang === 'bn' ? 'নৃগবেষণা, কর্পাস বিশ্লেষণ, নেটওয়ার্ক ম্যাপিং' : 'Newsroom Field Audits, Cross-border Financial Tracking, Regulatory Filing Analysis'}
+                />
+              </div>
+
+              {/* Sample Inquiries */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700">
+                  {activeLang === 'bn' ? 'Sample Inquiries & Datasets (বাংলা)' : 'Sample Inquiries & Datasets'}
+                  <span className="text-slate-400 font-normal ml-1">(one per line)</span>
+                </label>
+                <textarea
+                  rows={3}
+                  value={activeLang === 'bn' ? (formBeat.sampleInquiriesBn || []).join('\n') : (formBeat.sampleInquiries || []).join('\n')}
+                  onChange={e => {
+                    const lines = e.target.value.split('\n').map(s => s.trim()).filter(Boolean);
+                    setFormBeat({
+                      ...formBeat,
+                      sampleInquiriesBn: activeLang === 'bn' ? lines : formBeat.sampleInquiriesBn,
+                      sampleInquiries: activeLang === 'en' ? lines : formBeat.sampleInquiries,
+                    });
+                  }}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-800 focus:bg-white focus:border-[#6E56CF] outline-none transition-all"
+                  placeholder={activeLang === 'bn' ? '১. মালিকানা স্বচ্ছতা নিরীক্ষণ...\n২. ক্রস-বর্ডার ফাইন্যান্সিয়াল ট্রেসিং...' : '1. Cross-border media holding structures in South Asia\n2. Private equity concentration across broadcast channels\n3. Editorial board independence during state advertising cycles'}
                 />
               </div>
 
@@ -688,7 +617,7 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
                   <button
                     type="button"
                     onClick={() => setIsLeadFellowsOpen(open => !open)}
-                    className="w-full flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-left text-slate-800"
+                    className="w-full flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-left text-slate-800 focus:bg-white focus:border-[#6E56CF] outline-none transition-all cursor-pointer"
                   >
                     <span className="truncate">
                       {formBeat.leadFellows?.length ? formBeat.leadFellows.join(', ') : 'Select lead fellows'}
@@ -726,41 +655,77 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
               <div className="space-y-3 rounded-xl border border-slate-200 bg-slate-50/60 p-4">
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700">Research Image</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={e => handleResearchImageUpload(e.target.files?.[0])}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs"
-                  />
+                  <div className="flex items-center gap-3">
+                    <label className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-[#6E56CF] hover:border-[#6E56CF] text-xs font-bold cursor-pointer transition-colors">
+                      {isUploading ? <Loader2 className="w-4 h-4 animate-spin text-[#6E56CF]" /> : <Upload className="w-4 h-4" />}
+                      <span>{isUploading ? 'Uploading...' : 'Choose File to Upload'}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={e => handleResearchImageUpload(e.target.files?.[0])}
+                        disabled={isUploading}
+                      />
+                    </label>
+                    <span className="text-[11px] text-slate-400">Uploads to server /api/upload storage</span>
+                  </div>
                 </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">Image Title</label>
+                    <label className="text-xs font-bold text-slate-700">
+                      {activeLang === 'bn' ? 'Image Title (বাংলা)' : 'Image Title'}
+                    </label>
                     <input
                       type="text"
-                      value={formBeat.imageTitle || ''}
-                      onChange={e => setFormBeat({ ...formBeat, imageTitle: e.target.value })}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs"
-                      placeholder="Visual archive title"
+                      value={activeLang === 'bn' ? (formBeat.imageTitleBn || '') : (formBeat.imageTitle || '')}
+                      onChange={e => setFormBeat({
+                        ...formBeat,
+                        imageTitleBn: activeLang === 'bn' ? e.target.value : formBeat.imageTitleBn,
+                        imageTitle: activeLang === 'en' ? e.target.value : formBeat.imageTitle
+                      })}
+                      className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs focus:border-[#6E56CF] outline-none"
+                      placeholder={activeLang === 'bn' ? 'ভিজ্যুয়াল আর্কাইভ শিরোনাম' : 'Visual archive reference'}
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">Image Subtitle</label>
+                    <label className="text-xs font-bold text-slate-700">
+                      {activeLang === 'bn' ? 'Image Subtitle (বাংলা)' : 'Image Subtitle'}
+                    </label>
                     <input
                       type="text"
-                      value={formBeat.imageSubtitle || ''}
-                      onChange={e => setFormBeat({ ...formBeat, imageSubtitle: e.target.value })}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs"
-                      placeholder="Short image context"
+                      value={activeLang === 'bn' ? (formBeat.imageSubtitleBn || '') : (formBeat.imageSubtitle || '')}
+                      onChange={e => setFormBeat({
+                        ...formBeat,
+                        imageSubtitleBn: activeLang === 'bn' ? e.target.value : formBeat.imageSubtitleBn,
+                        imageSubtitle: activeLang === 'en' ? e.target.value : formBeat.imageSubtitle
+                      })}
+                      className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs focus:border-[#6E56CF] outline-none"
+                      placeholder={activeLang === 'bn' ? 'ছোট ইমেজ প্রেক্ষাপট' : 'Short image context'}
                     />
                   </div>
                 </div>
-                {formBeat.image && <img src={formBeat.image} alt="Research preview" className="h-32 w-full rounded-xl object-cover border border-slate-200" />}
+
+                {formBeat.image && (
+                  <div className="relative rounded-xl overflow-hidden border border-slate-200 w-full max-w-md h-40">
+                    <img src={formBeat.image} alt="Research preview" className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => setFormBeat(prev => ({ ...prev, image: '' }))}
+                      className="absolute top-2 right-2 p-1.5 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors"
+                      title="Remove image"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Research Narrative & Institutional Rationale */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Research Narrative & Institutional Rationale</label>
+                <label className="text-xs font-bold text-slate-700">
+                  {activeLang === 'bn' ? 'Research Narrative & Institutional Rationale (বাংলা)' : 'Research Narrative & Institutional Rationale'}
+                </label>
                 <div className="flex flex-wrap items-center gap-1 p-2 bg-slate-100 border border-slate-200 rounded-t-xl">
                   {[
                     ['bold', 'Bold'], ['italic', 'Italic'], ['underline', 'Underline'],
@@ -772,15 +737,33 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
                       type="button"
                       onMouseDown={e => e.preventDefault()}
                       onClick={() => applyRichTextCommand(command, command === 'formatBlock' ? 'h2' : undefined)}
-                      className="px-2 py-1 rounded-md bg-white border border-slate-200 text-[11px] font-semibold text-slate-600 hover:text-[#6E56CF] hover:border-purple-200"
+                      className="px-2 py-1 rounded-md bg-white border border-slate-200 text-[11px] font-semibold text-slate-600 hover:text-[#6E56CF] hover:border-purple-200 cursor-pointer"
                       title={label}
                     >
                       {label}
                     </button>
                   ))}
-                  <button type="button" onClick={() => applyRichTextCommand('createLink', window.prompt('Enter URL') || '')} className="px-2 py-1 rounded-md bg-white border border-slate-200 text-[11px] font-semibold text-slate-600 hover:text-[#6E56CF] hover:border-purple-200">Link</button>
-                  <button type="button" onClick={() => applyRichTextCommand('undo')} className="px-2 py-1 rounded-md bg-white border border-slate-200 text-[11px] font-semibold text-slate-600 hover:text-[#6E56CF] hover:border-purple-200">Undo</button>
-                  <button type="button" onClick={() => applyRichTextCommand('redo')} className="px-2 py-1 rounded-md bg-white border border-slate-200 text-[11px] font-semibold text-slate-600 hover:text-[#6E56CF] hover:border-purple-200">Redo</button>
+                  <button
+                    type="button"
+                    onClick={() => applyRichTextCommand('createLink', window.prompt('Enter URL') || '')}
+                    className="px-2 py-1 rounded-md bg-white border border-slate-200 text-[11px] font-semibold text-slate-600 hover:text-[#6E56CF] hover:border-purple-200 cursor-pointer"
+                  >
+                    Link
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyRichTextCommand('undo')}
+                    className="px-2 py-1 rounded-md bg-white border border-slate-200 text-[11px] font-semibold text-slate-600 hover:text-[#6E56CF] hover:border-purple-200 cursor-pointer"
+                  >
+                    Undo
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyRichTextCommand('redo')}
+                    className="px-2 py-1 rounded-md bg-white border border-slate-200 text-[11px] font-semibold text-slate-600 hover:text-[#6E56CF] hover:border-purple-200 cursor-pointer"
+                  >
+                    Redo
+                  </button>
                 </div>
                 <div
                   ref={richTextRef}
@@ -788,22 +771,16 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
                   suppressContentEditableWarning
                   onInput={e => {
                     const narrative = e.currentTarget.innerHTML;
-                    setFormBeat(prev => ({ ...prev, researchNarrative: narrative, summary: narrative }));
+                    setFormBeat(prev => ({
+                      ...prev,
+                      researchNarrativeBn: activeLang === 'bn' ? narrative : prev.researchNarrativeBn,
+                      researchNarrative: activeLang === 'en' ? narrative : prev.researchNarrative,
+                      summaryBn: activeLang === 'bn' ? narrative : prev.summaryBn,
+                      summary: activeLang === 'en' ? narrative : prev.summary,
+                    }));
                   }}
-                  className="min-h-48 w-full bg-slate-50 border border-t-0 border-slate-200 rounded-b-xl p-3 text-sm text-slate-800 leading-relaxed outline-none focus:border-[#6E56CF]"
-                  data-placeholder="Write the full research narrative and institutional rationale..."
-                />
-              </div>
-
-              {/* Legacy methodology field retained for saved-record compatibility */}
-              <div className="hidden">
-                <label className="text-xs font-bold text-slate-700">Primary Methodologies <span className="text-slate-400 font-normal">(comma-separated names)</span></label>
-                <input
-                  type="text"
-                  value={(formBeat.primaryMethodologies || []).join(', ')}
-                  onChange={e => setFormBeat({ ...formBeat, primaryMethodologies: e.target.value.split(',').map(s => s.trim()).filter(Boolean), methodology: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800"
-                  placeholder="Ethnography, Corpus Analysis, Network Mapping"
+                  className="min-h-48 w-full bg-slate-50 border border-t-0 border-slate-200 rounded-b-xl p-3.5 text-sm text-slate-800 leading-relaxed outline-none focus:border-[#6E56CF] focus:bg-white"
+                  data-placeholder={activeLang === 'bn' ? 'পূর্ণ গবেষণার ভাবনা ও প্রাতিষ্ঠানিক যুক্তি লিখুন...' : 'Write the full research narrative and institutional rationale...'}
                 />
               </div>
             </div>
@@ -822,7 +799,7 @@ export const ResearchManagerView: React.FC<ResearchManagerViewProps> = ({ initia
                 className="px-6 py-2.5 rounded-xl bg-[#6E56CF] hover:bg-[#5842c3] text-white text-xs font-bold shadow-sm shadow-purple-200 transition-all cursor-pointer inline-flex items-center gap-2"
               >
                 <Save className="w-4 h-4" />
-                <span>Save Research Program</span>
+                <span>Save Research Track</span>
               </button>
             </div>
           </form>

@@ -8,9 +8,10 @@ import { FOCUS_AREAS_BN } from '../data/translations';
 
 interface FocusAreaListProps {
   onSelectArea?: (area: FocusAreaItem) => void;
+  areas?: FocusAreaItem[];
 }
 
-export const FocusAreaList: React.FC<FocusAreaListProps> = ({ onSelectArea }) => {
+export const FocusAreaList: React.FC<FocusAreaListProps> = ({ onSelectArea, areas }) => {
   const { isBn, t } = useLanguage();
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(0);
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
@@ -19,9 +20,21 @@ export const FocusAreaList: React.FC<FocusAreaListProps> = ({ onSelectArea }) =>
     setExpandedIdx(expandedIdx === idx ? null : idx);
   };
 
+  const sourceAreas = areas && areas.length ? areas : FOCUS_AREAS;
+  const sourceAreasBn = areas && areas.length ? null : FOCUS_AREAS_BN;
+
   const currentAreas = isBn
-    ? FOCUS_AREAS.map((item, idx) => {
-        const bn = FOCUS_AREAS_BN[idx];
+    ? sourceAreas.map((item, idx) => {
+        if (item.topicBn || item.descriptionBn) {
+          return {
+            ...item,
+            topic: item.topicBn || item.topic,
+            description: item.descriptionBn || item.description,
+            expandedDetails: item.expandedDetailsBn && item.expandedDetailsBn.length ? item.expandedDetailsBn : item.expandedDetails,
+            image: item.image,
+          };
+        }
+        const bn = sourceAreasBn ? (sourceAreasBn as any[])[idx] : null;
         return bn
           ? {
               ...item,
@@ -32,7 +45,7 @@ export const FocusAreaList: React.FC<FocusAreaListProps> = ({ onSelectArea }) =>
             }
           : item;
       })
-    : FOCUS_AREAS;
+    : sourceAreas;
 
   const activeItem = hoveredIdx !== null ? currentAreas[hoveredIdx] : currentAreas[0];
 

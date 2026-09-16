@@ -25,7 +25,7 @@ import { TEAM_MEMBERS } from '../../../data/team';
 import { APPROACH_STEPS } from '../../../data/approach';
 import { CTASection } from '../../../components/CTASection';
 import { useLanguage } from '../../../context/LanguageContext';
-import { APPROACH_STEPS_BN } from '../../../data/translations';
+import { APPROACH_STEPS_BN, TEAM_MEMBERS_BN } from '../../../data/translations';
 
 const STATIC_BEAT_MAP: Record<string, string> = {
   '01': 'media-journalism',
@@ -69,12 +69,11 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
   const tenetBadge = isBn ? content?.homePage?.tenetBadgeBn : content?.homePage?.tenetBadge;
 
   const rawWhatWeDo = content?.homePage?.whatWeDo;
-  const whatWeDoCards = rawWhatWeDo
-    ? (isBn ? rawWhatWeDo.cardsBn ?? [] : rawWhatWeDo.cards ?? []).slice(0, 3).map((card, idx) => ({
-        ...card,
-        ...(isBn && rawWhatWeDo.cards?.[idx] ? rawWhatWeDo.cards[idx] : {}),
-      }))
-    : [];
+  const whatWeDoCards = (rawWhatWeDo?.cards ?? []).slice(0, 3).map((card) => ({
+    ...card,
+    title: isBn ? (card.titleBn || card.title) : card.title,
+    description: isBn ? (card.descriptionBn || card.description) : card.description,
+  }));
 
   const publicInterest = content?.homePage?.publicInterestBanner;
   const publicInterestBadge = isBn ? publicInterest?.badgeBn : publicInterest?.badge;
@@ -115,7 +114,6 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
   const beatMap = { ...STATIC_BEAT_MAP, ...dynamicBeatMap };
 
   const dbSteps = howWeWorkData?.steps;
-  const dbStepsBn = howWeWorkData?.stepsBn;
   const staticApproachSteps = APPROACH_STEPS.map((step, idx) => {
     const bn = APPROACH_STEPS_BN[idx];
     return bn
@@ -130,19 +128,12 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
   });
   const currentApproachSteps =
     dbSteps && dbSteps.length
-      ? isBn && dbStepsBn
-        ? dbStepsBn.map((s) => ({
-            number: s.step,
-            title: s.title,
-            subtitle: s.subheading ?? '',
-            description: s.description,
-          }))
-        : dbSteps.map((s) => ({
-            number: s.step,
-            title: s.title,
-            subtitle: s.subheading ?? '',
-            description: s.description,
-          }))
+      ? dbSteps.map((s) => ({
+          number: s.step,
+          title: isBn ? (s.titleBn || s.title) : s.title,
+          subtitle: isBn ? (s.subheadingBn || s.subheading || '') : (s.subheading || ''),
+          description: isBn ? (s.descriptionBn || s.description) : s.description,
+        }))
       : isBn
         ? staticApproachSteps
         : APPROACH_STEPS;
@@ -150,37 +141,27 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
   const previewTeam =
     content && content.featuredTeamMembers.length ? content.featuredTeamMembers : TEAM_MEMBERS.slice(0, 4);
 
+  const fallbackTickerEn = ['MEDIA RESEARCH', 'JOURNALISM RECOVERY', 'DIGITAL PLATFORMS & AI', 'PUBLIC OPINION & TRUST', 'INFORMATION RESILIENCE', 'COMPUTATIONAL AUDITS', 'ETHICS & GOVERNANCE', 'MEDIA MONITORING'];
+  const fallbackTickerBn = ['গণমাধ্যম গবেষণা', 'সাংবাদিকতার সুরক্ষা', 'ডিজিটাল প্ল্যাটফর্ম ও এআই', 'জনমত ও বিশ্বাসযোগ্যতা', 'তথ্যপ্রবাহের স্থিতিস্থাপকতা', 'কম্পিউটেশনাল অডিট', 'নৈতিকতা ও নীতিমালা', 'মিডিয়া মনিটরিং'];
+  const tickerData = content?.homePage?.ticker;
+  const tickerSpeed = tickerData?.speedSec || 25;
   const TICKER_ITEMS = isBn
-    ? [
-        'গণমাধ্যম গবেষণা',
-        'সাংবাদিকতার সুরক্ষা',
-        'ডিজিটাল প্ল্যাটফর্ম ও এআই',
-        'জনমত ও বিশ্বাসযোগ্যতা',
-        'তথ্যপ্রবাহের স্থিতিস্থাপকতা',
-        'কম্পিউটেশনাল অডিট',
-        'নৈতিকতা ও নীতিমালা',
-        'মিডিয়া মনিটরিং',
-      ]
-    : [
-        'MEDIA RESEARCH',
-        'JOURNALISM RECOVERY',
-        'DIGITAL PLATFORMS & AI',
-        'PUBLIC OPINION & TRUST',
-        'INFORMATION RESILIENCE',
-        'COMPUTATIONAL AUDITS',
-        'ETHICS & GOVERNANCE',
-        'MEDIA MONITORING',
-      ];
+    ? (tickerData?.itemsBn && tickerData.itemsBn.length ? tickerData.itemsBn : tickerData?.items && tickerData.items.length ? tickerData.items : fallbackTickerBn)
+    : (tickerData?.items && tickerData.items.length ? tickerData.items : fallbackTickerEn);
+
+  const whoWeAreHome = content?.homePage?.whoWeAreHome;
+  const focusAreasData = content?.homePage?.focusAreas;
 
   const renderMetricCard = (index: number, icon: React.ElementType, chip: string, value: string, label: string, detail: string) => {
     const Icon = icon;
+    const chipClass = index === 2 ? 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-[#D2F843]/20 text-[#D2F843] border border-[#D2F843]/30' : 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white/10 text-white/80 border border-white/10';
     return (
       <div className="rounded-2xl sm:rounded-3xl bg-[#0B2A20]/90 backdrop-blur-md border border-white/20 p-3 sm:p-5 lg:p-6 flex flex-col justify-between shadow-xl hover:border-[#D2F843]/50 transition-all group">
         <div className="flex items-center justify-between mb-2 sm:mb-4">
           <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/10 text-[#D2F843] flex items-center justify-center border border-white/10 group-hover:scale-105 group-hover:bg-[#D2F843] group-hover:text-[#0B2A20] transition-all">
             <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
           </div>
-          <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white/10 text-white/80 border border-white/10">
+          <span className={chipClass}>
             {chip}
           </span>
         </div>
@@ -427,7 +408,21 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
 
             <h1 className="font-sans text-3xl sm:text-5xl md:text-6xl lg:text-[76px] leading-[1.08] sm:leading-[1.02] font-black tracking-tight text-white mb-4 sm:mb-6">
               {heroHeadline ? (
-                heroHeadline
+                heroHeadline.includes('Understanding') ? (
+                  <>
+                    {heroHeadline.split('Understanding')[0]}
+                    <span className="text-[#D2F843]">Understanding</span>
+                    {heroHeadline.split('Understanding')[1]}
+                  </>
+                ) : heroHeadline.includes('সমাজের গভীর') ? (
+                  <>
+                    {heroHeadline.split('সমাজের গভীর')[0]}
+                    <span className="text-[#D2F843]">সমাজের গভীর</span>
+                    {heroHeadline.split('সমাজের গভীর')[1]}
+                  </>
+                ) : (
+                  heroHeadline
+                )
               ) : isBn ? (
                 <>
                   গণমাধ্যম নিয়ে গবেষণা। <br className="hidden xs:inline" />
@@ -501,29 +496,24 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-3">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white border border-[#E2EAE4] text-xs font-medium text-[#0B2A20] shadow-2xs">
-                  <CheckCircle className="w-3.5 h-3.5 text-[#195642]" />
-                  <span>{t('100% Non-Partisan & Open-Access', '১০০% নিরপেক্ষ ও উন্মুক্ত গবেষণা')}</span>
-                </div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white border border-[#E2EAE4] text-xs font-medium text-[#0B2A20] shadow-2xs">
-                  <CheckCircle className="w-3.5 h-3.5 text-[#195642]" />
-                  <span>{t('IRB-Approved Scientific Ethics', 'আইআরবি-স্বীকৃত বৈজ্ঞানিক নীতিমালা')}</span>
-                </div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white border border-[#E2EAE4] text-xs font-medium text-[#0B2A20] shadow-2xs">
-                  <CheckCircle className="w-3.5 h-3.5 text-[#195642]" />
-                  <span>{t('Open Microdata Standards', 'উন্মুক্ত মাইক্রোডেটা মানদণ্ড')}</span>
-                </div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white border border-[#E2EAE4] text-xs font-medium text-[#0B2A20] shadow-2xs">
-                  <CheckCircle className="w-3.5 h-3.5 text-[#195642]" />
-                  <span>{t('Independent Editorial Oversight', 'স্বাধীন সম্পাদকীয় তদারকি')}</span>
-                </div>
+                {(() => {
+                  const pointsEn = publicInterest?.keyPoints && publicInterest.keyPoints.length ? publicInterest.keyPoints : ['100% Non-Partisan & Open-Access', 'IRB-Approved Scientific Ethics', 'Open Microdata Standards', 'Independent Editorial Oversight'];
+                  const pointsBn = publicInterest?.keyPointsBn && publicInterest.keyPointsBn.length ? publicInterest.keyPointsBn : ['১০০% নিরপেক্ষ ও উন্মুক্ত গবেষণা', 'আইআরবি-স্বীকৃত বৈজ্ঞানিক নীতিমালা', 'উন্মুক্ত মাইক্রোডেটা মানদণ্ড', 'স্বাধীন সম্পাদকীয় তদারকি'];
+                  const points = isBn ? pointsBn : pointsEn;
+                  return points.slice(0,4).map((pt, idx) => (
+                    <div key={idx} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white border border-[#E2EAE4] text-xs font-medium text-[#0B2A20] shadow-2xs">
+                      <CheckCircle className="w-3.5 h-3.5 text-[#195642]" />
+                      <span>{pt}</span>
+                    </div>
+                  ));
+                })()}
               </div>
             </div>
 
             <div className="lg:col-span-5">
               <div className="relative rounded-3xl overflow-hidden shadow-lg border border-[#E2EAE4] bg-white group aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3]">
                 <img
-                  src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85"
+                  src={publicInterest?.mediaUrl || 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85'}
                   alt="Public interest media researchers analyzing datasets and societal impact"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   loading="lazy"
@@ -559,7 +549,7 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
           animate={{ x: ['0%', '-50%'] }}
           transition={{
             ease: 'linear',
-            duration: 25,
+            duration: tickerSpeed,
             repeat: Infinity,
           }}
         >
@@ -600,31 +590,28 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
               <div className="flex items-center justify-between text-xs font-bold tracking-widest uppercase text-[#0B2A20]">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] border border-[#0B2A20]/10">
                   <span className="w-2 h-2 rounded-full bg-[#D2F843] shadow-[0_0_8px_#D2F843]" />
-                  <span>{t('WHO WE ARE', 'আমাদের পরিচিতি')}</span>
+                  <span>{isBn ? (whoWeAreHome?.badgeBn || whoWeAreHome?.badge || 'আমাদের পরিচিতি') : (whoWeAreHome?.badge || 'WHO WE ARE')}</span>
                 </div>
-                <span className="font-mono text-[#556B62]">01 / 05</span>
+                <span className="font-mono text-[#556B62]">{isBn ? (whoWeAreHome?.indexLabelBn || whoWeAreHome?.indexLabel || '০১ / ০৫') : (whoWeAreHome?.indexLabel || '01 / 05')}</span>
               </div>
 
               <h2 className="font-sans text-4xl sm:text-5xl lg:text-[54px] text-[#0B2A20] font-extrabold leading-[1.08] tracking-tight">
                 {isBn ? (
                   <>
-                    গণমাধ্যম নিয়ে গবেষণা। <br />
-                    <span className="text-[#195642]">সামাজিক প্রভাবের বিশ্লেষণ।</span>
+                    {whoWeAreHome?.headingBn || 'গণমাধ্যম নিয়ে গবেষণা।'} <br />
+                    <span className="text-[#195642]">{whoWeAreHome?.headingAccentBn || 'সামাজিক প্রভাবের বিশ্লেষণ।'}</span>
                   </>
                 ) : (
                   <>
-                    Researching the Media. <br />
-                    <span className="text-[#195642]">Understanding Its Impact.</span>
+                    {whoWeAreHome?.heading || 'Researching the Media.'} <br />
+                    <span className="text-[#195642]">{whoWeAreHome?.headingAccent || 'Understanding Its Impact.'}</span>
                   </>
                 )}
               </h2>
 
               <div className="pt-2">
                 <div className="inline-block px-4 py-2 bg-[#F6F9F4] rounded-xl border border-[#E2EAE4] font-mono text-xs text-[#556B62] tracking-wider uppercase font-bold">
-                  {t(
-                    'INDEPENDENT RESEARCH · EVIDENCE-DRIVEN',
-                    'স্বাধীন গবেষণা · তথ্য-প্রমাণ নির্ভর'
-                  )}
+                  {isBn ? (whoWeAreHome?.badgeTextBn || whoWeAreHome?.badgeText || 'স্বাধীন গবেষণা · তথ্য-প্রমাণ নির্ভর') : (whoWeAreHome?.badgeText || 'INDEPENDENT RESEARCH · EVIDENCE-DRIVEN')}
                 </div>
               </div>
             </div>
@@ -632,28 +619,22 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
             <div className="lg:col-span-6 space-y-6 text-base sm:text-lg text-[#0D1F18] font-sans font-normal leading-relaxed pt-2">
               <p>
                 <strong>{t(ORGANIZATION.name, ORGANIZATION.nameBn)}</strong>{' '}
-                {t(
-                  'is an independent media research organization focused on understanding the changing landscape of media, journalism, and information.',
-                  'একটি স্বাধীন গণমাধ্যম গবেষণা প্রতিষ্ঠান যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থার পরিবর্তনশীল গতিশীলতা নিয়ে কাজ করে।'
-                )}
+                {isBn ? (whoWeAreHome?.descriptionBn || 'একটি স্বাধীন গণমাধ্যম গবেষণা প্রতিষ্ঠান যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থার পরিবর্তনশীল গতিশীলতা নিয়ে কাজ করে।') : (whoWeAreHome?.description || 'is an independent media research organization focused on understanding the changing landscape of media, journalism, and information.')}
               </p>
 
               <p className="text-[#556B62]">
-                {t(
-                  'Through research, monitoring, and analysis, we examine how information is produced, distributed, consumed, and understood in a rapidly changing digital environment.',
-                  'গবেষণা, নিবিড় নিরীক্ষণ ও বিশ্লেষণের মাধ্যমে আমরা খতিয়ে দেখি কীভাবে দ্রুত পরিবর্তনশীল ডিজিটাল বিশ্বে তথ্য উৎপাদিত, পরিবেশিত ও জনমানসে গৃহীত হয়।'
-                )}
+                {isBn ? (whoWeAreHome?.secondaryDescriptionBn || 'গবেষণা, নিবিড় নিরীক্ষণ ও বিশ্লেষণের মাধ্যমে আমরা খতিয়ে দেখি কীভাবে দ্রুত পরিবর্তনশীল ডিজিটাল বিশ্বে তথ্য উৎপাদিত, পরিবেশিত ও জনমানসে গৃহীত হয়।') : (whoWeAreHome?.secondaryDescription || 'Through research, monitoring, and analysis, we examine how information is produced, distributed, consumed, and understood in a rapidly changing digital environment.')}
               </p>
 
               <div className="pt-4">
                 <button
                   onClick={() => {
-                    onNavigate('about');
+                    router.push(whoWeAreHome?.ctaUrl || '/about');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#0B2A20] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#144234] transition-all cursor-pointer"
                 >
-                  <span>{t('Discover Our Organization', 'আমাদের সম্পর্কে জানুন')}</span>
+                  <span>{isBn ? (whoWeAreHome?.ctaTextBn || 'আমাদের সম্পর্কে জানুন') : (whoWeAreHome?.ctaText || 'Discover Our Organization')}</span>
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 text-[#D2F843]" />
                 </button>
               </div>
@@ -683,19 +664,16 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
       <section className="py-20 sm:py-28 border-b border-[#E2EAE4] bg-[#FFFFFF]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <SectionHeading
-            label={t('AREAS OF FOCUS', 'গবেষণার ক্ষেত্রসমূহ')}
-            index="03 / 05"
-            title={areasTitle || t('Areas We Explore', 'আমরা যেসব ক্ষেত্রে কাজ করি')}
+            label={isBn ? (focusAreasData?.labelBn || focusAreasData?.label || 'গবেষণার ক্ষেত্রসমূহ') : (focusAreasData?.label || 'AREAS OF FOCUS')}
+            index={isBn ? (focusAreasData?.indexLabel || '০৩ / ০৫') : (focusAreasData?.indexLabel || '03 / 05')}
+            title={isBn ? (focusAreasData?.titleBn || focusAreasData?.title || areasTitle || 'আমরা যেসব ক্ষেত্রে কাজ করি') : (focusAreasData?.title || areasTitle || 'Areas We Explore')}
             description={
-              areasSubtitle ||
-              t(
-                'Six specialized research domains addressing the systemic questions of news integrity, platform dynamics, and civic reception.',
-                'সংবাদের বস্তুনিষ্ঠতা, প্ল্যাটফর্মের প্রভাব এবং নাগরিক প্রতিক্রিয়ার মূল প্রশ্নসমূহ নিয়ে নিবেদিত ৬টি বিশেষ গবেষণা ক্ষেত্র।'
-              )
+              isBn ? (focusAreasData?.subtitleBn || focusAreasData?.subtitle || areasSubtitle || 'সংবাদের বস্তুনিষ্ঠতা, প্ল্যাটফর্মের প্রভাব এবং নাগরিক প্রতিক্রিয়ার মূল প্রশ্নসমূহ নিয়ে নিবেদিত ৬টি বিশেষ গবেষণা ক্ষেত্র।') : (focusAreasData?.subtitle || areasSubtitle || 'Six specialized research domains addressing the systemic questions of news integrity, platform dynamics, and civic reception.')
             }
           />
 
           <FocusAreaList
+            areas={focusAreasData?.items && focusAreasData.items.length ? focusAreasData.items : undefined}
             onSelectArea={(area) => {
               if (onSelectInvestigation) {
                 const targetId = beatMap[area.number] || 'media-journalism';
@@ -770,7 +748,7 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
               howWeWorkSubtitle ||
               t(
                 "We combine research, evidence, monitoring, and analysis to develop a clearer understanding of the issues shaping today's information environment.",
-                'তথ্য ও গণমাধ্যম পরিবেশকে সুস্পষ্টভাবে অনুধাবনicate আমরা গবেষণা, প্রমাণাদি, নিরীক্ষণ ও গভীর বিশ্লেষণের সমন্বয় ঘটাই।'
+                'তথ্য ও গণমাধ্যম পরিবেশকে সুস্পষ্টভাবে অনুধাবন করতে আমরা গবেষণা, প্রমাণাদি, নিরীক্ষণ ও গভীর বিশ্লেষণের সমন্বয় ঘটাই।'
               )
             }
           />
@@ -787,7 +765,7 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
                       {step.number}
                     </span>
                     <span className="text-[10px] font-bold uppercase tracking-wider text-[#556B62]">
-                      {t('PIPELINE', 'পর্যায়')}
+                      {t('PIPELINE', 'পর্যায়')}
                     </span>
                   </div>
 
@@ -845,9 +823,10 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {previewTeam.map((member) => {
-              const displayName = isBn && member.nameBn ? member.nameBn : member.name;
-              const displayRole = isBn && member.roleBn ? member.roleBn : member.role;
-              const displayBio = isBn && member.bioBn ? member.bioBn : member.bio;
+              const bnMember = (TEAM_MEMBERS_BN as any)[member.id];
+              const displayName = isBn ? (member.nameBn || bnMember?.nameBn || member.name) : member.name;
+              const displayRole = isBn ? (member.roleBn || bnMember?.roleBn || member.role) : member.role;
+              const displayBio = isBn ? (member.bioBn || bnMember?.bioBn || member.bio) : member.bio;
 
               return (
                 <div
@@ -894,7 +873,18 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
       </section>
 
       {/* 15. FINAL CTA */}
-      <CTASection />
+      <CTASection
+        title={bottomCtaData?.title}
+        titleBn={bottomCtaData?.titleBn}
+        narrative={bottomCtaData?.narrative}
+        narrativeBn={bottomCtaData?.narrativeBn}
+        primaryText={bottomCtaData?.primaryCtaText}
+        primaryTextBn={bottomCtaData?.primaryCtaTextBn}
+        primaryUrl={bottomCtaData?.primaryCtaUrl}
+        secondaryText={bottomCtaData?.secondaryCtaText}
+        secondaryTextBn={bottomCtaData?.secondaryCtaTextBn}
+        secondaryUrl={bottomCtaData?.secondaryCtaUrl}
+      />
       </div>
     </PageTransition>
   );

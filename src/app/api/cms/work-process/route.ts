@@ -8,6 +8,6 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   const body = await request.json();
-  const data = await upsertWorkProcessPillars(body);
-  return NextResponse.json(data);
+  const updated = await upsertWorkProcessPillars(body);
+  return NextResponse.json(updated);
 }

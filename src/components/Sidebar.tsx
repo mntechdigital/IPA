@@ -23,8 +23,7 @@ import {
   Sparkles,
   Layers,
   HelpCircle,
-  MessageSquare,
-  FolderKanban
+  MessageSquare
 } from 'lucide-react';
 import { useCms, CMS_TAB_ROUTES } from '../context/CmsContext';
 
@@ -162,22 +161,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ onNewBeatClick }) => {
           <div className="flex items-center gap-2.5">
             <Info className="w-4 h-4 text-[#6E56CF]" />
             <span>About Us</span>
-          </div>
-        </button>
-
-        {/* Work */}
-        <button
-          id="nav-work"
-          onClick={() => navigateToPage('work')}
-          className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left text-xs font-medium transition-colors cursor-pointer ${
-            activeTab === 'work'
-              ? 'bg-[#F3EFFE] text-[#6E56CF] font-bold'
-              : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-          }`}
-        >
-          <div className="flex items-center gap-2.5">
-            <FolderKanban className="w-4 h-4 text-[#6E56CF]" />
-            <span>Work</span>
           </div>
         </button>
 

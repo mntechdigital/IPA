@@ -21,6 +21,14 @@ async function main() {
   }
   await prisma.monitoringTelemetry.upsert({ where: { id: SINGLETON.monitoring }, update: { data: s.monitoring as object }, create: { id: SINGLETON.monitoring, data: s.monitoring as object } });
 
+  if (s.researchPage) {
+    await prisma.researchPageData.upsert({
+      where: { id: SINGLETON.research },
+      update: { data: s.researchPage as object },
+      create: { id: SINGLETON.research, data: s.researchPage as object },
+    });
+  }
+
   await prisma.researchBeat.deleteMany();
   for (const beat of Object.values(s.researchBeats)) {
     await prisma.researchBeat.create({
@@ -30,26 +38,63 @@ async function main() {
         beatNumber: beat.beatNumber,
         category: beat.category,
         name: beat.name,
+        nameBn: beat.nameBn ?? null,
         tagline: beat.tagline,
+        taglineBn: beat.taglineBn ?? null,
         description: beat.description,
+        descriptionBn: beat.descriptionBn ?? null,
         image: beat.image,
+        imageBn: beat.imageBn ?? null,
         outputsCount: beat.outputsCount,
+        outputsCountBn: beat.outputsCountBn ?? null,
         timeframe: beat.timeframe,
+        timeframeBn: beat.timeframeBn ?? null,
         status: beat.status,
+        statusBn: beat.statusBn ?? null,
         leadFellows: (beat.leadFellows ?? []) as never,
+        leadFellowsBn: (beat.leadFellowsBn ?? null) as never,
         metrics: (beat.metrics ?? []) as never,
+        metricsBn: (beat.metricsBn ?? null) as never,
         overview: (beat.overview ?? []) as never,
+        overviewBn: (beat.overviewBn ?? null) as never,
         keyQuestions: (beat.keyQuestions ?? []) as never,
+        keyQuestionsBn: (beat.keyQuestionsBn ?? null) as never,
         methodologyDetails: (beat.methodologyDetails ?? []) as never,
+        methodologyDetailsBn: (beat.methodologyDetailsBn ?? null) as never,
         caseStudies: (beat.caseStudies ?? []) as never,
+        caseStudiesBn: (beat.caseStudiesBn ?? null) as never,
         publications: (beat.publications ?? []) as never,
-        summary: beat.summary,
-        methodology: beat.methodology,
+        publicationsBn: (beat.publicationsBn ?? null) as never,
+        summary: beat.summary ?? null,
+        methodology: beat.methodology ?? null,
         primaryMethodologies: (beat.primaryMethodologies ?? []) as never,
-        imageTitle: beat.imageTitle,
-        imageSubtitle: beat.imageSubtitle,
-        researchNarrative: beat.researchNarrative,
-        viewCount: beat.viewCount,
+        primaryMethodologiesBn: (beat.primaryMethodologiesBn ?? null) as never,
+        sampleInquiries: (beat.sampleInquiries ?? []) as never,
+        sampleInquiriesBn: (beat.sampleInquiriesBn ?? null) as never,
+        imageTitle: beat.imageTitle ?? null,
+        imageTitleBn: beat.imageTitleBn ?? null,
+        imageSubtitle: beat.imageSubtitle ?? null,
+        imageSubtitleBn: beat.imageSubtitleBn ?? null,
+        researchNarrative: beat.researchNarrative ?? null,
+        viewCount: beat.viewCount ?? 0,
+      },
+    });
+  }
+
+  await prisma.workProcessPillar.deleteMany();
+  for (const pillar of s.workProcessPillars ?? []) {
+    await prisma.workProcessPillar.create({
+      data: {
+        id: pillar.id,
+        step: pillar.step,
+        title: pillar.title,
+        subtitle: pillar.subtitle,
+        description: pillar.description,
+        highlights: (pillar.highlights ?? []) as never,
+        titleBn: pillar.titleBn ?? null,
+        subtitleBn: pillar.subtitleBn ?? null,
+        descriptionBn: pillar.descriptionBn ?? null,
+        highlightsBn: (pillar.highlightsBn ?? null) as never,
       },
     });
   }

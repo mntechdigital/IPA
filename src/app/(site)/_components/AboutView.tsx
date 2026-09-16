@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'motion/react';
 import { AboutPageData, SiteSettings } from '../../../types';
 import { PageTransition } from '../PageTransition';
 import { CTASection } from '../../../components/CTASection';
@@ -11,7 +12,7 @@ import { INITIAL_CMS_STATE } from '../../../data/initialData';
 const STATIC_ABOUT = INITIAL_CMS_STATE.aboutPage as AboutPageData;
 
 export default function AboutView({ aboutPage, siteSettings }: { aboutPage: AboutPageData | null | undefined; siteSettings: Partial<SiteSettings> | null | undefined }) {
-  const { isBn } = useLanguage();
+  const { isBn, t } = useLanguage();
 
   const data: AboutPageData = {
     ...STATIC_ABOUT,
@@ -20,44 +21,61 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
 
   const heroBanner = data.heroBanner || STATIC_ABOUT.heroBanner!;
   const whoWeAre = data.whoWeAre || STATIC_ABOUT.whoWeAre!;
-  const missionPillars = data.missionPillars?.length ? data.missionPillars : STATIC_ABOUT.missionPillars!;
-  const fromQuestionsToInsight = data.fromQuestionsToInsight || STATIC_ABOUT.fromQuestionsToInsight!;
 
   return (
     <PageTransition>
-      <div className="bg-canvas text-ink">
+      <div className="bg-[#F6F9F4] text-[#0D1F18]">
         <PageHero
           backgroundImage="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2200&q=85"
-          label={isBn ? (heroBanner.badgeTextBn || heroBanner.badgeText) : heroBanner.badgeText}
-          title={isBn ? (heroBanner.titleBn || heroBanner.title) : heroBanner.title}
-          description={isBn ? (heroBanner.subtextBn || heroBanner.subtext) : heroBanner.subtext}
-          metadata="Institutional Profile"
+          label={isBn ? (heroBanner.badgeTextBn || heroBanner.badgeText || t('ABOUT THE ORGANIZATION', 'আমাদের পরিচিতি')) : (heroBanner.badgeText || t('ABOUT THE ORGANIZATION', 'আমাদের পরিচিতি'))}
+          title={isBn ? (heroBanner.titleBn || heroBanner.title || t('Independent Research for a Changing Media World.', 'পরিবর্তনশীল গণমাধ্যমের জন্য স্বাধীন গবেষণা')) : (heroBanner.title || t('Independent Research for a Changing Media World.', 'পরিবর্তনশীল গণমাধ্যমের জন্য স্বাধীন গবেষণা'))}
+          description={isBn ? (heroBanner.subtextBn || heroBanner.subtext || t("We research the systems, technologies, institutions, and behaviors shaping today's media and information environment.", 'আমরা সমকালীন তথ্য ও গণমাধ্যম জগৎকে রূপদানকারী ব্যবস্থা, প্রযুক্তি, প্রতিষ্ঠান এবং আচরণ নিয়ে গবেষণা করি।')) : (heroBanner.subtext || t("We research the systems, technologies, institutions, and behaviors shaping today's media and information environment.", 'আমরা সমকালীন তথ্য ও গণমাধ্যম জগৎকে রূপদানকারী ব্যবস্থা, প্রযুক্তি, প্রতিষ্ঠান এবং আচরণ নিয়ে গবেষণা করি।'))}
+          metadata={t('Institutional Profile', 'প্রাতিষ্ঠানিক পরিচিতি')}
         />
 
-        <section className="py-24 sm:py-32 border-b border-border bg-paper">
+        <section className="py-24 sm:py-32 border-b border-[#E2EAE4] bg-[#FFFFFF]">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               <div className="lg:col-span-6 space-y-6">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider border border-[#0B2A20]/10">
-                  <span className="w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_#D2F843]" />
-                  <span>{isBn ? (whoWeAre.badgeTextBn || whoWeAre.badgeText || 'Institutional Foundation') : (whoWeAre.badgeText || 'Institutional Foundation')}</span>
+                  <span className="w-2 h-2 rounded-full bg-[#D2F843] shadow-[0_0_8px_#D2F843]" />
+                  <span>{isBn ? (whoWeAre.badgeTextBn || whoWeAre.badgeText || t('Institutional Foundation', 'প্রাতিষ্ঠানিক ভিত্তি')) : (whoWeAre.badgeText || t('Institutional Foundation', 'প্রাতিষ্ঠানিক ভিত্তি'))}</span>
                 </div>
 
                 <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold leading-[1.08] tracking-tight">
-                  {isBn ? (whoWeAre.headingBn || whoWeAre.heading || 'Who We Are') : (whoWeAre.heading || 'Who We Are')}
+                  {isBn ? (whoWeAre.headingBn || whoWeAre.heading || t('Who We Are', 'আমরা কারা')) : (whoWeAre.heading || t('Who We Are', 'আমরা কারা'))}
                 </h2>
 
-                <div className="space-y-5 text-base sm:text-lg text-ink font-sans font-normal leading-relaxed">
+                <div className="space-y-5 text-base sm:text-lg text-[#0D1F18] font-sans font-normal leading-relaxed">
                   <p>
-                    <strong>{siteSettings?.siteName || 'IPA'}</strong>{' '}
-                    {whoWeAre.descriptionBn || whoWeAre.description}
+                    <strong>{isBn ? (siteSettings?.siteName ? siteSettings.siteName : t('Institute of Public Accountability', 'ইনস্টিটিউট অব পাবলিক অ্যাকাউন্টেবিলিটি')) : (siteSettings?.siteName || 'Institute of Public Accountability')}</strong>{' '}
+                    {isBn ? (whoWeAre.descriptionBn || whoWeAre.description || t('is an independent media research organization dedicated to developing a deeper understanding of media, journalism, and information.', 'একটি স্বাধীন গণমাধ্যম গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।')) : (whoWeAre.description || t('is an independent media research organization dedicated to developing a deeper understanding of media, journalism, and information.', 'একটি স্বাধীন গণমাধ্যম গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।'))}
                   </p>
-                  {whoWeAre.narrativeBn && whoWeAre.narrativeBn.length > 0 && whoWeAre.narrativeBn[0] && (
-                    <p className="text-[#556B62]">{whoWeAre.narrativeBn[0]}</p>
-                  )}
-                  {whoWeAre.narrative && whoWeAre.narrative.length > 1 && (
-                    <p className="text-[#556B62]">{whoWeAre.narrative[1]}</p>
-                  )}
+                  <p className="text-[#556B62]">
+                    {isBn ? (whoWeAre.narrativeBn?.[0] || whoWeAre.narrative?.[0] || t('We examine how traditional and digital media operate, how audiences interact with information, and how technological and social changes are reshaping the media environment.', 'আমরা অনুসন্ধান করি কীভাবে ঐতিহ্যবাহী ও ডিজিটাল মিডিয়া পরিচালিত হয়, দর্শকরা তথ্যের সাথে কীভাবে যুক্ত হন এবং প্রযুক্তিগত ও সামাজিক রূপান্তর কীভাবে মিডিয়া পরিবেশকে প্রভাবিত করছে।')) : (whoWeAre.narrative?.[0] || t('We examine how traditional and digital media operate, how audiences interact with information, and how technological and social changes are reshaping the media environment.', 'আমরা অনুসন্ধান করি কীভাবে ঐতিহ্যবাহী ও ডিজিটাল মিডিয়া পরিচালিত হয়, দর্শকরা তথ্যের সাথে কীভাবে যুক্ত হন এবং প্রযুক্তিগত ও সামাজিক রূপান্তর কীভাবে মিডিয়া পরিবেশকে প্রভাবিত করছে।'))}
+                  </p>
+                  <p className="text-[#556B62]">
+                    {isBn ? (whoWeAre.narrativeBn?.[1] || whoWeAre.narrative?.[1] || t('Through independent research and analysis, we aim to make complex developments easier to understand and contribute meaningful knowledge to public discussion.', 'নিরপেক্ষ গবেষণা ও তথ্যভিত্তিক বিশ্লেষণের মাধ্যমে আমরা জটিল বিষয়গুলোকে সহজবোধ্য করে তুলি এবং নাগরিক আলোচনায় বস্তুনিষ্ঠ অবদান রাখি।')) : (whoWeAre.narrative?.[1] || t('Through independent research and analysis, we aim to make complex developments easier to understand and contribute meaningful knowledge to public discussion.', 'নিরপেক্ষ গবেষণা ও তথ্যভিত্তিক বিশ্লেষণের মাধ্যমে আমরা জটিল বিষয়গুলোকে সহজবোধ্য করে তুলি এবং নাগরিক আলোচনায় বস্তুনিষ্ঠ অবদান রাখি।'))}
+                  </p>
+                </div>
+
+                <div className="hidden">
+                  <div className="p-4 rounded-2xl bg-[#F6F9F4] border border-[#E2EAE4]">
+                    <span className="text-[10px] font-bold tracking-widest text-[#556B62] block mb-1 uppercase">
+                      {t('FOUNDATION', 'ভিত্তি')}
+                    </span>
+                    <span className="font-sans font-bold text-sm text-[#0B2A20]">
+                      {t('Non-Profit & Evidence-Based', 'অলাভজনক ও তথ্যপ্রমাণ-ভিত্তিক')}
+                    </span>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-[#F6F9F4] border border-[#E2EAE4]">
+                    <span className="text-[10px] font-bold tracking-widest text-[#556B62] block mb-1 uppercase">
+                      {t('GOVERNANCE', 'পরিচালনা')}
+                    </span>
+                    <span className="font-sans font-bold text-sm text-[#0B2A20]">
+                      {t('Independent Scientific Board', 'স্বাধীন বৈজ্ঞানিক পর্ষদ')}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -65,15 +83,24 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                 <div className="rounded-3xl border border-[#E2EAE4] bg-[#0B2A20] p-4 shadow-2xl relative overflow-hidden">
                   <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-neutral-900 z-0">
                     <img
-                      src={isBn ? (whoWeAre.mainPhotoBn || whoWeAre.mainPhoto) : whoWeAre.mainPhoto}
+                      src={isBn ? (whoWeAre.mainPhotoBn || whoWeAre.mainPhoto || 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80') : (whoWeAre.mainPhoto || 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80')}
                       alt="Research discussion and archival examination"
                       className="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0B2A20] via-[#0B2A20]/40 to-transparent" />
                     <div className="absolute bottom-5 left-5 right-5 text-white">
+                      <span className="hidden">
+                        {t('Observatory Fieldwork', 'গবেষণা ও ক্ষেত্রসমীক্ষা')}
+                      </span>
                       <span className="inline-block px-2.5 py-1 rounded-full bg-[#D2F843] text-[#0B2A20] text-[10px] font-bold uppercase tracking-wider mb-2">
                         Founded Year — {whoWeAre.foundedYear || '2019'}
                       </span>
+                      <p className="hidden">
+                        {t(
+                          'Systematic documentation of broadcast and print newsroom practices across South Asia.',
+                          'দক্ষিণ এশিয়াজুড়ে টেলিভিশন সম্প্রচার ও মুদ্রিত নিউজরুমের কার্যপ্রণালীর পদ্ধতিগত দলিলপত্র সংকলন।'
+                        )}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -90,23 +117,21 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                   <div className="flex items-center justify-between text-xs font-mono mb-6">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#0B2A20]" />
-                      <span>{isBn ? 'আমাদের লক্ষ্য' : 'Our Mission'}</span>
+                      <span>{t('Our Mission', 'আমাদের লক্ষ্য')}</span>
                     </div>
                     <span className="text-[10px] font-bold tracking-widest text-[#556B62]">
-                      {isBn ? '০১ / মূল লক্ষ্য' : '01 / PURPOSE'}
+                      {t('01 / PURPOSE', '০১ / মূল লক্ষ্য')}
                     </span>
                   </div>
 
                   <h3 className="font-sans text-2xl sm:text-3xl lg:text-4xl text-[#0B2A20] font-extrabold leading-snug mb-6">
-                    {isBn ? (data.missionTitleBn || data.missionTitle) : data.missionTitle}
+                    {isBn ? (data.missionTitleBn || data.missionTitle || t('“To produce credible, independent, and accessible research that contributes to a better understanding of media and its role in society.”', '“বিশ্বাসযোগ্য, স্বাধীন ও উন্মুক্ত গবেষণার মাধ্যমে গণমাধ্যম এবং সমাজে এর তাৎপর্য সম্পর্কে মানুষের বোঝাপড়া সুদৃঢ় করা।”')) : (data.missionTitle || t('“To produce credible, independent, and accessible research that contributes to a better understanding of media and its role in society.”', '“বিশ্বাসযোগ্য, স্বাধীন ও উন্মুক্ত গবেষণার মাধ্যমে গণমাধ্যম এবং সমাজে এর তাৎপর্য সম্পর্কে মানুষের বোঝাপড়া সুদৃঢ় করা।”'))}
                   </h3>
                 </div>
 
-                <div className="space-y-4 text-xs sm:text-sm font-sans text-[#556B62] leading-relaxed pt-6 border-t border-[#E2EAE4]">
-                  {(isBn ? (data.missionStoryBn || data.missionStory) : data.missionStory).map((story, i) => (
-                    <p key={i}>{story}</p>
-                  ))}
-                </div>
+                <p className="text-xs sm:text-sm font-sans text-[#556B62] leading-relaxed pt-6 border-t border-[#E2EAE4]">
+                  {isBn ? (data.missionStoryBn?.[0] || data.missionStory?.[0] || t('We ensure that public conversations regarding information integrity are supported by verifiable empirical benchmarks rather than ideological posturing.', 'আমরা নিশ্চিত করি যে তথ্য ব্যবস্থা নিয়ে গণআলাপচারিতা যেন কোনো ধারণাভিত্তিক অনুমানের বদলে যাচাইযোগ্য তথ্য-উপাত্ত দ্বারা পরিচালিত হয়।')) : (data.missionStory?.[0] || t('We ensure that public conversations regarding information integrity are supported by verifiable empirical benchmarks rather than ideological posturing.', 'আমরা নিশ্চিত করি যে তথ্য ব্যবস্থা নিয়ে গণআলাপচারিতা যেন কোনো ধারণাভিত্তিক অনুমানের বদলে যাচাইযোগ্য তথ্য-উপাত্ত দ্বারা পরিচালিত হয়।'))}
+                </p>
               </div>
 
               <div className="rounded-3xl border border-[#144234] bg-[#0B2A20] text-white p-8 sm:p-12 flex flex-col justify-between shadow-2xl relative overflow-hidden">
@@ -115,47 +140,103 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                   <div className="flex items-center justify-between text-xs font-mono mb-6">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#D2F843] text-xs font-bold uppercase tracking-wider border border-white/15">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#D2F843]" />
-                      <span>{isBn ? 'আমাদের রূপকল্প' : 'Our Vision'}</span>
+                      <span>{t('Our Vision', 'আমাদের রূপকল্প')}</span>
                     </div>
                     <span className="text-[10px] font-bold tracking-widest text-white/60">
-                      {isBn ? '০২ / রূপকল্প' : '02 / OUTLOOK'}
+                      {t('02 / OUTLOOK', '০২ / রূপকল্প')}
                     </span>
                   </div>
 
                   <h3 className="font-sans text-2xl sm:text-3xl lg:text-4xl text-white font-extrabold leading-snug mb-6">
-                    {isBn ? (data.missionTitleBn || data.missionTitle) : data.missionTitle}
+                    {isBn ? (data.missionStoryBn?.[1] || t('“We envision an informed society where media and information can be better understood through independent research, evidence, and open analysis.”', '“আমরা এমন একটি সচেতন সমাজ কল্পনা করি যেখানে স্বাধীন গবেষণা, নির্ভরযোগ্য তথ্য-প্রমাণ ও উন্মুক্ত বিশ্লেষণের মাধ্যমে গণমাধ্যম ও তথ্যের গুরুত্ব স্পষ্টভাবে উপলব্ধ হয়।”')) : (data.missionStory?.[1] || t('“We envision an informed society where media and information can be better understood through independent research, evidence, and open analysis.”', '“আমরা এমন একটি সচেতন সমাজ কল্পনা করি যেখানে স্বাধীন গবেষণা, নির্ভরযোগ্য তথ্য-প্রমাণ ও উন্মুক্ত বিশ্লেষণের মাধ্যমে গণমাধ্যম ও তথ্যের গুরুত্ব স্পষ্টভাবে উপলব্ধ হয়।”'))}
                   </h3>
                 </div>
 
-                <div className="space-y-4 text-xs sm:text-sm font-sans text-white/80 leading-relaxed pt-6 border-t border-white/15 relative z-10">
-                  {(isBn ? (data.missionStoryBn || data.missionStory) : data.missionStory).map((story, i) => (
-                    <p key={i}>{story}</p>
-                  ))}
+                <p className="text-xs sm:text-sm font-sans text-white/80 leading-relaxed pt-6 border-t border-white/15 relative z-10">
+                  {isBn ? (data.missionStoryBn?.[2] || t('An information ecosystem where journalists are safeguarded, citizens are empowered with critical literacy, and digital platforms are transparent to the public.', 'এমন একটি মুক্ত তথ্য পরিমণ্ডল যেখানে সাংবাদিকদের স্বাধীনতা সুরক্ষিত থাকে, নাগরিকরা সচেতন ও ক্ষমতাবান হন এবং ডিজিটাল প্ল্যাটফর্মসমূহ জনস্বার্থে দায়বদ্ধ থাকে।')) : (data.missionStory?.[2] || t('An information ecosystem where journalists are safeguarded, citizens are empowered with critical literacy, and digital platforms are transparent to the public.', 'এমন একটি মুক্ত তথ্য পরিমণ্ডল যেখানে সাংবাদিকদের স্বাধীনতা সুরক্ষিত থাকে, নাগরিকরা সচেতন ও ক্ষমতাবান হন এবং ডিজিটাল প্ল্যাটফর্মসমূহ জনস্বার্থে দায়বদ্ধ থাকে।'))}
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-[#D2F843] bg-[#D2F843] text-[#0B2A20] p-8 sm:p-12 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+                <div>
+                  <div className="flex items-center justify-between text-xs font-mono mb-6">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0B2A20]/10 text-[#0B2A20] text-xs font-bold uppercase tracking-wider">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#0B2A20]" />
+                      <span>{t('Our Goal', 'আমাদের লক্ষ্য')}</span>
+                    </div>
+                    <span className="text-[10px] font-bold tracking-widest text-[#0B2A20]/60">
+                      {t('03 / IMPACT', '০৩ / প্রভাব')}
+                    </span>
+                  </div>
+
+                  <h3 className="font-sans text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-snug mb-6">
+                    {t(
+                      'Turn rigorous evidence into insight that strengthens public accountability.',
+                      'নির্ভুল তথ্য-প্রমাণকে এমন অন্তর্দৃষ্টিতে রূপ দেওয়া যা জনস্বার্থ ও জবাবদিহিতা শক্তিশালী করে।'
+                    )}
+                  </h3>
+                </div>
+
+                <p className="text-xs sm:text-sm font-sans text-[#0B2A20]/75 leading-relaxed pt-6 border-t border-[#0B2A20]/15">
+                  {t(
+                    'We connect careful research with practical knowledge for journalists, institutions, and communities.',
+                    'সাংবাদিক, প্রতিষ্ঠান ও সম্প্রদায়ের জন্য আমরা সতর্ক গবেষণাকে ব্যবহারিক জ্ঞানের সঙ্গে যুক্ত করি।'
+                  )}
+                </p>
+              </div>
+
+              <div className="min-h-[360px] rounded-3xl border border-[#144234] relative overflow-hidden shadow-2xl flex flex-col justify-end text-white">
+                <img
+                  src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=85"
+                  alt="Researchers working with data and digital information"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#061A13] via-[#0B2A20]/65 to-transparent" />
+                <div className="relative z-10 p-8 sm:p-12">
+                  <div className="flex items-center justify-between text-xs font-mono mb-5">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#D2F843] text-xs font-bold uppercase tracking-wider border border-white/20">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D2F843]" />
+                      <span>{t('Our Practice', 'আমাদের কর্মপদ্ধতি')}</span>
+                    </div>
+                    <span className="text-[10px] font-bold tracking-widest text-white/70">
+                      {t('04 / METHOD', '০৪ / পদ্ধতি')}
+                    </span>
+                  </div>
+                  <h3 className="font-sans text-2xl sm:text-3xl font-extrabold leading-snug mb-3">
+                    {t('Research that remains open, useful, and accountable.', 'এমন গবেষণা যা উন্মুক্ত, কার্যকর ও জবাবদিহিমূলক।')}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
+                    {t(
+                      'From fieldwork to public reporting, every step is designed to make evidence easier to examine and act upon.',
+                      'মাঠপর্যায়ের গবেষণা থেকে জনসমক্ষে প্রতিবেদন—প্রতিটি ধাপ তথ্য-প্রমাণকে সহজে যাচাই ও প্রয়োগযোগ্য করে তোলে।'
+                    )}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="py-24 sm:py-32 border-b border-[#E2EAE4]">
+        <section className="hidden">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
             <div className="max-w-3xl mb-16">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider border border-[#0B2A20]/10 mb-4">
                 <span className="w-2 h-2 rounded-full bg-[#D2F843]" />
-                <span>{isBn ? 'নৈতিক মূল্যবোধ' : 'ETHICAL FOUNDATIONS'}</span>
+                <span>{t('ETHICAL FOUNDATIONS', 'নৈতিক মূল্যবোধ')}</span>
               </div>
               <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold tracking-tight mb-4">
-                {isBn ? 'আমাদের কাজের মূলনীতি' : 'What Guides Our Work'}
+                {t('What Guides Our Work', 'আমাদের কাজের মূলনীতি')}
               </h2>
               <p className="text-base sm:text-lg text-[#556B62] font-sans font-normal">
-                {isBn
-                  ? 'আমাদের মাঠপর্যায়ের সমীক্ষা, তথ্য পদ্ধতি ও উন্মুক্ত প্রতিবেদন প্রকাশকে নৈতিক মূল্যবোধ পরিচালিত করে।'
-                  : 'Five institutional principles govern our fieldwork, data methodology, and public reporting.'}
+                {t(
+                  'Five institutional principles govern our fieldwork, computational auditing, data transparency, and public reporting.',
+                  'পাঁচটি মৌলিক প্রাতিষ্ঠানিক নীতিমালা আমাদের মাঠপর্যায়ের সমীক্ষা, কম্পিউটেশনাল অডিট এবং উন্মুক্ত প্রতিবেদন প্রকাশকে পরিচালিত করে।'
+                )}
               </p>
             </div>
 
             <div className="space-y-4">
-              {data.principles.map((val, idx) => (
+              {(data.principles || []).map((val, idx) => (
                 <div
                   key={val.id}
                   className="p-8 sm:p-10 rounded-3xl border border-[#E2EAE4] bg-[#FFFFFF] hover:border-[#0B2A20] hover:shadow-md transition-all grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 items-start"
@@ -184,25 +265,32 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
           </div>
         </section>
 
-        <section className="py-24 sm:py-32 border-b border-[#E2EAE4] bg-[#F6F9F4]">
+        <section className="hidden">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <div className="text-xs font-bold tracking-widest uppercase text-[#0B2A20] mb-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 border border-[#0B2A20]/10">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#D2F843]" />
-                {isBn ? 'গবেষণা পদ্ধতি ও প্রক্রিয়া' : 'METHODOLOGICAL PIPELINE'}
+                {t('METHODOLOGICAL PIPELINE', 'গবেষণা পদ্ধতি ও প্রক্রিয়া')}
               </div>
               <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold tracking-tight mb-4">
-                {isBn ? (fromQuestionsToInsight.headingBn || fromQuestionsToInsight.heading) : fromQuestionsToInsight.heading}
+                {t('From Questions to Insight', 'প্রশ্ন থেকে অন্তর্দৃষ্টি')}
               </h2>
               <p className="text-base sm:text-lg text-[#556B62] font-sans font-normal">
-                {isBn ? (fromQuestionsToInsight.subheadingBn || fromQuestionsToInsight.subheading) : fromQuestionsToInsight.subheading}
+                {t(
+                  'How an inquiry transforms from an urgent societal question into verified public knowledge.',
+                  'কীভাবে একটি জরুরি সামাজিক প্রশ্ন পর্যায়ক্রমে যাচাইকৃত তথ্যে ও জনকল্যাণমুখী জ্ঞানে রূপ নেয়।'
+                )}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
               {data.methodologySteps.map((item, idx) => (
-                <div
+                <motion.div
                   key={item.step}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: idx * 0.1 }}
                   className="rounded-3xl border border-[#E2EAE4] bg-[#FFFFFF] p-6 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-[#0B2A20] transition-all"
                 >
                   <div>
@@ -227,126 +315,10 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                   </div>
 
                   <div className="mt-6 pt-3 border-t border-[#E2EAE4] text-[10px] font-mono text-[#0B2A20] font-bold">
-                    {isBn ? 'যাচাইকৃত পর্যায়' : 'VERIFIED PHASE'}
+                    {t('VERIFIED PHASE', 'যাচাইকৃত পর্যায়')}
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-24 sm:py-32 border-b border-[#E2EAE4]">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-            <div className="max-w-3xl mb-16">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider border border-[#0B2A20]/10 mb-4">
-                <span className="w-2 h-2 rounded-full bg-[#D2F843]" />
-                <span>{isBn ? 'পরিচালনা ও নৈতিকতা' : 'GOVERNANCE & ETHICS'}</span>
-              </div>
-              <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold tracking-tight mb-4">
-                {isBn ? 'প্রতিষ্ঠানের নৈতিক গ্যারান্টি' : 'Institutional Governance Guarantees'}
-              </h2>
-            </div>
-
-            <div className="space-y-4">
-              {(isBn ? (data.governanceEthicsBn || data.governanceEthics) : data.governanceEthics).map((item, idx) => (
-                <div key={idx} className="flex items-start gap-4 p-6 rounded-2xl border border-[#E2EAE4] bg-[#FFFFFF]">
-                  <span className="w-8 h-8 rounded-full bg-[#0B2A20] text-[#D2F843] flex items-center justify-center font-mono text-xs font-bold shrink-0 mt-0.5">
-                    {isBn ? `০${idx + 1}` : `0${idx + 1}`}
-                  </span>
-                  <p className="text-sm sm:text-base text-[#556B62] font-sans leading-relaxed">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-24 sm:py-32 border-b border-[#E2EAE4] bg-[#F6F9F4]">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-            <div className="max-w-3xl mb-16">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider border border-[#0B2A20]/10 mb-4">
-                <span className="w-2 h-2 rounded-full bg-[#D2F843]" />
-                <span>{isBn ? 'গবেষণা কেন্দ্রসমূহ' : 'RESEARCH OBSERVATORIES'}</span>
-              </div>
-              <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold tracking-tight mb-4">
-                {isBn ? 'আমাদের গবেষণা কেন্দ্রসমূহ' : 'Our Observatories'}
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {data.observatories.map((obs, idx) => (
-                <div key={idx} className="p-8 rounded-3xl border border-[#E2EAE4] bg-[#FFFFFF] hover:border-[#0B2A20] transition-all">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="w-3 h-3 rounded-full bg-accent shadow-[0_0_8px_#D2F843]" />
-                    <h3 className="font-sans text-xl text-[#0B2A20] font-extrabold">
-                      {isBn ? (obs.nameBn || obs.name) : obs.name}
-                    </h3>
-                  </div>
-                  <p className="text-sm text-[#195642] font-medium mb-2">
-                    {isBn ? (obs.roleBn || obs.role) : obs.role}
-                  </p>
-                  <p className="text-sm text-[#556B62] font-sans">{isBn ? (obs.addressBn || obs.address) : obs.address}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-24 sm:py-32 border-b border-[#E2EAE4]">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-            <div className="max-w-3xl mb-16">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider border border-[#0B2A20]/10 mb-4">
-                <span className="w-2 h-2 rounded-full bg-[#D2F843]" />
-                <span>{isBn ? 'আমাদের মূল স্তম্ভ' : 'MISSION PILLARS'}</span>
-              </div>
-              <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold tracking-tight mb-4">
-                {isBn ? 'প্রতিষ্ঠানের মূল স্তম্ভসমূহ' : 'The Pillars That Ground Our Work'}
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {missionPillars.map((pillar) => (
-                <div key={pillar.id} className="p-8 sm:p-10 rounded-3xl border border-[#E2EAE4] bg-[#FFFFFF] hover:border-[#0B2A20] hover:shadow-md transition-all">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider mb-6">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#0B2A20]" />
-                    <span>{isBn ? (pillar.badgeBn || pillar.badge) : pillar.badge}</span>
-                  </div>
-                  <h3 className="font-sans text-2xl sm:text-3xl text-[#0B2A20] font-extrabold mb-3">
-                    {isBn ? (pillar.titleBn || pillar.title) : pillar.title}
-                  </h3>
-                  <p className="text-sm text-[#195642] font-medium italic mb-4">
-                    {isBn ? (pillar.quoteBn || pillar.quote) : pillar.quote}
-                  </p>
-                  <p className="text-sm text-[#556B62] font-sans leading-relaxed">
-                    {isBn ? (pillar.descriptionBn || pillar.description) : pillar.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-24 sm:py-32 border-b border-[#E2EAE4] bg-[#F6F9F4]">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-            <div className="text-center max-w-3xl mx-auto mb-12">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider border border-[#0B2A20]/10 mb-4">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D2F843]" />
-                <span>{isBn ? 'গবেষণা পদ্ধতি' : 'RESEARCH APPROACH'}</span>
-              </div>
-              <h2 className="font-sans text-3xl sm:text-5xl text-[#0B2A20] font-extrabold tracking-tight mb-4">
-                {isBn ? (fromQuestionsToInsight.headingBn || fromQuestionsToInsight.heading) : fromQuestionsToInsight.heading}
-              </h2>
-              <p className="text-base sm:text-lg text-[#556B62] font-sans font-normal">
-                {isBn ? (fromQuestionsToInsight.subheadingBn || fromQuestionsToInsight.subheading) : fromQuestionsToInsight.subheading}
-              </p>
-            </div>
-            <div className="text-center">
-              <a
-                href={fromQuestionsToInsight.destinationUrl}
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#0B2A20] text-[#D2F843] text-sm font-bold uppercase tracking-wider hover:bg-[#0B2A20]/90 transition-colors"
-              >
-                {isBn ? (fromQuestionsToInsight.ctaTextBn || fromQuestionsToInsight.ctaText) : fromQuestionsToInsight.ctaText}
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-              </a>
             </div>
           </div>
         </section>

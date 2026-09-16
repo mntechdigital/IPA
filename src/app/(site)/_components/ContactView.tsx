@@ -22,10 +22,10 @@ export default function ContactPage({
   const cp = contactPage ?? null;
   const fallback = ORGANIZATION.contact;
 
-  const heroHeading = isBn ? cp?.hero?.headingBn : cp?.hero?.heading;
-  const heroSubtitle = isBn ? cp?.hero?.subtitleBn : cp?.hero?.subtitle;
-  const heroBadge = isBn ? cp?.hero?.badgeBn : cp?.hero?.badge;
-  const heroBgImage = cp?.hero?.bgImage;
+  const heroHeading = isBn ? (cp?.hero?.headingBn || cp?.hero?.heading || 'আমাদের সাথে যোগাযোগ করুন') : (cp?.hero?.heading || 'Let’s Start a Conversation.');
+  const heroSubtitle = isBn ? (cp?.hero?.subtitleBn || cp?.hero?.subtitle || 'গবেষক, সাংবাদিক ও অংশীদারদের জন্য আমাদের যোগাযোগের দরজা সর্বদা উন্মুক্ত।') : (cp?.hero?.subtitle || 'Direct communication channels for academic researchers, investigative journalists, policy institutions, and public dataset requests.');
+  const heroBadge = isBn ? (cp?.hero?.badgeBn || cp?.hero?.badge || 'যোগাযোগ ও অনুসন্ধান') : (cp?.hero?.badge || 'CONTACT');
+  const heroBgImage = cp?.hero?.bgImage || 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=2200&q=85';
 
   const phone = cp?.directDetails?.phone ?? fallback.phone;
   const phoneLabel = isBn
@@ -39,11 +39,11 @@ export default function ContactPage({
   const researchDeskEmail = cp?.directDetails?.researchDeskEmail ?? fallback.researchEmail;
   const pressEmail = cp?.directDetails?.pressEmail ?? fallback.mediaEmail;
   const officeLocation = isBn
-    ? cp?.directDetails?.officeLocationBn || cp?.directDetails?.officeLocation
-    : cp?.directDetails?.officeLocation;
+    ? (cp?.directDetails?.officeLocationBn || cp?.directDetails?.officeLocation || fallback.addressBn)
+    : (cp?.directDetails?.officeLocation || fallback.address);
   const workingHours = isBn
-    ? cp?.directDetails?.workingHoursBn || cp?.directDetails?.workingHours
-    : cp?.directDetails?.workingHours;
+    ? (cp?.directDetails?.workingHoursBn || cp?.directDetails?.workingHours || 'রবি - বৃহঃ, সকাল ৯:০০ - বিকাল ৫:০০ (বিএসটি)')
+    : (cp?.directDetails?.workingHours || fallback.hours);
 
   const faqs = cp?.faqs && cp.faqs.length > 0 ? cp.faqs : undefined;
 
@@ -120,7 +120,7 @@ export default function ContactPage({
 
                     <div className="flex items-center gap-1.5 text-xs font-mono text-[#556B62] pt-1">
                       <Clock className="w-3.5 h-3.5 text-[#195642] shrink-0" />
-                      <span>{workingHours || (isBn ? 'রবি - বৃহঃ, সকাল ৯:০০ - বিকাল ৫:০০ (বিএসটি)' : fallback.hours)}</span>
+                      <span>{workingHours}</span>
                     </div>
                   </div>
                 </div>
@@ -168,11 +168,11 @@ export default function ContactPage({
 
                   <div className="pl-1 space-y-1.5">
                     <p className="font-sans text-sm text-[#0D1F18] font-medium leading-relaxed">
-                      {officeLocation || (isBn ? fallback.addressBn : fallback.address)}
+                      {officeLocation}
                     </p>
                     <div className="pt-2 flex items-center justify-between">
                       <a
-                        href={cp?.directDetails?.googleMapsUrl || 'https://maps.google.com/?q=42+Gulshan+Avenue,+Dhaka+1212'}
+                        href="https://maps.google.com/?q=42+Gulshan+Avenue,+Dhaka+1212"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#0B2A20] hover:text-[#195642] uppercase tracking-wider transition-colors group"
