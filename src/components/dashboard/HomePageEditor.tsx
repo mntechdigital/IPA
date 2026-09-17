@@ -8,21 +8,18 @@ import {
   Trash2,
   Image as ImageIcon,
   Languages,
-  CheckCircle2
+  CheckCircle2,
+  Loader2
 } from 'lucide-react';
 import { useCms } from '../../context/CmsContext';
 import { HomePageData, MetricItem } from '../../types';
+import { useImageUpload } from '../../lib/image/hooks/useImageUpload';
 
 export const HomePageEditor: React.FC = () => {
   const { state, updateHomePage, setViewMode } = useCms();
   const [formData, setFormData] = useState<HomePageData>({ ...state.homePage });
   const [activeLangTab, setActiveLangTab] = useState<'en' | 'bn'>('en');
-
-  const handleImageUpload = (file: File, onLoad: (dataUrl: string) => void) => {
-    const reader = new FileReader();
-    reader.onload = () => onLoad(String(reader.result || ''));
-    reader.readAsDataURL(file);
-  };
+  const { upload: uploadImage, isUploading, error } = useImageUpload({ folder: 'cms' });
 
   const handleMetricChange = (index: number, field: string, value: string) => {
     const updatedMetrics = [...formData.homeMetrics];
@@ -193,12 +190,25 @@ export const HomePageEditor: React.FC = () => {
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => {
+              className="hidden"
+              onChange={e => {
                 const file = e.target.files?.[0];
-                if (file) handleImageUpload(file, heroImage => setFormData({ ...formData, heroImage }));
+                if (file) uploadImage(file);
               }}
-              className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white focus:border-[#D2F818] outline-none"
+              disabled={isUploading}
             />
+            {isUploading && (
+              <div className="flex items-center gap-2 text-xs text-slate-400 mt-2">
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <span>Uploading...</span>
+              </div>
+            )}
+            {!isUploading && error && (
+              <div className="text-xs text-red-400 mt-2">Error: {error}</div>
+            )}
+            {!isUploading && (
+              <div className="text-xs text-slate-400 mt-2">Supported: JPEG, PNG, WebP</div>
+            )}
           </div>
         </div>
       </div>

@@ -12,10 +12,12 @@ import {
   Sparkles,
   Check,
   X,
-  Eye
+  Eye,
+  Loader2
 } from 'lucide-react';
 import { useCms } from '../../context/CmsContext';
 import { TeamMember } from '../../types';
+import { useImageUpload } from '../../lib/image/hooks/useImageUpload';
 
 export const TeamEditor: React.FC = () => {
   const { state, updateTeamMember, addTeamMember, deleteTeamMember, setViewMode } = useCms();
@@ -23,11 +25,10 @@ export const TeamEditor: React.FC = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
   const [isNewMember, setIsNewMember] = useState<boolean>(false);
+  const { upload: uploadMemberImage, isUploading, error } = useImageUpload({ folder: 'team' });
 
-  const handleImageUpload = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = () => setEditingMember(current => current ? { ...current, image: String(reader.result || '') } : current);
-    reader.readAsDataURL(file);
+  const handleMemberImageUpload = (file: File) => {
+    uploadMemberImage(file);
   };
 
   const filteredTeam = state.team.filter((m) => {
@@ -329,15 +330,31 @@ export const TeamEditor: React.FC = () => {
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) => {
+                    className="hidden"
+                    onChange={e => {
                       const file = e.target.files?.[0];
-                      if (file) handleImageUpload(file);
+                      if (file) handleMemberImageUpload(file);
                     }}
-                    className="w-full mb-2 bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
+                    disabled={isUploading}
                   />
+                  {isUploading && (
+                    <div className="flex items-center gap-2 text-xs text-slate-400 mt-2">
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Uploading...</span>
+                    </div>
+                  )}
+                  {!isUploading && error && (
+                    <div className="text-xs text-red-400 mt-2">Error: {error}</div>
+                  )}
+                  {!isUploading && (
+                    <div className="text-xs text-slate-400 mt-2">Supported: JPEG, PNG, WebP</div>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Profile Photo / Headshot</label>
                   <input
                     type="url"
-                    value={editingMember.image}
+                    value={editingMember?.image || ''}
                     onChange={(e) => setEditingMember({ ...editingMember, image: e.target.value })}
                     className="w-full bg-[#081811] border border-[#16382B] rounded-lg px-3 py-2 text-xs text-white outline-none"
                   />
