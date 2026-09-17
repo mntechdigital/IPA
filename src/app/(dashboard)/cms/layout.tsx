@@ -1,5 +1,11 @@
 ﻿import React from 'react';
+import { Metadata } from 'next';
 import { CmsShell } from './_components/CmsShell';
+
+export const metadata: Metadata = {
+  title: 'IPA',
+  description: 'CMS Dashboard',
+};
 
 export default function CmsLayout({ children }: { children: React.ReactNode }) {
   return (

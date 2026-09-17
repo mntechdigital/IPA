@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -15,7 +15,7 @@ datasource db {
 model CmsMeta {
   id          String   @id @default(uuid())
   version     String
-  lastUpdated DateTime @db.DateTime(3)
+  lastUpdated DateTime @db.Timestamp(3)
 }
 
 model SiteSettings {
@@ -76,8 +76,8 @@ model ResearchBeat {
   imageSubtitle        String?
   researchNarrative    String? @db.Text
   viewCount            Int?
-  createdAt            DateTime @default(now()) @db.DateTime(3)
-  updatedAt            DateTime @updatedAt @db.DateTime(3)
+  createdAt            DateTime @default(now()) @db.Timestamp(3)
+  updatedAt            DateTime @updatedAt @db.Timestamp(3)
   nameBn               String? @db.Text
   taglineBn            String? @db.Text
   descriptionBn        String? @db.Text
@@ -127,8 +127,8 @@ model TeamMember {
   linkedin             String?
   scholar              String?
   order                Int?
-  createdAt            DateTime @default(now()) @db.DateTime(3)
-  updatedAt            DateTime @updatedAt @db.DateTime(3)
+  createdAt            DateTime @default(now()) @db.Timestamp(3)
+  updatedAt            DateTime @updatedAt @db.Timestamp(3)
 }
 
 model Publication {
@@ -141,8 +141,8 @@ model Publication {
   downloadUrl String?
   abstract    String? @db.Text
   status      String?
-  createdAt   DateTime @default(now()) @db.DateTime(3)
-  updatedAt   DateTime @updatedAt @db.DateTime(3)
+  createdAt   DateTime @default(now()) @db.Timestamp(3)
+  updatedAt   DateTime @updatedAt @db.Timestamp(3)
 }
 
 model Inquiry {
@@ -156,8 +156,8 @@ model Inquiry {
   requestedDataset String?
   status           String
   notes            String? @db.Text
-  createdAt        DateTime @default(now()) @db.DateTime(3)
-  updatedAt        DateTime @updatedAt @db.DateTime(3)
+  createdAt        DateTime @default(now()) @db.Timestamp(3)
+  updatedAt        DateTime @updatedAt @db.Timestamp(3)
 }
 
 model WorkArea {
@@ -178,8 +178,8 @@ model WorkArea {
   sampleInquiriesBn Json?
   imageBn          String?
   outputsCountBn   String?
-  createdAt        DateTime @default(now()) @db.DateTime(3)
-  updatedAt        DateTime @updatedAt @db.DateTime(3)
+  createdAt        DateTime @default(now()) @db.Timestamp(3)
+  updatedAt        DateTime @updatedAt @db.Timestamp(3)
 }
 
 model WorkProcessPillar {
@@ -193,8 +193,8 @@ model WorkProcessPillar {
   subtitleBn  String?  @db.Text
   descriptionBn String? @db.Text
   highlightsBn Json?
-  createdAt   DateTime @default(now()) @db.DateTime(3)
-  updatedAt   DateTime @updatedAt @db.DateTime(3)
+  createdAt   DateTime @default(now()) @db.Timestamp(3)
+  updatedAt   DateTime @updatedAt @db.Timestamp(3)
 }
 
 model ActivityLog {
@@ -203,5 +203,5 @@ model ActivityLog {
   action    String
   section   String
   user      String
-  createdAt DateTime @default(now()) @db.DateTime(3)
+  createdAt DateTime @default(now()) @db.Timestamp(3)
 }

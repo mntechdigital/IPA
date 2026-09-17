@@ -92,7 +92,7 @@ export const CmsHeader: React.FC = () => {
       <div className="flex items-center gap-3">
         <h1 className="text-sm font-semibold text-[#1E1B4B] tracking-tight flex items-center gap-2">
           <span className="text-[#6E56CF] font-bold text-xs bg-purple-50 px-2 py-0.5 rounded-md border border-purple-100">
-            IPA CMS
+            IPA
           </span>
           <span className="text-slate-300">/</span>
           <span className="text-slate-600 font-medium">{getBreadcrumbs()}</span>

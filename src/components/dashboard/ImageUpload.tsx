@@ -3,7 +3,6 @@
 import React, { useRef } from 'react';
 import { Upload, Trash2, Loader2, ImageIcon } from 'lucide-react';
 import { useImageUpload } from '../../lib/image/hooks/useImageUpload';
-import type { UploadResult } from '../../lib/image';
 
 interface ImageUploadProps {
   value: string;
@@ -15,6 +14,12 @@ interface ImageUploadProps {
   previewClassName?: string;
   placeholder?: string;
   disabled?: boolean;
+}
+
+interface UploadResult {
+  url: string;
+  publicId: string;
+  filename: string;
 }
 
 export function ImageUpload({

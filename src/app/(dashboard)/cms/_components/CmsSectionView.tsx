@@ -1,16 +1,18 @@
 'use client';
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { useCms } from '../../../../context/CmsContext';
-import { OverviewView } from '../../../../components/dashboard/OverviewView';
-import { AppGridHub } from '../../../../components/dashboard/AppGridHub';
-import { SectionFormEditor } from '../../../../components/dashboard/SectionFormEditor';
-import { PublicationsEditor } from '../../../../components/dashboard/PublicationsEditor';
-import { MonitoringEditor } from '../../../../components/dashboard/MonitoringEditor';
-import { InquiriesEditor } from '../../../../components/dashboard/InquiriesEditor';
-import { TeamsDirectoryView } from '../../../../components/dashboard/TeamsDirectoryView';
-import { ResearchManagerView } from '../../../../components/dashboard/ResearchManagerView';
-import { LiveSitePreview } from '../../../../components/frontend/LiveSitePreview';
+
+const OverviewView = dynamic(() => import('../../../../components/dashboard/OverviewView').then(m => m.OverviewView), { ssr: false });
+const AppGridHub = dynamic(() => import('../../../../components/dashboard/AppGridHub').then(m => m.AppGridHub), { ssr: false });
+const SectionFormEditor = dynamic(() => import('../../../../components/dashboard/SectionFormEditor').then(m => m.SectionFormEditor), { ssr: false });
+const PublicationsEditor = dynamic(() => import('../../../../components/dashboard/PublicationsEditor').then(m => m.PublicationsEditor), { ssr: false });
+const MonitoringEditor = dynamic(() => import('../../../../components/dashboard/MonitoringEditor').then(m => m.MonitoringEditor), { ssr: false });
+const InquiriesEditor = dynamic(() => import('../../../../components/dashboard/InquiriesEditor').then(m => m.InquiriesEditor), { ssr: false });
+const TeamsDirectoryView = dynamic(() => import('../../../../components/dashboard/TeamsDirectoryView').then(m => m.TeamsDirectoryView), { ssr: false });
+const ResearchManagerView = dynamic(() => import('../../../../components/dashboard/ResearchManagerView').then(m => m.ResearchManagerView), { ssr: false });
+const LiveSitePreview = dynamic(() => import('../../../../components/frontend/LiveSitePreview').then(m => m.LiveSitePreview), { ssr: false });
 
 export const CmsSectionView: React.FC<{ tab: string }> = ({ tab }) => {
   const { selectedSectionAppId, viewMode } = useCms();

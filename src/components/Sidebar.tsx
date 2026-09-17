@@ -49,6 +49,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ onNewBeatClick }) => {
     router.push(CMS_TAB_ROUTES[tab] ?? '/cms');
   };
 
+  const prefetchPage = (tab: string) => {
+    router.prefetch(CMS_TAB_ROUTES[tab] ?? '/cms');
+  };
+
   return (
     <aside className="w-72 bg-white border-r border-slate-200/80 flex flex-col h-screen select-none shrink-0 text-slate-700 shadow-sm z-20">
       {/* Brand Header */}
@@ -58,15 +62,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onNewBeatClick }) => {
             IPA
           </div>
           <div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs font-bold tracking-tight text-[#1E1B4B]">IPA CMS</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded font-semibold bg-purple-50 text-[#6E56CF] border border-purple-100">
-                v2.0
-              </span>
-            </div>
-            <p className="text-[11px] text-slate-400 truncate max-w-[150px]">
-              Media Research Observatory
-            </p>
+            <span className="text-xs font-bold tracking-tight text-[#1E1B4B]">IPA</span>
           </div>
         </div>
       </div>
@@ -82,6 +78,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onNewBeatClick }) => {
         <button
           id="nav-overview"
           onClick={() => navigateToPage('overview')}
+          onMouseEnter={() => prefetchPage('overview')}
           className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left text-xs font-medium transition-colors cursor-pointer ${
             activeTab === 'overview' && !selectedSectionAppId
               ? 'bg-[#F3EFFE] text-[#6E56CF] font-bold'
@@ -99,6 +96,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onNewBeatClick }) => {
         <button
           id="nav-home"
           onClick={() => navigateToPage('home')}
+          onMouseEnter={() => prefetchPage('home')}
           className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left text-xs font-medium transition-colors cursor-pointer ${
             activeTab === 'home'
               ? 'bg-[#F3EFFE] text-[#6E56CF] font-bold'
@@ -115,6 +113,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onNewBeatClick }) => {
         <button
           id="nav-about"
           onClick={() => navigateToPage('about')}
+          onMouseEnter={() => prefetchPage('about')}
           className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left text-xs font-medium transition-colors cursor-pointer ${
             activeTab === 'about'
               ? 'bg-[#F3EFFE] text-[#6E56CF] font-bold'
@@ -133,6 +132,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onNewBeatClick }) => {
             <button
               id="nav-research-main"
               onClick={() => navigateToPage('research')}
+              onMouseEnter={() => prefetchPage('research')}
               className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left text-xs font-medium transition-colors cursor-pointer ${
                 activeTab === 'research' && !selectedBeatId
                   ? 'bg-[#F3EFFE] text-[#6E56CF] font-bold'
@@ -152,6 +152,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onNewBeatClick }) => {
         <button
           id="nav-team"
           onClick={() => navigateToPage('teams')}
+          onMouseEnter={() => prefetchPage('teams')}
           className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left text-xs font-medium transition-colors cursor-pointer ${
             activeTab === 'teams'
               ? 'bg-[#F3EFFE] text-[#6E56CF] font-bold'
@@ -168,6 +169,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onNewBeatClick }) => {
         <button
           id="nav-contact"
           onClick={() => navigateToPage('contact')}
+          onMouseEnter={() => prefetchPage('contact')}
           className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left text-xs font-medium transition-colors cursor-pointer ${
             activeTab === 'contact'
               ? 'bg-[#F3EFFE] text-[#6E56CF] font-bold'
@@ -184,6 +186,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onNewBeatClick }) => {
         <button
           id="nav-branding"
           onClick={() => navigateToPage('branding')}
+          onMouseEnter={() => prefetchPage('branding')}
           className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left text-xs font-medium transition-colors cursor-pointer ${
             activeTab === 'branding'
               ? 'bg-[#F3EFFE] text-[#6E56CF] font-bold'

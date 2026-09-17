@@ -1,0 +1,2919 @@
+{
+  "cmsMeta": [
+    {
+      "id": "4a7dea4f-5c2c-5e77-a987-93c60fe2739b",
+      "version": "1.0.0",
+      "lastUpdated": "2026-09-08T14:12:12.092Z"
+    }
+  ],
+  "siteSettings": [
+    {
+      "id": "540cbfcb-6981-5e4b-b918-656e7590ed5c",
+      "data": {
+        "phone": "+880 2 984 5512",
+        "ogImage": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=2200&q=85",
+        "siteName": "IPA — Institute of Public Affairs",
+        "teamHero": {
+          "image": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2200&q=85",
+          "label": "OUR TEAM",
+          "heading": "The People Behind Our Work.",
+          "labelBn": "আমাদের টিম",
+          "metadata": "Fellows, Directors & Methodologists",
+          "headingBn": "আমাদের কাজের পেছনের গবেষক দল",
+          "metadataBn": "ফেলো, পরিচালক ও গবেষকবৃন্দ",
+          "subheading": "Our team brings together researchers, analysts, and professionals with diverse experience across media, journalism, research, technology, and communications.",
+          "subheadingBn": "আমাদের দলে রয়েছেন গণমাধ্যম, সাংবাদিকতা, প্রযুক্তি ও যোগাযোগ খাতের অভিজ্ঞ গবেষক ও বিশ্লেষকবৃন্দ।"
+        },
+        "addressBn": "লেভেল ৭, প্রেস অ্যান্ড রিসার্চ টাওয়ার, ৪২ গুলশান অ্যাভিনিউ, ঢাকা ১২১২",
+        "pressEmail": "media@mediaresearch.org",
+        "siteNameBn": "ইনস্টিটিউট অব পাবলিক অ্যাফেয়ার্স",
+        "socialLinks": {
+          "github": "https://github.com/ipa-observatory",
+          "twitter": "https://twitter.com",
+          "youtube": "https://youtube.com",
+          "facebook": "https://facebook.com",
+          "linkedin": "https://linkedin.com"
+        },
+        "contactEmail": "info@mediaresearch.org",
+        "siteSubtitle": "Independent Media Research Observatory",
+        "officeAddress": "Level 7, Press & Research Tower, 42 Gulshan Avenue, Dhaka 1212",
+        "footerBranding": {
+          "tagline": "Rigorous empirical research observing media ecosystems, newsroom autonomy, algorithmic governance, and democratic public spheres.",
+          "licenseNotice": "All data and publications distributed under Creative Commons Attribution 4.0 International (CC BY 4.0).",
+          "footerLogoText": "IPA Media Research Observatory",
+          "copyrightNotice": "© 2021–2026 Institute of Public Affairs. Open Access Research."
+        },
+        "headerBranding": {
+          "tagline": "Independent Media Research Observatory",
+          "navCtaUrl": "/research",
+          "navCtaText": "Contact Us",
+          "enableBanner": true,
+          "lightLogoText": "IPA — Institute of Public Affairs",
+          "announcementBannerText": "New 2026 National Media Trust Barometer Published"
+        },
+        "defaultLanguage": "en",
+        "establishedYear": "2019",
+        "metaDescription": "Independent media research observatory focused on journalism, digital platforms, public opinion, and institutional accountability.",
+        "footerNavigation": [
+          {
+            "links": [
+              {
+                "url": "/about",
+                "label": "About Us"
+              },
+              {
+                "url": "/research",
+                "label": "Research Beats"
+              },
+              {
+                "url": "/teams",
+                "label": "Research Team"
+              },
+              {
+                "url": "/about#methodology",
+                "label": "Methodology"
+              }
+            ],
+            "title": "Observatory"
+          },
+          {
+            "links": [
+              {
+                "url": "/publications",
+                "label": "Monographs & Papers"
+              },
+              {
+                "url": "/research/media-monitoring",
+                "label": "Broadcast Telemetry"
+              },
+              {
+                "url": "/research",
+                "label": "Public Datasets"
+              },
+              {
+                "url": "/about#codebooks",
+                "label": "Codebooks & Standard"
+              }
+            ],
+            "title": "Publications & Data"
+          },
+          {
+            "links": [
+              {
+                "url": "/contact",
+                "label": "Contact Desk"
+              },
+              {
+                "url": "/contact#dataset-request",
+                "label": "Request Custom Dataset"
+              },
+              {
+                "url": "/contact#press",
+                "label": "Press & Media Inquiries"
+              },
+              {
+                "url": "/teams#fellowships",
+                "label": "Academic Fellowships"
+              }
+            ],
+            "title": "Engage & Inquire"
+          }
+        ],
+        "researchDeskEmail": "research@mediaresearch.org"
+      }
+    }
+  ],
+  "homePageData": [
+    {
+      "id": "a7a302bd-3960-59f5-a22c-d8571c69838e",
+      "data": {
+        "badge": "INDEPENDENT MEDIA RESEARCH OBSERVATORY",
+        "badgeBn": "স্বাধীন গণমাধ্যম গবেষণা মানমন্দির",
+        "whatWeDo": {
+          "cards": [
+            {
+              "id": "wwd-1",
+              "icon": "Search",
+              "theme": "light",
+              "title": "Research",
+              "linkUrl": "/research",
+              "titleBn": "",
+              "cardType": "text",
+              "description": "We formulate rigorous empirical questions targeting institutional shifts, journalistic autonomy, and media transformations.",
+              "descriptionBn": "আমরা মiddleware পর্যায়ের সমীক্ষা, গবেষণামূলক সাক্ষাৎকার এবং কাঠামোগত পর্যালোচনার মাধ্যমে গণmiddlewareের স্বাধীনতা ও রূপান্তর বিশ্লেষণ করি।"
+            },
+            {
+              "id": "wwd-2",
+              "icon": "Database",
+              "image": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80",
+              "theme": "image",
+              "title": "Evidence",
+              "linkUrl": "/research",
+              "titleBn": "নিরবচ্ছিন্ন সম্প্রচার ও ডিজিটাল আর্কাইভাল",
+              "cardType": "image",
+              "description": "We assemble verifiable empirical material: multi-channel broadcast archives, stratified audience panels, and computational traces.",
+              "descriptionBn": "১৮টি স্যাটেলাইট টিভি চ্যানেল, ৩২টি জাতীয় দৈনিক ও ১২০টির বেশি ডিজিটাল পোর্টাল সার্বক্ষণিক সংরক্ষণ ও নিরীক্ষণ।"
+            },
+            {
+              "id": "wwd-3",
+              "icon": "BarChart3",
+              "theme": "accent",
+              "title": "Monitoring & Public Insights",
+              "linkUrl": "/research",
+              "titleBn": "মনিটরিং ও জনস্বার্থ ইনসাইট",
+              "cardType": "text",
+              "description": "We monitor narratives, algorithmic distribution, and audience perception across broadcast and digital platforms.",
+              "descriptionBn": "আমরা প্রचार মাধ্যম ও প্ল্যাটফর্ম অ্যালগরিদম নিরীক্ষণ করে নাগরিক দায়বদ্ধতার জন্য উন্মুক্ত ও নির্ভরযোগ্য তথ্য-উপাত্ত তৈরি করি।"
+            }
+          ],
+          "header": "What We Do",
+          "headerBn": "আমরা যা করি",
+          "subheader": "Independent inquiry across the digital and broadcast media landscape",
+          "subheaderBn": "আমরা গবেষণা, নিবিড় বিশ্লেষণ ও নিরবচ্ছিন্ন নিরীক্ষার মাধ্যমে গণমাধ্যমের স্বাধীনতা ও রূপান্তর বিশ্লেষণ করি।"
+        },
+        "bottomCta": {
+          "title": "Support Independent Media Research",
+          "titleBn": "",
+          "narrative": "Explore open datasets, request specialized newsroom audits, or collaborate with our empirical research fellows.",
+          "narrativeBn": "",
+          "primaryCtaUrl": "/contact",
+          "primaryCtaText": "Request Dataset Access",
+          "secondaryCtaUrl": "/publications",
+          "primaryCtaTextBn": "গবেষণাসমূহ দেখুন",
+          "secondaryCtaText": "Download Annual Report",
+          "secondaryCtaTextBn": ""
+        },
+        "heroImage": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=2200&q=85",
+        "howWeWork": {
+          "badge": "OUR METHODOLOGICAL DISCIPLINE",
+          "steps": [
+            {
+              "step": "01",
+              "title": "Research",
+              "titleBn": "",
+              "subheading": "PIPELINE",
+              "description": "We formulate rigorous empirical questions targeting institutional shifts, journalistic autonomy, and media transformations.",
+              "subheadingBn": "",
+              "descriptionBn": ""
+            },
+            {
+              "step": "02",
+              "title": "Evidence",
+              "titleBn": "",
+              "subheading": "PIPELINE",
+              "description": "We assemble verifiable empirical material: multi-channel broadcast archives, stratified audience panels, and computational traces.",
+              "subheadingBn": "",
+              "descriptionBn": ""
+            },
+            {
+              "step": "03",
+              "title": "Analysis",
+              "titleBn": "",
+              "subheading": "PIPELINE",
+              "description": "We deploy cross-verified quantitative coding, network topology, and qualitative ethnography to detect patterns and anomalies.",
+              "subheadingBn": "",
+              "descriptionBn": ""
+            },
+            {
+              "step": "04",
+              "title": "Insight",
+              "titleBn": "",
+              "subheading": "PIPELINE",
+              "description": "We translate complex findings into accessible monographs, interactive visual repositories, and policy briefings for civic stakeholders.",
+              "subheadingBn": "",
+              "descriptionBn": ""
+            }
+          ],
+          "title": "How We Work",
+          "badgeBn": "",
+          "titleBn": "",
+          "subtitle": "From urgent inquiries to open-access public knowledge",
+          "subtitleBn": ""
+        },
+        "tenetBadge": "INSTITUTIONAL CORE TENET",
+        "tenetQuote": "“Better understanding begins with better research.”",
+        "homeMetrics": [
+          {
+            "id": "m1",
+            "label": "Experience",
+            "value": "12+ Years",
+            "detail": "Empirical media research & monitoring",
+            "labelBn": "",
+            "valueBn": "",
+            "detailBn": ""
+          },
+          {
+            "id": "m2",
+            "label": "Research Lines",
+            "value": "6 Beats",
+            "detail": "Active continuous investigation domains",
+            "labelBn": "",
+            "valueBn": "",
+            "detailBn": ""
+          },
+          {
+            "id": "m3",
+            "label": "Indexed Records",
+            "value": "480,000+",
+            "detail": "Broadcast, print & algorithmic archives",
+            "labelBn": "",
+            "valueBn": "",
+            "detailBn": ""
+          },
+          {
+            "id": "m4",
+            "label": "Replication Benchmark",
+            "value": "99.4%",
+            "detail": "Inter-coder reliability cross-validated",
+            "labelBn": "",
+            "valueBn": "",
+            "detailBn": ""
+          }
+        ],
+        "featuredTeam": {
+          "title": "Featured Researchers",
+          "titleBn": "",
+          "subtitle": "Interdisciplinary scholars, investigative journalists, and computational scientists leading our observatories",
+          "showOnHome": true,
+          "subtitleBn": "",
+          "featuredMemberIds": [
+            "d2adba6c-5811-595c-ba91-59f26aac1289",
+            "bd14a915-64f4-5fec-ad49-4b344432c946",
+            "7ef7581f-c0e3-5439-8290-0e56c2aa3791",
+            "b5eab9d8-704c-5b0a-99a7-2af7b432a04d"
+          ]
+        },
+        "heroHeadline": "Researching Media. Understanding Society.",
+        "heroSubtitle": "The Institute of Public Affairs operates empirical observatories tracking journalism, digital platforms, public trust, and institutional transparency in an era of platform restructuring.",
+        "tenetBadgeBn": "প্রতিষ্ঠানের মূল দর্শন",
+        "tenetQuoteBn": "“সঠিক অনুধাবনের ভিত্তি হলো নির্ভুল ও নির্মোহ গবেষণা।”",
+        "countersBadge": "COUNTERS BAR",
+        "tenetSubtitle": "Our work seeks to make the changing media environment easier to understand through independent research and thoughtful analysis.",
+        "establishedTag": "Established 2021 · Dhaka & Global Partner Observatories",
+        "heroHeadlineBn": "গণমাধ্যম গবেষণা। সমাজকে অনুধাবন।",
+        "heroSubtitleBn": "ইনস্টিটিউট অব পাবলিক অ্যাফেয়ার্স প্ল্যাটফর্ম পুনর্গঠনের যুগে সাংবাদিকতা, ডিজিটাল প্ল্যাটফর্ম, জনবিশ্বাস ও প্রাতিষ্ঠানিক জবাবদিহিতা পর্যালোচনায় স্বাধীন ও তথ্যভিত্তিক মানমন্দির পরিচালনা করে।",
+        "primaryCtaText": "Explore Researches",
+        "countersBadgeBn": "",
+        "tenetSubtitleBn": "আমাদের কাজ স্বাধীন গবেষণা ও গঠনমূলক বিশ্লেষণের মাধ্যমে পরিবর্তনশীল গণমাধ্যম ব্যবস্থাকে আরো সুস্পষ্টভাবে অনুধাবন করতে সাহায্য করে।",
+        "primaryCtaTextBn": "",
+        "secondaryCtaText": "Read Methodology",
+        "featuredInquiryIds": [
+          "5fe1319c-5c52-5dc6-822c-1516d5994c2d",
+          "88302164-a139-561a-af75-7ebb47c60107",
+          "780daa84-121a-5d0a-b739-3d81e54f47a5",
+          "19bda0e0-f4d4-5057-8631-f9c369dfcc80",
+          "ba447f98-bf0c-554a-911a-e0044ca6f304",
+          "6aef187f-69f5-5b36-b8d8-910dc4f5cdb9"
+        ],
+        "secondaryCtaTextBn": "",
+        "areasOfInvestigation": {
+          "title": "Areas of Investigation",
+          "titleBn": "আমরা যেসব ক্ষেত্রে কাজ করি",
+          "subtitle": "Explore our six active longitudinal research programs monitoring media and democracy",
+          "subtitleBn": "সংবাদের বস্তুনিষ্ঠতা, প্ল্যাটফর্মের প্রভাব এবং নাগরিক প্রতিক্রিয়ায় নিয়ে নিবেদিত ৬টি বিশেষ গবেষণা ক্ষেত্র।",
+          "filterLabel": "All Research Tracks",
+          "filterLabelBn": "",
+          "activeCategoryIds": [
+            "5fe1319c-5c52-5dc6-822c-1516d5994c2d",
+            "88302164-a139-561a-af75-7ebb47c60107",
+            "780daa84-121a-5d0a-b739-3d81e54f47a5",
+            "19bda0e0-f4d4-5057-8631-f9c369dfcc80",
+            "ba447f98-bf0c-554a-911a-e0044ca6f304",
+            "6aef187f-69f5-5b36-b8d8-910dc4f5cdb9"
+          ]
+        },
+        "publicInterestBanner": {
+          "badge": "BUILT FOR PUBLIC INTEREST",
+          "title": "Empirical Research For Transparent Institutions",
+          "badgeBn": " জনস্বার্থে নিবেদিত",
+          "ctaText": "Explore Research Beats",
+          "titleBn": "একটি স্বাধীন গবেষণা মানমন্দির হিসেবে যাত্রা শুরু করে বর্তমানে সমাজের জন্য ৬টি গুরুত্বপূর্ণ ক্ষেত্রে নিয়োজিত।",
+          "mediaUrl": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1600&q=80",
+          "ctaTextBn": "",
+          "keyPoints": [
+            "Independent research",
+            "Open-access evidence",
+            "Public-interest methods",
+            "Transparent institutions"
+          ],
+          "description": "The Institute of Public Affairs conducts independent, evidence-based research into news ecosystems, algorithmic feeds, broadcast coverage, and public perceptions to defend press freedom and civic awareness.",
+          "descriptionBn": "আমরা তথ্যের বস্তুনিষ্ঠতা, অ্যালগরিদম বিস্তার এবং গণমাধ্যমের টেকসই রূপান্তর নিরীক্ষণ করি। আমাদের সকল গবেষণা Pratiband"
+        }
+      }
+    }
+  ],
+  "aboutPageData": [
+    {
+      "id": "94bbe913-3523-56ff-ad1e-08b98771620c",
+      "data": {
+        "cta": {
+          "badge": "Institutional Collaboration & Inquiry",
+          "title": "Let’s Understand the Media Landscape Together.",
+          "badgeBn": "প্রাতিষ্ঠানিক সহযোগিতা ও অনুসন্ধান",
+          "titleBn": "আসুন একসাথে গণমাধ্যমের পরিমণ্ডলকে অনুধাবন করি।",
+          "narrative": "Whether you’re interested in our work, exploring a research collaboration, or simply want to learn more about the organization, we’d be happy to hear from you.",
+          "primaryUrl": "/contact",
+          "narrativeBn": "আপনি আমাদের গবেষণায় আগ্রহী হোন, যৌথ গবেষণার সুযোগ খুঁজুন বা সংস্থা সম্পর্কে আরও জানতে চান—আমরা আপনার মতামতকে স্বাগত জানাই।",
+          "primaryText": "Get in Touch",
+          "secondaryUrl": "/work",
+          "primaryTextBn": "যোগাযোগ করুন",
+          "secondaryText": "Browse All Research Areas",
+          "secondaryTextBn": "সকল গবেষণা ক্ষেত্র দেখুন"
+        },
+        "whoWeAre": {
+          "heading": "Who We Are",
+          "badgeText": "Institutional Foundation",
+          "headingBn": "আমরা কারা",
+          "mainPhoto": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
+          "narrative": [
+            "We examine how traditional and digital media operate, how audiences interact with information, and how technological and social changes are reshaping the media environment.",
+            "Through independent research and analysis, we aim to make complex developments easier to understand and contribute meaningful knowledge to public discussion."
+          ],
+          "badgeTextBn": "প্রাতিষ্ঠানিক ভিত্তি",
+          "description": "is an independent media research organization dedicated to developing a deeper understanding of media, journalism, and information.",
+          "foundedYear": "2019",
+          "narrativeBn": [
+            "আমরা অনুসন্ধান করি কীভাবে ঐতিহ্যবাহী ও ডিজিটাল মিডিয়া পরিচালিত হয়, দর্শকরা তথ্যের সাথে কীভাবে যুক্ত হন এবং প্রযুক্তিগত ও সামাজিক রূপান্তর কীভাবে মিডিয়া পরিবেশকে প্রভাবিত করছে।",
+            "নিরপেক্ষ গবেষণা ও তথ্যভিত্তিক বিশ্লেষণের মাধ্যমে আমরা জটিল বিষয়গুলোকে সহজবোধ্য করে তুলি এবং নাগরিক আলোচনায় বস্তুনিষ্ঠ অবদান রাখি।"
+          ],
+          "descriptionBn": "একটি স্বাধীন গণমাধ্যম গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।"
+        },
+        "heroBanner": {
+          "title": "Independent Research for a Changing Media World.",
+          "bgImage": "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2200&q=85",
+          "bgStyle": "gradient",
+          "subtext": "We research the systems, technologies, institutions, and behaviors shaping today's media and information environment.",
+          "titleBn": "পরিবর্তনশীল গণমাধ্যমের জন্য স্বাধীন গবেষণা",
+          "metadata": "Institutional Profile",
+          "badgeText": "ABOUT THE ORGANIZATION",
+          "subtextBn": "আমরা সমকালীন তথ্য ও গণমাধ্যম জগৎকে রূপদানকারী ব্যবস্থা, প্রযুক্তি, প্রতিষ্ঠান এবং আচরণ নিয়ে গবেষণা করি।",
+          "metadataBn": "প্রাতিষ্ঠানিক পরিচিতি",
+          "badgeTextBn": "আমাদের পরিচিতি"
+        },
+        "principles": [
+          {
+            "id": "val-1",
+            "title": "Independence",
+            "detail": "Our operational governance is strictly insulated from partisan agendas, commercial pressure, and external funders. Research questions and methodological determinations belong entirely to our investigative fellows.",
+            "number": "01",
+            "description": "We protect the independence and integrity of our research."
+          },
+          {
+            "id": "val-2",
+            "title": "Evidence",
+            "detail": "Every assertion is grounded in reproducible empirical data. Where datasets have limitations or uncertainty intervals, we document them candidly rather than presenting speculative conclusions.",
+            "number": "02",
+            "description": "We prioritize reliable evidence over assumptions."
+          },
+          {
+            "id": "val-3",
+            "title": "Rigour",
+            "detail": "All studies undergo internal peer review, cross-coder reliability validation, and stringent ethical review to ensure adherence to international social science protocols.",
+            "number": "03",
+            "description": "We approach research with care, transparency, and methodological discipline."
+          },
+          {
+            "id": "val-4",
+            "title": "Transparency",
+            "detail": "We disclose our sample sizes, coding taxonomies, margin of error, and research instruments openly. We believe public scrutiny strengthens research validity.",
+            "number": "04",
+            "description": "We communicate our findings and methods clearly."
+          },
+          {
+            "id": "val-5",
+            "title": "Public Value",
+            "detail": "Our work is not meant for academic silos alone. We produce clear, open-access resources that inform citizens, empower journalists, and elevate civic discourse.",
+            "number": "05",
+            "description": "We seek to produce research that contributes to meaningful public understanding."
+          }
+        ],
+        "missionPillars": [
+          {
+            "id": "mission",
+            "badge": "Our Mission",
+            "title": "\"To produce credible, independent, and accessible research that contributes to a better understanding of media and its role in society.\"",
+            "badgeBn": "আমাদের লক্ষ্য",
+            "titleBn": "\"বিশ্বাসযোগ্য, স্বাধীন ও উন্মুক্ত গবেষণার মাধ্যমে গণমাধ্যম এবং সমাজে এর তাৎপর্য সম্পর্কে মানুষের বোঝাপড়া সুদৃঢ় করা।\"",
+            "indexLabel": "01 / PURPOSE",
+            "description": "We ensure that public conversations regarding information integrity are supported by verifiable empirical benchmarks rather than ideological posturing.",
+            "indexLabelBn": "০১ / মূল লক্ষ্য",
+            "descriptionBn": "আমরা নিশ্চিত করি যে তথ্য ব্যবস্থা নিয়ে গণআলাপচারিতা যেন কোনো ধারণাভিত্তিক অনুমানের বদলে যাচাইযোগ্য তথ্য-উপাত্ত দ্বারা পরিচালিত হয়।"
+          },
+          {
+            "id": "vision",
+            "badge": "Our Vision",
+            "title": "\"We envision an informed society where media and information can be better understood through independent research, evidence, and open analysis.\"",
+            "badgeBn": "আমাদের রূপকল্প",
+            "titleBn": "\"আমরা এমন একটি সচেতন সমাজ কল্পনা করি যেখানে স্বাধীন গবেষণা, নির্ভরযোগ্য তথ্য-প্রমাণ ও উন্মুক্ত বিশ্লেষণের মাধ্যমে গণমাধ্যম ও তথ্যের গুরুত্ব স্পষ্টভাবে উপলব্ধ হয়।\"",
+            "indexLabel": "02 / OUTLOOK",
+            "description": "An information ecosystem where journalists are safeguarded, citizens are empowered with critical literacy, and digital platforms are transparent to the public.",
+            "indexLabelBn": "০২ / রূপকল্প",
+            "descriptionBn": "এমন একটি মুক্ত তথ্য পরিমণ্ডল যেখানে সাংবাদিকদের স্বাধীনতা সুরক্ষিত থাকে, নাগরিকরা সচেতন ও ক্ষমতাবান হন এবং ডিজিটাল প্ল্যাটফর্মসমূহ জনস্বার্থে দায়বদ্ধ থাকে।"
+          },
+          {
+            "id": "goal",
+            "badge": "Our Goal",
+            "title": "Turn rigorous evidence into insight that strengthens public accountability.",
+            "badgeBn": "আমাদের লক্ষ্য",
+            "titleBn": "নির্ভুল তথ্য-প্রমাণকে এমন অন্তর্দৃষ্টিতে রূপ দেওয়া যা জনস্বার্থ ও জবাবদিহিতা শক্তিশালী করে।",
+            "indexLabel": "03 / IMPACT",
+            "description": "We connect careful research with practical knowledge for journalists, institutions, and communities.",
+            "indexLabelBn": "০৩ / প্রভাব",
+            "descriptionBn": "সাংবাদিক, প্রতিষ্ঠান ও সম্প্রদায়ের জন্য আমরা সতর্ক গবেষণাকে ব্যবহারিক জ্ঞানের সঙ্গে যুক্ত করি।"
+          },
+          {
+            "id": "practice",
+            "badge": "Our Practice",
+            "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=85",
+            "title": "Research that remains open, useful, and accountable.",
+            "badgeBn": "আমাদের কর্মপদ্ধতি",
+            "titleBn": "এমন গবেষণা যা উন্মুক্ত, কার্যকর ও জবাবদিহিমূলক।",
+            "indexLabel": "04 / METHOD",
+            "description": "From fieldwork to public reporting, every step is designed to make evidence easier to examine and act upon.",
+            "indexLabelBn": "০৪ / পদ্ধতি",
+            "descriptionBn": "মাঠপর্যায়ের গবেষণা থেকে জনসমক্ষে প্রতিবেদন—প্রতিটি ধাপ তথ্য-প্রমাণকে সহজে যাচাই ও প্রয়োগযোগ্য করে তোলে।"
+          }
+        ],
+        "methodologySteps": [
+          {
+            "step": "QUESTION",
+            "label": "Identify Critical Inquiries",
+            "summary": "Framing urgent social questions about information power, newsroom stability, and digital media dynamics."
+          },
+          {
+            "step": "RESEARCH",
+            "label": "Design Rigorous Methodology",
+            "summary": "Selecting multi-method protocols spanning survey instruments, ethnographic observation, and platform telemetry."
+          },
+          {
+            "step": "EVIDENCE",
+            "label": "Gather Primary Datasets",
+            "summary": "Harvesting raw multi-channel broadcasts, newspaper archives, and stratified representative sample panels."
+          },
+          {
+            "step": "ANALYSIS",
+            "label": "Decode Underlying Patterns",
+            "summary": "Executing computational NLP, longitudinal sentiment trends, and qualitative thematic evaluations."
+          },
+          {
+            "step": "INSIGHT",
+            "label": "Publish Civic Knowledge",
+            "summary": "Delivering open-access research briefs, executive policy briefings, and interactive datasets for society."
+          }
+        ]
+      }
+    }
+  ],
+  "contactPageData": [
+    {
+      "id": "5caa3129-a83b-5e4d-9eee-e0cd5794d78c",
+      "data": {
+        "faqs": [
+          {
+            "id": "faq-datasets",
+            "answer": "We provide open access to anonymized survey microdata, platform audit logs, and longitudinal media tracking corpora to accredited researchers, universities, and civil society investigators under open academic data agreements. Dataset requests can be submitted via the contact form above or sent directly to research@mediaresearch.org with a brief outline of the research intent and institutional affiliation.",
+            "answerBn": "",
+            "category": "resources",
+            "question": "How can academic researchers and institutions request access to IPA datasets?",
+            "highlights": [
+              "Accessible via Open Academic License",
+              "Longitudinal newsroom tracking archives (2019–present)",
+              "Algorithmic recommendation scrape logs with full provenance metadata"
+            ],
+            "questionBn": "",
+            "highlightsBn": [
+              "",
+              "",
+              ""
+            ],
+            "categoryLabel": "Public Resources",
+            "categoryLabelBn": ""
+          },
+          {
+            "id": "faq-methodology",
+            "answer": "Every investigation published by IPA follows rigorous pre-registered methodologies, statistical validation checks, and reproducible open-science protocols. Primary empirical briefs undergo double-blind peer review by external methodologists from affiliated universities before publication. All computational pipelines and audit models are benchmarked against standardized algorithmic ethics guidelines.",
+            "answerBn": "",
+            "category": "methodology",
+            "question": "What scientific standards and peer-review protocols govern IPA published studies?",
+            "highlights": [
+              "Pre-registered research designs & transparency registries",
+              "Dual-analyst independent qualitative and quantitative verification",
+              "Open-source computational codebooks hosted on public research repos"
+            ],
+            "questionBn": "",
+            "highlightsBn": [
+              "",
+              "",
+              ""
+            ],
+            "categoryLabel": "Methodology & Audits",
+            "categoryLabelBn": ""
+          },
+          {
+            "id": "faq-licensing",
+            "answer": "Yes. In accordance with our public interest mission, all research reports, quarterly monitors, whitepapers, and pedagogical toolkits are published free of paywalls under Creative Commons licensing (CC BY-NC 4.0). Academic institutions, civil society organizations, and civic journalists are encouraged to read, cite, and redistribute our findings with appropriate attribution.",
+            "answerBn": "",
+            "category": "resources",
+            "question": "Are IPA publications, policy frameworks, and monitors freely accessible to the public?",
+            "highlights": [
+              "100% open-access without subscription or paywall tiers",
+              "Complete citation bibliographies & DOIs provided for scholarly indexation",
+              "High-resolution charts and infographics available for classroom instruction"
+            ],
+            "questionBn": "",
+            "highlightsBn": [
+              "",
+              "",
+              ""
+            ],
+            "categoryLabel": "Public Resources",
+            "categoryLabelBn": ""
+          },
+          {
+            "id": "faq-ethics-sources",
+            "answer": "IPA conducts research under Institutional Review Board (IRB) ethical approval and strict cryptographic source-protection protocols. Respondent survey identifiers are cryptographically salted and anonymized before analytical ingestion. Qualitative interview notes and whistleblower submissions are maintained in air-gapped, encrypted volumes accessible exclusively to principal investigators.",
+            "answerBn": "",
+            "category": "ethics",
+            "question": "How does the institute safeguard whistleblower sources and interview respondent privacy?",
+            "highlights": [
+              "Institutional Review Board (IRB) compliance for human-subject research",
+              "Cryptographic identity stripping and differential privacy mechanisms",
+              "Strict non-disclosure commitments for institutional source interviews"
+            ],
+            "questionBn": "",
+            "highlightsBn": [
+              "",
+              "",
+              ""
+            ],
+            "categoryLabel": "Ethics & Confidentiality",
+            "categoryLabelBn": ""
+          },
+          {
+            "id": "faq-newsroom-collabs",
+            "answer": "We regularly partner with regional, national, and community newsrooms to perform computational data investigations, verify digital platform amplification anomalies, and map disinformation ecosystems. We provide newsrooms with computational tool training, specialized data journalism workshops, and collaborative forensic assistance on public interest investigations.",
+            "answerBn": "",
+            "category": "partnerships",
+            "question": "How can newsrooms and civic organizations partner with IPA on investigative audits?",
+            "highlights": [
+              "Tailored newsroom data audit clinics and investigative tooling",
+              "Joint investigation syndication across public media channels",
+              "Data verification assistance for contested computational claims"
+            ],
+            "questionBn": "",
+            "highlightsBn": [
+              "",
+              "",
+              ""
+            ],
+            "categoryLabel": "Partnerships",
+            "categoryLabelBn": ""
+          },
+          {
+            "id": "faq-press-commentary",
+            "answer": "Yes. Our resident researchers, directors, and methodology fellows regularly provide expert commentary, background briefings, and television analysis on media policy, algorithmic accountability, and civic information trends. Urgent broadcast or press inquiries submitted to media@mediaresearch.org or our hotline are typically addressed within two hours.",
+            "answerBn": "",
+            "category": "partnerships",
+            "question": "Can journalists quote IPA fellows or request broadcast commentary on breaking developments?",
+            "highlights": [
+              "Rapid response desk for breaking media & platform policy developments",
+              "Bilingual expert spokespersons for broadcast, radio, and print outlets",
+              "Embargoed advance research briefings for credentialed science reporters"
+            ],
+            "questionBn": "",
+            "highlightsBn": [
+              "",
+              "",
+              ""
+            ],
+            "categoryLabel": "Partnerships",
+            "categoryLabelBn": ""
+          }
+        ],
+        "hero": {
+          "badge": "COMMUNICATIONS & INQUIRIES",
+          "badgeBn": "যোগাযোগ ও অনুসন্ধান",
+          "bgImage": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80",
+          "heading": "Let's Start a Conversation.",
+          "metadata": "Direct Communications & Field Office",
+          "subtitle": "Direct communication channels for academic researchers, investigative journalists, policy institutions, and public dataset requests.",
+          "headingBn": "আমাদের সাথে যোগাযোগ করুন",
+          "metadataBn": "সরাসরি যোগাযোগ ও সচিবালয়",
+          "subtitleBn": "গবেষক, সাংবাদিক ও অংশীদারদের জন্য আমাদের যোগাযোগের দরজা সর্বদা উন্মুক্ত।"
+        },
+        "faqSection": {
+          "badge": "KNOWLEDGE BASE & PROTOCOLS",
+          "title": "Frequently Asked Questions",
+          "badgeBn": "উন্মুক্ত প্রশ্নোত্তর ও তথ্যভাণ্ডার",
+          "titleBn": "সাধারণ জিজ্ঞাসাসমূহ (FAQ)",
+          "subtitle": "Essential guidelines regarding our research standards, open datasets, peer review protocols, and public inquiry workflows.",
+          "subtitleBn": ""
+        },
+        "directDetails": {
+          "phone": "+880 2 984 5512",
+          "phoneLabel": "Phone",
+          "pressEmail": "media@mediaresearch.org",
+          "phoneLabelBn": "",
+          "supportEmail": "info@mediaresearch.org",
+          "workingHours": "Sunday – Thursday: 09:00 – 17:30 BST",
+          "googleMapsUrl": "https://maps.google.com/?q=Gulshan+Avenue+Dhaka",
+          "tollFreePhone": "+880 171 000 9821",
+          "officeLocation": "Level 7, Press & Research Tower, 42 Gulshan Avenue, Dhaka 1212, Bangladesh",
+          "workingHoursBn": "রবিবার – বৃহস্পতিবার: সকাল ০৯:০০ – বিকাল ১৭:৩০ (বিএসটি)",
+          "officeLocationBn": "লেভেল ৭, প্রেস অ্যান্ড রিসার্চ টাওয়ার, ৪২ গুলশান অ্যাভিনিউ, ঢাকা ১২১২, বাংলাদেশ",
+          "pressEmailLabelBn": "",
+          "researchDeskEmail": "research@mediaresearch.org",
+          "tollFreePhoneLabel": "Toll-Free",
+          "supportEmailLabelBn": "",
+          "tollFreePhoneLabelBn": "",
+          "researchDeskEmailLabelBn": ""
+        },
+        "messageSettings": {
+          "autoReply": true,
+          "targetEmail": "inquiries@mediaresearch.org",
+          "subjectPrefix": "[IPA Research Inquiry]",
+          "subjectPrefixBn": "",
+          "requireAffiliation": false
+        }
+      }
+    }
+  ],
+  "researchPageData": [
+    {
+      "id": "070fabdd-f093-5593-90b1-704705be4d81",
+      "data": {
+        "cta": {
+          "badge": "Institutional Collaboration & Inquiry",
+          "title": "Let’s Understand the Media Landscape Together.",
+          "badgeBn": "প্রাতিষ্ঠানিক সহযোগিতা ও অনুসন্ধান",
+          "titleBn": "আসুন একসাথে গণমাধ্যমের পরিমণ্ডলকে অনুধাবন করি।",
+          "narrative": "Whether you’re interested in our work, exploring a research collaboration, or simply want to learn more about the organization, we’d be happy to hear from you.",
+          "primaryUrl": "/contact",
+          "narrativeBn": "আপনি আমাদের গবেষণায় আগ্রহী হোন, যৌথ গবেষণার সুযোগ খুঁজুন বা সংস্থা সম্পর্কে আরও জানতে চান—আমরা আপনার মতামতকে স্বাগত জানাই।",
+          "primaryText": "Get in Touch",
+          "secondaryUrl": "/work",
+          "primaryTextBn": "যোগাযোগ করুন",
+          "secondaryText": "Browse All Research Areas",
+          "secondaryTextBn": "সকল গবেষণা ক্ষেত্র দেখুন"
+        },
+        "hero": {
+          "label": "RESEARCHES",
+          "title": "Exploring the Forces Shaping Media.",
+          "labelBn": "গবেষণাসমূহ",
+          "titleBn": "গণমাধ্যম ও সমাজের পারস্পরিক গতিশীলতা নিয়ে গবেষণা।",
+          "metadata": "Research Portfolio & Inquiry Areas",
+          "metadataBn": "গবেষণা পোর্টফোলিও ও অনুসন্ধানী ক্ষেত্রসমূহ",
+          "description": "Our work examines the changing relationships between media, technology, journalism, information, and society.",
+          "descriptionBn": "আমাদের গবেষণাসমূহ গণমাধ্যম, প্রযুক্তি, সাংবাদিকতা এবং সমাজের আন্তঃসম্পর্ককে তথ্য-প্রমাণের ভিত্তিতে বিশ্লেষণ করে।",
+          "backgroundImage": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2200&q=85"
+        },
+        "filterPills": {
+          "allLabel": "All Research Areas (6)",
+          "allLabelBn": "সকল গবেষণা ক্ষেত্র (৬)",
+          "publicLabel": "Public & Democracy",
+          "publicLabelBn": "জনমত ও গণতন্ত্র",
+          "platformsLabel": "Platforms & AI",
+          "journalismLabel": "Journalism & Newsrooms",
+          "platformsLabelBn": "প্ল্যাটফর্ম ও এআই",
+          "journalismLabelBn": "সাংবাদিকতা ও নিউজরুম"
+        },
+        "areasSection": {
+          "badge": "SIX RESEARCH AREAS",
+          "title": "Areas of Investigation",
+          "badgeBn": "ছয়টি প্রধান গবেষণা ক্ষেত্র",
+          "titleBn": "অনুসন্ধানের ক্ষেত্রসমূহ",
+          "refreshTooltip": "Refresh Research Catalog",
+          "refreshTooltipBn": "গবেষণা তালিকা রিফ্রেশ করুন"
+        },
+        "whatOurWorkLooksLike": {
+          "badge": "CORE MODALITIES",
+          "title": "What Our Work Looks Like",
+          "badgeBn": "মূল কর্মপদ্ধতি",
+          "titleBn": "আমাদের কাজের রূপরেখা",
+          "description": "We execute research through four distinct operational pillars, spanning long-term scientific inquiry to real-time broadcast monitoring.",
+          "descriptionBn": "আমরা চারটি পৃথক স্তম্ভের মাধ্যমে গবেষণা পরিচালনা করি—দীর্ঘমেয়াদী বৈজ্ঞানিক অনুসন্ধান থেকে শুরু করে রিয়েল-টাইম সম্প্রচার পর্যবেক্ষণ।"
+        }
+      }
+    }
+  ],
+  "monitoringTelemetry": [
+    {
+      "id": "634d3081-3eb5-5ec8-a08c-0cb99f54408e",
+      "data": {
+        "serverUptime": "99.98%",
+        "activeSurveys": 3,
+        "articlesIndexed": 850000,
+        "lastIngestTimestamp": "2026-09-08 14:02 UTC",
+        "printEditionsScanned": 34,
+        "interCoderReliability": "κ = 0.91",
+        "broadcastChannelsLogged": 28
+      }
+    }
+  ],
+  "researchBeat": [
+    {
+      "id": "19bda0e0-f4d4-5057-8631-f9c369dfcc80",
+      "slug": "public-opinion",
+      "beatNumber": "04",
+      "category": "public",
+      "name": "Public Opinion",
+      "tagline": "Citizen reception, institutional trust, and factual comprehension.",
+      "description": "Exploring how people consume, interpret, and respond to news and information through nationwide survey panels and qualitative focus sessions.",
+      "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
+      "outputsCount": "12 Nationwide Polls",
+      "timeframe": "2020 – Present (Annual Surveys)",
+      "status": "Annual Cycle",
+      "leadFellows": [
+        "Dr. Marcus Vance",
+        "Maya Lin",
+        "Dr. Eleanor Vance"
+      ],
+      "metrics": [
+        {
+          "label": "Citizens Surveyed",
+          "value": "18,500+",
+          "detail": "Stratified probability-based sample"
+        },
+        {
+          "label": "Geographic Coverage",
+          "value": "64 Districts",
+          "detail": "Urban, semi-urban & rural divisions"
+        },
+        {
+          "label": "Margin of Error",
+          "value": "±2.1%",
+          "detail": "95% confidence interval standard"
+        },
+        {
+          "label": "Focus Groups",
+          "value": "96 Sessions",
+          "detail": "In-depth qualitative deliberation"
+        }
+      ],
+      "overview": [
+        "The Public Opinion investigation beat measures the citizen side of the media ecosystem. How do people verify information? Whom do they trust when claims conflict? How do socioeconomic standing, digital literacy, and political affiliation shape susceptibility to misinformation?",
+        "Our research employs rigorous probability-based nationwide surveys alongside deliberative polling panels to move beyond simplistic approval ratings and understand the cognitive mechanics of public belief formation.",
+        "Findings are openly published to assist educators, policymakers, and civic institutions in designing media literacy programs that genuinely resonate with citizens’ daily realities."
+      ],
+      "keyQuestions": [
+        "What institutional factors determine whether a citizen trusts an official government release versus a viral social post?",
+        "How does digital news consumption correlate with factual knowledge on key scientific, economic, and electoral issues?",
+        "What are the specific information voids in rural communities that make them susceptible to coordinated panic campaigns?",
+        "Can short-form media literacy interventions demonstrably improve citizen verification habits over time?"
+      ],
+      "methodologyDetails": [
+        {
+          "title": "Stratified Multi-Stage Cluster Probability Sampling",
+          "protocol": "Face-to-face and computer-assisted telephone interviews (CATI)",
+          "frequency": "Annual flagship survey (n = 4,000 per wave)",
+          "description": "Sampling across all 8 administrative divisions, stratified by urban/rural proportion, gender, age, and educational attainment."
+        },
+        {
+          "title": "Deliberative Polling Panels & Focus Groups",
+          "protocol": "Moderated small-group citizen dialogues with expert testimony inputs",
+          "frequency": "Quarterly regional focus panels",
+          "description": "Tracking how citizens update beliefs when presented with balanced, peer-reviewed evidence and structured cross-partisan discussions."
+        },
+        {
+          "title": "Cognitive Misperception Diagnostic Batteries",
+          "protocol": "Factor-analyzed psychometric comprehension tests",
+          "frequency": "Integrated into all survey waves",
+          "description": "Distinguishing between confident misperceptions, uninformed guesses, and partisan cheerleading during survey responses."
+        }
+      ],
+      "caseStudies": [
+        {
+          "year": "2024–2025",
+          "title": "The National Media Trust Index (5th Annual Report)",
+          "impact": "Widely featured by academic press and national editorial conferences.",
+          "summary": "Longitudinal study revealing a 14-point drop in trust toward national broadcast news, accompanied by a 22-point surge in reliance on community messaging groups."
+        },
+        {
+          "year": "2023",
+          "title": "Socioeconomic Factors in Rural vs. Urban Digital Information Access",
+          "impact": "Informed national digital inclusion grant criteria.",
+          "summary": "Detailed study across 24 rural sub-districts identifying data package pricing and device sharing as major obstacles to information verification."
+        }
+      ],
+      "publications": [
+        {
+          "date": "October 2025",
+          "type": "Monograph",
+          "title": "National Media Trust Index: 5th Annual Citizen Perception Survey",
+          "pagesOrSize": "168 Pages · PDF"
+        },
+        {
+          "date": "May 2025",
+          "type": "Policy Brief",
+          "title": "Navigating Viral Rumors: Citizen Verification Behaviors in Election Years",
+          "pagesOrSize": "34 Pages · PDF"
+        },
+        {
+          "date": "January 2025",
+          "type": "Dataset",
+          "title": "IPA Nationwide Public Opinion Microdata (Wave 1 – 5)",
+          "pagesOrSize": "85 MB · SPSS / Stata / CSV"
+        }
+      ],
+      "summary": null,
+      "methodology": null,
+      "primaryMethodologies": [
+        "Stratified Random Sampling",
+        "Deliberative Polling Panels",
+        "Cognitive Reception Interviews",
+        "Misperception Diagnostics"
+      ],
+      "imageTitle": null,
+      "imageSubtitle": null,
+      "researchNarrative": null,
+      "viewCount": 0,
+      "createdAt": "2026-09-17T10:46:24.125Z",
+      "updatedAt": "2026-09-17T10:46:24.125Z",
+      "nameBn": "",
+      "taglineBn": "",
+      "descriptionBn": "",
+      "summaryBn": null,
+      "methodologyBn": null,
+      "researchNarrativeBn": null,
+      "statusBn": "",
+      "timeframeBn": "",
+      "outputsCountBn": "",
+      "imageTitleBn": "",
+      "imageSubtitleBn": "",
+      "leadFellowsBn": [
+        "",
+        "",
+        ""
+      ],
+      "metricsBn": [
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        }
+      ],
+      "overviewBn": [
+        "",
+        "",
+        ""
+      ],
+      "keyQuestionsBn": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "methodologyDetailsBn": [
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        },
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        },
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        }
+      ],
+      "caseStudiesBn": [
+        {
+          "year": "",
+          "title": "",
+          "impact": "",
+          "summary": ""
+        },
+        {
+          "year": "",
+          "title": "",
+          "impact": "",
+          "summary": ""
+        }
+      ],
+      "publicationsBn": [
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        },
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        },
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        }
+      ],
+      "sampleInquiries": [
+        "The National Media Trust Index: 5th Annual Citizen Perception Survey",
+        "How Voters Navigate Contradictory Claims on Social Platforms During General Elections",
+        "Socioeconomic Factors in Rural vs. Urban Digital Information Access"
+      ],
+      "sampleInquiriesBn": [
+        "",
+        "",
+        ""
+      ],
+      "primaryMethodologiesBn": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "imageBn": null
+    },
+    {
+      "id": "5fe1319c-5c52-5dc6-822c-1516d5994c2d",
+      "slug": "media-journalism",
+      "beatNumber": "01",
+      "category": "journalism",
+      "name": "Media & Journalism",
+      "tagline": "Newsroom structures, editorial independence, and the future of reportage.",
+      "description": "Researching journalism, news organizations, editorial practices, newsroom transformation, and the future of news in an era of platform restructuring.",
+      "image": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80",
+      "outputsCount": "24 Reports & Monographs",
+      "timeframe": "2021 – Present (Longitudinal)",
+      "status": "Active Longitudinal Beat",
+      "leadFellows": [
+        "Dr. Eleanor Vance",
+        "Tariq Rahman",
+        "Maya Lin"
+      ],
+      "metrics": [
+        {
+          "label": "Newsrooms Audited",
+          "value": "48 Outlets",
+          "detail": "National, regional & hyper-local desks"
+        },
+        {
+          "label": "Interviews Conducted",
+          "value": "180+ Editors",
+          "detail": "Chief editors, bureau chiefs & reporters"
+        },
+        {
+          "label": "Monographs Released",
+          "value": "24 Studies",
+          "detail": "Peer-reviewed open access papers"
+        },
+        {
+          "label": "Editorial Policy Audits",
+          "value": "100% Verified",
+          "detail": "Cross-checked with ethical bylaws"
+        }
+      ],
+      "overview": [
+        "The Media & Journalism investigation beat examines the structural, economic, and institutional transformations reshaping contemporary news organizations. We evaluate how the collapse of traditional print and broadcast advertising revenues has altered editorial autonomy, reporting budgets, and local accountability journalism.",
+        "Through extensive newsroom ethnographies, financial transparency audits, and interviews with working journalists, our research maps the fault lines between commercial pressures, state regulatory interventions, and investigative integrity across South Asia and global developing democracies.",
+        "Our outputs provide empirical evidence to media owners, editorial councils, labor unions, and international press freedom monitors seeking durable, public-interest financing models."
+      ],
+      "keyQuestions": [
+        "How are regional and vernacular newsrooms sustaining field reporting amid severe platform monetization cuts?",
+        "What institutional mechanisms best protect editorial independence from commercial advertisers and political patrons?",
+        "To what extent are verification protocols holding up against 24/7 breaking news cycles and social media aggregation?",
+        "What newsroom labor models ensure fair compensation, retention, and safety for investigative beat reporters?"
+      ],
+      "methodologyDetails": [
+        {
+          "title": "Newsroom Ethnographies & Field Observation",
+          "protocol": "Structured on-site participant observation across news cycles",
+          "frequency": "Quarterly field observation across 12 selected newsrooms",
+          "description": "Researchers spend 2 to 4 weeks embedded within daily editorial desks, observing morning pitch meetings, copy desks, verification checks, and editorial dispute resolutions."
+        },
+        {
+          "title": "Financial & Ownership Disclosures Audit",
+          "protocol": "Corporate registry cross-referencing and revenue stream breakdown",
+          "frequency": "Annual comprehensive audit",
+          "description": "Tracing holding companies, cross-media ownership patterns, advertising revenue ratios, and debt obligations to identify potential editorial vulnerabilities."
+        },
+        {
+          "title": "Editorial Autonomy Survey Panel",
+          "protocol": "Double-anonymized psychometric and behavioral questionnaire",
+          "frequency": "Bi-annual panel of 250 active journalists",
+          "description": "Tracking self-censorship indices, direct managerial interference, salary delays, and digital security threats encountered during investigative reportage."
+        }
+      ],
+      "caseStudies": [
+        {
+          "year": "2024–2025",
+          "title": "The Economics of Local Press: Survival Strategies of Regional Newsrooms",
+          "impact": "Cited in the Parliamentary Standing Committee Brief on Regional Media Sustainability.",
+          "summary": "A 24-month investigation into 18 district-level newspapers discovering that 72% relied on civic patronage or non-journalistic side-businesses to fund operations."
+        },
+        {
+          "year": "2023",
+          "title": "Verification Protocols in the Age of Coordinated Disinformation",
+          "impact": "Adopted by the Editors Guild as a benchmark for newsroom verification handbooks.",
+          "summary": "Audit of verification desks across 40 major dailies during national crisis events, mapping failure points in viral image debunking."
+        }
+      ],
+      "publications": [
+        {
+          "date": "November 2025",
+          "type": "Monograph",
+          "title": "State of Newsroom Autonomy: National Editorial Survey Report (2025)",
+          "pagesOrSize": "142 Pages · PDF"
+        },
+        {
+          "date": "August 2025",
+          "type": "Policy Brief",
+          "title": "Local Press Viability Index: Methodology & Findings",
+          "pagesOrSize": "36 Pages · PDF"
+        },
+        {
+          "date": "June 2025",
+          "type": "Dataset",
+          "title": "South Asian Newsroom Editorial Structure Dataset (2022–2025)",
+          "pagesOrSize": "18.4 MB · CSV/JSON"
+        }
+      ],
+      "summary": null,
+      "methodology": null,
+      "primaryMethodologies": [
+        "Content analysis",
+        "Newsroom ethnographies",
+        "Financial disclosures audit",
+        "In-depth editor interviews"
+      ],
+      "imageTitle": null,
+      "imageSubtitle": null,
+      "researchNarrative": null,
+      "viewCount": 0,
+      "createdAt": "2026-09-17T10:46:24.094Z",
+      "updatedAt": "2026-09-17T10:46:24.094Z",
+      "nameBn": "",
+      "taglineBn": "",
+      "descriptionBn": "",
+      "summaryBn": null,
+      "methodologyBn": null,
+      "researchNarrativeBn": null,
+      "statusBn": "",
+      "timeframeBn": "",
+      "outputsCountBn": "",
+      "imageTitleBn": "",
+      "imageSubtitleBn": "",
+      "leadFellowsBn": [
+        "",
+        "",
+        ""
+      ],
+      "metricsBn": [
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        }
+      ],
+      "overviewBn": [
+        "",
+        "",
+        ""
+      ],
+      "keyQuestionsBn": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "methodologyDetailsBn": [
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        },
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        },
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        }
+      ],
+      "caseStudiesBn": [
+        {
+          "year": "",
+          "title": "",
+          "impact": "",
+          "summary": ""
+        },
+        {
+          "year": "",
+          "title": "",
+          "impact": "",
+          "summary": ""
+        }
+      ],
+      "publicationsBn": [
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        },
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        },
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        }
+      ],
+      "sampleInquiries": [
+        "The Economics of Local Press: Survival Strategies of Regional Newsrooms (2023–2025)",
+        "Editorial Autonomy Under Digital Platform Pressures: A Comparative South Asian Study",
+        "Fact-Checking Verification Protocols Across 40 Major Daily Newsrooms"
+      ],
+      "sampleInquiriesBn": [
+        "",
+        "",
+        ""
+      ],
+      "primaryMethodologiesBn": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "imageBn": null
+    },
+    {
+      "id": "6aef187f-69f5-5b36-b8d8-910dc4f5cdb9",
+      "slug": "technology-ai",
+      "beatNumber": "06",
+      "category": "platforms",
+      "name": "Technology & AI",
+      "tagline": "Machine intelligence, synthesis engines, and computational ethics in media.",
+      "description": "Studying how artificial intelligence, algorithms, and emerging technologies are transforming media production, automated editing, and public knowledge verification.",
+      "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+      "outputsCount": "15 Whitepapers & Guidelines",
+      "timeframe": "2022 – Present (High-Growth)",
+      "status": "Active Longitudinal Beat",
+      "leadFellows": [
+        "Dr. Sarah Jenkins",
+        "Farhan Kabir",
+        "Nusrat Jahan"
+      ],
+      "metrics": [
+        {
+          "label": "Synthetic Models Tested",
+          "value": "45 LLMs & Gen-AI",
+          "detail": "Text, image, voice & video synthesis"
+        },
+        {
+          "label": "Newsrooms Surveyed on AI",
+          "value": "62 Organizations",
+          "detail": "Adoption, tooling & oversight guidelines"
+        },
+        {
+          "label": "Watermark Robustness Trials",
+          "value": "12,000 Assets",
+          "detail": "Compression, crop & noise stress testing"
+        },
+        {
+          "label": "Detection Accuracy Benchmark",
+          "value": "94.2% ROC-AUC",
+          "detail": "In-house multimodal provenance suite"
+        }
+      ],
+      "overview": [
+        "The Technology & AI investigation beat operates at the cutting edge of generative AI, computational newsrooms, synthetic disinformation, and cryptographic verification. As generative language models and deepfake synthesis tools proliferate, the cost of manufacturing synthetic realism drops to near zero.",
+        "We conduct reverse-engineering trials on foundation models, benchmark automated detection algorithms against adversarial evasion tactics, and examine how automated journalism workflows impact journalistic jobs and editorial accountability.",
+        "Our computational team produces open-source provenance toolkits, technical auditing whitepapers, and ethical guidelines to help newsrooms responsibly adopt AI while preserving evidentiary credibility."
+      ],
+      "keyQuestions": [
+        "Can cryptographic provenance (C2PA) and invisible watermarks withstand adversarial re-encoding on consumer social platforms?",
+        "How are commercial newsrooms utilizing generative AI for copy-editing, translation, and summary generation without hallucination risks?",
+        "What are the vulnerabilities of LLM search retrieval systems when answering inquiries on disputed historical or political facts?",
+        "What copyright and licensing models ensure investigative reporters are compensated when their work trains proprietary AI models?"
+      ],
+      "methodologyDetails": [
+        {
+          "title": "Adversarial Synthetic Benchmark Testing",
+          "protocol": "Perturbation, steganographic watermarking, and evasion trials",
+          "frequency": "Monthly model release benchmark cycle",
+          "description": "Stress-testing commercial and open-weight diffusion and audio cloning models against forensic detection pipelines under real-world social compression."
+        },
+        {
+          "title": "Newsroom Automation & Tooling Audits",
+          "protocol": "Technical workflow inspection and human-in-the-loop validation metrics",
+          "frequency": "Quarterly review with partner editorial labs",
+          "description": "Auditing algorithmic code generation, prompt engineering guardrails, translation models, and automated CMS tagging systems deployed in active newsrooms."
+        },
+        {
+          "title": "Search Retrieval & Hallucination Diagnostics",
+          "protocol": "Automated query injection with verified factual ground truth groundings",
+          "frequency": "Bi-weekly automated testing across 6 major search AI engines",
+          "description": "Measuring factual drift, synthetic hallucination rates, and citation fidelity on complex investigative news stories."
+        }
+      ],
+      "caseStudies": [
+        {
+          "year": "2024–2025",
+          "title": "Generative AI in the Newsroom: Adoption, Oversight, and Ethical Guidelines",
+          "impact": "Cited in the Global Forum for Media Development (GFMD) guidelines.",
+          "summary": "Survey of 62 newsrooms finding 58% use AI tools daily, but only 19% have formal written disclosure policies for readers."
+        },
+        {
+          "year": "2024",
+          "title": "Watermarking and Cryptographic Provenance in High-Risk Visual Evidence",
+          "impact": "Technical findings presented to the Coalition for Content Provenance and Authenticity (C2PA).",
+          "summary": "Evaluating 12,000 synthetic audio and video files across platforms to test survival rates of cryptographic signatures."
+        }
+      ],
+      "publications": [
+        {
+          "date": "December 2025",
+          "type": "Monograph",
+          "title": "Artificial Intelligence in Journalism: The State of Play (2025)",
+          "pagesOrSize": "176 Pages · PDF"
+        },
+        {
+          "date": "October 2025",
+          "type": "Policy Brief",
+          "title": "Guidelines for Editorial Oversight of Automated Synthesis Tools",
+          "pagesOrSize": "40 Pages · PDF"
+        },
+        {
+          "date": "August 2025",
+          "type": "Dataset",
+          "title": "Multimodal Forensic Audio & Image Detection Benchmark Dataset",
+          "pagesOrSize": "2.1 GB · HuggingFace / Open Data"
+        }
+      ],
+      "summary": null,
+      "methodology": null,
+      "primaryMethodologies": [
+        "Model reverse engineering",
+        "Synthetic media benchmark testing",
+        "Newsroom automation audits",
+        "Provenance verification trials"
+      ],
+      "imageTitle": null,
+      "imageSubtitle": null,
+      "researchNarrative": null,
+      "viewCount": 0,
+      "createdAt": "2026-09-17T10:46:24.140Z",
+      "updatedAt": "2026-09-17T10:46:24.140Z",
+      "nameBn": "",
+      "taglineBn": "",
+      "descriptionBn": "",
+      "summaryBn": null,
+      "methodologyBn": null,
+      "researchNarrativeBn": null,
+      "statusBn": "",
+      "timeframeBn": "",
+      "outputsCountBn": "",
+      "imageTitleBn": "",
+      "imageSubtitleBn": "",
+      "leadFellowsBn": [
+        "",
+        "",
+        ""
+      ],
+      "metricsBn": [
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        }
+      ],
+      "overviewBn": [
+        "",
+        "",
+        ""
+      ],
+      "keyQuestionsBn": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "methodologyDetailsBn": [
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        },
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        },
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        }
+      ],
+      "caseStudiesBn": [
+        {
+          "year": "",
+          "title": "",
+          "impact": "",
+          "summary": ""
+        },
+        {
+          "year": "",
+          "title": "",
+          "impact": "",
+          "summary": ""
+        }
+      ],
+      "publicationsBn": [
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        },
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        },
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        }
+      ],
+      "sampleInquiries": [
+        "Generative AI in the Newsroom: A Survey of Adoption, Editorial Oversight, and Guidelines",
+        "Watermarking and Cryptographic Provenance in High-Risk Visual Evidence",
+        "The Impact of Large Language Models on Search Retrieval and Citation of Investigative Journalism"
+      ],
+      "sampleInquiriesBn": [
+        "",
+        "",
+        ""
+      ],
+      "primaryMethodologiesBn": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "imageBn": null
+    },
+    {
+      "id": "780daa84-121a-5d0a-b739-3d81e54f47a5",
+      "slug": "media-monitoring",
+      "beatNumber": "03",
+      "category": "journalism",
+      "name": "Media Monitoring",
+      "tagline": "Systematic observation across broadcast, print, and digital spectrums.",
+      "description": "Tracking media coverage, narratives, trends, and emerging issues across television, print, online media, and social platforms using standardized coding metrics.",
+      "image": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+      "outputsCount": "18 Longitudinal Datasets",
+      "timeframe": "2019 – Present (Continuous 24/7)",
+      "status": "Continuous Monitoring",
+      "leadFellows": [
+        "Dr. Marcus Vance",
+        "Nusrat Jahan",
+        "Maya Lin"
+      ],
+      "metrics": [
+        {
+          "label": "Broadcast Channels Logged",
+          "value": "28 Streams",
+          "detail": "Continuous 24/7 video recording"
+        },
+        {
+          "label": "Print Editions Scanned",
+          "value": "34 Dailies",
+          "detail": "High-resolution OCR archives"
+        },
+        {
+          "label": "Articles Indexed",
+          "value": "850,000+",
+          "detail": "Searchable multi-language corpus"
+        },
+        {
+          "label": "Inter-Coder Reliability",
+          "value": "κ = 0.91",
+          "detail": "Krippendorff’s alpha validation"
+        }
+      ],
+      "overview": [
+        "The Media Monitoring Observatory constitutes IPA’s largest technical infrastructure. Operating round-the-clock recording and automated transcription facilities, this beat creates authoritative longitudinal records of national broadcast television, national dailies, and digital news portals.",
+        "Our computational linguistic pipelines process speech-to-text transcripts, perform named entity recognition (NER), and compute topic salience indices to track how news narratives evolve in response to domestic and international crises.",
+        "All monitoring is executed using standardized codebooks trained on strict academic inter-coder reliability metrics, ensuring objective, replicable data for researchers and civil society."
+      ],
+      "keyQuestions": [
+        "How do prime-time broadcast debates frame marginalized communities during national crises?",
+        "What percentage of broadcast talk-show airtime is allocated to substantive policy debate versus partisan spectacle?",
+        "How does the speed of story adoption differ between state-backed broadcasters and independent digital outlets?",
+        "What are the measurable biases in visual representation and speaker selection on major television news networks?"
+      ],
+      "methodologyDetails": [
+        {
+          "title": "24/7 Automated Broadcast Recording & ASR Transcription",
+          "protocol": "Lossless MPEG-TS ingest with fine-tuned multi-lingual speech recognition",
+          "frequency": "Real-time continuous 24/7 capture",
+          "description": "Capturing 28 satellite television news channels simultaneously with automated timestamping, speaker segmentation, and closed-caption verification."
+        },
+        {
+          "title": "Print OCR & Layout Geometry Reconstruction",
+          "protocol": "High-DPI archival scanning with full-page spatial coordinate tagging",
+          "frequency": "Daily 05:00 BST ingestion cycle",
+          "description": "Cataloging front-page banner headlines, above-the-fold placement weights, column centimeter calculations, and display advertisement ratios."
+        },
+        {
+          "title": "Double-Blind Framing & Sentiment Coding",
+          "protocol": "Standardized Krippendorff alpha coding with blinded secondary reviewer",
+          "frequency": "Weekly sample batches of 500 articles/clips",
+          "description": "Evaluating frame attribution (conflict, human interest, economic consequence, morality) with strict statistical reliability testing."
+        }
+      ],
+      "caseStudies": [
+        {
+          "year": "2024",
+          "title": "National Broadcast Framing of Climate & Monsoonal Displacement (2020–2025)",
+          "impact": "Shared with the Ministry of Environment and international climate research coalitions.",
+          "summary": "5-year retrospective of 1,200 hours of prime-time news showing climate events framed as natural tragedies rather than systemic governance challenges 81% of the time."
+        },
+        {
+          "year": "2023",
+          "title": "Representation and Voice: Women as News Sources in Prime-Time News",
+          "impact": "Prompted the creation of the National Female Expert Directory for broadcasters.",
+          "summary": "Comprehensive analysis revealing that female experts constituted only 11.2% of quoted economic and national security authorities on broadcast television."
+        }
+      ],
+      "publications": [
+        {
+          "date": "December 2025",
+          "type": "Monograph",
+          "title": "Five-Year Longitudinal Broadcast Observatory Report (2020–2025)",
+          "pagesOrSize": "210 Pages · PDF"
+        },
+        {
+          "date": "September 2025",
+          "type": "Policy Brief",
+          "title": "Media Representation & Gender Parity in News Sourcing",
+          "pagesOrSize": "42 Pages · PDF"
+        },
+        {
+          "date": "July 2025",
+          "type": "Dataset",
+          "title": "National Broadcast Headline Corpus & Sentiment Index (2021–2025)",
+          "pagesOrSize": "420 MB · Parquet / CSV"
+        }
+      ],
+      "summary": null,
+      "methodology": null,
+      "primaryMethodologies": [
+        "24/7 Automated Broadcast Recording",
+        "Optical Character Recognition for Print",
+        "Lexical Sentiment Indexing",
+        "Multi-Language Tagging"
+      ],
+      "imageTitle": null,
+      "imageSubtitle": null,
+      "researchNarrative": null,
+      "viewCount": 0,
+      "createdAt": "2026-09-17T10:46:24.116Z",
+      "updatedAt": "2026-09-17T10:46:24.116Z",
+      "nameBn": "",
+      "taglineBn": "",
+      "descriptionBn": "",
+      "summaryBn": null,
+      "methodologyBn": null,
+      "researchNarrativeBn": null,
+      "statusBn": "",
+      "timeframeBn": "",
+      "outputsCountBn": "",
+      "imageTitleBn": "",
+      "imageSubtitleBn": "",
+      "leadFellowsBn": [
+        "",
+        "",
+        ""
+      ],
+      "metricsBn": [
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        }
+      ],
+      "overviewBn": [
+        "",
+        "",
+        ""
+      ],
+      "keyQuestionsBn": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "methodologyDetailsBn": [
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        },
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        },
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        }
+      ],
+      "caseStudiesBn": [
+        {
+          "year": "",
+          "title": "",
+          "impact": "",
+          "summary": ""
+        },
+        {
+          "year": "",
+          "title": "",
+          "impact": "",
+          "summary": ""
+        }
+      ],
+      "publicationsBn": [
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        },
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        },
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        }
+      ],
+      "sampleInquiries": [
+        "National Broadcast Framing of Climate & Monsoonal Displacement: 2020–2025",
+        "Representation and Voice: Women as News Sources in Prime-Time Television",
+        "Quarterly Cross-Outlet Monitor on Public Health Communications"
+      ],
+      "sampleInquiriesBn": [
+        "",
+        "",
+        ""
+      ],
+      "primaryMethodologiesBn": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "imageBn": null
+    },
+    {
+      "id": "88302164-a139-561a-af75-7ebb47c60107",
+      "slug": "digital-media",
+      "beatNumber": "02",
+      "category": "platforms",
+      "name": "Digital Media",
+      "tagline": "Platform dynamics, feed architecture, and digital audience behaviour.",
+      "description": "Examining how digital platforms are transforming the production, distribution, and consumption of information across mobile and network channels.",
+      "image": "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1200&q=80",
+      "outputsCount": "31 Inquiries & Policy Papers",
+      "timeframe": "2020 – Present (Continuous)",
+      "status": "Continuous Monitoring",
+      "leadFellows": [
+        "Dr. Sarah Jenkins",
+        "Tariq Rahman",
+        "Farhan Kabir"
+      ],
+      "metrics": [
+        {
+          "label": "Data Points Tracked",
+          "value": "4.2M Posts",
+          "detail": "Algorithmic feed samples gathered"
+        },
+        {
+          "label": "User Telemetry Cohort",
+          "value": "1,200 Citizens",
+          "detail": "Donated browser & mobile data sessions"
+        },
+        {
+          "label": "Platform APIs Monitored",
+          "value": "8 Networks",
+          "detail": "Social, messaging & video platforms"
+        },
+        {
+          "label": "Recommendation Audits",
+          "value": "540 Audits",
+          "detail": "Simulated persona test runs"
+        }
+      ],
+      "overview": [
+        "The Digital Media beat investigates the algorithmic curation, feed mechanics, and attention economics governing major digital platforms. We assess how algorithmic optimization for engagement impacts information quality, user polarization, and public debate.",
+        "Our team uses computational data collection, sock-puppet audit personas, and voluntary telemetry donation from diverse citizen cohorts to measure platform recommendation trajectories and viral distribution cycles.",
+        "We place special emphasis on closed messaging platforms (WhatsApp, Telegram) and short-form video ecosystems (TikTok, Reels, YouTube Shorts) where information diffusion occurs outside of search indexing."
+      ],
+      "keyQuestions": [
+        "How do recommendation engines prioritize emotionally charged content over verified institutional reporting?",
+        "What are the vectors of cross-platform information laundering from private messaging channels into broadcast media?",
+        "How is the shift toward algorithmic short-form video altering civic comprehension among young voters?",
+        "What technical interventions allow independent researchers to audit walled-garden platform feeds safely?"
+      ],
+      "methodologyDetails": [
+        {
+          "title": "Algorithmic Persona Auditing (Reverse Engineering)",
+          "protocol": "Controlled synthetic persona bots simulating diverse consumption archetypes",
+          "frequency": "Continuous daily automated harvesting",
+          "description": "Simulating demographic archetypes across fresh mobile instances to capture baseline recommendation algorithms and detect radicalization pathways or engagement rabbit holes."
+        },
+        {
+          "title": "Cross-Platform Network Graph Mapping",
+          "protocol": "Dynamic directed graph analysis measuring node centrality and propagation speed",
+          "frequency": "Event-triggered during major breaking information events",
+          "description": "Tracking how claims originate on 4chan/Reddit/Telegram, get picked up by micro-influencers on TikTok, and migrate to verified mainstream journalists on X."
+        },
+        {
+          "title": "Citizen Telemetry & Screen-Time Donors",
+          "protocol": "Privacy-preserving voluntary browser extensions and mobile log donation",
+          "frequency": "Ongoing longitudinal panel with 1,200 participants",
+          "description": "Evaluating real-world news exposure, dark patterns, sponsored content cloaking, and cognitive fatigue among authenticated real users."
+        }
+      ],
+      "caseStudies": [
+        {
+          "year": "2024",
+          "title": "Short-Form Video News Consumption Patterns Among Young Adults (18–25)",
+          "impact": "Presented at the International Association for Media and Communication Research (IAMCR).",
+          "summary": "Empirical examination of 350,000 video impressions showing that 64% of young news consumers received primary geopolitical updates via algorithmic feeds rather than search."
+        },
+        {
+          "year": "2023–2024",
+          "title": "Cross-Platform Disinformation Trajectories During Breaking Events",
+          "impact": "Incorporated into UNESCO Media Literacy Curricula.",
+          "summary": "Documenting the average 18-minute lag between anonymous Telegram coordination and algorithmic amplification on algorithmic video platforms."
+        }
+      ],
+      "publications": [
+        {
+          "date": "October 2025",
+          "type": "Peer-Reviewed Paper",
+          "title": "Algorithmic Feed Velocity and Informational Narrowing (2025)",
+          "pagesOrSize": "28 Pages · PDF"
+        },
+        {
+          "date": "July 2025",
+          "type": "Policy Brief",
+          "title": "Platform Governance and Closed Messaging Auditing Handbook",
+          "pagesOrSize": "48 Pages · PDF"
+        },
+        {
+          "date": "March 2025",
+          "type": "Dataset",
+          "title": "Cross-Platform Viral Diffusion Telemetry Repository",
+          "pagesOrSize": "142 MB · SQLite / JSON"
+        }
+      ],
+      "summary": null,
+      "methodology": null,
+      "primaryMethodologies": [
+        "Algorithmic auditing",
+        "Network graph mapping",
+        "Audience telemetry analysis",
+        "Platform API harvesting"
+      ],
+      "imageTitle": null,
+      "imageSubtitle": null,
+      "researchNarrative": null,
+      "viewCount": 0,
+      "createdAt": "2026-09-17T10:46:24.108Z",
+      "updatedAt": "2026-09-17T10:46:24.108Z",
+      "nameBn": "",
+      "taglineBn": "",
+      "descriptionBn": "",
+      "summaryBn": null,
+      "methodologyBn": null,
+      "researchNarrativeBn": null,
+      "statusBn": "",
+      "timeframeBn": "",
+      "outputsCountBn": "",
+      "imageTitleBn": "",
+      "imageSubtitleBn": "",
+      "leadFellowsBn": [
+        "",
+        "",
+        ""
+      ],
+      "metricsBn": [
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        }
+      ],
+      "overviewBn": [
+        "",
+        "",
+        ""
+      ],
+      "keyQuestionsBn": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "methodologyDetailsBn": [
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        },
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        },
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        }
+      ],
+      "caseStudiesBn": [
+        {
+          "year": "",
+          "title": "",
+          "impact": "",
+          "summary": ""
+        },
+        {
+          "year": "",
+          "title": "",
+          "impact": "",
+          "summary": ""
+        }
+      ],
+      "publicationsBn": [
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        },
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        },
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        }
+      ],
+      "sampleInquiries": [
+        "Short-Form Video News Consumption Patterns Among Young Adults (18–25)",
+        "Cross-Platform Disinformation Trajectories During Breaking Humanitarian Events",
+        "Feed Recommendation Velocity and Informational Narrowing: A 12-Month Field Study"
+      ],
+      "sampleInquiriesBn": [
+        "",
+        "",
+        ""
+      ],
+      "primaryMethodologiesBn": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "imageBn": null
+    },
+    {
+      "id": "ba447f98-bf0c-554a-911a-e0044ca6f304",
+      "slug": "media-democracy",
+      "beatNumber": "05",
+      "category": "public",
+      "name": "Media & Democracy",
+      "tagline": "Public interest journalism, civic discourse, and institutional accountability.",
+      "description": "Examining the relationship between media, public discourse, democratic participation, and society in both established and transitioning informational environments.",
+      "image": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
+      "outputsCount": "19 Research Monographs",
+      "timeframe": "2019 – Present (Longitudinal)",
+      "status": "Active Longitudinal Beat",
+      "leadFellows": [
+        "Dr. Eleanor Vance",
+        "Farhan Kabir",
+        "Tariq Rahman"
+      ],
+      "metrics": [
+        {
+          "label": "Legal Cases Tracked",
+          "value": "310+ Cases",
+          "detail": "Defamation, cyber-law & contempt trials"
+        },
+        {
+          "label": "Elections Monitored",
+          "value": "4 Cycles",
+          "detail": "Comprehensive electoral media coverage"
+        },
+        {
+          "label": "Freedom Indexes Audited",
+          "value": "12 Global Metrics",
+          "detail": "Regional methodological calibration"
+        },
+        {
+          "label": "Civil Society Briefings",
+          "value": "45 Briefs",
+          "detail": "Delivered to judicial & legal defense panels"
+        }
+      ],
+      "overview": [
+        "The Media & Democracy investigation beat analyzes the legal, regulatory, and institutional environment conditioning independent media. A vibrant democracy requires that journalists can question power without facing arbitrary criminalization, financial strangulation, or regulatory suppression.",
+        "We monitor media-related litigation, cybersecurity legislation enforcement, press card accreditation revocations, and government advertisement withholding. Our legal scholars cross-examine statutory law against constitutional free speech guarantees.",
+        "Our publications serve as an essential empirical reference for constitutional lawyers, human rights watchdogs, press freedom rapporteurs, and international legal advocates."
+      ],
+      "keyQuestions": [
+        "How are modern digital security statutes being applied to curtail investigative reporting on public procurement?",
+        "What regulatory architectures safeguard public service media from becoming tools of incumbent state propaganda?",
+        "How does state advertisement allocation create covert financial leverage over private news publishers?",
+        "What legal protections exist for whistleblower sources communicating with journalists via encrypted digital channels?"
+      ],
+      "methodologyDetails": [
+        {
+          "title": "Judicial Docket Tracing & Case Law Repository",
+          "protocol": "Systematic courthouse court-record auditing across high court divisions",
+          "frequency": "Monthly legal docket review",
+          "description": "Tracking all charges filed against journalists, bloggers, and civic activists under defamation, state secrets, and cybersecurity statutes."
+        },
+        {
+          "title": "Public Procurement & Ad-Spend Reconciliation",
+          "protocol": "Freedom of Information requests and budget allocation forensics",
+          "frequency": "Bi-annual fiscal reconciliation",
+          "description": "Correlating state advertising expenditures against newsroom editorial stances to identify punitive budget withdrawal patterns."
+        },
+        {
+          "title": "Electoral Campaign Discourse Analysis",
+          "protocol": "Quantitative candidate airtime and valence scoring across networks",
+          "frequency": "Active during national and municipal election seasons",
+          "description": "Scoring fair-play and balanced coverage compliance across broadcast channels during election cycles."
+        }
+      ],
+      "caseStudies": [
+        {
+          "year": "2024",
+          "title": "The State of Press Freedom and Digital Regulatory Frameworks in South Asia",
+          "impact": "Submitted as amicus curiae evidence in high court constitutional challenges.",
+          "summary": "A 300-page comparative monograph investigating the diffusion of restrictive online speech laws across six South Asian jurisdictions."
+        },
+        {
+          "year": "2023–2024",
+          "title": "Public Service Media Funding Models: Global Precedents and Regional Applications",
+          "impact": "Adopted as a reference whitepaper by the Media Reform Commission.",
+          "summary": "Comparative fiscal analysis designing an independent endowment-based trust structure to insulate public broadcasting from direct treasury control."
+        }
+      ],
+      "publications": [
+        {
+          "date": "January 2026",
+          "type": "Monograph",
+          "title": "Press Under Pressure: Legal Harassment of Investigative Journalists (2020–2025)",
+          "pagesOrSize": "194 Pages · PDF"
+        },
+        {
+          "date": "August 2025",
+          "type": "Policy Brief",
+          "title": "Government Advertising Allocation as a Tool of Editorial Coercion",
+          "pagesOrSize": "52 Pages · PDF"
+        },
+        {
+          "date": "April 2025",
+          "type": "Dataset",
+          "title": "National Digital Security Case Law Legal Dataset (2018–2025)",
+          "pagesOrSize": "24 MB · CSV / JSON"
+        }
+      ],
+      "summary": null,
+      "methodology": null,
+      "primaryMethodologies": [
+        "Legislative record tracing",
+        "Defamation & media law reviews",
+        "Civic dialogue observation",
+        "Electoral debate discourse analysis"
+      ],
+      "imageTitle": null,
+      "imageSubtitle": null,
+      "researchNarrative": null,
+      "viewCount": 0,
+      "createdAt": "2026-09-17T10:46:24.132Z",
+      "updatedAt": "2026-09-17T10:46:24.132Z",
+      "nameBn": "",
+      "taglineBn": "",
+      "descriptionBn": "",
+      "summaryBn": null,
+      "methodologyBn": null,
+      "researchNarrativeBn": null,
+      "statusBn": "",
+      "timeframeBn": "",
+      "outputsCountBn": "",
+      "imageTitleBn": "",
+      "imageSubtitleBn": "",
+      "leadFellowsBn": [
+        "",
+        "",
+        ""
+      ],
+      "metricsBn": [
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        },
+        {
+          "label": "",
+          "value": "",
+          "detail": ""
+        }
+      ],
+      "overviewBn": [
+        "",
+        "",
+        ""
+      ],
+      "keyQuestionsBn": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "methodologyDetailsBn": [
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        },
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        },
+        {
+          "title": "",
+          "protocol": "",
+          "frequency": "",
+          "description": ""
+        }
+      ],
+      "caseStudiesBn": [
+        {
+          "year": "",
+          "title": "",
+          "impact": "",
+          "summary": ""
+        },
+        {
+          "year": "",
+          "title": "",
+          "impact": "",
+          "summary": ""
+        }
+      ],
+      "publicationsBn": [
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        },
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        },
+        {
+          "date": "",
+          "type": "",
+          "title": "",
+          "pagesOrSize": ""
+        }
+      ],
+      "sampleInquiries": [
+        "The State of Press Freedom and Digital Regulatory Frameworks in South Asia",
+        "Civic Deliberation in the Age of Coordinated Disinformation Campaigns",
+        "Public Service Media Funding Models: Global Precedents and Regional Applications"
+      ],
+      "sampleInquiriesBn": [
+        "",
+        "",
+        ""
+      ],
+      "primaryMethodologiesBn": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "imageBn": null
+    }
+  ],
+  "teamMember": [
+    {
+      "id": "0ab294b0-3ad0-5007-9b67-265b234c27cc",
+      "name": "Dr. David K. Thorne",
+      "nameBn": "ড. ডেভিড কে. থর্ন",
+      "role": "Lead Computational Scientist & AI Fellow",
+      "roleBn": "প্রধান কম্পিউটেশনাল বিজ্ঞানী ও এআই ফেলো",
+      "category": "research",
+      "teamType": null,
+      "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80",
+      "bio": "Researches synthetic media generation, algorithmic curation engines, and machine learning models in journalism.",
+      "bioBn": "সিন্থেটিক মিডিয়া উৎপাদন, অ্যালগরিদমিক কিউরেশন ইঞ্জিন এবং সাংবাদিকতায় মেশিন লার্নিং মডেল নিয়ে গবেষণা করেন।",
+      "fullBio": "Dr. David Thorne works at the intersection of natural language processing and media studies. He investigates algorithmic curation transparency, newsroom AI tool deployment, and provenance architectures for visual and audio documentation. He is a frequent contributor to open-source algorithmic auditing toolkits.",
+      "fullBioBn": "ড. ডেভিড থর্ন ন্যাচারাল ল্যাঙ্গুয়েজ প্রসেসিং ও গণমাধ্যম অধ্যয়নের ছেদবিন্দুতে কাজ করেন। তিনি অ্যালগরিদমিক কিউরেশনের স্বচ্ছতা, সংবাদালয়ে এআই সরঞ্জাম মোতায়েন এবং দৃশ্য-শ্রব্য নথিপত্রের উৎস সনাক্তকরণ স্থাপত্য অনুসন্ধান করেন। তিনি ওপেন-সোর্স অ্যালগরিদমিক অডিটিং টুলকিটের নিয়মিত অবদানকারী।",
+      "researchInterests": [
+        "Technology & AI",
+        "Synthetic Media",
+        "Algorithmic Transparency",
+        "Natural Language Processing"
+      ],
+      "researchInterestsBn": [
+        "প্রযুক্তি ও এআই",
+        "সিন্থেটিক মিডিয়া",
+        "অ্যালগরিদমিক স্বচ্ছতা",
+        "ন্যাচারাল ল্যাঙ্গুয়েজ প্রসেসিং"
+      ],
+      "focusAreas": [],
+      "focusAreasBn": null,
+      "education": "Ph.D. in Computer Science & Information Science, ETH Zurich",
+      "educationBn": "ইটিএইচ জুরিখ, কম্পিউটার বিজ্ঞান ও তথ্য বিজ্ঞানে পিএইচডি",
+      "recentPublications": [
+        "Provenance and Veracity: Auditing Generative Media in Public Discourse (2025)",
+        "Automated Journalism in Practice: Editorial Safeguards and Omission Biases (2024)"
+      ],
+      "email": "d.thorne@mediaresearch.org",
+      "twitter": null,
+      "linkedin": null,
+      "scholar": null,
+      "order": 4,
+      "createdAt": "2026-09-17T10:46:24.210Z",
+      "updatedAt": "2026-09-17T10:46:24.210Z"
+    },
+    {
+      "id": "3ff16b76-7f42-5612-a762-3c9c6ec32b0c",
+      "name": "Julian Richter",
+      "nameBn": "জুলিয়ান রিখটার",
+      "role": "Digital Investigations & Platform Governance Lead",
+      "roleBn": "ডিজিটাল তদন্ত ও প্ল্যাটফর্ম শাসন বিভাগ প্রধান",
+      "category": "research",
+      "teamType": null,
+      "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80",
+      "bio": "Specializes in network analysis of digital information ecosystems, viral distribution mechanics, and coordination networks.",
+      "bioBn": "ডিজিটাল তথ্য বাস্তুতন্ত্রের নেটওয়ার্ক বিশ্লেষণ, ভাইরাল বিতরণ বিদ্যুত এবং সমন্বয় নেটওয়ার্কে বিশেষজ্ঞ।",
+      "fullBio": "Julian Richter directs open-source investigations into cross-platform coordinated campaigns, digital influence operations, and micro-targeting in public elections. His analytical models have unraveled bot networks and documented automated harassment campaigns targeting civic reporters.",
+      "fullBioBn": "জুলিয়ান রিখটার ক্রস-প্ল্যাটফর্ম সমন্বিত প্রচারণা, ডিজিটাল প্রভাব অপারেশন এবং জননির্বাচনে মাইক্রো-টার্গেটিং বিষয়ে ওপেন-সোর্স তদন্ত পরিচালনা করেন। তাঁর বিশ্লেষণাত্মক মডেল বট নেটওয়ার্ক উন্মোচন করেছে এবং নাগরিক সাংবাদিকদের লক্ষ্য করে স্বয়ংক্রিয় হয়রানি প্রচারণার নথিভুক্ত করেছে।",
+      "researchInterests": [
+        "Digital Media",
+        "Information Ecosystems",
+        "Network Analysis",
+        "Disinformation Mechanics"
+      ],
+      "researchInterestsBn": [
+        "ডিজিটাল মিডিয়া",
+        "তথ্য বাস্তুতন্ত্র",
+        "নেটওয়ার্ক বিশ্লেষণ",
+        "ভুয়াল তথ্য বিদ্যুত"
+      ],
+      "focusAreas": [],
+      "focusAreasBn": null,
+      "education": "M.A. in Digital Humanities & Data Science, King’s College London",
+      "educationBn": "কিংস কলেজ লন্ডন, ডিজিটাল হিউম্যানিটিজ ও ডেটা সায়েন্সে এমএ",
+      "recentPublications": [
+        "Mapping Information Cascades: Velocity and Amplification on Short-Form Video (2024)"
+      ],
+      "email": "j.richter@mediaresearch.org",
+      "twitter": null,
+      "linkedin": null,
+      "scholar": null,
+      "order": 6,
+      "createdAt": "2026-09-17T10:46:24.224Z",
+      "updatedAt": "2026-09-17T10:46:24.224Z"
+    },
+    {
+      "id": "7ef7581f-c0e3-5439-8290-0e56c2aa3791",
+      "name": "Marcus Chen",
+      "nameBn": "মার্কাস চেন",
+      "role": "Head of Policy & Institutional Partnerships",
+      "roleBn": "নীতি ও প্রাতিষ্ঠানিক অংশীদারিত্ব বিভাগ প্রধান",
+      "category": "leadership",
+      "teamType": null,
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80",
+      "bio": "Coordinates engagement with civil society, press councils, international research networks, and policy bodies.",
+      "bioBn": "নাগরিক সমাজ, সংবাদ পরিষদ, আন্তর্জাতিক গবেষণা নেটওয়ার্ক এবং নীতি প্রতিষ্ঠানগুলোর সাথে সম্পর্ক সমন্বয় করেন।",
+      "fullBio": "Marcus Chen brings fifteen years of international experience bridging empirical research and public policy. A former investigative journalist and media law advisor, he translates research findings into actionable policy submissions for independent regulatory consultations, international press freedom tribunals, and academic symposia.",
+      "fullBioBn": "মার্কাস চেন অভিজ্ঞতামূলক গবেষণা ও জননীতির মধ্যে সেতুবন্ধন তৈরিতে পনেরো বছরের আন্তর্জাতিক অভিজ্ঞতা নিয়ে এসেছেন। একজন তদন্তকারী সাংবাদিক ও গণমাধ্যম আইন উপদেষ্টা হিসেবে তিনি গবেষণাফলাফলকে স্বাধীন নিয়ন্ত্রক পরামর্শ, আন্তর্জাতিক সংবাদ স্বাধীনতা ট্রাইবুনাল এবং একাডেমিক সম্মেলনের জন্য কার্যকর নীতি প্রতিবেদনে রূপান্তরিত করেন।",
+      "researchInterests": [
+        "Media Law",
+        "Platform Governance",
+        "Public Service Broadcasting",
+        "Information Rights"
+      ],
+      "researchInterestsBn": [
+        "গণমাধ্যম আইন",
+        "প্ল্যাটফর্ম শাসন",
+        "জনসেবা সম্প্রচার",
+        "তথ্য অধিকার"
+      ],
+      "focusAreas": [],
+      "focusAreasBn": null,
+      "education": "LL.M. in International Information & Media Law, Columbia University",
+      "educationBn": "কলাম্বিয়া বিশ্ববিদ্যালয়, আন্তর্জাতিক তথ্য ও গণমাধ্যম আইনে এলএলএম",
+      "recentPublications": [
+        "Regulatory Frontiers: Balancing Platform Accountability with Free Expression (2024)"
+      ],
+      "email": "m.chen@mediaresearch.org",
+      "twitter": null,
+      "linkedin": null,
+      "scholar": null,
+      "order": 2,
+      "createdAt": "2026-09-17T10:46:24.198Z",
+      "updatedAt": "2026-09-17T10:46:24.198Z"
+    },
+    {
+      "id": "9dab7f3d-c1c0-5828-9a83-36fb59399063",
+      "name": "Nusrat Jahan",
+      "nameBn": "নুসরাত জাহান",
+      "role": "Lead Public Opinion Analyst & Survey Methodologist",
+      "roleBn": "প্রধান জনমত বিশ্লেষক ও সার্ভে পদ্ধতিবিদ্যা বিশেষজ্ঞ",
+      "category": "research",
+      "teamType": null,
+      "image": "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=800&q=80",
+      "bio": "Designs national representative survey instruments, focus group protocols, and public perception tracking indices.",
+      "bioBn": "জাতীয় প্রতিনিধিত্বমূলক সার্ভে সরঞ্জাম, ফোকাস গ্রুপ প্রোটোকল এবং জনমত ট্র্যাকিং সূচক নকশা করেন।",
+      "fullBio": "Nusrat Jahan leads the organization’s annual National Media Trust Barometer. Her research investigates the cognitive mechanisms through which citizens process disputed news events, evaluate authoritative sourcing, and negotiate information scarcity in rural communities.",
+      "fullBioBn": "নুসরাত জাহান প্রতিষ্ঠানের বার্ষিক জাতীয় গণমাধ্যম বিশ্বাস ব্যারোমিটার পরিচালনা করেন। তাঁর গবেষণা নাগরিকরা বিতর্কিত সংবাদ ঘটনা কীভাবে প্রক্রিয়াকরণ করেন, কর্তৃপক্ষের উৎস মূল্যায়ন করেন এবং গ্রামীণ সম্প্রদায়ে তথ্য অভাবের মধ্যে কীভাবে মোকাবিলা করেন — তার জ্ঞানতাত্ত্বিক কাঠামো অনুসন্ধান করে।",
+      "researchInterests": [
+        "Public Opinion",
+        "Media Trust Indices",
+        "Cognitive Reception",
+        "Civic Literacy"
+      ],
+      "researchInterestsBn": [
+        "জনমত",
+        "গণমাধ্যম বিশ্বাস সূচক",
+        "জ্ঞানতাত্ত্বিক গ্রহণ",
+        "নাগরিক সাক্ষরতা"
+      ],
+      "focusAreas": [],
+      "focusAreasBn": null,
+      "education": "M.Sc. in Social Research Methods, London School of Economics",
+      "educationBn": "লন্ডন স্কুল অব ইকোনমিক্স, সামাজিক গবেষণা পদ্ধতিতে এমএসসি",
+      "recentPublications": [
+        "Citizens in Uncertainty: Cognitive Patterns of Media Verification (2024)"
+      ],
+      "email": "n.jahan@mediaresearch.org",
+      "twitter": null,
+      "linkedin": null,
+      "scholar": null,
+      "order": 5,
+      "createdAt": "2026-09-17T10:46:24.217Z",
+      "updatedAt": "2026-09-17T10:46:24.217Z"
+    },
+    {
+      "id": "b24f6ada-49e4-5913-8327-ed8115644c54",
+      "name": "Farhana Kabir",
+      "nameBn": "ফারহানা কাবির",
+      "role": "Longitudinal Media Monitoring Coordinator",
+      "roleBn": "দীর্ঘমেয়াদি গণমাধ্যম মনিটরিং সমন্বয়ক",
+      "category": "research",
+      "teamType": null,
+      "image": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80",
+      "bio": "Coordinates 24/7 broadcast and digital print recording operations, archival coding teams, and metadata indexing.",
+      "bioBn": "২৪/৭ সম্প্রচার ও ডিজিটাল প্রিন্ট রেকর্ডিং অপারেশন, সংরক্ষণাগার কোডিং দল এবং মেটাডেটা ইনডেক্সিং সমন্বয় করেন।",
+      "fullBio": "Farhana Kabir oversees the daily operations of IPA’s monitoring laboratory, which archives 18 broadcast television feeds, 32 national daily newspapers, and 120 digital portals. She ensures strict inter-coder reliability and maintains our proprietary news taxonomy schema.",
+      "fullBioBn": "ফারহানা কাবির আইপিএ মনিটরিং ল্যাবরাটরির দৈনিক অপারেশন তত্ত্বাবধান করেন, যা ১৮টি সম্প্রচার টেলিভিশন ফিড, ৩২টি জাতীয় দৈনিক পত্রিকা এবং ১২০টি ডিজিটাল পোর্টাল সংরক্ষণ করে। তিনি কঠোর ইন্টার-কোডার নির্ভুলতা নিশ্চিত করেন এবং আমাদের স্বতন্ত্র সংবাদ শ্রেণিবিন্যাস স্কিমা বজায় রাখেন।",
+      "researchInterests": [
+        "Media Monitoring",
+        "Content Analysis",
+        "Broadcast Archiving",
+        "Taxonomy Design"
+      ],
+      "researchInterestsBn": [
+        "গণমাধ্যম মনিটরিং",
+        "বিষয়বস্তু বিশ্লেষণ",
+        "সম্প্রচার সংরক্ষণ",
+        "শ্রেণিবিন্যাস নকশাকরণ"
+      ],
+      "focusAreas": [],
+      "focusAreasBn": null,
+      "education": "M.S.S. in Mass Communication and Journalism, University of Rajshahi",
+      "educationBn": "রাজশাহী বিশ্ববিদ্যালয়, গণযোগাযোগ ও সাংবাদিকতায় এমএসএস",
+      "recentPublications": [
+        "The IPA Broadcast Coding Standard: An Operational Guide (2023)"
+      ],
+      "email": "f.kabir@mediaresearch.org",
+      "twitter": null,
+      "linkedin": null,
+      "scholar": null,
+      "order": 7,
+      "createdAt": "2026-09-17T10:46:24.230Z",
+      "updatedAt": "2026-09-17T10:46:24.230Z"
+    },
+    {
+      "id": "b5eab9d8-704c-5b0a-99a7-2af7b432a04d",
+      "name": "Ayesha Siddiqua",
+      "nameBn": "আয়েশা সিদ্দিকা",
+      "role": "Senior Media Analyst — Broadcast & Newsroom Studies",
+      "roleBn": "বরিষ্ঠ গণমাধ্যম বিশ্লেষক — সম্প্রচার ও সংবাদালয় গবেষণা",
+      "category": "research",
+      "teamType": null,
+      "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80",
+      "bio": "Directs qualitative newsroom investigations, editor interviews, and prime-time broadcast content framing audits.",
+      "bioBn": "গুণগত সংবাদালয় তদন্ত, সম্পাদক সাক্ষাৎকার এবং প্রাইম-টাইম সম্প্রচার বিষয়বস্তু ফ্রেমিং অডিট পরিচালনা করেন।",
+      "fullBio": "Ayesha Siddiqua has spent a decade analyzing newsroom workflows, representation in prime-time television, and conflict reporting ethics. Her field research spans more than 60 newsrooms across South Asia, focusing on gender representation in editorial boards and safety protocols for investigative journalists.",
+      "fullBioBn": "আয়েশা সিদ্দিকা এক দশক ধরে সংবাদালয়ের কার্যপ্রবাহ, প্রাইম-টাইম টেলিভিশনে প্রতিনিধিত্ব এবং সংঘাত রিপোর্টিং নীতিশাস্ত্র বিশ্লেষণ করে আসছেন। তাঁর ক্ষেত্রগবেষণা দক্ষিণ এশিয়া জুড়ে ৬০-এর বেশি সংবাদালয়কে অন্তর্ভুক্ত করে, যা সম্পাদকীয় পরিষদে লিঙ্গ প্রতিনিধিত্ব এবং তদন্তকারী সাংবাদিকদের নিরাপত্তা প্রোটোকলে মনোযোগী।",
+      "researchInterests": [
+        "Broadcast Framing",
+        "Newsroom Ethnography",
+        "Gender Representation",
+        "Investigative Journalism"
+      ],
+      "researchInterestsBn": [
+        "সম্প্রচার ফ্রেমিং",
+        "সংবাদালয় নৃতত্ত্ব",
+        "লিঙ্গ প্রতিনিধিত্ব",
+        "তদন্তকারী সাংবাদিকতা"
+      ],
+      "focusAreas": [],
+      "focusAreasBn": null,
+      "education": "M.Phil. in Journalism Studies, University of Dhaka",
+      "educationBn": "ঢাকা বিশ্ববিদ্যালয়, সাংবাদিকতা অধ্যয়নে এমফিল",
+      "recentPublications": [
+        "Gender and Voice in Prime-Time Television Broadcasts: A Five-Year Audit (2024)"
+      ],
+      "email": "a.siddiqua@mediaresearch.org",
+      "twitter": null,
+      "linkedin": null,
+      "scholar": null,
+      "order": 3,
+      "createdAt": "2026-09-17T10:46:24.205Z",
+      "updatedAt": "2026-09-17T10:46:24.205Z"
+    },
+    {
+      "id": "bd14a915-64f4-5fec-ad49-4b344432c946",
+      "name": "Dr. Elena Rostova",
+      "nameBn": "ড. এলেনা রোস্তোভা",
+      "role": "Deputy Director & Head of Methodologies",
+      "roleBn": "উপ-পরিচালক ও পদ্ধতি বিভাগ প্রধান",
+      "category": "leadership",
+      "teamType": null,
+      "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80",
+      "bio": "Leads computational social science frameworks, survey design, and data ethics across all research tracks.",
+      "bioBn": "কম্পিউটেশনাল সোশ্যাল সায়েন্স ফ্রেমওয়ার্ক, সার্ভে ডিজাইন এবং সকল গবেষণা ট্র্যাকে ডেটা নীতিশাস্ত্র পরিচালনা করেন।",
+      "fullBio": "Dr. Elena Rostova specializes in quantitative methodology, computational text analysis, and representative survey design. She previously led public opinion modeling initiatives at the European Center for Media Studies. At IPA, she directs our continuous monitoring infrastructure and establishes methodological benchmarks for cross-platform data collection.",
+      "fullBioBn": "ড. এলেনা রোস্তোভা পরিমাণমূলক পদ্ধতিবিদ্যা, কম্পিউটেশনাল টেক্সট বিশ্লেষণ এবং প্রতিনিধিত্বমূলক সার্ভে নকশাকরণে বিশেষজ্ঞ। তিনি ইউরোপীয় মিডিয়া স্টাডিজ সেন্টারে জনমত মডেলিং উদ্যোগ পরিচালনা করেছেন। আইপিএ-তে তিনি আমাদের ক্রমাগত মনিটরিং অবকাঠামো পরিচালনা করেন এবং ক্রস-প্ল্যাটফর্ম ডেটা সংগ্রহের জন্য পদ্ধতিগত বেঞ্চমার্ক নির্ধারণ করেন।",
+      "researchInterests": [
+        "Public Opinion",
+        "Computational Social Science",
+        "Survey Methodology",
+        "Algorithmic Auditing"
+      ],
+      "researchInterestsBn": [
+        "জনমত",
+        "কম্পিউটেশনাল সোশ্যাল সায়েন্স",
+        "সার্ভে পদ্ধতিবিদ্যা",
+        "অ্যালগরিদমিক অডিটিং"
+      ],
+      "focusAreas": [],
+      "focusAreasBn": null,
+      "education": "Ph.D. in Quantitative Sociology, University of Oxford",
+      "educationBn": "অক্সফোর্ড বিশ্ববিদ্যালয়, পরিমাণমূলক সমাজবিজ্ঞানে পিএইচডি",
+      "recentPublications": [
+        "Disentangling Noise: Methodological Frameworks for High-Volume Social Data (2024)",
+        "The National Media Trust Barometer: Methodological Review (2023)"
+      ],
+      "email": "e.rostova@mediaresearch.org",
+      "twitter": null,
+      "linkedin": null,
+      "scholar": null,
+      "order": 1,
+      "createdAt": "2026-09-17T10:46:24.193Z",
+      "updatedAt": "2026-09-17T10:46:24.193Z"
+    },
+    {
+      "id": "d2adba6c-5811-595c-ba91-59f26aac1289",
+      "name": "Dr. Tariqul Islam",
+      "nameBn": "ড. তারিকুল ইসলাম",
+      "role": "Research Director",
+      "roleBn": "গবেষণা পরিচালক",
+      "category": "leadership",
+      "teamType": null,
+      "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80",
+      "bio": "Oversees the institute’s research agenda, methodology standards, and academic partnerships. Two decades of experience in media sociology and public communications.",
+      "bioBn": "প্রতিষ্ঠানের গবেষণা কর্মসূচি, পদ্ধতিগত মান এবং একাডেমিক অংশীদারিত্ব পরিচালনা করেন। গণমাধ্যম সমাজবিজ্ঞান ও জনসম্পর্কে দুই দশকের অভিজ্ঞতা।",
+      "fullBio": "Dr. Tariqul Islam has directed media sociology programs across South Asia and Europe. Prior to co-founding the Institute of Public Affairs, he held research appointments at the Reuters Institute and the London School of Economics. His scholarly work focuses on newsroom institutional transformation, editorial autonomy under political transition, and the structural economics of independent press in emerging democracies.",
+      "fullBioBn": "ড. তারিকুল ইসলাম দক্ষিণ এশিয়া ও ইউরোপ জুড়ে গণমাধ্যম সমাজবিজ্ঞান কার্যক্রম পরিচালনা করেছেন। পাবলিক অ্যাফেয়ার্স ইনস্টিটিউট সহ-প্রতিষ্ঠার পূর্বে তিনি রয়টার্স ইনস্টিটিউট ও লন্ডন স্কুল অব ইকোনমিক্সে গবেষণা পদে কাজ করেছেন। তাঁর গবেষণা কাজের মূল বিষয়সমূহ হলো সংবাদালয়ের প্রাতিষ্ঠানিক রূপান্তর, রাজনৈতিক উত্তরণের সময়ে সম্পাদকীয় স্বাধীনতা এবং উদীয়মান গণতন্ত্রে স্বাধীন সংবাদমাধ্যমের কাঠামোগত অর্থনীতি।",
+      "researchInterests": [
+        "Media & Journalism",
+        "Media & Democracy",
+        "Editorial Autonomy",
+        "Comparative Media Systems"
+      ],
+      "researchInterestsBn": [
+        "গণমাধ্যম ও সাংবাদিকতা",
+        "গণমাধ্যম ও গণতন্ত্র",
+        "সম্পাদকীয় স্বাধীনতা",
+        "তুলনামূলক গণমাধ্যম ব্যবস্থা"
+      ],
+      "focusAreas": [],
+      "focusAreasBn": null,
+      "education": "Ph.D. in Media & Communication Studies, University of London",
+      "educationBn": "লন্ডন বিশ্ববিদ্যালয়, গণমাধ্যম ও যোগাযোগ অধ্যয়নে পিএইচডি",
+      "recentPublications": [
+        "Structural Precarity: The Economic Reorganization of Regional Newsrooms (2024)",
+        "Press Freedom in South Asia: Legal Regimes and Digital Realities (2023)"
+      ],
+      "email": "t.islam@mediaresearch.org",
+      "twitter": null,
+      "linkedin": null,
+      "scholar": null,
+      "order": 0,
+      "createdAt": "2026-09-17T10:46:24.185Z",
+      "updatedAt": "2026-09-17T10:46:24.185Z"
+    }
+  ],
+  "publication": [
+    {
+      "id": "0a4f68f2-c0f5-5b4d-808d-59169e0717dc",
+      "title": "Multimodal Forensic Audio & Image Detection Benchmark Dataset",
+      "type": "Dataset",
+      "date": "August 2025",
+      "pagesOrSize": "2.1 GB · HuggingFace / Open Data",
+      "beatId": "6aef187f-69f5-5b36-b8d8-910dc4f5cdb9",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.388Z",
+      "updatedAt": "2026-09-17T10:46:24.388Z"
+    },
+    {
+      "id": "2b51f42e-cbaf-572d-9a20-d90a09439730",
+      "title": "Government Advertising Allocation as a Tool of Editorial Coercion",
+      "type": "Policy Brief",
+      "date": "August 2025",
+      "pagesOrSize": "52 Pages · PDF",
+      "beatId": "ba447f98-bf0c-554a-911a-e0044ca6f304",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.363Z",
+      "updatedAt": "2026-09-17T10:46:24.363Z"
+    },
+    {
+      "id": "3a3b8e00-2490-50b4-a874-a629f5ed01ca",
+      "title": "Platform Governance and Closed Messaging Auditing Handbook",
+      "type": "Policy Brief",
+      "date": "July 2025",
+      "pagesOrSize": "48 Pages · PDF",
+      "beatId": "88302164-a139-561a-af75-7ebb47c60107",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.292Z",
+      "updatedAt": "2026-09-17T10:46:24.292Z"
+    },
+    {
+      "id": "4370029d-0c10-5063-a72d-077593ad2ade",
+      "title": "State of Newsroom Autonomy: National Editorial Survey Report (2025)",
+      "type": "Monograph",
+      "date": "November 2025",
+      "pagesOrSize": "142 Pages · PDF",
+      "beatId": "5fe1319c-5c52-5dc6-822c-1516d5994c2d",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.242Z",
+      "updatedAt": "2026-09-17T10:46:24.242Z"
+    },
+    {
+      "id": "51176161-693b-56cf-823a-2fd047bfb62f",
+      "title": "IPA Nationwide Public Opinion Microdata (Wave 1 – 5)",
+      "type": "Dataset",
+      "date": "January 2025",
+      "pagesOrSize": "85 MB · SPSS / Stata / CSV",
+      "beatId": "19bda0e0-f4d4-5057-8631-f9c369dfcc80",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.352Z",
+      "updatedAt": "2026-09-17T10:46:24.352Z"
+    },
+    {
+      "id": "535178fa-e81a-5345-a901-8e641a7642ec",
+      "title": "Algorithmic Feed Velocity and Informational Narrowing (2025)",
+      "type": "Peer-Reviewed Paper",
+      "date": "October 2025",
+      "pagesOrSize": "28 Pages · PDF",
+      "beatId": "88302164-a139-561a-af75-7ebb47c60107",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.281Z",
+      "updatedAt": "2026-09-17T10:46:24.281Z"
+    },
+    {
+      "id": "54b1edba-1e3a-5ec0-a986-c372073d4416",
+      "title": "Press Under Pressure: Legal Harassment of Investigative Journalists (2020–2025)",
+      "type": "Monograph",
+      "date": "January 2026",
+      "pagesOrSize": "194 Pages · PDF",
+      "beatId": "ba447f98-bf0c-554a-911a-e0044ca6f304",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.358Z",
+      "updatedAt": "2026-09-17T10:46:24.358Z"
+    },
+    {
+      "id": "65d03d61-6a3f-5325-a485-4929b5b5c6ab",
+      "title": "Local Press Viability Index: Methodology & Findings",
+      "type": "Policy Brief",
+      "date": "August 2025",
+      "pagesOrSize": "36 Pages · PDF",
+      "beatId": "5fe1319c-5c52-5dc6-822c-1516d5994c2d",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.257Z",
+      "updatedAt": "2026-09-17T10:46:24.257Z"
+    },
+    {
+      "id": "7393fd1d-e1fd-5d34-a33d-6bbd05639b6c",
+      "title": "National Digital Security Case Law Legal Dataset (2018–2025)",
+      "type": "Dataset",
+      "date": "April 2025",
+      "pagesOrSize": "24 MB · CSV / JSON",
+      "beatId": "ba447f98-bf0c-554a-911a-e0044ca6f304",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.369Z",
+      "updatedAt": "2026-09-17T10:46:24.369Z"
+    },
+    {
+      "id": "88545105-ee86-5442-8b95-e5ff00ba2053",
+      "title": "South Asian Newsroom Editorial Structure Dataset (2022–2025)",
+      "type": "Dataset",
+      "date": "June 2025",
+      "pagesOrSize": "18.4 MB · CSV/JSON",
+      "beatId": "5fe1319c-5c52-5dc6-822c-1516d5994c2d",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.272Z",
+      "updatedAt": "2026-09-17T10:46:24.272Z"
+    },
+    {
+      "id": "9b3a3a29-6b06-53c9-a7fe-5239be170d52",
+      "title": "Media Representation & Gender Parity in News Sourcing",
+      "type": "Policy Brief",
+      "date": "September 2025",
+      "pagesOrSize": "42 Pages · PDF",
+      "beatId": "780daa84-121a-5d0a-b739-3d81e54f47a5",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.324Z",
+      "updatedAt": "2026-09-17T10:46:24.324Z"
+    },
+    {
+      "id": "afc9a1bc-abf1-562f-8939-6a4786dffe87",
+      "title": "National Broadcast Headline Corpus & Sentiment Index (2021–2025)",
+      "type": "Dataset",
+      "date": "July 2025",
+      "pagesOrSize": "420 MB · Parquet / CSV",
+      "beatId": "780daa84-121a-5d0a-b739-3d81e54f47a5",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.334Z",
+      "updatedAt": "2026-09-17T10:46:24.334Z"
+    },
+    {
+      "id": "b56c8ad2-c90a-50d1-ad17-7c3f02f38ab3",
+      "title": "Cross-Platform Viral Diffusion Telemetry Repository",
+      "type": "Dataset",
+      "date": "March 2025",
+      "pagesOrSize": "142 MB · SQLite / JSON",
+      "beatId": "88302164-a139-561a-af75-7ebb47c60107",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.304Z",
+      "updatedAt": "2026-09-17T10:46:24.304Z"
+    },
+    {
+      "id": "b6f49e4f-63ac-557c-8086-37001772391f",
+      "title": "National Media Trust Index: 5th Annual Citizen Perception Survey",
+      "type": "Monograph",
+      "date": "October 2025",
+      "pagesOrSize": "168 Pages · PDF",
+      "beatId": "19bda0e0-f4d4-5057-8631-f9c369dfcc80",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.341Z",
+      "updatedAt": "2026-09-17T10:46:24.341Z"
+    },
+    {
+      "id": "d7fe744e-87f0-51be-9807-12c81dda3363",
+      "title": "Navigating Viral Rumors: Citizen Verification Behaviors in Election Years",
+      "type": "Policy Brief",
+      "date": "May 2025",
+      "pagesOrSize": "34 Pages · PDF",
+      "beatId": "19bda0e0-f4d4-5057-8631-f9c369dfcc80",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.347Z",
+      "updatedAt": "2026-09-17T10:46:24.347Z"
+    },
+    {
+      "id": "e0d93d72-d271-5630-b7f8-800a90b45c7d",
+      "title": "Artificial Intelligence in Journalism: The State of Play (2025)",
+      "type": "Monograph",
+      "date": "December 2025",
+      "pagesOrSize": "176 Pages · PDF",
+      "beatId": "6aef187f-69f5-5b36-b8d8-910dc4f5cdb9",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.377Z",
+      "updatedAt": "2026-09-17T10:46:24.377Z"
+    },
+    {
+      "id": "e9941d7f-c151-582e-83b6-bc29eef1fd6c",
+      "title": "Guidelines for Editorial Oversight of Automated Synthesis Tools",
+      "type": "Policy Brief",
+      "date": "October 2025",
+      "pagesOrSize": "40 Pages · PDF",
+      "beatId": "6aef187f-69f5-5b36-b8d8-910dc4f5cdb9",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.383Z",
+      "updatedAt": "2026-09-17T10:46:24.383Z"
+    },
+    {
+      "id": "f7764def-6b9d-503d-a815-554b665a65f0",
+      "title": "Five-Year Longitudinal Broadcast Observatory Report (2020–2025)",
+      "type": "Monograph",
+      "date": "December 2025",
+      "pagesOrSize": "210 Pages · PDF",
+      "beatId": "780daa84-121a-5d0a-b739-3d81e54f47a5",
+      "downloadUrl": "#",
+      "abstract": "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
+      "status": "Published",
+      "createdAt": "2026-09-17T10:46:24.314Z",
+      "updatedAt": "2026-09-17T10:46:24.314Z"
+    }
+  ],
+  "inquiry": [
+    {
+      "id": "12242d18-b095-516e-89bb-67a2e7920212",
+      "date": "2026-08-30",
+      "name": "Mohammad Qasim",
+      "organization": "Daily Star Editorial Desk",
+      "email": "qasim.m@thedailystar.net",
+      "topic": "Media Trust Barometer Citation Permissions",
+      "message": "Seeking permissions to cite the 2025 National Media Trust Barometer statistics in an upcoming weekend investigative feature.",
+      "requestedDataset": "National Media Trust Barometer 2025",
+      "status": "dispatched",
+      "notes": "Attribution guidelines and high-res vector charts dispatched.",
+      "createdAt": "2026-09-17T10:46:24.420Z",
+      "updatedAt": "2026-09-17T10:46:24.420Z"
+    },
+    {
+      "id": "4ac38563-ad9e-5978-9292-7607e10de79a",
+      "date": "2026-09-05",
+      "name": "Sarah Lindqvist",
+      "organization": "Reuters Institute Fellow",
+      "email": "s.lindqvist@reuters-network.ac.uk",
+      "topic": "Methodology Consultation on Broadcast Monitoring",
+      "message": "We are interested in referencing IPA's automated OCR print indexing methodology for our upcoming Nordic newsroom diversity study.",
+      "requestedDataset": "The IPA Broadcast Coding Standard: An Operational Guide",
+      "status": "reviewed",
+      "notes": "Call scheduled with Dr. Elena Rostova on Sep 12.",
+      "createdAt": "2026-09-17T10:46:24.405Z",
+      "updatedAt": "2026-09-17T10:46:24.405Z"
+    },
+    {
+      "id": "ca9d22ea-0c03-5d43-974e-22bda4748d52",
+      "date": "2026-09-07",
+      "name": "Farhan Tanvir",
+      "organization": "Center for Investigative Journalism",
+      "email": "f.tanvir@cij-desk.org",
+      "topic": "Newsroom Ownership Dataset Request",
+      "message": "Requesting access to the complete South Asian Newsroom Editorial Structure Dataset (2022–2025) raw CSV for an academic comparative survey.",
+      "requestedDataset": "South Asian Newsroom Editorial Structure Dataset",
+      "status": "new",
+      "notes": "Verified academic researcher. Data agreement sent.",
+      "createdAt": "2026-09-17T10:46:24.399Z",
+      "updatedAt": "2026-09-17T10:46:24.399Z"
+    }
+  ],
+  "workArea": [],
+  "workProcessPillar": [
+    {
+      "id": "18e9d753-193a-5455-9ba0-e5cbd5fc7c68",
+      "step": "04",
+      "title": "Insights",
+      "subtitle": "Actionable Public Knowledge",
+      "description": "We translate complex empirical datasets into clear, accessible briefs, monographs, and policy frameworks designed for civic understanding and institutional reform.",
+      "highlights": [
+        "Open-access research briefs",
+        "Executive policy briefings",
+        "Interactive data repositories"
+      ],
+      "titleBn": "অন্তর্দৃষ্টি",
+      "subtitleBn": "কার্যকর নাগরিক জ্ঞান",
+      "descriptionBn": "আমরা জটিল তথ্যভিত্তিক উপাত্তকে স্পষ্ট, বোধগম্য গবেষণাপত্র ও নীতিগত কাঠামোতে রূপান্তর করি যা নাগরিক সচেতনতা এবং প্রাতিষ্ঠানিক সংস্কারের জন্য উপযোগী।",
+      "highlightsBn": [
+        "উন্মুক্ত প্রবেশাধিকার গবেষণা ব্রিফ",
+        "নীতিগত সারসংক্ষেপ",
+        "ইন্টারেক্টিভ উপাত্ত ভাণ্ডার"
+      ],
+      "createdAt": "2026-09-17T10:46:24.172Z",
+      "updatedAt": "2026-09-17T10:46:24.172Z"
+    },
+    {
+      "id": "381de9c7-774c-53b7-9c98-45504dd77fd9",
+      "step": "01",
+      "title": "Research",
+      "subtitle": "Rigorous Primary Inquiry",
+      "description": "We formulate hypothesis-driven research agendas that investigate structural changes in journalism, platform power, and audience behavior using empirical methods.",
+      "highlights": [
+        "Multi-method survey design",
+        "Archival historical analysis",
+        "Longitudinal panel monitoring"
+      ],
+      "titleBn": "গবেষণা",
+      "subtitleBn": "কঠোর প্রাথমিক অনুসন্ধান",
+      "descriptionBn": "আমরা অনুমান-চালিত গবেষণা কর্মসূচী প্রণয়ন করি যা সাংবাদিকতা, প্ল্যাটফর্মের ক্ষমতা এবং তথ্যভিত্তিক পদ্ধতির মাধ্যমে দর্শকদের আচরণের কাঠামোগত পরিবর্তন তদন্ত করে।",
+      "highlightsBn": [
+        "বহুবিধ জরিপ নকশা",
+        "ঐতিহাসিক মহাফেজখানা বিশ্লেষণ",
+        "দীর্ঘমেয়াদী প্যানেল পর্যবেক্ষণ"
+      ],
+      "createdAt": "2026-09-17T10:46:24.154Z",
+      "updatedAt": "2026-09-17T10:46:24.154Z"
+    },
+    {
+      "id": "5892a16c-9c85-5cff-8def-75ce40d1bfa8",
+      "step": "02",
+      "title": "Analysis",
+      "subtitle": "Pattern & Narrative Synthesis",
+      "description": "We deconstruct complex information flows, coding news content against objective criteria to identify institutional biases, structural shifts, and narrative framing.",
+      "highlights": [
+        "Computational text analysis",
+        "Comparative framing indexes",
+        "Disinformation flow mapping"
+      ],
+      "titleBn": "বিশ্লেষণ",
+      "subtitleBn": "প্যাটার্ন ও আখ্যান সংশ্লেষণ",
+      "descriptionBn": "আমরা জটিল তথ্যপ্রবাহ বিশ্লেষণ করি, প্রাতিষ্ঠানিক পক্ষপাত, কাঠামোগত পরিবর্তন ও আখ্যানের ফ্রেম শনাক্ত করতে বস্তুনিষ্ঠ মানদণ্ডে সংবাদ বিষয়বস্তু কোড করি।",
+      "highlightsBn": [
+        "কম্পিউটেশনাল টেক্সট বিশ্লেষণ",
+        "তুলনামূলক ফ্রেমিং সূচক",
+        "ভুল তথ্যের প্রবাহ ম্যাপিং"
+      ],
+      "createdAt": "2026-09-17T10:46:24.159Z",
+      "updatedAt": "2026-09-17T10:46:24.159Z"
+    },
+    {
+      "id": "fe56b005-5eb6-5846-9013-56749d4ed61c",
+      "step": "03",
+      "title": "Monitoring",
+      "subtitle": "Continuous Environmental Tracking",
+      "description": "We maintain continuous monitoring across hundreds of broadcast channels, digital outlets, and print editions, creating longitudinal datasets of record.",
+      "highlights": [
+        "Multi-lingual indexing",
+        "Real-time narrative alerts",
+        "Broadcast transcript archiving"
+      ],
+      "titleBn": "পর্যবেক্ষণ",
+      "subtitleBn": "ধারাবাহিক পরিবেশ পর্যবেক্ষণ",
+      "descriptionBn": "আমরা শত শত সম্প্রচার চ্যানেল, ডিজিটাল আউটলেট ও প্রিন্ট সংস্করণ জুড়ে ধারাবাহিক পর্যবেক্ষণ বজায় রাখি এবং দীর্ঘমেয়াদী নির্ভরযোগ্য উপাত্ত ভাণ্ডার তৈরি করি।",
+      "highlightsBn": [
+        "বহুভাষিক সূচীকরণ",
+        "রিয়েল-টাইম আখ্যান সতর্কতা",
+        "সম্প্রচারিত স্ক্রিপ্ট মহাফেজখানা"
+      ],
+      "createdAt": "2026-09-17T10:46:24.167Z",
+      "updatedAt": "2026-09-17T10:46:24.167Z"
+    }
+  ],
+  "activityLog": [
+    {
+      "id": "3a9c827b-ef76-5c43-b1b5-256e9287d25f",
+      "timestamp": "2026-09-06 09:30",
+      "action": "Synced broadcast telemetry stream count to 28 channels",
+      "section": "Media Monitoring",
+      "user": "Telemetry Bot",
+      "createdAt": "2026-09-17T10:46:24.448Z"
+    },
+    {
+      "id": "6ae64639-7aa2-525f-8654-5496ad3411f5",
+      "timestamp": "2026-09-08 11:20",
+      "action": "Published 2026 Media Trust Barometer abstract",
+      "section": "Publications",
+      "user": "Elena Rostova",
+      "createdAt": "2026-09-17T10:46:24.438Z"
+    },
+    {
+      "id": "71ac118f-0c3b-5f60-a94d-c6171fa4b00a",
+      "timestamp": "2026-09-07 16:10",
+      "action": "Added Farhana Kabir profile details",
+      "section": "Our Team",
+      "user": "System",
+      "createdAt": "2026-09-17T10:46:24.443Z"
+    },
+    {
+      "id": "d181b0e5-fae3-5b37-86ac-caad6c7e85ce",
+      "timestamp": "2026-09-08 13:45",
+      "action": "Updated Newsroom Autonomy survey metrics",
+      "section": "Research Domains",
+      "user": "Admin (Dr. Tariqul)",
+      "createdAt": "2026-09-17T10:46:24.431Z"
+    }
+  ]
+}
