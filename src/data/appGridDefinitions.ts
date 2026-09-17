@@ -151,7 +151,7 @@ export const APP_GRID_PAGES: Record<string, PageAppHubDef> = {
   about: {
     pageId: 'about',
     pageTitle: 'About Us App Grid',
-    pageSubtitle: 'Manage institutional history, governance pillars, methodological ethics, and observatories',
+    pageSubtitle: 'Hero banner, Who We Are, Mission/Vision grid, and CTA section',
     routePath: '/admin/pages/about',
     apps: [
       {
@@ -186,6 +186,17 @@ export const APP_GRID_PAGES: Record<string, PageAppHubDef> = {
         badgeColor: 'green',
         fieldsCount: 8,
         previewHint: 'Independence, Evidence, Transparency, and Public Interest pillars'
+      },
+      {
+        id: 'about-cta',
+        appNumber: 'App 4',
+        title: 'Call to Action',
+        tagline: 'Footer CTA with badge, title, narrative, and action buttons',
+        icon: 'Megaphone',
+        category: 'about',
+        badgeColor: 'purple',
+        fieldsCount: 6,
+        previewHint: 'Pre-footer conversion banner for institutional collaboration'
       },
     ]
   },

@@ -1036,14 +1036,13 @@ export const LiveSitePreview: React.FC = () => {
           <section className="px-6 lg:px-12 pt-12 pb-16 max-w-7xl mx-auto" style={state.aboutPage.heroBanner?.bgImage ? { backgroundImage: `linear-gradient(rgba(246,249,244,.88), rgba(246,249,244,.88)), url(${state.aboutPage.heroBanner.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}>
             <div className="space-y-4 max-w-3xl">
               <span className="text-xs font-mono font-bold text-[#556B62] uppercase tracking-wider">
-                {state.aboutPage.heroBanner?.badgeText || state.aboutPage.missionBadge || 'ABOUT THE ORGANIZATION'}
+                {state.aboutPage.heroBanner?.badgeText || 'ABOUT THE ORGANIZATION'}
               </span>
               <h1 className="text-4xl sm:text-6xl font-serif font-bold text-[#0B2A20] tracking-tight">
-                {state.aboutPage.heroBanner?.title || state.aboutPage.missionTitle || 'Independent Research for a Changing Media World.'}
+                {state.aboutPage.heroBanner?.title || 'Independent Research for a Changing Media World.'}
               </h1>
               <p className="text-lg text-[#556B62] leading-relaxed">
-                {state.aboutPage.heroBanner?.subtext ||
-                  'The Institute of Public Accountability conducts empirical, evidence-based research into media power, digital restructuring, and democratic resilience.'}
+                {state.aboutPage.heroBanner?.subtext || "We research the systems, technologies, institutions, and behaviors shaping today's media and information environment."}
               </p>
             </div>
           </section>
@@ -1056,13 +1055,13 @@ export const LiveSitePreview: React.FC = () => {
                   {t('INSTITUTIONAL PROFILE', 'প্রতিষ্ঠান পরিচিতি')}
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#0B2A20]">
-                  {state.aboutPage.whoWeAre?.heading || state.aboutPage.whoWeAre?.highlightCardText || 'Non-Profit & Evidence-Based Research Institute'}
+                  {state.aboutPage.whoWeAre?.heading || 'Who We Are'}
                 </h2>
                 <span className="inline-flex w-fit px-3 py-1 rounded-full bg-[#F6F9F4] border border-[#E2EAE4] text-[10px] font-mono font-bold text-[#195642] uppercase tracking-wider">
-                  {state.aboutPage.whoWeAre?.badgeText || 'INDEPENDENT RESEARCH · EVIDENCE-DRIVEN'}
+                  {state.aboutPage.whoWeAre?.badgeText || 'Institutional Foundation'}
                 </span>
                 <div className="space-y-3 text-sm text-[#556B62] leading-relaxed">
-                  {state.aboutPage.whoWeAre?.description ? <p>{state.aboutPage.whoWeAre.description}</p> : (state.aboutPage.whoWeAre?.narrative || state.aboutPage.missionStory || []).map((p, i) => <p key={i}>{p}</p>)}
+                  {state.aboutPage.whoWeAre?.description ? <p>{state.aboutPage.whoWeAre.description}</p> : (state.aboutPage.whoWeAre?.narrative || []).map((p, i) => <p key={i}>{p}</p>)}
                 </div>
               </div>
 
@@ -1106,7 +1105,10 @@ export const LiveSitePreview: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {state.aboutPage.missionPillars?.slice(0, 4).map((pillar, idx) => (
                 <div key={idx} className={`p-6 rounded-3xl border border-[#E2EAE4] shadow-sm space-y-3 ${idx === 1 ? 'bg-[#0B2A20] text-white' : idx === 2 ? 'bg-[#D2F843]' : idx === 3 && pillar.image ? 'bg-[#0B2A20] text-white bg-cover bg-center' : 'bg-white'}`} style={idx === 3 && pillar.image ? { backgroundImage: `linear-gradient(rgba(11,42,32,.7), rgba(11,42,32,.7)), url(${pillar.image})` } : undefined}>
-                  <span className="text-xs font-mono font-bold text-[#556B62]">{idx + 1} / {['OUR MISSION', 'OUR VISION', 'OUR GOAL', 'OUR PRACTICE'][idx]}</span>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-mono font-bold text-[#556B62]">{pillar.indexLabel || `0${idx + 1}`}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider">{pillar.badge}</span>
+                  </div>
                   <h3 className={`text-lg font-serif font-bold ${idx === 1 || idx === 3 ? 'text-white' : 'text-[#0B2A20]'}`}>{pillar.title}</h3>
                   <p className={`text-xs leading-relaxed ${idx === 1 || idx === 3 ? 'text-white/80' : 'text-[#556B62]'}`}>{pillar.description}</p>
                 </div>

@@ -11,6 +11,10 @@ import { INITIAL_CMS_STATE } from '../../../data/initialData';
 
 const STATIC_ABOUT = INITIAL_CMS_STATE.aboutPage as AboutPageData;
 
+const HERO_BG_FALLBACK = 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2200&q=85';
+const WHOWEARE_PHOTO_FALLBACK = 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80';
+const PRACTICE_IMG_FALLBACK = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=85';
+
 export default function AboutView({ aboutPage, siteSettings }: { aboutPage: AboutPageData | null | undefined; siteSettings: Partial<SiteSettings> | null | undefined }) {
   const { isBn, t } = useLanguage();
 
@@ -21,16 +25,22 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
 
   const heroBanner = data.heroBanner || STATIC_ABOUT.heroBanner!;
   const whoWeAre = data.whoWeAre || STATIC_ABOUT.whoWeAre!;
+  const pillars = data.missionPillars || STATIC_ABOUT.missionPillars!;
+
+  const mission = pillars[0];
+  const vision = pillars[1];
+  const goal = pillars[2];
+  const practice = pillars[3];
 
   return (
     <PageTransition>
       <div className="bg-[#F6F9F4] text-[#0D1F18]">
         <PageHero
-          backgroundImage="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2200&q=85"
+          backgroundImage={isBn ? (heroBanner.bgImageBn || heroBanner.bgImage || HERO_BG_FALLBACK) : (heroBanner.bgImage || HERO_BG_FALLBACK)}
           label={isBn ? (heroBanner.badgeTextBn || heroBanner.badgeText || t('ABOUT THE ORGANIZATION', 'আমাদের পরিচিতি')) : (heroBanner.badgeText || t('ABOUT THE ORGANIZATION', 'আমাদের পরিচিতি'))}
           title={isBn ? (heroBanner.titleBn || heroBanner.title || t('Independent Research for a Changing Media World.', 'পরিবর্তনশীল গণমাধ্যমের জন্য স্বাধীন গবেষণা')) : (heroBanner.title || t('Independent Research for a Changing Media World.', 'পরিবর্তনশীল গণমাধ্যমের জন্য স্বাধীন গবেষণা'))}
-          description={isBn ? (heroBanner.subtextBn || heroBanner.subtext || t("We research the systems, technologies, institutions, and behaviors shaping today's media and information environment.", 'আমরা সমকালীন তথ্য ও গণমাধ্যম জগৎকে রূপদানকারী ব্যবস্থা, প্রযুক্তি, প্রতিষ্ঠান এবং আচরণ নিয়ে গবেষণা করি।')) : (heroBanner.subtext || t("We research the systems, technologies, institutions, and behaviors shaping today's media and information environment.", 'আমরা সমকালীন তথ্য ও গণমাধ্যম জগৎকে রূপদানকারী ব্যবস্থা, প্রযুক্তি, প্রতিষ্ঠান এবং আচরণ নিয়ে গবেষণা করি।'))}
-          metadata={t('Institutional Profile', 'প্রাতিষ্ঠানিক পরিচিতি')}
+          description={isBn ? (heroBanner.subtextBn || heroBanner.subtext || t("We research the systems, technologies, institutions, and behaviors shaping today's media and information environment.", 'আমরা সমকালীন তথ্য ও গণমাধ্যম জগৎকে রূপদানকারী ব্যবস্থা, প্রযুক্তি, প্রতিষ্ঠান এবং আচরণ নিয়ে গবেষণা করি।')) : (heroBanner.subtext || t("We research the systems, technologies, institutions, and behaviors shaping today's media and information environment.", 'আমরা সমকালীন তথ্য ও গণমাধ্যম জগৎকে রূপদানকারী ব্যবস্থা, প্রযুক্তি, প্রতিষ্ঠান এবং আচরণ নিয়ে গবেষণা করি।'))}
+          metadata={isBn ? (heroBanner.metadataBn || heroBanner.metadata || t('Institutional Profile', 'প্রাতিষ্ঠানিক পরিচিতি')) : (heroBanner.metadata || t('Institutional Profile', 'প্রাতিষ্ঠানিক পরিচিতি'))}
         />
 
         <section className="py-24 sm:py-32 border-b border-[#E2EAE4] bg-[#FFFFFF]">
@@ -52,10 +62,10 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                     {isBn ? (whoWeAre.descriptionBn || whoWeAre.description || t('is an independent media research organization dedicated to developing a deeper understanding of media, journalism, and information.', 'একটি স্বাধীন গণমাধ্যম গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।')) : (whoWeAre.description || t('is an independent media research organization dedicated to developing a deeper understanding of media, journalism, and information.', 'একটি স্বাধীন গণমাধ্যম গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।'))}
                   </p>
                   <p className="text-[#556B62]">
-                    {isBn ? (whoWeAre.narrativeBn?.[0] || whoWeAre.narrative?.[0] || t('We examine how traditional and digital media operate, how audiences interact with information, and how technological and social changes are reshaping the media environment.', 'আমরা অনুসন্ধান করি কীভাবে ঐতিহ্যবাহী ও ডিজিটাল মিডিয়া পরিচালিত হয়, দর্শকরা তথ্যের সাথে কীভাবে যুক্ত হন এবং প্রযুক্তিগত ও সামাজিক রূপান্তর কীভাবে মিডিয়া পরিবেশকে প্রভাবিত করছে।')) : (whoWeAre.narrative?.[0] || t('We examine how traditional and digital media operate, how audiences interact with information, and how technological and social changes are reshaping the media environment.', 'আমরা অনুসন্ধান করি কীভাবে ঐতিহ্যবাহী ও ডিজিটাল মিডিয়া পরিচালিত হয়, দর্শকরা তথ্যের সাথে কীভাবে যুক্ত হন এবং প্রযুক্তিগত ও সামাজিক রূপান্তর কীভাবে মিডিয়া পরিবেশকে প্রভাবিত করছে।'))}
+                    {isBn ? (whoWeAre.narrativeBn?.[0] || whoWeAre.narrative?.[0] || t('We examine how traditional and digital media operate, how audiences interact with information, and how technological and social changes are reshaping the media environment.', 'আমরা অনুসন্ধান করি কীভাবে ঐতিহ্যবাহী ও ডিজিটাল মিডিয়া পরিচালিত হয়, দর্শকরা তথ্যের সাথে কীভাবে যুক্ত হন এবং প্রযুক্তিগত ও সামাজিক রূপান্তর কীভাবে মিডিয়া পরিবেশকে প্রভাবিত করছে।')) : (whoWeAre.narrative?.[0] || t('We examine how traditional and digital media operate, how audiences interact with information, and how technological and social changes are reshaping the media environment.', 'আমরা অনুসন্ধান করি কীভাবে ঐতিহ্যবাহী ও ডিজিটাল মিডিয়া পরিচালিত হয়, দর্শকরা তথ্যের সাথে কীভাবে যুক্ত হন এবং প্রযুক্তিগত ও সামাজিক রূপান্তর কীভাবে মিডিয়া পরিবেশকে প্রভাবিত করছে।'))}
                   </p>
                   <p className="text-[#556B62]">
-                    {isBn ? (whoWeAre.narrativeBn?.[1] || whoWeAre.narrative?.[1] || t('Through independent research and analysis, we aim to make complex developments easier to understand and contribute meaningful knowledge to public discussion.', 'নিরপেক্ষ গবেষণা ও তথ্যভিত্তিক বিশ্লেষণের মাধ্যমে আমরা জটিল বিষয়গুলোকে সহজবোধ্য করে তুলি এবং নাগরিক আলোচনায় বস্তুনিষ্ঠ অবদান রাখি।')) : (whoWeAre.narrative?.[1] || t('Through independent research and analysis, we aim to make complex developments easier to understand and contribute meaningful knowledge to public discussion.', 'নিরপেক্ষ গবেষণা ও তথ্যভিত্তিক বিশ্লেষণের মাধ্যমে আমরা জটিল বিষয়গুলোকে সহজবোধ্য করে তুলি এবং নাগরিক আলোচনায় বস্তুনিষ্ঠ অবদান রাখি।'))}
+                    {isBn ? (whoWeAre.narrativeBn?.[1] || whoWeAre.narrative?.[1] || t('Through independent research and analysis, we aim to make complex developments easier to understand and contribute meaningful knowledge to public discussion.', 'নিরপেক্ষ গবেষণা ও তথ্যভিত্তিক বিশ্লেষণের মাধ্যমে আমরা জটিল বিষয়গুলোকে সহজবোধ্য করে তুলি এবং নাগরিক আলোচনায় বস্তুনিষ্ঠ অবদান রাখি।')) : (whoWeAre.narrative?.[1] || t('Through independent research and analysis, we aim to make complex developments easier to understand and contribute meaningful knowledge to public discussion.', 'নিরপেক্ষ গবেষণা ও তথ্যভিত্তিক বিশ্লেষণের মাধ্যমে আমরা জটিল বিষয়গুলোকে সহজবোধ্য করে তুলি এবং নাগরিক আলোচনায় বস্তুনিষ্ঠ অবদান রাখি।'))}
                   </p>
                 </div>
 
@@ -83,7 +93,7 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                 <div className="rounded-3xl border border-[#E2EAE4] bg-[#0B2A20] p-4 shadow-2xl relative overflow-hidden">
                   <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-neutral-900 z-0">
                     <img
-                      src={isBn ? (whoWeAre.mainPhotoBn || whoWeAre.mainPhoto || 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80') : (whoWeAre.mainPhoto || 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80')}
+                      src={isBn ? (whoWeAre.mainPhotoBn || whoWeAre.mainPhoto || WHOWEARE_PHOTO_FALLBACK) : (whoWeAre.mainPhoto || WHOWEARE_PHOTO_FALLBACK)}
                       alt="Research discussion and archival examination"
                       className="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-700"
                     />
@@ -98,7 +108,7 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                       <p className="hidden">
                         {t(
                           'Systematic documentation of broadcast and print newsroom practices across South Asia.',
-                          'দক্ষিণ এশিয়াজুড়ে টেলিভিশন সম্প্রচার ও মুদ্রিত নিউজরুমের কার্যপ্রণালীর পদ্ধতিগত দলিলপত্র সংকলন।'
+                          'দক্ষিণ এশিয়াজুড়ে টেলিভিশন সম্প্রচার ও মুদ্রিত নিউজরুমের কার্যপ্রণালীর পদ্ধতিগত দলিলপত্র সংকলন।'
                         )}
                       </p>
                     </div>
@@ -117,20 +127,20 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                   <div className="flex items-center justify-between text-xs font-mono mb-6">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#0B2A20]" />
-                      <span>{t('Our Mission', 'আমাদের লক্ষ্য')}</span>
+                      <span>{isBn ? (mission.badgeBn || mission.badge) : mission.badge}</span>
                     </div>
                     <span className="text-[10px] font-bold tracking-widest text-[#556B62]">
-                      {t('01 / PURPOSE', '০১ / মূল লক্ষ্য')}
+                      {isBn ? (mission.indexLabelBn || mission.indexLabel) : mission.indexLabel}
                     </span>
                   </div>
 
                   <h3 className="font-sans text-2xl sm:text-3xl lg:text-4xl text-[#0B2A20] font-extrabold leading-snug mb-6">
-                    {isBn ? (data.missionTitleBn || data.missionTitle || t('“To produce credible, independent, and accessible research that contributes to a better understanding of media and its role in society.”', '“বিশ্বাসযোগ্য, স্বাধীন ও উন্মুক্ত গবেষণার মাধ্যমে গণমাধ্যম এবং সমাজে এর তাৎপর্য সম্পর্কে মানুষের বোঝাপড়া সুদৃঢ় করা।”')) : (data.missionTitle || t('“To produce credible, independent, and accessible research that contributes to a better understanding of media and its role in society.”', '“বিশ্বাসযোগ্য, স্বাধীন ও উন্মুক্ত গবেষণার মাধ্যমে গণমাধ্যম এবং সমাজে এর তাৎপর্য সম্পর্কে মানুষের বোঝাপড়া সুদৃঢ় করা।”'))}
+                    {isBn ? (mission.titleBn || mission.title) : mission.title}
                   </h3>
                 </div>
 
                 <p className="text-xs sm:text-sm font-sans text-[#556B62] leading-relaxed pt-6 border-t border-[#E2EAE4]">
-                  {isBn ? (data.missionStoryBn?.[0] || data.missionStory?.[0] || t('We ensure that public conversations regarding information integrity are supported by verifiable empirical benchmarks rather than ideological posturing.', 'আমরা নিশ্চিত করি যে তথ্য ব্যবস্থা নিয়ে গণআলাপচারিতা যেন কোনো ধারণাভিত্তিক অনুমানের বদলে যাচাইযোগ্য তথ্য-উপাত্ত দ্বারা পরিচালিত হয়।')) : (data.missionStory?.[0] || t('We ensure that public conversations regarding information integrity are supported by verifiable empirical benchmarks rather than ideological posturing.', 'আমরা নিশ্চিত করি যে তথ্য ব্যবস্থা নিয়ে গণআলাপচারিতা যেন কোনো ধারণাভিত্তিক অনুমানের বদলে যাচাইযোগ্য তথ্য-উপাত্ত দ্বারা পরিচালিত হয়।'))}
+                  {isBn ? (mission.descriptionBn || mission.description) : mission.description}
                 </p>
               </div>
 
@@ -140,20 +150,20 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                   <div className="flex items-center justify-between text-xs font-mono mb-6">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#D2F843] text-xs font-bold uppercase tracking-wider border border-white/15">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#D2F843]" />
-                      <span>{t('Our Vision', 'আমাদের রূপকল্প')}</span>
+                      <span>{isBn ? (vision.badgeBn || vision.badge) : vision.badge}</span>
                     </div>
                     <span className="text-[10px] font-bold tracking-widest text-white/60">
-                      {t('02 / OUTLOOK', '০২ / রূপকল্প')}
+                      {isBn ? (vision.indexLabelBn || vision.indexLabel) : vision.indexLabel}
                     </span>
                   </div>
 
                   <h3 className="font-sans text-2xl sm:text-3xl lg:text-4xl text-white font-extrabold leading-snug mb-6">
-                    {isBn ? (data.missionStoryBn?.[1] || t('“We envision an informed society where media and information can be better understood through independent research, evidence, and open analysis.”', '“আমরা এমন একটি সচেতন সমাজ কল্পনা করি যেখানে স্বাধীন গবেষণা, নির্ভরযোগ্য তথ্য-প্রমাণ ও উন্মুক্ত বিশ্লেষণের মাধ্যমে গণমাধ্যম ও তথ্যের গুরুত্ব স্পষ্টভাবে উপলব্ধ হয়।”')) : (data.missionStory?.[1] || t('“We envision an informed society where media and information can be better understood through independent research, evidence, and open analysis.”', '“আমরা এমন একটি সচেতন সমাজ কল্পনা করি যেখানে স্বাধীন গবেষণা, নির্ভরযোগ্য তথ্য-প্রমাণ ও উন্মুক্ত বিশ্লেষণের মাধ্যমে গণমাধ্যম ও তথ্যের গুরুত্ব স্পষ্টভাবে উপলব্ধ হয়।”'))}
+                    {isBn ? (vision.titleBn || vision.title) : vision.title}
                   </h3>
                 </div>
 
                 <p className="text-xs sm:text-sm font-sans text-white/80 leading-relaxed pt-6 border-t border-white/15 relative z-10">
-                  {isBn ? (data.missionStoryBn?.[2] || t('An information ecosystem where journalists are safeguarded, citizens are empowered with critical literacy, and digital platforms are transparent to the public.', 'এমন একটি মুক্ত তথ্য পরিমণ্ডল যেখানে সাংবাদিকদের স্বাধীনতা সুরক্ষিত থাকে, নাগরিকরা সচেতন ও ক্ষমতাবান হন এবং ডিজিটাল প্ল্যাটফর্মসমূহ জনস্বার্থে দায়বদ্ধ থাকে।')) : (data.missionStory?.[2] || t('An information ecosystem where journalists are safeguarded, citizens are empowered with critical literacy, and digital platforms are transparent to the public.', 'এমন একটি মুক্ত তথ্য পরিমণ্ডল যেখানে সাংবাদিকদের স্বাধীনতা সুরক্ষিত থাকে, নাগরিকরা সচেতন ও ক্ষমতাবান হন এবং ডিজিটাল প্ল্যাটফর্মসমূহ জনস্বার্থে দায়বদ্ধ থাকে।'))}
+                  {isBn ? (vision.descriptionBn || vision.description) : vision.description}
                 </p>
               </div>
 
@@ -162,32 +172,26 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                   <div className="flex items-center justify-between text-xs font-mono mb-6">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0B2A20]/10 text-[#0B2A20] text-xs font-bold uppercase tracking-wider">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#0B2A20]" />
-                      <span>{t('Our Goal', 'আমাদের লক্ষ্য')}</span>
+                      <span>{isBn ? (goal.badgeBn || goal.badge) : goal.badge}</span>
                     </div>
                     <span className="text-[10px] font-bold tracking-widest text-[#0B2A20]/60">
-                      {t('03 / IMPACT', '০৩ / প্রভাব')}
+                      {isBn ? (goal.indexLabelBn || goal.indexLabel) : goal.indexLabel}
                     </span>
                   </div>
 
                   <h3 className="font-sans text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-snug mb-6">
-                    {t(
-                      'Turn rigorous evidence into insight that strengthens public accountability.',
-                      'নির্ভুল তথ্য-প্রমাণকে এমন অন্তর্দৃষ্টিতে রূপ দেওয়া যা জনস্বার্থ ও জবাবদিহিতা শক্তিশালী করে।'
-                    )}
+                    {isBn ? (goal.titleBn || goal.title) : goal.title}
                   </h3>
                 </div>
 
                 <p className="text-xs sm:text-sm font-sans text-[#0B2A20]/75 leading-relaxed pt-6 border-t border-[#0B2A20]/15">
-                  {t(
-                    'We connect careful research with practical knowledge for journalists, institutions, and communities.',
-                    'সাংবাদিক, প্রতিষ্ঠান ও সম্প্রদায়ের জন্য আমরা সতর্ক গবেষণাকে ব্যবহারিক জ্ঞানের সঙ্গে যুক্ত করি।'
-                  )}
+                  {isBn ? (goal.descriptionBn || goal.description) : goal.description}
                 </p>
               </div>
 
               <div className="min-h-[360px] rounded-3xl border border-[#144234] relative overflow-hidden shadow-2xl flex flex-col justify-end text-white">
                 <img
-                  src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=85"
+                  src={isBn ? (practice.imageBn || practice.image || PRACTICE_IMG_FALLBACK) : (practice.image || PRACTICE_IMG_FALLBACK)}
                   alt="Researchers working with data and digital information"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
@@ -196,20 +200,17 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                   <div className="flex items-center justify-between text-xs font-mono mb-5">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#D2F843] text-xs font-bold uppercase tracking-wider border border-white/20">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#D2F843]" />
-                      <span>{t('Our Practice', 'আমাদের কর্মপদ্ধতি')}</span>
+                      <span>{isBn ? (practice.badgeBn || practice.badge) : practice.badge}</span>
                     </div>
                     <span className="text-[10px] font-bold tracking-widest text-white/70">
-                      {t('04 / METHOD', '০৪ / পদ্ধতি')}
+                      {isBn ? (practice.indexLabelBn || practice.indexLabel) : practice.indexLabel}
                     </span>
                   </div>
                   <h3 className="font-sans text-2xl sm:text-3xl font-extrabold leading-snug mb-3">
-                    {t('Research that remains open, useful, and accountable.', 'এমন গবেষণা যা উন্মুক্ত, কার্যকর ও জবাবদিহিমূলক।')}
+                    {isBn ? (practice.titleBn || practice.title) : practice.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
-                    {t(
-                      'From fieldwork to public reporting, every step is designed to make evidence easier to examine and act upon.',
-                      'মাঠপর্যায়ের গবেষণা থেকে জনসমক্ষে প্রতিবেদন—প্রতিটি ধাপ তথ্য-প্রমাণকে সহজে যাচাই ও প্রয়োগযোগ্য করে তোলে।'
-                    )}
+                    {isBn ? (practice.descriptionBn || practice.description) : practice.description}
                   </p>
                 </div>
               </div>
@@ -230,7 +231,7 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
               <p className="text-base sm:text-lg text-[#556B62] font-sans font-normal">
                 {t(
                   'Five institutional principles govern our fieldwork, computational auditing, data transparency, and public reporting.',
-                  'পাঁচটি মৌলিক প্রাতিষ্ঠানিক নীতিমালা আমাদের মাঠপর্যায়ের সমীক্ষা, কম্পিউটেশনাল অডিট এবং উন্মুক্ত প্রতিবেদন প্রকাশকে পরিচালিত করে।'
+                  'পাঁচটি মৌলিক প্রাতিষ্ঠানিক নীতিমালা আমাদের মাঠপর্যায়ের সমীক্ষা, কম্পিউটেশনাল অডিট এবং উন্মুক্ত প্রতিবেদন প্রকাশকে পরিচালিত করে।'
                 )}
               </p>
             </div>
@@ -270,7 +271,7 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
             <div className="text-center max-w-3xl mx-auto mb-16">
               <div className="text-xs font-bold tracking-widest uppercase text-[#0B2A20] mb-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 border border-[#0B2A20]/10">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#D2F843]" />
-                {t('METHODOLOGICAL PIPELINE', 'গবেষণা পদ্ধতি ও প্রক্রিয়া')}
+                {t('METHODOLOGICAL PIPELINE', 'গবেষণা পদ্ধতি ও প্রক্রিয়া')}
               </div>
               <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold tracking-tight mb-4">
                 {t('From Questions to Insight', 'প্রশ্ন থেকে অন্তর্দৃষ্টি')}
@@ -278,7 +279,7 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
               <p className="text-base sm:text-lg text-[#556B62] font-sans font-normal">
                 {t(
                   'How an inquiry transforms from an urgent societal question into verified public knowledge.',
-                  'কীভাবে একটি জরুরি সামাজিক প্রশ্ন পর্যায়ক্রমে যাচাইকৃত তথ্যে ও জনকল্যাণমুখী জ্ঞানে রূপ নেয়।'
+                  'কীভাবে একটি জরুরি সামাজিক প্রশ্ন পর্যায়ক্রমে যাচাইকৃত তথ্যে ও জনকল্যাণমুখী জ্ঞানে রূপ নেয়।'
                 )}
               </p>
             </div>
@@ -296,7 +297,7 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                   <div>
                     <div className="flex items-center justify-between text-xs font-mono text-[#0B2A20] font-bold mb-4">
                       <span className="px-2 py-0.5 rounded-md bg-[#0B2A20]/5">
-                        {isBn ? `পর্যায় ০${idx + 1}` : `STAGE 0${idx + 1}`}
+                        {isBn ? `পর্যায় ০${idx + 1}` : `STAGE 0${idx + 1}`}
                       </span>
                       {idx < 4 && <span className="hidden md:inline font-mono text-[#556B62]">→</span>}
                     </div>
@@ -315,7 +316,7 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
                   </div>
 
                   <div className="mt-6 pt-3 border-t border-[#E2EAE4] text-[10px] font-mono text-[#0B2A20] font-bold">
-                    {t('VERIFIED PHASE', 'যাচাইকৃত পর্যায়')}
+                    {t('VERIFIED PHASE', 'যাচাইকৃত পর্যায়')}
                   </div>
                 </motion.div>
               ))}
@@ -323,7 +324,7 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
           </div>
         </section>
 
-        <CTASection />
+        <CTASection {...(data.cta || {})} />
       </div>
     </PageTransition>
   );

@@ -581,7 +581,6 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
           badgeText: 'INDEPENDENT RESEARCH · EVIDENCE-DRIVEN',
           foundedYear: '2021',
           mainPhoto: '',
-          highlightCardText: '',
           narrative: []
         };
         return (
@@ -940,87 +939,115 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
       // ABOUT US APPS
       // -------------------------------------------------------
       case 'about-hero':
-        const abHero = about.heroBanner || {
-          title: about.missionTitle || 'Researching Media. Understanding Society.',
-          subtext: 'An independent empirical research institute observing newsrooms.',
-          badgeText: about.missionBadge || 'ABOUT THE ORGANIZATION',
-          bgStyle: 'gradient'
-        };
+        const abHero = about.heroBanner || { title: '', subtext: '', badgeText: '', metadata: '', bgStyle: 'gradient' };
+        const heroBnMode = activeTabLang === 'bn';
         return (
           <div className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Main Heading</label>
-              <input
-                type="text"
-                value={abHero.title}
-                onChange={e => patchAbout({ heroBanner: { ...abHero, title: e.target.value } })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold"
-              />
+            <div className="flex items-center gap-2 mb-4">
+              <button onClick={() => setActiveTabLang('en')} className={`px-3 py-1 rounded-lg text-xs font-bold ${!heroBnMode ? 'bg-[#6E56CF] text-white' : 'bg-slate-100 text-slate-500'}`}>EN</button>
+              <button onClick={() => setActiveTabLang('bn')} className={`px-3 py-1 rounded-lg text-xs font-bold ${heroBnMode ? 'bg-[#6E56CF] text-white' : 'bg-slate-100 text-slate-500'}`}>বাং</button>
             </div>
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Subtext Narrative</label>
-              <textarea
-                rows={3}
-                value={abHero.subtext}
-                onChange={e => patchAbout({ heroBanner: { ...abHero, subtext: e.target.value } })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm leading-relaxed"
-              />
-            </div>
+            {heroBnMode ? (
+              <>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Badge Text (BN)</label>
+                  <input type="text" value={abHero.badgeTextBn || ''} onChange={e => patchAbout({ heroBanner: { ...abHero, badgeTextBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Main Heading (BN)</label>
+                  <input type="text" value={abHero.titleBn || ''} onChange={e => patchAbout({ heroBanner: { ...abHero, titleBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Subtext Narrative (BN)</label>
+                  <textarea rows={3} value={abHero.subtextBn || ''} onChange={e => patchAbout({ heroBanner: { ...abHero, subtextBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm leading-relaxed" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Metadata Tag (BN)</label>
+                  <input type="text" value={abHero.metadataBn || ''} onChange={e => patchAbout({ heroBanner: { ...abHero, metadataBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm" />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Badge Text</label>
+                  <input type="text" value={abHero.badgeText} onChange={e => patchAbout({ heroBanner: { ...abHero, badgeText: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Main Heading</label>
+                  <input type="text" value={abHero.title} onChange={e => patchAbout({ heroBanner: { ...abHero, title: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Subtext Narrative</label>
+                  <textarea rows={3} value={abHero.subtext} onChange={e => patchAbout({ heroBanner: { ...abHero, subtext: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm leading-relaxed" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Metadata Tag</label>
+                  <input type="text" value={abHero.metadata || ''} onChange={e => patchAbout({ heroBanner: { ...abHero, metadata: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm" />
+                </div>
+              </>
+            )}
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Background Image</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={e => {
-                  const file = e.target.files?.[0];
-                  if (file) handleImageUpload(file, bgImage => patchAbout({ heroBanner: { ...abHero, bgImage } }));
-                }}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800"
-              />
+              <input type="file" accept="image/*" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, bgImage => patchAbout({ heroBanner: { ...abHero, bgImage } })); }} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800" />
               {abHero.bgImage && <img src={abHero.bgImage} alt="About hero preview" className="w-full h-32 object-cover rounded-xl border border-slate-200" />}
             </div>
           </div>
         );
 
       case 'about-who-we-are':
-        const wwa = about.whoWeAre || {
-          foundedYear: '2021',
-          mainPhoto: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80',
-          highlightCardText: 'Operating empirical observatories tracking media and trust.',
-          narrative: about.missionStory || []
-        };
+        const wwa = about.whoWeAre || { foundedYear: '2019', mainPhoto: '', narrative: [] };
+        const wwaBnMode = activeTabLang === 'bn';
         return (
           <div className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Heading</label>
-              <input
-                type="text"
-                value={wwa.heading || ''}
-                onChange={e => patchAbout({ whoWeAre: { ...wwa, heading: e.target.value } })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold"
-              />
+            <div className="flex items-center gap-2 mb-4">
+              <button onClick={() => setActiveTabLang('en')} className={`px-3 py-1 rounded-lg text-xs font-bold ${!wwaBnMode ? 'bg-[#6E56CF] text-white' : 'bg-slate-100 text-slate-500'}`}>EN</button>
+              <button onClick={() => setActiveTabLang('bn')} className={`px-3 py-1 rounded-lg text-xs font-bold ${wwaBnMode ? 'bg-[#6E56CF] text-white' : 'bg-slate-100 text-slate-500'}`}>বাং</button>
             </div>
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Description</label>
-              <textarea
-                rows={3}
-                value={wwa.description || ''}
-                onChange={e => patchAbout({ whoWeAre: { ...wwa, description: e.target.value } })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm leading-relaxed"
-              />
-            </div>
+            {wwaBnMode ? (
+              <>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Badge Text (BN)</label>
+                  <input type="text" value={wwa.badgeTextBn || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, badgeTextBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Heading (BN)</label>
+                  <input type="text" value={wwa.headingBn || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, headingBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Description (BN)</label>
+                  <textarea rows={3} value={wwa.descriptionBn || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, descriptionBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm leading-relaxed" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Narrative Paragraphs (BN) — one per line</label>
+                  <textarea rows={4} value={(wwa.narrativeBn || []).join('\n')} onChange={e => patchAbout({ whoWeAre: { ...wwa, narrativeBn: e.target.value.split('\n') } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm leading-relaxed" />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Badge Text</label>
+                  <input type="text" value={wwa.badgeText || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, badgeText: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Heading</label>
+                  <input type="text" value={wwa.heading || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, heading: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Description</label>
+                  <textarea rows={3} value={wwa.description || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, description: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm leading-relaxed" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Narrative Paragraphs — one per line</label>
+                  <textarea rows={4} value={(wwa.narrative || []).join('\n')} onChange={e => patchAbout({ whoWeAre: { ...wwa, narrative: e.target.value.split('\n') } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm leading-relaxed" />
+                </div>
+              </>
+            )}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1">Founded Year</label>
-                <input
-                  type="text"
-                  value={wwa.foundedYear}
-                  onChange={e => patchAbout({ whoWeAre: { ...wwa, foundedYear: e.target.value } })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm"
-                />
+                <input type="text" value={wwa.foundedYear} onChange={e => patchAbout({ whoWeAre: { ...wwa, foundedYear: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" />
               </div>
             </div>
-
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Main Image</label>
               <input type="file" accept="image/*" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, mainPhoto => patchAbout({ whoWeAre: { ...wwa, mainPhoto } })); }} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs" />
@@ -1031,6 +1058,7 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
 
       case 'about-pillars':
         const pillars = about.missionPillars || [];
+        const pillarBnMode = activeTabLang === 'bn';
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -1039,39 +1067,56 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                 <p className="text-xs text-slate-500">Our Mission, Our Vision, Our Goal, and Our Practice</p>
               </div>
             </div>
+            <div className="flex items-center gap-2 mb-4">
+              <button onClick={() => setActiveTabLang('en')} className={`px-3 py-1 rounded-lg text-xs font-bold ${!pillarBnMode ? 'bg-[#6E56CF] text-white' : 'bg-slate-100 text-slate-500'}`}>EN</button>
+              <button onClick={() => setActiveTabLang('bn')} className={`px-3 py-1 rounded-lg text-xs font-bold ${pillarBnMode ? 'bg-[#6E56CF] text-white' : 'bg-slate-100 text-slate-500'}`}>বাং</button>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {pillars.slice(0, 4).map((pillar, idx) => (
                 <div key={pillar.id || idx} className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-purple-50 text-[#6E56CF]">{['Our Mission', 'Our Vision', 'Our Goal', 'Our Practice'][idx]}</span>
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-purple-50 text-[#6E56CF]">{pillarBnMode ? (pillar.badgeBn || pillar.badge) : pillar.badge}</span>
                   </div>
-                  <div>
-                    <label className="text-[10px] font-bold text-slate-500 uppercase">Heading</label>
-                    <input
-                      type="text"
-                      value={pillar.title}
-                      onChange={e => {
-                        const next = [...pillars];
-                        next[idx] = { ...next[idx], title: e.target.value };
-                        patchAbout({ missionPillars: next });
-                      }}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-800"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[10px] font-bold text-slate-500 uppercase">Subheading</label>
-                    <textarea
-                      rows={3}
-                      value={pillar.description}
-                      onChange={e => {
-                        const next = [...pillars];
-                        next[idx] = { ...next[idx], description: e.target.value };
-                        patchAbout({ missionPillars: next });
-                      }}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-600"
-                    />
-                  </div>
+                  {pillarBnMode ? (
+                    <>
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase">Badge (BN)</label>
+                        <input type="text" value={pillar.badgeBn || ''} onChange={e => { const next = [...pillars]; next[idx] = { ...next[idx], badgeBn: e.target.value }; patchAbout({ missionPillars: next }); }} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-800" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase">Index Label (BN)</label>
+                        <input type="text" value={pillar.indexLabelBn || ''} onChange={e => { const next = [...pillars]; next[idx] = { ...next[idx], indexLabelBn: e.target.value }; patchAbout({ missionPillars: next }); }} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-600" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase">Heading (BN)</label>
+                        <input type="text" value={pillar.titleBn || ''} onChange={e => { const next = [...pillars]; next[idx] = { ...next[idx], titleBn: e.target.value }; patchAbout({ missionPillars: next }); }} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-800" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase">Subheading (BN)</label>
+                        <textarea rows={3} value={pillar.descriptionBn || ''} onChange={e => { const next = [...pillars]; next[idx] = { ...next[idx], descriptionBn: e.target.value }; patchAbout({ missionPillars: next }); }} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-600" />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase">Badge</label>
+                        <input type="text" value={pillar.badge} onChange={e => { const next = [...pillars]; next[idx] = { ...next[idx], badge: e.target.value }; patchAbout({ missionPillars: next }); }} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-800" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase">Index Label</label>
+                        <input type="text" value={pillar.indexLabel} onChange={e => { const next = [...pillars]; next[idx] = { ...next[idx], indexLabel: e.target.value }; patchAbout({ missionPillars: next }); }} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-600" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase">Heading</label>
+                        <input type="text" value={pillar.title} onChange={e => { const next = [...pillars]; next[idx] = { ...next[idx], title: e.target.value }; patchAbout({ missionPillars: next }); }} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-800" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase">Subheading</label>
+                        <textarea rows={3} value={pillar.description} onChange={e => { const next = [...pillars]; next[idx] = { ...next[idx], description: e.target.value }; patchAbout({ missionPillars: next }); }} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-600" />
+                      </div>
+                    </>
+                  )}
                   {idx === 3 && (
                     <div>
                       <label className="text-[10px] font-bold text-slate-500 uppercase">Practice Image</label>
@@ -1147,55 +1192,74 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
           </div>
         );
 
-      case 'about-questions':
-        const fqi = about.fromQuestionsToInsight || {
-          heading: 'From Questions to Empirical Insight',
-          subheading: 'How IPA designs longitudinal research studies to defend the public sphere',
-          ctaText: 'Explore Research Beats',
-          destinationUrl: '/research'
-        };
+      case 'about-cta':
+        const abCta = about.cta || {};
+        const ctaBnMode = activeTabLang === 'bn';
         return (
           <div className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Heading</label>
-              <input
-                type="text"
-                value={fqi.heading}
-                onChange={e => patchAbout({ fromQuestionsToInsight: { ...fqi, heading: e.target.value } })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Subheading</label>
-              <input
-                type="text"
-                value={fqi.subheading}
-                onChange={e => patchAbout({ fromQuestionsToInsight: { ...fqi, subheading: e.target.value } })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">CTA Button Label</label>
-                <input
-                  type="text"
-                  value={fqi.ctaText}
-                  onChange={e => patchAbout({ fromQuestionsToInsight: { ...fqi, ctaText: e.target.value } })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Destination URL</label>
-                <input
-                  type="text"
-                  value={fqi.destinationUrl}
-                  onChange={e => patchAbout({ fromQuestionsToInsight: { ...fqi, destinationUrl: e.target.value } })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono"
-                />
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-sm font-bold text-[#1E1B4B]">Call to Action Section</h3>
+                <p className="text-xs text-slate-500">Footer CTA with badge, title, narrative, and action buttons</p>
               </div>
             </div>
+            <div className="flex items-center gap-2 mb-4">
+              <button onClick={() => setActiveTabLang('en')} className={`px-3 py-1 rounded-lg text-xs font-bold ${!ctaBnMode ? 'bg-[#6E56CF] text-white' : 'bg-slate-100 text-slate-500'}`}>EN</button>
+              <button onClick={() => setActiveTabLang('bn')} className={`px-3 py-1 rounded-lg text-xs font-bold ${ctaBnMode ? 'bg-[#6E56CF] text-white' : 'bg-slate-100 text-slate-500'}`}>বাং</button>
+            </div>
+            {ctaBnMode ? (
+              <>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Title (BN)</label>
+                  <input type="text" value={abCta.titleBn || ''} onChange={e => patchAbout({ cta: { ...abCta, titleBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Narrative (BN)</label>
+                  <textarea rows={3} value={abCta.narrativeBn || ''} onChange={e => patchAbout({ cta: { ...abCta, narrativeBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm leading-relaxed" />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Primary Button (BN)</label>
+                    <input type="text" value={abCta.primaryTextBn || ''} onChange={e => patchAbout({ cta: { ...abCta, primaryTextBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Secondary Button (BN)</label>
+                    <input type="text" value={abCta.secondaryTextBn || ''} onChange={e => patchAbout({ cta: { ...abCta, secondaryTextBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs" />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Title</label>
+                  <input type="text" value={abCta.title || ''} onChange={e => patchAbout({ cta: { ...abCta, title: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Narrative</label>
+                  <textarea rows={3} value={abCta.narrative || ''} onChange={e => patchAbout({ cta: { ...abCta, narrative: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm leading-relaxed" />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Primary Button</label>
+                    <input type="text" value={abCta.primaryText || ''} onChange={e => patchAbout({ cta: { ...abCta, primaryText: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Primary URL</label>
+                    <input type="text" value={abCta.primaryUrl || ''} onChange={e => patchAbout({ cta: { ...abCta, primaryUrl: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Secondary Button</label>
+                    <input type="text" value={abCta.secondaryText || ''} onChange={e => patchAbout({ cta: { ...abCta, secondaryText: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Secondary URL</label>
+                    <input type="text" value={abCta.secondaryUrl || ''} onChange={e => patchAbout({ cta: { ...abCta, secondaryUrl: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono" />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         );
 

@@ -326,226 +326,196 @@ export const INITIAL_CMS_STATE: CmsState = {
     },
   },
   aboutPage: {
-    missionBadge: "ABOUT THE ORGANIZATION",
-    missionBadgeBn: "",
-    missionTitle: "Researching Media. Understanding Society.",
-    missionTitleBn: "",
-    missionStory: [
-      "The Institute of Public Accountability (IPA) was founded in 2021 as an independent, non-partisan research observatory dedicated to empirical investigation into newsroom health, digital platform algorithms, public opinion, and institutional governance.",
-      "In an era where information ecosystems are rapidly shifting toward proprietary algorithms, algorithmic feeds, and declining commercial news revenues, society requires neutral, transparent, and rigorous scientific inquiry into how information flows and where power resides.",
-      "IPA maintains 24/7 continuous broadcast monitoring facilities, computational web scrapers, representative audience panels, and embedded newsroom ethnographic programs. All our research methodologies, codebooks, and datasets are made available openly for civil society, researchers, and citizens.",
+    heroBanner: {
+      badgeText: "ABOUT THE ORGANIZATION",
+      badgeTextBn: "আমাদের পরিচিতি",
+      title: "Independent Research for a Changing Media World.",
+      titleBn: "পরিবর্তনশীল গণমাধ্যমের জন্য স্বাধীন গবেষণা",
+      subtext:
+        "We research the systems, technologies, institutions, and behaviors shaping today's media and information environment.",
+      subtextBn:
+        "আমরা সমকালীন তথ্য ও গণমাধ্যম জগৎকে রূপদানকারী ব্যবস্থা, প্রযুক্তি, প্রতিষ্ঠান এবং আচরণ নিয়ে গবেষণা করি।",
+      metadata: "Institutional Profile",
+      metadataBn: "প্রাতিষ্ঠানিক পরিচিতি",
+      bgStyle: "gradient",
+      bgImage:
+        "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2200&q=85",
+    },
+    whoWeAre: {
+      badgeText: "Institutional Foundation",
+      badgeTextBn: "প্রাতিষ্ঠানিক ভিত্তি",
+      heading: "Who We Are",
+      headingBn: "আমরা কারা",
+      description:
+        "is an independent media research organization dedicated to developing a deeper understanding of media, journalism, and information.",
+      descriptionBn:
+        "একটি স্বাধীন গণমাধ্যম গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।",
+      narrative: [
+        "We examine how traditional and digital media operate, how audiences interact with information, and how technological and social changes are reshaping the media environment.",
+        "Through independent research and analysis, we aim to make complex developments easier to understand and contribute meaningful knowledge to public discussion.",
+      ],
+      narrativeBn: [
+        "আমরা অনুসন্ধান করি কীভাবে ঐতিহ্যবাহী ও ডিজিটাল মিডিয়া পরিচালিত হয়, দর্শকরা তথ্যের সাথে কীভাবে যুক্ত হন এবং প্রযুক্তিগত ও সামাজিক রূপান্তর কীভাবে মিডিয়া পরিবেশকে প্রভাবিত করছে।",
+        "নিরপেক্ষ গবেষণা ও তথ্যভিত্তিক বিশ্লেষণের মাধ্যমে আমরা জটিল বিষয়গুলোকে সহজবোধ্য করে তুলি এবং নাগরিক আলোচনায় বস্তুনিষ্ঠ অবদান রাখি।",
+      ],
+      mainPhoto:
+        "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
+      foundedYear: "2019",
+    },
+    missionPillars: [
+      {
+        id: "mission",
+        badge: "Our Mission",
+        badgeBn: "আমাদের লক্ষ্য",
+        indexLabel: "01 / PURPOSE",
+        indexLabelBn: "০১ / মূল লক্ষ্য",
+        title:
+          '"To produce credible, independent, and accessible research that contributes to a better understanding of media and its role in society."',
+        titleBn:
+          '"বিশ্বাসযোগ্য, স্বাধীন ও উন্মুক্ত গবেষণার মাধ্যমে গণমাধ্যম এবং সমাজে এর তাৎপর্য সম্পর্কে মানুষের বোঝাপড়া সুদৃঢ় করা।"',
+        description:
+          "We ensure that public conversations regarding information integrity are supported by verifiable empirical benchmarks rather than ideological posturing.",
+        descriptionBn:
+          "আমরা নিশ্চিত করি যে তথ্য ব্যবস্থা নিয়ে গণআলাপচারিতা যেন কোনো ধারণাভিত্তিক অনুমানের বদলে যাচাইযোগ্য তথ্য-উপাত্ত দ্বারা পরিচালিত হয়।",
+      },
+      {
+        id: "vision",
+        badge: "Our Vision",
+        badgeBn: "আমাদের রূপকল্প",
+        indexLabel: "02 / OUTLOOK",
+        indexLabelBn: "০২ / রূপকল্প",
+        title:
+          '"We envision an informed society where media and information can be better understood through independent research, evidence, and open analysis."',
+        titleBn:
+          '"আমরা এমন একটি সচেতন সমাজ কল্পনা করি যেখানে স্বাধীন গবেষণা, নির্ভরযোগ্য তথ্য-প্রমাণ ও উন্মুক্ত বিশ্লেষণের মাধ্যমে গণমাধ্যম ও তথ্যের গুরুত্ব স্পষ্টভাবে উপলব্ধ হয়।"',
+        description:
+          "An information ecosystem where journalists are safeguarded, citizens are empowered with critical literacy, and digital platforms are transparent to the public.",
+        descriptionBn:
+          "এমন একটি মুক্ত তথ্য পরিমণ্ডল যেখানে সাংবাদিকদের স্বাধীনতা সুরক্ষিত থাকে, নাগরিকরা সচেতন ও ক্ষমতাবান হন এবং ডিজিটাল প্ল্যাটফর্মসমূহ জনস্বার্থে দায়বদ্ধ থাকে।",
+      },
+      {
+        id: "goal",
+        badge: "Our Goal",
+        badgeBn: "আমাদের লক্ষ্য",
+        indexLabel: "03 / IMPACT",
+        indexLabelBn: "০৩ / প্রভাব",
+        title:
+          "Turn rigorous evidence into insight that strengthens public accountability.",
+        titleBn:
+          "নির্ভুল তথ্য-প্রমাণকে এমন অন্তর্দৃষ্টিতে রূপ দেওয়া যা জনস্বার্থ ও জবাবদিহিতা শক্তিশালী করে।",
+        description:
+          "We connect careful research with practical knowledge for journalists, institutions, and communities.",
+        descriptionBn:
+          "সাংবাদিক, প্রতিষ্ঠান ও সম্প্রদায়ের জন্য আমরা সতর্ক গবেষণাকে ব্যবহারিক জ্ঞানের সঙ্গে যুক্ত করি।",
+      },
+      {
+        id: "practice",
+        badge: "Our Practice",
+        badgeBn: "আমাদের কর্মপদ্ধতি",
+        indexLabel: "04 / METHOD",
+        indexLabelBn: "০৪ / পদ্ধতি",
+        title: "Research that remains open, useful, and accountable.",
+        titleBn: "এমন গবেষণা যা উন্মুক্ত, কার্যকর ও জবাবদিহিমূলক।",
+        description:
+          "From fieldwork to public reporting, every step is designed to make evidence easier to examine and act upon.",
+        descriptionBn:
+          "মাঠপর্যায়ের গবেষণা থেকে জনসমক্ষে প্রতিবেদন—প্রতিটি ধাপ তথ্য-প্রমাণকে সহজে যাচাই ও প্রয়োগযোগ্য করে তোলে।",
+        image:
+          "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=85",
+      },
     ],
-    missionStoryBn: ["", "", ""],
     principles: [
       {
-        id: "p1",
+        id: "val-1",
         number: "01",
         title: "Independence",
-        titleBn: "",
-        description:
-          "We protect the independence and integrity of our research.",
-        descriptionBn: "",
+        description: "We protect the independence and integrity of our research.",
         detail:
           "Our operational governance is strictly insulated from partisan agendas, commercial pressure, and external funders. Research questions and methodological determinations belong entirely to our investigative fellows.",
-        detailBn: "",
       },
       {
-        id: "p2",
+        id: "val-2",
         number: "02",
         title: "Evidence",
-        titleBn: "",
-        description: "Every finding is rooted in rigorous empirical proof.",
-        descriptionBn: "",
+        description: "We prioritize reliable evidence over assumptions.",
         detail:
-          "We do not publish opinion or speculation. Every paper, dashboard, and metric is supported by reproducible data pipelines, cross-coded datasets, and rigorous statistical scrutiny.",
-        detailBn: "",
+          "Every assertion is grounded in reproducible empirical data. Where datasets have limitations or uncertainty intervals, we document them candidly rather than presenting speculative conclusions.",
       },
       {
-        id: "p3",
+        id: "val-3",
         number: "03",
-        title: "Transparency",
-        titleBn: "",
-        description: "Open methodology, codebooks, and accessible data.",
-        descriptionBn: "",
+        title: "Rigour",
+        description:
+          "We approach research with care, transparency, and methodological discipline.",
         detail:
-          "We believe in radical epistemic openness. We publish our survey weighting algorithms, NLP classification codebooks, and sampling criteria under Creative Commons licensing.",
-        detailBn: "",
+          "All studies undergo internal peer review, cross-coder reliability validation, and stringent ethical review to ensure adherence to international social science protocols.",
       },
       {
-        id: "p4",
+        id: "val-4",
         number: "04",
-        title: "Public Interest",
-        titleBn: "",
-        description: "Research that remains open, useful, and accountable.",
-        descriptionBn: "",
+        title: "Transparency",
+        description: "We communicate our findings and methods clearly.",
         detail:
-          "Our ultimate mandate is democratic resilience. We translate complex computational findings into actionable policy briefs for regulatory bodies, editorial newsrooms, and civic educators.",
-        detailBn: "",
+          "We disclose our sample sizes, coding taxonomies, margin of error, and research instruments openly. We believe public scrutiny strengthens research validity.",
+      },
+      {
+        id: "val-5",
+        number: "05",
+        title: "Public Value",
+        description:
+          "We seek to produce research that contributes to meaningful public understanding.",
+        detail:
+          "Our work is not meant for academic silos alone. We produce clear, open-access resources that inform citizens, empower journalists, and elevate civic discourse.",
       },
     ],
     methodologySteps: [
       {
         step: "QUESTION",
         label: "Identify Critical Inquiries",
-        labelBn: "",
         summary:
           "Framing urgent social questions about information power, newsroom stability, and digital media dynamics.",
-        summaryBn: "",
       },
       {
         step: "RESEARCH",
         label: "Design Rigorous Methodology",
-        labelBn: "",
         summary:
           "Selecting multi-method protocols spanning survey instruments, ethnographic observation, and platform telemetry.",
-        summaryBn: "",
       },
       {
         step: "EVIDENCE",
         label: "Gather Primary Datasets",
-        labelBn: "",
         summary:
           "Harvesting raw multi-channel broadcasts, newspaper archives, and stratified representative sample panels.",
-        summaryBn: "",
       },
       {
         step: "ANALYSIS",
         label: "Decode Underlying Patterns",
-        labelBn: "",
         summary:
           "Executing computational NLP, longitudinal sentiment trends, and qualitative thematic evaluations.",
-        summaryBn: "",
       },
       {
         step: "INSIGHT",
         label: "Publish Civic Knowledge",
-        labelBn: "",
         summary:
           "Delivering open-access research briefs, executive policy briefings, and interactive datasets for society.",
-        summaryBn: "",
       },
     ],
-    governanceEthics: [
-      "Institutional Review Board (IRB) ethical clearance for all human subject surveys and ethnographic fieldwork.",
-      "Privacy-preserving telemetry protocols with zero personally identifiable storage on citizen donor data.",
-      "Double-blind peer review on all long-form research monographs prior to public dissemination.",
-      "Mandatory public disclosure of all grant funding, research fellowships, and institutional partnerships.",
-    ],
-    governanceEthicsBn: ["", "", "", ""],
-    observatories: [
-      {
-        name: "Central Research Headquarters",
-        nameBn: "",
-        role: "Main Administration, Qualitative Desks & Executive Office",
-        roleBn: "",
-        address:
-          "Level 7, Press & Research Tower, 42 Gulshan Avenue, Dhaka 1212",
-        addressBn: "",
-        phone: "+880 2 988 4120",
-        email: "office@mediaresearch.org",
-      },
-      {
-        name: "Broadcast & Telemetry Laboratory",
-        nameBn: "",
-        role: "Continuous 24/7 Broadcast Archiving & Computational NLP Cluster",
-        roleBn: "",
-        address: "Dhanmondi Media Hub, Road 27, Dhaka",
-        addressBn: "",
-        phone: "+880 2 811 7450",
-        email: "telemetry@mediaresearch.org",
-      },
-    ],
-    heroBanner: {
-      badgeText: "ABOUT THE ORGANIZATION",
-      badgeTextBn: "",
-      title: "Researching Media. Understanding Society.",
-      titleBn: "",
-      subtext:
-        "An independent empirical research institute observing newsrooms, platforms, public opinion, and institutional accountability.",
-      subtextBn: "",
-      bgStyle: "gradient",
-    },
-    whoWeAre: {
-      heading: "Institute of Public Accountability",
-      headingBn: "",
-      description:
-        "An independent media research organization focused on understanding the changing landscape of journalism, information, and public trust.",
-      descriptionBn: "",
-      badgeText: "INDEPENDENT RESEARCH · EVIDENCE-DRIVEN",
-      badgeTextBn: "",
-      foundedYear: "2021",
-      mainPhoto:
-        "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80",
-      mainPhotoBn: "",
-      highlightCardText:
-        "Operating independent empirical observatories tracking journalism, broadcast streams, digital platform algorithms, and democratic trust.",
-      highlightCardTextBn: "",
-      narrative: [
-        "The Institute of Public Accountability (IPA) was founded in 2021 as an independent, non-partisan research observatory dedicated to empirical investigation into newsroom health, digital platform algorithms, public opinion, and institutional governance.",
-        "In an era where information ecosystems are rapidly shifting toward proprietary algorithms, algorithmic feeds, and declining commercial news revenues, society requires neutral, transparent, and rigorous scientific inquiry into how information flows and where power resides.",
-        "IPA maintains 24/7 continuous broadcast monitoring facilities, computational web scrapers, representative audience panels, and embedded newsroom ethnographic programs.",
-      ],
-      narrativeBn: ["", "", ""],
-    },
-    missionPillars: [
-      {
-        id: "pil-1",
-        badge: "01 · PILLAR",
-        badgeBn: "",
-        title: "Editorial & Academic Independence",
-        titleBn: "",
-        quote: "Insulated from commercial, political, and funder interference.",
-        quoteBn: "",
-        description:
-          "Our operational governance is strictly insulated from partisan agendas, commercial advertisers, and political patrons. Research questions and methodological determinations belong entirely to our investigative fellows.",
-        descriptionBn: "",
-      },
-      {
-        id: "pil-2",
-        badge: "02 · PILLAR",
-        badgeBn: "",
-        title: "Empirical Verification",
-        titleBn: "",
-        quote: "Every finding backed by open, reproducible evidence.",
-        quoteBn: "",
-        description:
-          "We do not publish opinion or speculation. Every paper, dashboard, and metric is supported by reproducible data pipelines, cross-coded datasets, and rigorous statistical scrutiny.",
-        descriptionBn: "",
-      },
-      {
-        id: "pil-3",
-        badge: "03 · PILLAR",
-        badgeBn: "",
-        title: "Open Civic Knowledge",
-        titleBn: "",
-        quote: "Public methodology, codebooks, and datasets.",
-        quoteBn: "",
-        description:
-          "We believe in radical epistemic openness. We publish our survey weighting algorithms, NLP classification codebooks, and sampling criteria under Creative Commons licensing.",
-        descriptionBn: "",
-      },
-      {
-        id: "pil-4",
-        badge: "04 · PILLAR",
-        badgeBn: "",
-        title: "Public Interest Defense",
-        titleBn: "",
-        quote: "Research aimed at strengthening democratic resilience.",
-        quoteBn: "",
-        description:
-          "Our ultimate mandate is democratic resilience. We translate complex computational findings into actionable policy briefs for regulatory bodies, editorial newsrooms, and civic educators.",
-        descriptionBn: "",
-      },
-    ],
-    fromQuestionsToInsight: {
-      heading: "From Questions to Empirical Insight",
-      headingBn: "",
-      subheading:
-        "How IPA designs longitudinal research studies to defend the public sphere",
-      subheadingBn: "",
-      ctaText: "Explore Research Beats",
-      ctaTextBn: "",
-      destinationUrl: "/research",
+    cta: {
+      badge: "Institutional Collaboration & Inquiry",
+      badgeBn: "প্রাতিষ্ঠানিক সহযোগিতা ও অনুসন্ধান",
+      title:
+        "Let’s Understand the Media Landscape Together.",
+      titleBn: "আসুন একসাথে গণমাধ্যমের পরিমণ্ডলকে অনুধাবন করি।",
+      narrative:
+        "Whether you’re interested in our work, exploring a research collaboration, or simply want to learn more about the organization, we’d be happy to hear from you.",
+      narrativeBn:
+        "আপনি আমাদের গবেষণায় আগ্রহী হোন, যৌথ গবেষণার সুযোগ খুঁজুন বা সংস্থা সম্পর্কে আরও জানতে চান—আমরা আপনার মতামতকে স্বাগত জানাই।",
+      primaryText: "Get in Touch",
+      primaryTextBn: "যোগাযোগ করুন",
+      primaryUrl: "/contact",
+      secondaryText: "Browse All Research Areas",
+      secondaryTextBn: "সকল গবেষণা ক্ষেত্র দেখুন",
+      secondaryUrl: "/work",
     },
   },
   contactPage: {

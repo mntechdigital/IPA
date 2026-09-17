@@ -441,37 +441,19 @@ export interface InvestigationCard {
 }
 
 export interface AboutPageData {
-  missionBadge: string;
-  missionBadgeBn?: string;
-  missionTitle: string;
-  missionTitleBn?: string;
-  missionStory: string[];
-  missionStoryBn?: string[];
   principles: CoreTenet[];
   methodologySteps: MethodologyStep[];
-  governanceEthics: string[];
-  governanceEthicsBn?: string[];
-  observatories: {
-    name: string;
-    role: string;
-    address: string;
-    phone: string;
-    email: string;
-    nameBn?: string;
-    roleBn?: string;
-    addressBn?: string;
-    phoneLabel?: string;
-    emailLabel?: string;
-  }[];
   heroBanner?: {
     title: string;
     subtext: string;
     bgStyle: 'gradient' | 'minimal' | 'solid' | string;
     badgeText: string;
+    metadata: string;
     bgImage?: string;
     badgeTextBn?: string;
     titleBn?: string;
     subtextBn?: string;
+    metadataBn?: string;
     bgImageBn?: string;
   };
   whoWeAre?: {
@@ -480,36 +462,39 @@ export interface AboutPageData {
     badgeText?: string;
     narrative: string[];
     mainPhoto: string;
-    highlightCardText: string;
     foundedYear: string;
     headingBn?: string;
     descriptionBn?: string;
     badgeTextBn?: string;
     narrativeBn?: string[];
-    highlightCardTextBn?: string;
     mainPhotoBn?: string;
   };
   missionPillars?: {
     id: string;
-    title: string;
-    quote: string;
     badge: string;
+    indexLabel: string;
+    title: string;
     description: string;
     image?: string;
     badgeBn?: string;
+    indexLabelBn?: string;
     titleBn?: string;
-    quoteBn?: string;
     descriptionBn?: string;
     imageBn?: string;
   }[];
-  fromQuestionsToInsight?: {
-    heading: string;
-    subheading: string;
-    ctaText: string;
-    destinationUrl: string;
-    headingBn?: string;
-    subheadingBn?: string;
-    ctaTextBn?: string;
+  cta?: {
+    badge?: string;
+    badgeBn?: string;
+    title?: string;
+    titleBn?: string;
+    narrative?: string;
+    narrativeBn?: string;
+    primaryText?: string;
+    primaryTextBn?: string;
+    primaryUrl?: string;
+    secondaryText?: string;
+    secondaryTextBn?: string;
+    secondaryUrl?: string;
   };
 }
 
