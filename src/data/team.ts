@@ -8,7 +8,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     category: 'leadership',
     image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
     bio: 'Oversees the institute’s research agenda, methodology standards, and academic partnerships. Two decades of experience in media sociology and public communications.',
-    fullBio: 'Dr. Tariqul Islam has directed media sociology programs across South Asia and Europe. Prior to co-founding the Institute of Public Accountability, he held research appointments at the Reuters Institute and the London School of Economics. His scholarly work focuses on newsroom institutional transformation, editorial autonomy under political transition, and the structural economics of independent press in emerging democracies.',
+    fullBio: 'Dr. Tariqul Islam has directed media sociology programs across South Asia and Europe. Prior to co-founding the Institute of Public Affairs, he held research appointments at the Reuters Institute and the London School of Economics. His scholarly work focuses on newsroom institutional transformation, editorial autonomy under political transition, and the structural economics of independent press in emerging democracies.',
     researchInterests: ['Media & Journalism', 'Media & Democracy', 'Editorial Autonomy', 'Comparative Media Systems'],
     education: 'Ph.D. in Media & Communication Studies, University of London',
     recentPublications: [

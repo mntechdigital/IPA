@@ -17,6 +17,7 @@ export const ContactForm: React.FC = () => {
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const getCleanText = (html: string) => {
     if (typeof document === 'undefined') return html;
@@ -58,14 +59,25 @@ export const ContactForm: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
     setIsSubmitting(true);
-    // Simulate realistic institutional dispatch
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setSubmitError(null);
+    try {
+      const res = await fetch('/api/cms/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.fullName,
+          organization: formData.organization,
+          email: formData.email,
+          topic: formData.subject,
+          message: formData.message,
+        }),
+      });
+      if (!res.ok) throw new Error('Submission failed');
       setIsSubmitted(true);
       setFormData({
         fullName: '',
@@ -74,7 +86,11 @@ export const ContactForm: React.FC = () => {
         subject: '',
         message: '',
       });
-    }, 800);
+    } catch {
+      setSubmitError('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -271,6 +287,11 @@ export const ContactForm: React.FC = () => {
             </p>
           </div>
 
+          {submitError && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700">
+              {submitError}
+            </div>
+          )}
           <div className="pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <p className="text-xs font-sans text-[#556B62] max-w-sm">
               {t(

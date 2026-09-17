@@ -16,9 +16,11 @@ import {
   Sliders,
   Globe,
   UploadCloud,
-  FileText
+  FileText,
+  Loader2
 } from 'lucide-react';
 import { useCms } from '../../context/CmsContext';
+import { useImageUpload } from '../../lib/image/hooks/useImageUpload';
 import { APP_GRID_PAGES, SectionAppTileDef } from '../../data/appGridDefinitions';
 import { INITIAL_CMS_STATE } from '../../data/initialData';
 import {
@@ -126,28 +128,11 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
     handleSaveNotification();
   };
 
-  const uploadImage = async (file: File): Promise<string> => {
-    const fd = new FormData();
-    fd.append('file', file);
-    const res = await fetch('/api/upload', { method: 'POST', body: fd });
-    if (!res.ok) throw new Error('Upload failed');
-    const data = await res.json();
-    return data.url as string;
-  };
-
-  const readImageFile = (file: File, onLoad: (dataUrl: string) => void) => {
-    const reader = new FileReader();
-    reader.onload = () => onLoad(String(reader.result || ''));
-    reader.readAsDataURL(file);
-  };
+  const { upload: uploadFile, isUploading: isImageUploading } = useImageUpload({ folder: 'cms' });
 
   const handleImageUpload = async (file: File, onUrl: (url: string) => void) => {
-    try {
-      const url = await uploadImage(file);
-      onUrl(url);
-    } catch {
-      handleImageUpload(file, onUrl);
-    }
+    const result = await uploadFile(file);
+    if (result) onUrl(result.url);
   };
 
   const patchHome = (partial: Partial<HomePageData>) => { setDraftHome(prev => ({ ...prev, ...partial })); markDirty(); };
@@ -197,11 +182,24 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
     },
     directDetails: {
       phone: '+880 2 988 4120',
+      phoneLabel: 'Phone',
       tollFreePhone: '+880 1800 472 633',
+      tollFreePhoneLabel: 'Toll-Free',
       supportEmail: 'info@mediaresearch.org',
       researchDeskEmail: 'research@mediaresearch.org',
+      pressEmail: 'media@mediaresearch.org',
       officeLocation: 'Level 7, Press & Research Tower, 42 Gulshan Avenue, Dhaka 1212',
-      workingHours: 'Sunday – Thursday: 09:00 – 18:00 BST'
+      workingHours: 'Sunday – Thursday: 09:00 – 18:00 BST',
+      officeLocationBn: '',
+      workingHoursBn: '',
+      phoneLabelBn: '',
+      tollFreePhoneLabelBn: '',
+      supportEmailBn: '',
+      supportEmailLabelBn: '',
+      researchDeskEmailBn: '',
+      researchDeskEmailLabelBn: '',
+      pressEmailBn: '',
+      pressEmailLabelBn: ''
     },
     messageSettings: {
       targetEmail: 'inquiries@mediaresearch.org',
@@ -298,17 +296,22 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
 
               <div className="md:col-span-2 space-y-2">
                 <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Hero Background Image</label>
-                <div className="flex gap-3">
-                  <input type="file" accept="image/*" onChange={e => {
-                    const file = e.target.files?.[0];
-                    if (file) handleImageUpload(file, heroImage => patchHome({ heroImage }));
-                  }} className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800" />
+                <div className="flex items-center gap-3">
+                  <label className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-[#6E56CF] hover:border-[#6E56CF] text-xs font-bold cursor-pointer transition-colors shrink-0 ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    {isImageUploading ? <Loader2 className="w-4 h-4 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-4 h-4" />}
+                    <span>{isImageUploading ? 'Uploading...' : 'Upload'}</span>
+                    <input type="file" accept="image/*" className="hidden" onChange={e => {
+                      const file = e.target.files?.[0];
+                      if (file) handleImageUpload(file, heroImage => patchHome({ heroImage }));
+                    }} disabled={isImageUploading} />
+                  </label>
                   {home.heroImage && (
-                    <img
-                      src={home.heroImage}
-                      alt="Hero preview"
-                      className="w-12 h-10 object-cover rounded-xl border border-slate-200 shrink-0"
-                    />
+                    <div className="flex items-center gap-2 shrink-0">
+                      <img src={home.heroImage} alt="Hero preview" className="w-12 h-10 object-cover rounded-xl border border-slate-200" />
+                      <button type="button" onClick={() => patchHome({ heroImage: '' })} disabled={isImageUploading} className="p-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove image">
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
@@ -385,7 +388,7 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
           title: 'Empirical Research For Transparent Institutions',
           titleBn: 'স্বচ্ছ প্রতিষ্ঠানের জন্য তথ্যভিত্তিক গবেষণা',
           description: 'Conducting independent research into newsrooms and media ecosystems.',
-          descriptionBn: 'ইনস্টিটিউট অব পাবলিক অ্যাকাউন্টেবিলিটি সংবাদ ইকোসিস্টেম নিয়ে স্বাধীন গবেষণা করে।',
+          descriptionBn: 'ইনস্টিটিউট অব পাবলিক অ্যাফেয়ার্স সংবাদ ইকোসিস্টেম নিয়ে স্বাধীন গবেষণা করে।',
           mediaUrl: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1600&q=80',
           keyPoints: ["Independent research", "Open-access evidence", "Public-interest methods", "Transparent institutions"],
           keyPointsBn: ["স্বাধীন গবেষণা", "উন্মুক্ত প্রমাণ", "জনস্বার্থ পদ্ধতি", "স্বচ্ছ প্রতিষ্ঠান"],
@@ -430,9 +433,20 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
 
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Highlight Image</label>
-              <div className="flex gap-3">
-                <input type="file" accept="image/*" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, mediaUrl => patchHome({ publicInterestBanner: { ...pib, mediaUrl } })); }} className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 file:mr-3 file:px-3 file:py-1.5 file:rounded-lg file:border-0 file:bg-[#6E56CF] file:text-white file:text-xs file:font-semibold hover:file:bg-[#5C45BD] cursor-pointer" />
-                {pib.mediaUrl && (<img src={pib.mediaUrl} alt="Preview" className="w-20 h-14 object-cover rounded-xl border border-slate-200 shadow-sm shrink-0" />)}
+              <div className="flex items-center gap-3">
+                <label className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-[#6E56CF] hover:border-[#6E56CF] text-xs font-bold cursor-pointer transition-colors shrink-0 ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                  {isImageUploading ? <Loader2 className="w-4 h-4 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-4 h-4" />}
+                  <span>{isImageUploading ? 'Uploading...' : 'Upload'}</span>
+                  <input type="file" accept="image/*" className="hidden" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, mediaUrl => patchHome({ publicInterestBanner: { ...pib, mediaUrl } })); }} disabled={isImageUploading} />
+                </label>
+                {pib.mediaUrl && (
+                  <div className="flex items-center gap-2 shrink-0">
+                    <img src={pib.mediaUrl} alt="Preview" className="w-20 h-14 object-cover rounded-xl border border-slate-200 shadow-sm" />
+                    <button type="button" onClick={() => patchHome({ publicInterestBanner: { ...pib, mediaUrl: '' } })} disabled={isImageUploading} className="p-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove image">
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  </div>
+                )}
               </div>
               <p className="text-[11px] text-slate-500">Recommended 1600×900, &lt;500KB, rounded-3xl on site</p>
             </div>
@@ -518,20 +532,28 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
 
                     <div>
                       <label className="text-[10px] font-bold text-slate-500 uppercase">Card {idx + 1} Icon</label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={e => {
-                          const file = e.target.files?.[0];
-                          if (file) handleImageUpload(file, iconImage => {
-                            const updated = [...wwd.cards];
-                            updated[idx] = { ...updated[idx], iconImage };
-                            patchHome({ whatWeDo: { ...wwd, cards: updated } });
-                          });
-                        }}
-                        className="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs"
-                      />
-                      {card.iconImage && <img src={card.iconImage} alt="Icon preview" className="mt-2 w-10 h-10 object-contain rounded-lg border border-slate-200" />}
+                      <div className="flex items-center gap-2">
+                        <label className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer shadow-xs ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                          {isImageUploading ? <Loader2 className="w-3 h-3 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-3 h-3" />}
+                          <span>{isImageUploading ? '...' : 'Upload'}</span>
+                          <input type="file" accept="image/*" className="hidden" onChange={e => {
+                            const file = e.target.files?.[0];
+                            if (file) handleImageUpload(file, iconImage => {
+                              const updated = [...wwd.cards];
+                              updated[idx] = { ...updated[idx], iconImage };
+                              patchHome({ whatWeDo: { ...wwd, cards: updated } });
+                            });
+                          }} disabled={isImageUploading} />
+                        </label>
+                        {card.iconImage && (
+                          <div className="flex items-center gap-1">
+                            <img src={card.iconImage} alt="Icon preview" className="w-10 h-10 object-contain rounded-lg border border-slate-200" />
+                            <button type="button" onClick={() => { const updated = [...wwd.cards]; updated[idx] = { ...updated[idx], iconImage: '' }; patchHome({ whatWeDo: { ...wwd, cards: updated } }); }} disabled={isImageUploading} className="p-0.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove icon">
+                              <Trash2 className="w-2.5 h-2.5" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <div>
@@ -551,20 +573,28 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                     {idx === 1 && (
                       <div>
                         <label className="text-[10px] font-bold text-slate-500 uppercase">Card Image</label>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={e => {
-                            const file = e.target.files?.[0];
-                            if (file) handleImageUpload(file, image => {
-                              const updated = [...wwd.cards];
-                              updated[idx] = { ...updated[idx], image };
-                              patchHome({ whatWeDo: { ...wwd, cards: updated } });
-                            });
-                          }}
-                          className="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs"
-                        />
-                        {card.image && <img src={card.image} alt="Card preview" className="mt-2 w-full h-28 object-cover rounded-lg" />}
+                        <div className="flex items-center gap-2">
+                          <label className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer shadow-xs ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                            {isImageUploading ? <Loader2 className="w-3 h-3 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-3 h-3" />}
+                            <span>{isImageUploading ? '...' : 'Upload'}</span>
+                            <input type="file" accept="image/*" className="hidden" onChange={e => {
+                              const file = e.target.files?.[0];
+                              if (file) handleImageUpload(file, image => {
+                                const updated = [...wwd.cards];
+                                updated[idx] = { ...updated[idx], image };
+                                patchHome({ whatWeDo: { ...wwd, cards: updated } });
+                              });
+                            }} disabled={isImageUploading} />
+                          </label>
+                          {card.image && (
+                            <div className="flex items-center gap-1">
+                              <img src={card.image} alt="Card preview" className="mt-2 w-full h-28 object-cover rounded-lg" />
+                              <button type="button" onClick={() => { const updated = [...wwd.cards]; updated[idx] = { ...updated[idx], image: '' }; patchHome({ whatWeDo: { ...wwd, cards: updated } }); }} disabled={isImageUploading} className="p-0.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove image">
+                                <Trash2 className="w-2.5 h-2.5" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -576,7 +606,7 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
 
       case 'home-who-we-are': {
         const wwa = about.whoWeAre || {
-          heading: 'Institute of Public Accountability',
+          heading: 'Institute of Public Affairs',
           description: 'An independent media research organization focused on understanding journalism, information, and public trust.',
           badgeText: 'INDEPENDENT RESEARCH · EVIDENCE-DRIVEN',
           foundedYear: '2021',
@@ -676,8 +706,21 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                   </div>
                   <input type="text" value={card.heading} onChange={e => { const cards = [...areaCards]; cards[idx] = { ...cards[idx], heading: e.target.value }; patchHome({ areasOfInvestigation: { ...areas, cards } }); }} placeholder="Card Heading" className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm font-semibold" />
                   <textarea rows={3} value={card.description} onChange={e => { const cards = [...areaCards]; cards[idx] = { ...cards[idx], description: e.target.value }; patchHome({ areasOfInvestigation: { ...areas, cards } }); }} placeholder="Short Description" className="w-full bg-white border border-slate-200 rounded-lg p-2 text-sm" />
-                  <input type="file" accept="image/*" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, image => { const cards = [...areaCards]; cards[idx] = { ...cards[idx], image }; patchHome({ areasOfInvestigation: { ...areas, cards } }); }); }} className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs" />
-                  {card.image && <img src={card.image} alt="Card preview" className="w-full h-32 object-cover rounded-lg" />}
+                  <div className="flex items-center gap-2">
+                    <label className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer shadow-xs ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                      {isImageUploading ? <Loader2 className="w-3 h-3 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-3 h-3" />}
+                      <span>{isImageUploading ? '...' : 'Upload'}</span>
+                      <input type="file" accept="image/*" className="hidden" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, image => { const cards = [...areaCards]; cards[idx] = { ...cards[idx], image }; patchHome({ areasOfInvestigation: { ...areas, cards } }); }); }} disabled={isImageUploading} />
+                    </label>
+                    {card.image && (
+                      <div className="flex items-center gap-1">
+                        <img src={card.image} alt="Card preview" className="w-full h-32 object-cover rounded-lg" />
+                        <button type="button" onClick={() => { const cards = [...areaCards]; cards[idx] = { ...cards[idx], image: '' }; patchHome({ areasOfInvestigation: { ...areas, cards } }); }} disabled={isImageUploading} className="p-0.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove image">
+                          <Trash2 className="w-2.5 h-2.5" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -712,8 +755,21 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
 
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Quote Background Image</label>
-              <input type="file" accept="image/*" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, tenetImage => patchHome({ tenetImage })); }} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 file:mr-3 file:px-3 file:py-1.5 file:rounded-lg file:border-0 file:bg-[#6E56CF] file:text-white file:text-xs file:font-semibold cursor-pointer" />
-              {home.tenetImage && <img src={home.tenetImage} alt="Quote preview" className="w-full h-40 object-cover rounded-xl border border-slate-200" />}
+              <div className="flex items-center gap-3">
+                <label className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-[#6E56CF] hover:border-[#6E56CF] text-xs font-bold cursor-pointer transition-colors shrink-0 ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                  {isImageUploading ? <Loader2 className="w-4 h-4 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-4 h-4" />}
+                  <span>{isImageUploading ? 'Uploading...' : 'Upload'}</span>
+                  <input type="file" accept="image/*" className="hidden" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, tenetImage => patchHome({ tenetImage })); }} disabled={isImageUploading} />
+                </label>
+                {home.tenetImage && (
+                  <div className="flex items-center gap-2 shrink-0">
+                    <img src={home.tenetImage} alt="Quote preview" className="w-full h-40 object-cover rounded-xl border border-slate-200" />
+                    <button type="button" onClick={() => patchHome({ tenetImage: '' })} disabled={isImageUploading} className="p-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove image">
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         );
@@ -988,8 +1044,21 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
             )}
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Background Image</label>
-              <input type="file" accept="image/*" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, bgImage => patchAbout({ heroBanner: { ...abHero, bgImage } })); }} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800" />
-              {abHero.bgImage && <img src={abHero.bgImage} alt="About hero preview" className="w-full h-32 object-cover rounded-xl border border-slate-200" />}
+              <div className="flex items-center gap-3">
+                <label className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-[#6E56CF] hover:border-[#6E56CF] text-xs font-bold cursor-pointer transition-colors shrink-0 ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                  {isImageUploading ? <Loader2 className="w-4 h-4 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-4 h-4" />}
+                  <span>{isImageUploading ? 'Uploading...' : 'Upload'}</span>
+                  <input type="file" accept="image/*" className="hidden" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, bgImage => patchAbout({ heroBanner: { ...abHero, bgImage } })); }} disabled={isImageUploading} />
+                </label>
+                {abHero.bgImage && (
+                  <div className="flex items-center gap-2 shrink-0">
+                    <img src={abHero.bgImage} alt="About hero preview" className="w-full h-32 object-cover rounded-xl border border-slate-200" />
+                    <button type="button" onClick={() => patchAbout({ heroBanner: { ...abHero, bgImage: '' } })} disabled={isImageUploading} className="p-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove image">
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         );
@@ -1029,10 +1098,6 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                   <input type="text" value={wwa.badgeText || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, badgeText: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Heading</label>
-                  <input type="text" value={wwa.heading || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, heading: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" />
-                </div>
-                <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Description</label>
                   <textarea rows={3} value={wwa.description || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, description: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm leading-relaxed" />
                 </div>
@@ -1050,8 +1115,21 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
             </div>
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Main Image</label>
-              <input type="file" accept="image/*" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, mainPhoto => patchAbout({ whoWeAre: { ...wwa, mainPhoto } })); }} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs" />
-              {wwa.mainPhoto && <img src={wwa.mainPhoto} alt="Who we are" className="w-full h-40 object-cover rounded-xl border border-slate-200" />}
+              <div className="flex items-center gap-3">
+                <label className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-[#6E56CF] hover:border-[#6E56CF] text-xs font-bold cursor-pointer transition-colors shrink-0 ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                  {isImageUploading ? <Loader2 className="w-4 h-4 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-4 h-4" />}
+                  <span>{isImageUploading ? 'Uploading...' : 'Upload'}</span>
+                  <input type="file" accept="image/*" className="hidden" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, mainPhoto => patchAbout({ whoWeAre: { ...wwa, mainPhoto } })); }} disabled={isImageUploading} />
+                </label>
+                {wwa.mainPhoto && (
+                  <div className="flex items-center gap-2 shrink-0">
+                    <img src={wwa.mainPhoto} alt="Who we are" className="w-full h-40 object-cover rounded-xl border border-slate-200" />
+                    <button type="button" onClick={() => patchAbout({ whoWeAre: { ...wwa, mainPhoto: '' } })} disabled={isImageUploading} className="p-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove image">
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         );
@@ -1120,8 +1198,21 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                   {idx === 3 && (
                     <div>
                       <label className="text-[10px] font-bold text-slate-500 uppercase">Practice Image</label>
-                      <input type="file" accept="image/*" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, image => { const next = [...pillars]; next[idx] = { ...next[idx], image }; patchAbout({ missionPillars: next }); }); }} className="w-full mt-1 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs" />
-                      {pillar.image && <img src={pillar.image} alt="Practice preview" className="mt-2 w-full h-28 object-cover rounded-lg" />}
+                      <div className="flex items-center gap-2">
+                        <label className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer shadow-xs ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                          {isImageUploading ? <Loader2 className="w-3 h-3 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-3 h-3" />}
+                          <span>{isImageUploading ? '...' : 'Upload'}</span>
+                          <input type="file" accept="image/*" className="hidden" onChange={e => { const file = e.target.files?.[0]; if (file) handleImageUpload(file, image => { const next = [...pillars]; next[idx] = { ...next[idx], image }; patchAbout({ missionPillars: next }); }); }} disabled={isImageUploading} />
+                        </label>
+                        {pillar.image && (
+                          <div className="flex items-center gap-1">
+                            <img src={pillar.image} alt="Practice preview" className="mt-2 w-full h-28 object-cover rounded-lg" />
+                            <button type="button" onClick={() => { const next = [...pillars]; next[idx] = { ...next[idx], image: '' }; patchAbout({ missionPillars: next }); }} disabled={isImageUploading} className="p-0.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove image">
+                              <Trash2 className="w-2.5 h-2.5" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -1369,22 +1460,24 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                     placeholder="https://..."
                     className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono"
                   />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={e => {
-                      const file = e.target.files?.[0];
-                      if (file) handleImageUpload(file, backgroundImage => patchResearchPage({ hero: { ...hero, backgroundImage } }));
-                    }}
-                    className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800"
-                  />
-                  {hero.backgroundImage && (
-                    <img
-                      src={hero.backgroundImage}
-                      alt="Hero preview"
-                      className="w-16 h-12 object-cover rounded-xl border border-slate-200 shrink-0"
-                    />
-                  )}
+                  <div className="flex items-center gap-2">
+                    <label className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-[#6E56CF] hover:border-[#6E56CF] text-xs font-bold cursor-pointer transition-colors shrink-0 ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                      {isImageUploading ? <Loader2 className="w-4 h-4 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-4 h-4" />}
+                      <span>{isImageUploading ? '...' : 'Upload'}</span>
+                      <input type="file" accept="image/*" className="hidden" onChange={e => {
+                        const file = e.target.files?.[0];
+                        if (file) handleImageUpload(file, backgroundImage => patchResearchPage({ hero: { ...hero, backgroundImage } }));
+                      }} disabled={isImageUploading} />
+                    </label>
+                    {hero.backgroundImage && (
+                      <div className="flex items-center gap-1 shrink-0">
+                        <img src={hero.backgroundImage} alt="Hero preview" className="w-16 h-12 object-cover rounded-xl border border-slate-200" />
+                        <button type="button" onClick={() => patchResearchPage({ hero: { ...hero, backgroundImage: '' } })} disabled={isImageUploading} className="p-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove image">
+                          <Trash2 className="w-2.5 h-2.5" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -2146,36 +2239,52 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
       case 'contact-hero':
         return (
           <div className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Heading</label>
-              <input
-                type="text"
-                value={contact.hero.heading}
-                onChange={e => patchContact({ hero: { ...contact.hero, heading: e.target.value } })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold"
-              />
+            <div className="flex items-center justify-between p-4 bg-purple-50/50 rounded-2xl border border-purple-100">
+              <div className="flex items-center gap-2">
+                <Globe className="w-4 h-4 text-[#6E56CF]" />
+                <span className="text-xs font-semibold text-slate-700">Content Language Mode</span>
+              </div>
+              <div className="flex bg-white p-1 rounded-xl border border-slate-200 text-xs">
+                <button type="button" onClick={() => setActiveTabLang('en')} className={`px-3 py-1 rounded-lg font-semibold cursor-pointer ${activeTabLang === 'en' ? 'bg-[#6E56CF] text-white' : 'text-slate-500 hover:text-slate-800'}`}>English</button>
+                <button type="button" onClick={() => setActiveTabLang('bn')} className={`px-3 py-1 rounded-lg font-semibold cursor-pointer ${activeTabLang === 'bn' ? 'bg-[#6E56CF] text-white' : 'text-slate-500 hover:text-slate-800'}`}>বাংলা</button>
+              </div>
             </div>
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Subtitle</label>
-              <textarea
-                rows={3}
-                value={contact.hero.subtitle}
-                onChange={e => patchContact({ hero: { ...contact.hero, subtitle: e.target.value } })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm"
-              />
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Hero Badge ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+              <input type="text" value={activeTabLang === 'en' ? contact.hero.badge || '' : (contact.hero.badgeBn || '')} onChange={e => patchContact({ hero: { ...contact.hero, [activeTabLang === 'en' ? 'badge' : 'badgeBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" placeholder={activeTabLang === 'en' ? 'CONTACT' : 'যোগাযোগ ও অনুসন্ধান'} />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Heading ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+              <input type="text" value={activeTabLang === 'en' ? contact.hero.heading : (contact.hero.headingBn || '')} onChange={e => patchContact({ hero: { ...contact.hero, [activeTabLang === 'en' ? 'heading' : 'headingBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" placeholder={activeTabLang === 'en' ? "Let's Start a Conversation." : 'আমাদের সাথে যোগাযোগ করুন'} />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Subtitle ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+              <textarea rows={3} value={activeTabLang === 'en' ? contact.hero.subtitle : (contact.hero.subtitleBn || '')} onChange={e => patchContact({ hero: { ...contact.hero, [activeTabLang === 'en' ? 'subtitle' : 'subtitleBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm" placeholder={activeTabLang === 'en' ? 'Direct communication channels for academic researchers...' : 'গবেষক, সাংবাদিক ও অংশীদারদের জন্য আমাদের যোগাযোগের দরজা সর্বদা উন্মুক্ত।'} />
             </div>
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Hero Image</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={e => {
-                  const file = e.target.files?.[0];
-                  if (file) handleImageUpload(file, bgImage => patchContact({ hero: { ...contact.hero, bgImage } }));
-                }}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
-              />
-              {contact.hero.bgImage && <img src={contact.hero.bgImage} alt="Contact hero preview" className="w-full h-32 object-cover rounded-xl border border-slate-200" />}
+              <div className="flex items-center gap-3">
+                <label className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-[#6E56CF] hover:border-[#6E56CF] text-xs font-bold cursor-pointer transition-colors shrink-0 ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                  {isImageUploading ? <Loader2 className="w-4 h-4 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-4 h-4" />}
+                  <span>{isImageUploading ? 'Uploading...' : 'Upload'}</span>
+                  <input type="file" accept="image/*" className="hidden" onChange={e => {
+                    const file = e.target.files?.[0];
+                    if (file) handleImageUpload(file, bgImage => patchContact({ hero: { ...contact.hero, bgImage } }));
+                  }} disabled={isImageUploading} />
+                </label>
+                {contact.hero.bgImage && (
+                  <div className="flex items-center gap-2 shrink-0">
+                    <img src={contact.hero.bgImage} alt="Contact hero preview" className="w-full h-32 object-cover rounded-xl border border-slate-200" />
+                    <button type="button" onClick={() => patchContact({ hero: { ...contact.hero, bgImage: '' } })} disabled={isImageUploading} className="p-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove image">
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Hero Metadata ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+              <input type="text" value={activeTabLang === 'en' ? contact.hero.metadata || '' : (contact.hero.metadataBn || '')} onChange={e => patchContact({ hero: { ...contact.hero, [activeTabLang === 'en' ? 'metadata' : 'metadataBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'Direct Communications & Field Office' : 'সরাসরি যোগাযোগ ও সচিবালয়'} />
             </div>
           </div>
         );
@@ -2184,102 +2293,79 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
         const cd = contact.directDetails;
         return (
           <div className="space-y-6">
+            <div className="flex items-center justify-between p-4 bg-purple-50/50 rounded-2xl border border-purple-100">
+              <div className="flex items-center gap-2">
+                <Globe className="w-4 h-4 text-[#6E56CF]" />
+                <span className="text-xs font-semibold text-slate-700">Contact Language Mode</span>
+              </div>
+              <div className="flex bg-white p-1 rounded-xl border border-slate-200 text-xs">
+                <button type="button" onClick={() => setActiveTabLang('en')} className={`px-3 py-1 rounded-lg font-semibold cursor-pointer ${activeTabLang === 'en' ? 'bg-[#6E56CF] text-white' : 'text-slate-500 hover:text-slate-800'}`}>English</button>
+                <button type="button" onClick={() => setActiveTabLang('bn')} className={`px-3 py-1 rounded-lg font-semibold cursor-pointer ${activeTabLang === 'bn' ? 'bg-[#6E56CF] text-white' : 'text-slate-500 hover:text-slate-800'}`}>বাংলা</button>
+              </div>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1">Telephone Line 1</label>
-                <input type="text" value={cd.phoneLabel || 'Main Secretariat'} onChange={e => patchContact({ directDetails: { ...cd, phoneLabel: e.target.value } })} className="w-full mb-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder="Line title" />
-                <input
-                  type="text"
-                  value={cd.phone}
-                  onChange={e => patchContact({ directDetails: { ...cd, phone: e.target.value } })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm"
-                  placeholder="+880 2 984 5512"
-                />
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1">Telephone Line 1 ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="text" value={activeTabLang === 'en' ? (cd.phoneLabel || 'Main Secretariat') : (cd.phoneLabelBn || '')} onChange={e => patchContact({ directDetails: { ...cd, [activeTabLang === 'en' ? 'phoneLabel' : 'phoneLabelBn']: e.target.value } })} className="w-full mb-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'Line title' : 'লাইনের নাম'} />
+                <input type="text" value={activeTabLang === 'en' ? cd.phone : (cd.phoneBn || '')} onChange={e => patchContact({ directDetails: { ...cd, [activeTabLang === 'en' ? 'phone' : 'phoneBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? '+880 2 984 5512' : '+৮৮০ ২ ৯৮৪ ৫৫১২'} />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1">Telephone Line 2</label>
-                <input type="text" value={cd.tollFreePhoneLabel || 'Research Desk & Media'} onChange={e => patchContact({ directDetails: { ...cd, tollFreePhoneLabel: e.target.value } })} className="w-full mb-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder="Line title" />
-                <input
-                  type="text"
-                  value={cd.tollFreePhone}
-                  onChange={e => patchContact({ directDetails: { ...cd, tollFreePhone: e.target.value } })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm"
-                  placeholder="+880 171 000 9821"
-                />
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1">Telephone Line 2 ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="text" value={activeTabLang === 'en' ? (cd.tollFreePhoneLabel || 'Research Desk & Media') : (cd.tollFreePhoneLabelBn || '')} onChange={e => patchContact({ directDetails: { ...cd, [activeTabLang === 'en' ? 'tollFreePhoneLabel' : 'tollFreePhoneLabelBn']: e.target.value } })} className="w-full mb-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'Line title' : 'লাইনের নাম'} />
+                <input type="text" value={activeTabLang === 'en' ? cd.tollFreePhone : (cd.tollFreePhoneBn || '')} onChange={e => patchContact({ directDetails: { ...cd, [activeTabLang === 'en' ? 'tollFreePhone' : 'tollFreePhoneBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? '+880 171 000 9821' : '+৮৮০ ১৭১ ০০০ ৯৮২১'} />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Official Email</label>
-                <input type="email" value={cd.supportEmail} onChange={e => patchContact({ directDetails: { ...cd, supportEmail: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder="info@mediaresearch.org" />
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Official Email ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="email" value={activeTabLang === 'en' ? cd.supportEmail : (cd.supportEmailBn || '')} onChange={e => patchContact({ directDetails: { ...cd, [activeTabLang === 'en' ? 'supportEmail' : 'supportEmailBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'info@mediaresearch.org' : 'info@mediaresearch.org'} />
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Working Hours</label>
-                <input type="text" value={cd.workingHours} onChange={e => patchContact({ directDetails: { ...cd, workingHours: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder="Sunday – Thursday: 09:00 – 17:30 BST" />
-              </div>
-            </div>
-
-            <div className="hidden">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Official Email</label>
-              <input type="email" value={cd.supportEmail} onChange={e => patchContact({ directDetails: { ...cd, supportEmail: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder="info@mediaresearch.org" />
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 [&>div:nth-child(2)]:hidden">
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Secretariat Address</label>
-                <input
-                  type="text"
-                  value={cd.officeLocation}
-                  onChange={e => patchContact({ directDetails: { ...cd, officeLocation: e.target.value } })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm"
-                  placeholder="Level 7, Press & Research Tower, 42 Gulshan Avenue, Dhaka 1212"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Secretariat Headquarters (বাংলা)</label>
-                <input
-                  type="text"
-                  value={cd.officeLocationBn || ''}
-                  onChange={e => patchContact({ directDetails: { ...cd, officeLocationBn: e.target.value } })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm"
-                  placeholder="লেভেল ৭, প্রেস অ্যান্ড রিসার্চ টাওয়ার, ৪২ গুলশান অ্যাভিনিউ, ঢাকা ১২১২"
-                />
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Working Hours ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="text" value={activeTabLang === 'en' ? cd.workingHours : (cd.workingHoursBn || '')} onChange={e => patchContact({ directDetails: { ...cd, [activeTabLang === 'en' ? 'workingHours' : 'workingHoursBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'Sunday – Thursday: 09:00 – 17:30 BST' : 'রবিবার – বৃহস্পতিবার: সকাল ০৯:০০ – বিকাল ১৭:৩০ (বিএসটি)'} />
               </div>
             </div>
 
-            <div className="hidden">
+            <div className="grid grid-cols-1 gap-4">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Working Hours</label>
-                <input
-                  type="text"
-                  value={cd.workingHours}
-                  onChange={e => patchContact({ directDetails: { ...cd, workingHours: e.target.value } })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm"
-                  placeholder="Sunday – Thursday: 09:00 – 17:30 BST"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Working Hours (বাংলা)</label>
-                <input
-                  type="text"
-                  value={cd.workingHoursBn || ''}
-                  onChange={e => patchContact({ directDetails: { ...cd, workingHoursBn: e.target.value } })}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm"
-                  placeholder="রবিবার – বৃহস্পতিবার: সকাল ০৯:০০ – বিকাল ১৭:৩০ (বিএসটি)"
-                />
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Secretariat Address ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="text" value={activeTabLang === 'en' ? cd.officeLocation : (cd.officeLocationBn || '')} onChange={e => patchContact({ directDetails: { ...cd, [activeTabLang === 'en' ? 'officeLocation' : 'officeLocationBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'Level 7, Press & Research Tower, 42 Gulshan Avenue, Dhaka 1212' : 'লেভেল ৭, প্রেস অ্যান্ড রিসার্চ টাওয়ার, ৪২ গুলশান অ্যাভিনিউ, ঢাকা ১২১২'} />
               </div>
             </div>
 
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Google Maps / Directions Link</label>
-              <input
-                type="text"
-                value={cd.googleMapsUrl || ''}
-                onChange={e => patchContact({ directDetails: { ...cd, googleMapsUrl: e.target.value } })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm"
-                placeholder="https://maps.google.com/?q=Gulshan+Avenue+Dhaka"
-              />
+              <input type="text" value={cd.googleMapsUrl || ''} onChange={e => patchContact({ directDetails: { ...cd, googleMapsUrl: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder="https://maps.google.com/?q=Gulshan+Avenue+Dhaka" />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Support Email Label ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="text" value={activeTabLang === 'en' ? cd.supportEmailLabel || '' : (cd.supportEmailLabelBn || '')} onChange={e => patchContact({ directDetails: { ...cd, [activeTabLang === 'en' ? 'supportEmailLabel' : 'supportEmailLabelBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'Official Email' : 'অফিসিয়াল ইমেইল'} />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Research Desk Email ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="email" value={activeTabLang === 'en' ? cd.researchDeskEmail || '' : (cd.researchDeskEmailBn || '')} onChange={e => patchContact({ directDetails: { ...cd, [activeTabLang === 'en' ? 'researchDeskEmail' : 'researchDeskEmailBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'research@mediaresearch.org' : 'রিসার্চ ডেস্ক ইমেইল'} />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Research Desk Email Label ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="text" value={activeTabLang === 'en' ? cd.researchDeskEmailLabel || '' : (cd.researchDeskEmailLabelBn || '')} onChange={e => patchContact({ directDetails: { ...cd, [activeTabLang === 'en' ? 'researchDeskEmailLabel' : 'researchDeskEmailLabelBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'Research Desk' : 'গবেষণা ডেস্ক'} />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Press Email ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="email" value={activeTabLang === 'en' ? cd.pressEmail || '' : (cd.pressEmailBn || '')} onChange={e => patchContact({ directDetails: { ...cd, [activeTabLang === 'en' ? 'pressEmail' : 'pressEmailBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'press@mediaresearch.org' : 'প্রেস ইমেইল'} />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Press Email Label ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="text" value={activeTabLang === 'en' ? cd.pressEmailLabel || '' : (cd.pressEmailLabelBn || '')} onChange={e => patchContact({ directDetails: { ...cd, [activeTabLang === 'en' ? 'pressEmailLabel' : 'pressEmailLabelBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'Press Desk' : 'প্রেস ডেস্ক'} />
+              </div>
             </div>
           </div>
         );
@@ -2359,8 +2445,33 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
 
       case 'contact-faqs':
         const faqs = contact.faqs || [];
+        const fqs = contact.faqSection || { badge: 'KNOWLEDGE BASE & PROTOCOLS', badgeBn: 'উন্মুক্ত প্রশ্নোত্তর ও তথ্যভাণ্ডার', title: 'Frequently Asked Questions', titleBn: 'সাধারণ জিজ্ঞাসাসমূহ (FAQ)', subtitle: 'Essential guidelines regarding our research standards, open datasets, peer review protocols, and public inquiry workflows.', subtitleBn: '' };
         return (
           <div className="space-y-6">
+            <div className="flex items-center justify-between p-4 bg-purple-50/50 rounded-2xl border border-purple-100">
+              <div className="flex items-center gap-2">
+                <Globe className="w-4 h-4 text-[#6E56CF]" />
+                <span className="text-xs font-semibold text-slate-700">FAQ Language Mode</span>
+              </div>
+              <div className="flex bg-white p-1 rounded-xl border border-slate-200 text-xs">
+                <button type="button" onClick={() => setActiveTabLang('en')} className={`px-3 py-1 rounded-lg font-semibold cursor-pointer ${activeTabLang === 'en' ? 'bg-[#6E56CF] text-white' : 'text-slate-500 hover:text-slate-800'}`}>English</button>
+                <button type="button" onClick={() => setActiveTabLang('bn')} className={`px-3 py-1 rounded-lg font-semibold cursor-pointer ${activeTabLang === 'bn' ? 'bg-[#6E56CF] text-white' : 'text-slate-500 hover:text-slate-800'}`}>বাংলা</button>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1">Section Badge ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="text" value={activeTabLang === 'en' ? fqs.badge || '' : (fqs.badgeBn || '')} onChange={e => patchContact({ faqSection: { ...fqs, [activeTabLang === 'en' ? 'badge' : 'badgeBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'KNOWLEDGE BASE & PROTOCOLS' : 'উন্মুক্ত প্রশ্নোত্তর ও তথ্যভাণ্ডার'} />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1">Section Title ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="text" value={activeTabLang === 'en' ? fqs.title || '' : (fqs.titleBn || '')} onChange={e => patchContact({ faqSection: { ...fqs, [activeTabLang === 'en' ? 'title' : 'titleBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" placeholder={activeTabLang === 'en' ? 'Frequently Asked Questions' : 'সাধারণ জিজ্ঞাসাসমূহ (FAQ)'} />
+              </div>
+              <div className="space-y-2 sm:col-span-2">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1">Section Subtitle ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                <input type="text" value={activeTabLang === 'en' ? fqs.subtitle || '' : (fqs.subtitleBn || '')} onChange={e => patchContact({ faqSection: { ...fqs, [activeTabLang === 'en' ? 'subtitle' : 'subtitleBn']: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder={activeTabLang === 'en' ? 'Essential guidelines regarding our research standards...' : ''} />
+              </div>
+            </div>
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-bold text-[#1E1B4B]">FAQ Accordion Items ({faqs.length})</h3>
@@ -2389,6 +2500,10 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
             <div className="space-y-4">
               {faqs.map((faq, idx) => (
                 <div key={faq.id} className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3 relative">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Category Label ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
+                    <input type="text" value={activeTabLang === 'en' ? faq.categoryLabel || '' : (faq.categoryLabelBn || '')} onChange={e => { const next = [...faqs]; next[idx] = { ...next[idx], [activeTabLang === 'en' ? 'categoryLabel' : 'categoryLabelBn']: e.target.value }; patchContact({ faqs: next }); }} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-bold text-slate-800" placeholder={activeTabLang === 'en' ? 'Resources' : 'রিসোর্স'} />
+                  </div>
                   <button
                     type="button"
                     onClick={() => {
@@ -2402,85 +2517,136 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                   </button>
 
                   <div>
-                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Question</label>
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Question ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
                     <input
                       type="text"
-                      value={faq.question}
+                      value={activeTabLang === 'en' ? faq.question : (faq.questionBn || '')}
                       onChange={e => {
                         const next = [...faqs];
-                        next[idx] = { ...next[idx], question: e.target.value };
+                        next[idx] = { ...next[idx], [activeTabLang === 'en' ? 'question' : 'questionBn']: e.target.value };
                         patchContact({ faqs: next });
                       }}
                       className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-bold text-slate-800"
-                      placeholder="Question Text"
+                      placeholder={activeTabLang === 'en' ? 'Question Text' : 'প্রশ্নের বাংলা রূপ'}
                     />
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Detailed Answer</label>
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Detailed Answer ({activeTabLang === 'en' ? 'EN' : 'BN'})</label>
                     <textarea
                       rows={3}
-                      value={faq.answer}
+                      value={activeTabLang === 'en' ? faq.answer : (faq.answerBn || '')}
                       onChange={e => {
                         const next = [...faqs];
-                        next[idx] = { ...next[idx], answer: e.target.value };
+                        next[idx] = { ...next[idx], [activeTabLang === 'en' ? 'answer' : 'answerBn']: e.target.value };
                         patchContact({ faqs: next });
                       }}
                       className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs text-slate-700 leading-relaxed"
-                      placeholder="Answer Text"
+                      placeholder={activeTabLang === 'en' ? 'Answer Text' : 'বাংলা বিস্তারিত উত্তর'}
                     />
                   </div>
 
-                  {/* Highlights Bullet List */}
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Key Highlights / Bullets</label>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const next = [...faqs];
-                          const curH = next[idx].highlights || [];
-                          next[idx] = { ...next[idx], highlights: [...curH, 'New highlight key point'] };
-                          patchContact({ faqs: next });
-                        }}
-                        className="text-[11px] text-[#6E56CF] hover:underline font-semibold cursor-pointer"
-                      >
-                        + Add Bullet
-                      </button>
+                  {activeTabLang === 'en' ? (
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Key Highlights / Bullets</label>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const next = [...faqs];
+                            const curH = next[idx].highlights || [];
+                            next[idx] = { ...next[idx], highlights: [...curH, 'New highlight key point'] };
+                            patchContact({ faqs: next });
+                          }}
+                          className="text-[11px] text-[#6E56CF] hover:underline font-semibold cursor-pointer"
+                        >
+                          + Add Bullet
+                        </button>
+                      </div>
+                      <div className="space-y-1.5">
+                        {(faq.highlights || []).map((hl, hIdx) => (
+                          <div key={hIdx} className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#6E56CF] shrink-0" />
+                            <input
+                              type="text"
+                              value={hl}
+                              onChange={e => {
+                                const next = [...faqs];
+                                const curH = [...(next[idx].highlights || [])];
+                                curH[hIdx] = e.target.value;
+                                next[idx] = { ...next[idx], highlights: curH };
+                                patchContact({ faqs: next });
+                              }}
+                              className="flex-1 bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-xs text-slate-700"
+                              placeholder="Key highlight bullet..."
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const next = [...faqs];
+                                const curH = (next[idx].highlights || []).filter((_, i) => i !== hIdx);
+                                next[idx] = { ...next[idx], highlights: curH };
+                                patchContact({ faqs: next });
+                              }}
+                              className="text-slate-400 hover:text-red-500 p-1 cursor-pointer"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="space-y-1.5">
-                      {(faq.highlights || []).map((hl, hIdx) => (
-                        <div key={hIdx} className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#6E56CF] shrink-0" />
-                          <input
-                            type="text"
-                            value={hl}
-                            onChange={e => {
-                              const next = [...faqs];
-                              const curH = [...(next[idx].highlights || [])];
-                              curH[hIdx] = e.target.value;
-                              next[idx] = { ...next[idx], highlights: curH };
-                              patchContact({ faqs: next });
-                            }}
-                            className="flex-1 bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-xs text-slate-700"
-                            placeholder="Key highlight bullet..."
-                          />
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const next = [...faqs];
-                              const curH = (next[idx].highlights || []).filter((_, i) => i !== hIdx);
-                              next[idx] = { ...next[idx], highlights: curH };
-                              patchContact({ faqs: next });
-                            }}
-                            className="text-slate-400 hover:text-red-500 p-1 cursor-pointer"
-                          >
-                            <Trash2 className="w-3 h-3" />
-                          </button>
-                        </div>
-                      ))}
+                  ) : (
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Key Highlights / Bullets (বাংলা)</label>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const next = [...faqs];
+                            const curH = next[idx].highlightsBn || [];
+                            next[idx] = { ...next[idx], highlightsBn: [...curH, 'নতুন বুলেট পয়েন্ট'] };
+                            patchContact({ faqs: next });
+                          }}
+                          className="text-[11px] text-[#6E56CF] hover:underline font-semibold cursor-pointer"
+                        >
+                          + Add Bullet
+                        </button>
+                      </div>
+                      <div className="space-y-1.5">
+                        {(faq.highlightsBn || []).map((hl, hIdx) => (
+                          <div key={hIdx} className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#6E56CF] shrink-0" />
+                            <input
+                              type="text"
+                              value={hl}
+                              onChange={e => {
+                                const next = [...faqs];
+                                const curH = [...(next[idx].highlightsBn || [])];
+                                curH[hIdx] = e.target.value;
+                                next[idx] = { ...next[idx], highlightsBn: curH };
+                                patchContact({ faqs: next });
+                              }}
+                              className="flex-1 bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-xs text-slate-700"
+                              placeholder="বাংলা হাইলাইট বুলেট..."
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const next = [...faqs];
+                                const curH = (next[idx].highlightsBn || []).filter((_, i) => i !== hIdx);
+                                next[idx] = { ...next[idx], highlightsBn: curH };
+                                patchContact({ faqs: next });
+                              }}
+                              className="text-slate-400 hover:text-red-500 p-1 cursor-pointer"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -2517,36 +2683,69 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
         };
         return (
           <div className="space-y-6">
+            <div className="flex items-center justify-between p-4 bg-purple-50/50 rounded-2xl border border-purple-100">
+              <div className="flex items-center gap-2"><Globe className="w-4 h-4 text-[#6E56CF]" /><span className="text-xs font-semibold text-slate-700">Header Language</span></div>
+              <div className="flex bg-white p-1 rounded-xl border border-slate-200 text-xs">
+                <button type="button" onClick={() => setActiveTabLang('en')} className={`px-3 py-1 rounded-lg font-semibold cursor-pointer ${activeTabLang === 'en' ? 'bg-[#6E56CF] text-white' : 'text-slate-500'}`}>English</button>
+                <button type="button" onClick={() => setActiveTabLang('bn')} className={`px-3 py-1 rounded-lg font-semibold cursor-pointer ${activeTabLang === 'bn' ? 'bg-[#6E56CF] text-white' : 'text-slate-500'}`}>বাংলা</button>
+              </div>
+            </div>
             <div className="space-y-4">
               <h3 className="text-sm font-bold text-[#1E1B4B]">Header Branding</h3>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Header Logo Image</label>
-                <input type="file" accept="image/*" onChange={e => updateBrandingImage(e.target.files?.[0], 'header')} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs" />
-                {hb.logoUrl && <img src={hb.logoUrl} alt="Header logo preview" className="h-14 max-w-xs object-contain border border-slate-200 rounded-lg p-2 bg-white" />}
+                <div className="flex items-center gap-3">
+                  <label className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-[#6E56CF] hover:border-[#6E56CF] text-xs font-bold cursor-pointer transition-colors shrink-0 ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    {isImageUploading ? <Loader2 className="w-4 h-4 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-4 h-4" />}
+                    <span>{isImageUploading ? 'Uploading...' : 'Upload'}</span>
+                    <input type="file" accept="image/*" className="hidden" onChange={e => updateBrandingImage(e.target.files?.[0], 'header')} disabled={isImageUploading} />
+                  </label>
+                  {hb.logoUrl && (
+                    <div className="flex items-center gap-2 shrink-0">
+                      <img src={hb.logoUrl} alt="Header logo preview" className="h-14 max-w-xs object-contain border border-slate-200 rounded-lg p-2 bg-white" />
+                      <button type="button" onClick={() => patchSettings({ headerBranding: { ...hb, logoUrl: '' } })} disabled={isImageUploading} className="p-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove logo">
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Header Logo Text (Optional)</label>
-                <input type="text" value={hb.lightLogoText || ''} onChange={e => patchSettings({ headerBranding: { ...hb, lightLogoText: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" />
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Header Logo Text ({activeTabLang === 'en' ? 'English' : 'Bangla'})</label>
+                <input type="text" value={activeTabLang === 'en' ? (hb.lightLogoText || '') : (hb.lightLogoTextBn || '')} onChange={e => patchSettings({ headerBranding: { ...hb, ...(activeTabLang === 'en' ? { lightLogoText: e.target.value } : { lightLogoTextBn: e.target.value }) } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" />
               </div>
             </div>
             <div className="space-y-4 pt-5 border-t border-slate-100">
               <h3 className="text-sm font-bold text-[#1E1B4B]">Footer Branding</h3>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Footer Logo Image</label>
-                <input type="file" accept="image/*" onChange={e => updateBrandingImage(e.target.files?.[0], 'footer')} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs" />
-                {footerBrand.logoUrl && <img src={footerBrand.logoUrl} alt="Footer logo preview" className="h-14 max-w-xs object-contain border border-slate-200 rounded-lg p-2 bg-white" />}
+                <div className="flex items-center gap-3">
+                  <label className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-[#6E56CF] hover:border-[#6E56CF] text-xs font-bold cursor-pointer transition-colors shrink-0 ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    {isImageUploading ? <Loader2 className="w-4 h-4 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-4 h-4" />}
+                    <span>{isImageUploading ? 'Uploading...' : 'Upload'}</span>
+                    <input type="file" accept="image/*" className="hidden" onChange={e => updateBrandingImage(e.target.files?.[0], 'footer')} disabled={isImageUploading} />
+                  </label>
+                  {footerBrand.logoUrl && (
+                    <div className="flex items-center gap-2 shrink-0">
+                      <img src={footerBrand.logoUrl} alt="Footer logo preview" className="h-14 max-w-xs object-contain border border-slate-200 rounded-lg p-2 bg-white" />
+                      <button type="button" onClick={() => patchSettings({ footerBranding: { ...footerBrand, logoUrl: '' } })} disabled={isImageUploading} className="p-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove logo">
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Footer Logo Text (Optional)</label>
-                <input type="text" value={footerBrand.footerLogoText || ''} onChange={e => patchSettings({ footerBranding: { ...footerBrand, footerLogoText: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" />
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Footer Logo Text ({activeTabLang === 'en' ? 'English' : 'Bangla'})</label>
+                <input type="text" value={activeTabLang === 'en' ? (footerBrand.footerLogoText || '') : (footerBrand.footerLogoTextBn || '')} onChange={e => patchSettings({ footerBranding: { ...footerBrand, ...(activeTabLang === 'en' ? { footerLogoText: e.target.value } : { footerLogoTextBn: e.target.value }) } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" />
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Footer Short Description</label>
-                <textarea rows={3} value={footerBrand.tagline || ''} onChange={e => patchSettings({ footerBranding: { ...footerBrand, tagline: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm" />
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Footer Short Description ({activeTabLang === 'en' ? 'English' : 'Bangla'})</label>
+                <textarea rows={3} value={activeTabLang === 'en' ? (footerBrand.tagline || '') : (footerBrand.taglineBn || '')} onChange={e => patchSettings({ footerBranding: { ...footerBrand, ...(activeTabLang === 'en' ? { tagline: e.target.value } : { taglineBn: e.target.value }) } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm" />
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Copyright Text</label>
-                <input type="text" value={footerBrand.copyrightNotice || 'Established 2019 · Dhaka & Global Partner Observatories'} onChange={e => patchSettings({ footerBranding: { ...footerBrand, copyrightNotice: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder="Established 2019 · Dhaka & Global Partner Observatories" />
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Copyright Text ({activeTabLang === 'en' ? 'English' : 'Bangla'})</label>
+                <input type="text" value={activeTabLang === 'en' ? (footerBrand.copyrightNotice || '') : (footerBrand.copyrightNoticeBn || '')} onChange={e => patchSettings({ footerBranding: { ...footerBrand, ...(activeTabLang === 'en' ? { copyrightNotice: e.target.value } : { copyrightNoticeBn: e.target.value }) } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" placeholder="Established 2019 · Dhaka & Global Partner Observatories" />
               </div>
             </div>
             <div className="hidden">
@@ -2555,8 +2754,8 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                 <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1">Header Logo Text</label>
                 <input
                   type="text"
-                  value={hb.lightLogoText}
-                  onChange={e => patchSettings({ headerBranding: { ...hb, lightLogoText: e.target.value } })}
+                  value={activeTabLang === 'en' ? (hb.lightLogoText || '') : (hb.lightLogoTextBn || '')}
+                  onChange={e => patchSettings({ headerBranding: { ...hb, ...(activeTabLang === 'en' ? { lightLogoText: e.target.value } : { lightLogoTextBn: e.target.value }) } })}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold"
                 />
               </div>
@@ -2564,8 +2763,8 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                 <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1">Tagline</label>
                 <input
                   type="text"
-                  value={hb.tagline}
-                  onChange={e => patchSettings({ headerBranding: { ...hb, tagline: e.target.value } })}
+                  value={activeTabLang === 'en' ? (hb.tagline || '') : (hb.taglineBn || '')}
+                  onChange={e => patchSettings({ headerBranding: { ...hb, ...(activeTabLang === 'en' ? { tagline: e.target.value } : { taglineBn: e.target.value }) } })}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm"
                 />
               </div>
@@ -2573,8 +2772,8 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                 <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1">Navbar CTA Button Text</label>
                 <input
                   type="text"
-                  value={hb.navCtaText}
-                  onChange={e => patchSettings({ headerBranding: { ...hb, navCtaText: e.target.value } })}
+                  value={activeTabLang === 'en' ? (hb.navCtaText || '') : (hb.navCtaTextBn || '')}
+                  onChange={e => patchSettings({ headerBranding: { ...hb, ...(activeTabLang === 'en' ? { navCtaText: e.target.value } : { navCtaTextBn: e.target.value }) } })}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
                 />
               </div>
@@ -2593,8 +2792,8 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Top Announcement Banner</label>
               <input
                 type="text"
-                value={hb.announcementBannerText || ''}
-                onChange={e => patchSettings({ headerBranding: { ...hb, announcementBannerText: e.target.value } })}
+                value={activeTabLang === 'en' ? (hb.announcementBannerText || '') : (hb.announcementBannerTextBn || '')}
+                onChange={e => patchSettings({ headerBranding: { ...hb, ...(activeTabLang === 'en' ? { announcementBannerText: e.target.value } : { announcementBannerTextBn: e.target.value }) } })}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
               />
             </div>
@@ -2602,57 +2801,60 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
           </div>
         );
 
-      case 'branding-footer':
-        const fb = settings.footerBranding || {
-          footerLogoText: 'IPA Media Research Observatory',
-          tagline: 'Rigorous empirical research observing media ecosystems.',
-          copyrightNotice: '© 2021–2026 Institute of Public Accountability. Open Access Research.',
-          licenseNotice: 'All data distributed under Creative Commons Attribution 4.0 International.'
-        };
+      case 'branding-footer': {
+        const fb = settings.footerBranding || {};
         return (
           <div className="space-y-6">
+            <div className="flex items-center justify-between p-4 bg-purple-50/50 rounded-2xl border border-purple-100">
+              <div className="flex items-center gap-2"><Globe className="w-4 h-4 text-[#6E56CF]" /><span className="text-xs font-semibold text-slate-700">Footer Language</span></div>
+              <div className="flex bg-white p-1 rounded-xl border border-slate-200 text-xs">
+                <button type="button" onClick={() => setActiveTabLang('en')} className={`px-3 py-1 rounded-lg font-semibold cursor-pointer ${activeTabLang === 'en' ? 'bg-[#6E56CF] text-white' : 'text-slate-500'}`}>English</button>
+                <button type="button" onClick={() => setActiveTabLang('bn')} className={`px-3 py-1 rounded-lg font-semibold cursor-pointer ${activeTabLang === 'bn' ? 'bg-[#6E56CF] text-white' : 'text-slate-500'}`}>বাংলা</button>
+              </div>
+            </div>
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Footer Logo / Title</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Footer Logo / Title ({activeTabLang === 'en' ? 'English' : 'Bangla'})</label>
               <input
                 type="text"
-                value={fb.footerLogoText}
-                onChange={e => patchSettings({ footerBranding: { ...fb, footerLogoText: e.target.value } })}
+                value={activeTabLang === 'en' ? (fb.footerLogoText || '') : (fb.footerLogoTextBn || '')}
+                onChange={e => patchSettings({ footerBranding: { ...fb, ...(activeTabLang === 'en' ? { footerLogoText: e.target.value } : { footerLogoTextBn: e.target.value }) } })}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Footer Mission Statement</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Footer Mission Statement ({activeTabLang === 'en' ? 'English' : 'Bangla'})</label>
               <textarea
                 rows={3}
-                value={fb.tagline}
-                onChange={e => patchSettings({ footerBranding: { ...fb, tagline: e.target.value } })}
+                value={activeTabLang === 'en' ? (fb.tagline || '') : (fb.taglineBn || '')}
+                onChange={e => patchSettings({ footerBranding: { ...fb, ...(activeTabLang === 'en' ? { tagline: e.target.value } : { taglineBn: e.target.value }) } })}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Copyright Statement</label>
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Copyright Statement ({activeTabLang === 'en' ? 'English' : 'Bangla'})</label>
                 <input
                   type="text"
-                  value={fb.copyrightNotice}
-                  onChange={e => patchSettings({ footerBranding: { ...fb, copyrightNotice: e.target.value } })}
+                  value={activeTabLang === 'en' ? (fb.copyrightNotice || '') : (fb.copyrightNoticeBn || '')}
+                  onChange={e => patchSettings({ footerBranding: { ...fb, ...(activeTabLang === 'en' ? { copyrightNotice: e.target.value } : { copyrightNoticeBn: e.target.value }) } })}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Open Access License</label>
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Open Access License ({activeTabLang === 'en' ? 'English' : 'Bangla'})</label>
                 <input
                   type="text"
-                  value={fb.licenseNotice}
-                  onChange={e => patchSettings({ footerBranding: { ...fb, licenseNotice: e.target.value } })}
+                  value={activeTabLang === 'en' ? (fb.licenseNotice || '') : (fb.licenseNoticeBn || '')}
+                  onChange={e => patchSettings({ footerBranding: { ...fb, ...(activeTabLang === 'en' ? { licenseNotice: e.target.value } : { licenseNoticeBn: e.target.value }) } })}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
                 />
               </div>
             </div>
           </div>
         );
+      }
 
       case 'branding-links':
         return (
@@ -2809,7 +3011,21 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                   <div className="flex items-center justify-between"><span className="text-xs font-bold text-[#6E56CF]">Card {idx + 1} — {it.number}</span><button type="button" onClick={() => patchHome({ focusAreas: { ...fa, items: items.filter((_, i) => i !== idx) } })} className="text-xs text-red-500 cursor-pointer"><Trash2 className="w-4 h-4" /></button></div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div><label className="text-[10px] font-bold text-slate-500 uppercase">Number</label><input type="text" value={it.number} onChange={e => { const n=[...items]; n[idx]={...n[idx], number:e.target.value}; patchHome({ focusAreas: { ...fa, items: n } }); }} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs" /></div>
-                    <div><label className="text-[10px] font-bold text-slate-500 uppercase">Image URL</label><input type="file" accept="image/*" onChange={e => { const f=e.target.files?.[0]; if(f) readImageFile(f, img => { const n=[...items]; n[idx]={...n[idx], image:img}; patchHome({ focusAreas: { ...fa, items: n } }); }); }} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs" /></div>
+                    <div>
+                      <label className="text-[10px] font-bold text-slate-500 uppercase">Image</label>
+                      <div className="flex items-center gap-2">
+                        <label className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer shadow-xs ${isImageUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                          {isImageUploading ? <Loader2 className="w-3 h-3 animate-spin text-[#6E56CF]" /> : <UploadCloud className="w-3 h-3" />}
+                          <span>{isImageUploading ? '...' : 'Upload'}</span>
+                          <input type="file" accept="image/*" className="hidden" onChange={e => { const f=e.target.files?.[0]; if(f) handleImageUpload(f, img => { const n=[...items]; n[idx]={...n[idx], image:img}; patchHome({ focusAreas: { ...fa, items: n } }); }); }} disabled={isImageUploading} />
+                        </label>
+                        {it.image && (
+                          <button type="button" onClick={() => { const n=[...items]; n[idx]={...n[idx], image:''}; patchHome({ focusAreas: { ...fa, items: n } }); }} disabled={isImageUploading} className="p-0.5 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Remove image">
+                            <Trash2 className="w-2.5 h-2.5" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   </div>
                   {it.image && <img src={it.image} alt="Preview" className="w-full h-28 object-cover rounded-lg border" />}
                   <div><label className="text-[10px] font-bold text-slate-500 uppercase">Topic ({activeTabLang})</label><input type="text" value={activeTabLang === 'en' ? it.topic : (it.topicBn || '')} onChange={e => { const n=[...items]; n[idx]={...n[idx], ...(activeTabLang==='en'?{topic:e.target.value}:{topicBn:e.target.value})}; patchHome({ focusAreas: { ...fa, items: n } }); }} className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold" /></div>
@@ -2869,47 +3085,6 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
         );
       }
 
-      case 'branding-footer': {
-        const fb2 = settings.footerBranding || { footerLogoText: 'IPA Media Research Observatory', footerLogoTextBn: '', tagline: '', taglineBn: '', copyrightNotice: '', copyrightNoticeBn: '', licenseNotice: '', licenseNoticeBn: '' };
-        const bottomLinks = (settings as any).footerBottomLinks as { label: string; labelBn?: string; url?: string }[] || [
-          { label: 'Privacy Policy', labelBn: 'গোপনীয়তা নীতি', url: '/privacy' },
-          { label: 'Terms of Use', labelBn: 'ব্যবহারের শর্তাবলী', url: '/terms' },
-          { label: 'Research Ethics', labelBn: 'গবেষণা নীতিমালা', url: '/about#ethics' },
-        ];
-        return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between p-4 bg-purple-50/50 rounded-2xl border border-purple-100">
-              <div className="flex items-center gap-2"><Globe className="w-4 h-4 text-[#6E56CF]" /><span className="text-xs font-semibold text-slate-700">Footer Language</span></div>
-              <div className="flex bg-white p-1 rounded-xl border border-slate-200 text-xs">
-                <button type="button" onClick={() => setActiveTabLang('en')} className={`px-3 py-1 rounded-lg font-semibold cursor-pointer ${activeTabLang === 'en' ? 'bg-[#6E56CF] text-white' : 'text-slate-500'}`}>English</button>
-                <button type="button" onClick={() => setActiveTabLang('bn')} className={`px-3 py-1 rounded-lg font-semibold cursor-pointer ${activeTabLang === 'bn' ? 'bg-[#6E56CF] text-white' : 'text-slate-500'}`}>বাংলা</button>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <div><label className="text-xs font-bold text-slate-700 uppercase">Footer Logo Text ({activeTabLang})</label><input type="text" value={activeTabLang==='en' ? (fb2.footerLogoText||'') : (fb2.footerLogoTextBn||'')} onChange={e => patchSettings({ footerBranding: activeTabLang==='en'?{...fb2, footerLogoText:e.target.value}:{...fb2, footerLogoTextBn:e.target.value} })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" /></div>
-              <div><label className="text-xs font-bold text-slate-700 uppercase">Footer Tagline ({activeTabLang})</label><textarea rows={2} value={activeTabLang==='en' ? (fb2.tagline||'') : (fb2.taglineBn||'')} onChange={e => patchSettings({ footerBranding: activeTabLang==='en'?{...fb2, tagline:e.target.value}:{...fb2, taglineBn:e.target.value} })} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm" /></div>
-              <div><label className="text-xs font-bold text-slate-700 uppercase">Copyright Notice ({activeTabLang})</label><input type="text" value={activeTabLang==='en' ? (fb2.copyrightNotice||'') : (fb2.copyrightNoticeBn||'')} onChange={e => patchSettings({ footerBranding: activeTabLang==='en'?{...fb2, copyrightNotice:e.target.value}:{...fb2, copyrightNoticeBn:e.target.value} })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" /></div>
-              <div><label className="text-xs font-bold text-slate-700 uppercase">License Notice ({activeTabLang})</label><input type="text" value={activeTabLang==='en' ? (fb2.licenseNotice||'') : (fb2.licenseNoticeBn||'')} onChange={e => patchSettings({ footerBranding: activeTabLang==='en'?{...fb2, licenseNotice:e.target.value}:{...fb2, licenseNoticeBn:e.target.value} })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm" /></div>
-            </div>
-            <div className="space-y-3 pt-4 border-t border-slate-100">
-              <h4 className="text-xs font-bold text-slate-700 uppercase">Bottom Bar Links</h4>
-              {bottomLinks.map((l, idx) => (
-                <div key={idx} className="flex gap-2 items-center">
-                  <input type="text" value={activeTabLang==='en'?l.label:(l.labelBn||'')} placeholder={activeTabLang==='en'?'Label EN':'Label BN'} onChange={e => { const n=[...bottomLinks]; n[idx]={...n[idx], ...(activeTabLang==='en'?{label:e.target.value}:{labelBn:e.target.value})}; patchSettings({ footerBottomLinks: n } as any); }} className="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs" />
-                  <input type="text" value={l.url||''} placeholder="URL" onChange={e => { const n=[...bottomLinks]; n[idx]={...n[idx], url:e.target.value}; patchSettings({ footerBottomLinks: n } as any); }} className="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-mono" />
-                  <button type="button" onClick={() => { const n=bottomLinks.filter((_,i)=>i!==idx); patchSettings({ footerBottomLinks: n } as any); }} className="text-red-400 p-1 cursor-pointer"><Trash2 className="w-4 h-4" /></button>
-                </div>
-              ))}
-              <button type="button" onClick={() => patchSettings({ footerBottomLinks: [...bottomLinks, { label: 'New Link', labelBn: 'নতুন লিংক', url: '/' }] } as any)} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-50 text-[#6E56CF] text-xs font-bold border border-purple-100 cursor-pointer"><Plus className="w-4 h-4" />Add Link</button>
-            </div>
-            <div className="space-y-3 pt-4 border-t border-slate-100">
-              <h4 className="text-xs font-bold text-slate-700 uppercase">Header Tagline & Announcement ({activeTabLang})</h4>
-              <div><label className="text-[10px] font-bold text-slate-500 uppercase">Header Tagline</label><input type="text" value={activeTabLang==='en'?(settings.headerBranding?.tagline||''):(settings.headerBranding?.taglineBn||'')} onChange={e => patchSettings({ headerBranding: { ...(settings.headerBranding as any), ...(activeTabLang==='en'?{tagline:e.target.value}:{taglineBn:e.target.value}) } as any })} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm" /></div>
-              <div><label className="text-[10px] font-bold text-slate-500 uppercase">Announcement Banner</label><input type="text" value={activeTabLang==='en'?(settings.headerBranding?.announcementBannerText||''):(settings.headerBranding?.announcementBannerTextBn||'')} onChange={e => patchSettings({ headerBranding: { ...(settings.headerBranding as any), ...(activeTabLang==='en'?{announcementBannerText:e.target.value}:{announcementBannerTextBn:e.target.value}) } as any })} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm" /></div>
-            </div>
-          </div>
-        );
-      }
 
       default:
         return (

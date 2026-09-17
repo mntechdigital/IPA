@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X, ArrowRight, Compass, Languages } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageId, SiteSettings } from '../types';
-import { NAV_ITEMS, ORGANIZATION } from '../data/navigation';
+import { NAV_ITEMS } from '../data/navigation';
 import { useLanguage } from '../context/LanguageContext';
 
 const PAGE_ROUTES: Record<Exclude<PageId, 'investigation'>, string> = {
@@ -24,7 +24,8 @@ export const Header: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
   const { language, setLanguage, isBn, t } = useLanguage();
 
   const branding = settings?.headerBranding;
-  const orgName = isBn && (settings?.siteName && (settings as any)?.siteNameBn ? (settings as any).siteNameBn : ORGANIZATION.nameBn) ? (isBn && (branding?.lightLogoTextBn || ORGANIZATION.nameBn) ? branding?.lightLogoTextBn || ORGANIZATION.nameBn : settings?.siteName || ORGANIZATION.name) : (settings?.siteName || ORGANIZATION.name);
+  const orgName = settings?.siteName;
+  const orgNameBn = (settings as any)?.siteNameBn;
   const navItems = settings?.navigation && settings.navigation.length ? settings.navigation : NAV_ITEMS.map((n, i) => ({ id: n.id, label: n.label, labelBn: undefined as string | undefined, url: PAGE_ROUTES[n.id as Exclude<PageId, 'investigation'>] || '/', order: i + 1 }));
   const displayOrgName = (() => {
     if (isBn && branding?.lightLogoTextBn) return branding.lightLogoTextBn;
@@ -106,7 +107,7 @@ export const Header: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
             <button
               onClick={() => handleNavClick('home')}
               className="text-left group cursor-pointer focus:outline-none flex items-center gap-2.5"
-              aria-label="Institute of Public Accountability Home"
+              aria-label="Institute of Public Affairs Home"
             >
               <div className="w-8 h-8 rounded-full bg-black text-[#D2F843] flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
                 <Compass className="w-4 h-4 stroke-[2.2]" />
@@ -116,7 +117,7 @@ export const Header: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
                   IPA
                 </span>
                 <span className="hidden lg:inline-block text-xs font-medium text-[#556B62] border-l border-[#E2EAE4] pl-2.5">
-                  {isBn ? (branding?.taglineBn || ORGANIZATION.nameBn) : (branding?.tagline || orgName)}
+                  {isBn ? (branding?.taglineBn || orgNameBn) : (branding?.tagline || orgName)}
                 </span>
               </div>
             </button>
@@ -288,7 +289,7 @@ export const Header: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
               </button>
 
               <div className="text-center text-xs text-[#556B62]">
-                {isBn ? (branding?.taglineBn || ORGANIZATION.taglineBn) : (branding?.tagline || ORGANIZATION.tagline)}
+                {isBn ? (branding?.taglineBn || orgNameBn) : (branding?.tagline || orgName)}
               </div>
             </div>
           </motion.div>

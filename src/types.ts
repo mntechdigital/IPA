@@ -507,25 +507,43 @@ export interface ContactPageData {
     bgImage: string;
     badge: string;
     badgeBn?: string;
+    metadata?: string;
+    metadataBn?: string;
+  };
+  faqSection?: {
+    badge: string;
+    badgeBn?: string;
+    title: string;
+    titleBn?: string;
+    subtitle: string;
+    subtitleBn?: string;
   };
   directDetails: {
     phone: string;
+    phoneBn?: string;
     phoneLabel?: string;
+    phoneLabelBn?: string;
     tollFreePhone: string;
+    tollFreePhoneBn?: string;
     tollFreePhoneLabel?: string;
+    tollFreePhoneLabelBn?: string;
     supportEmail: string;
+    supportEmailBn?: string;
+    supportEmailLabel?: string;
+    supportEmailLabelBn?: string;
     researchDeskEmail: string;
-    pressEmail?: string;
+    researchDeskEmailBn?: string;
+    researchDeskEmailLabel?: string;
+    researchDeskEmailLabelBn?: string;
+    pressEmail: string;
+    pressEmailBn?: string;
+    pressEmailLabel?: string;
+    pressEmailLabelBn?: string;
     officeLocation: string;
     officeLocationBn?: string;
     workingHours: string;
     workingHoursBn?: string;
     googleMapsUrl?: string;
-    phoneLabelBn?: string;
-    tollFreePhoneLabelBn?: string;
-    supportEmailLabelBn?: string;
-    researchDeskEmailLabelBn?: string;
-    pressEmailLabelBn?: string;
   };
   messageSettings: {
     targetEmail: string;
@@ -593,6 +611,7 @@ export interface ResearchPageData {
 
 export interface SiteSettings {
   siteName: string;
+  siteNameBn?: string;
   siteSubtitle: string;
   metaDescription: string;
   ogImage: string;
@@ -600,6 +619,8 @@ export interface SiteSettings {
   researchDeskEmail: string;
   pressEmail: string;
   officeAddress: string;
+  addressBn?: string;
+  phone?: string;
   establishedYear: string;
   teamHero?: {
     heading: string;

@@ -15,9 +15,11 @@ import {
   Image as ImageIcon,
   BookOpen,
   Briefcase,
-  Languages
+  Languages,
+  Loader2
 } from 'lucide-react';
 import { useCms } from '../../context/CmsContext';
+import { useImageUpload } from '../../lib/image/hooks/useImageUpload';
 import { TeamMember } from '../../types';
 
 export const TeamsDirectoryView: React.FC = () => {
@@ -156,25 +158,30 @@ export const TeamsDirectoryView: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { upload: uploadMemberImage, isUploading: isMemberUploading } = useImageUpload({
+    folder: 'team',
+    onUploadComplete: (result) => {
+      setFormState(prev => ({ ...prev, image: result.url }));
+    },
+  });
+
+  const { upload: uploadHeroImage, isUploading: isHeroUploading } = useImageUpload({
+    folder: 'team/hero',
+    onUploadComplete: (result) => {
+      setTeamHeroDraft(prev => ({ ...prev, image: result.url }));
+    },
+  });
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target?.result as string;
-      if (dataUrl) {
-        setFormState(prev => ({ ...prev, image: dataUrl }));
-      }
-    };
-    reader.readAsDataURL(file);
+    await uploadMemberImage(file);
   };
 
-  const handleTeamHeroImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTeamHeroImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = event => setTeamHeroDraft(prev => ({ ...prev, image: String(event.target?.result || '') }));
-    reader.readAsDataURL(file);
+    await uploadHeroImage(file);
   };
 
   const openTeamHeroEditor = () => {
@@ -325,7 +332,23 @@ export const TeamsDirectoryView: React.FC = () => {
           )}
           <div className="space-y-2 pt-2 border-t border-slate-100">
             <label className="text-xs font-bold text-slate-700">Hero Image (shared for both languages)</label>
-            <input type="file" accept="image/*" onChange={handleTeamHeroImageUpload} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs" />
+            <div className="flex items-center gap-3">
+              <label className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-[#6E56CF] hover:border-[#6E56CF] text-xs font-bold cursor-pointer transition-colors shrink-0 ${isHeroUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                {isHeroUploading ? (
+                  <Loader2 className="w-4 h-4 animate-spin text-[#6E56CF]" />
+                ) : (
+                  <Upload className="w-4 h-4" />
+                )}
+                <span>{isHeroUploading ? 'Uploading...' : 'Choose Image'}</span>
+                <input type="file" accept="image/*" onChange={handleTeamHeroImageUpload} className="hidden" disabled={isHeroUploading} />
+              </label>
+              {teamHeroDraft.image && (
+                <button type="button" onClick={() => setTeamHeroDraft(prev => ({ ...prev, image: '' }))} disabled={isHeroUploading} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-red-200 text-red-600 hover:bg-red-50 text-xs font-bold cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                  <Trash2 className="w-3.5 h-3.5" />
+                  Remove
+                </button>
+              )}
+            </div>
             {teamHeroDraft.image && <img src={teamHeroDraft.image} alt="Team hero preview" className="w-full h-48 object-cover rounded-xl border border-slate-200" />}
             {!teamHeroDraft.image && <p className="text-[11px] text-slate-400">If empty, default Unsplash team photo will be used on the live site.</p>}
           </div>
@@ -568,8 +591,8 @@ export const TeamsDirectoryView: React.FC = () => {
             <form onSubmit={handleSaveForm} className="flex-1 overflow-y-auto p-6 space-y-5">
               {/* Profile Image & Upload — shared for both languages */}
               <div className="p-4 rounded-2xl bg-purple-50/40 border border-purple-100/60 flex flex-col sm:flex-row items-center gap-5">
-                <div className="relative group">
-                  <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#6E56CF] shadow-md bg-white shrink-0">
+                <div className="relative group shrink-0">
+                  <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#6E56CF] shadow-md bg-white">
                     <img
                       src={formState.image}
                       alt="Avatar preview"
@@ -580,6 +603,17 @@ export const TeamsDirectoryView: React.FC = () => {
                       }}
                     />
                   </div>
+                  {formState.image && (
+                    <button
+                      type="button"
+                      onClick={() => setFormState(prev => ({ ...prev, image: '' }))}
+                      disabled={isMemberUploading}
+                      className="absolute -top-1 -right-1 p-1 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                      title="Remove image"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  )}
                 </div>
 
                 <div className="flex-1 space-y-2 text-center sm:text-left">
@@ -587,14 +621,19 @@ export const TeamsDirectoryView: React.FC = () => {
                     Profile Photo / Headshot
                   </label>
                   <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
-                    <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer shadow-xs">
-                      <Upload className="w-3.5 h-3.5 text-[#6E56CF]" />
-                      <span>Upload Image File</span>
+                    <label className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer shadow-xs ${isMemberUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                      {isMemberUploading ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-[#6E56CF]" />
+                      ) : (
+                        <Upload className="w-3.5 h-3.5 text-[#6E56CF]" />
+                      )}
+                      <span>{isMemberUploading ? 'Uploading...' : 'Upload Image File'}</span>
                       <input
                         type="file"
                         accept="image/*"
                         onChange={handleFileUpload}
                         className="hidden"
+                        disabled={isMemberUploading}
                       />
                     </label>
                     <span className="text-[11px] text-slate-400">or enter image URL below</span>

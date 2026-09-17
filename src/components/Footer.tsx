@@ -4,7 +4,6 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowUpRight, Sparkles, Send, Linkedin, Twitter, Facebook, Youtube } from 'lucide-react';
 import { PageId, SiteSettings } from '../types';
-import { ORGANIZATION } from '../data/navigation';
 import { useLanguage } from '../context/LanguageContext';
 import { BackToTop } from './BackToTop';
 
@@ -27,12 +26,12 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
   const router = useRouter();
   const { t, isBn } = useLanguage();
 
-  const orgName = settings?.siteName || ORGANIZATION.name;
-  const orgNameBn = (settings as any)?.siteNameBn || ORGANIZATION.nameBn;
+  const orgName = settings?.siteName;
+  const orgNameBn = (settings as any)?.siteNameBn;
   const tagline = isBn
-    ? (settings?.footerBranding?.taglineBn || settings?.headerBranding?.taglineBn || 'গণমাধ্যম গবেষণা। সমাজ অনুধাবন।')
-    : (settings?.footerBranding?.tagline || settings?.headerBranding?.tagline || 'Researching Media. Understanding Society.');
-  const establishedYear = settings?.establishedYear || ORGANIZATION.established;
+    ? (settings?.footerBranding?.taglineBn || settings?.headerBranding?.taglineBn)
+    : (settings?.footerBranding?.tagline || settings?.headerBranding?.tagline);
+  const establishedYear = settings?.establishedYear;
   const footerCols = settings?.footerNavigation && settings.footerNavigation.length ? settings.footerNavigation : null;
   const bottomLinks = (settings as any)?.footerBottomLinks as { label: string; labelBn?: string; url?: string }[] | undefined;
   const footerSocials = settings?.socialLinks
@@ -45,10 +44,9 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
         name: s.name === 'x' || s.name === 'X' ? 'X / Twitter' : s.name === 'fb' || s.name === 'facebook' ? 'Facebook' : s.name,
         url: s.url,
       }))
-    : ORGANIZATION.socials;
-  const contactEmail = settings?.contactEmail || ORGANIZATION.contact.generalEmail;
-  const researchEmail = settings?.researchDeskEmail || ORGANIZATION.contact.researchEmail;
-  const officeAddress = settings?.officeAddress || ORGANIZATION.contact.address;
+    : [];
+  const contactEmail = settings?.contactEmail;
+  const officeAddress = settings?.officeAddress;
 
   const handleNavClick = (page: PageId) => {
     if (page !== 'investigation') router.push(PAGE_ROUTES[page]);
@@ -113,7 +111,7 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
               <span className="w-2 h-2 rounded-full bg-[#D2F843] animate-pulse" />
             </div>
             <span className="text-[12px] text-white/80 font-medium">
-              © 2026 {isBn ? ORGANIZATION.nameBn : orgName}
+              © 2026 {isBn ? orgNameBn : orgName}
             </span>
           </div>
         </div>
@@ -275,7 +273,7 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
                   <span className="block text-[11px] font-mono uppercase text-white/50">
                     {t('Telephone', 'টেলিফোন')}
                   </span>
-                  <span className="text-white/90">{ORGANIZATION.contact.phone}</span>
+                  <span className="text-white/90">{settings?.phone}</span>
                 </div>
 
                 <div>
@@ -284,7 +282,7 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
                   </span>
                   <p className="text-white/70 text-xs leading-relaxed mt-1">
                     {isBn
-                      ? ORGANIZATION.contact.addressBn
+                      ? settings?.addressBn
                       : officeAddress}
                   </p>
                 </div>

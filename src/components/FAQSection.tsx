@@ -98,7 +98,23 @@ export const FAQ_DATA: FAQItem[] = [
   },
 ];
 
-export const FAQSection: React.FC<{ faqs?: FAQItem[] }> = ({ faqs }) => {
+export const FAQSection: React.FC<{
+  faqs?: FAQItem[];
+  badge?: string;
+  badgeBn?: string;
+  title?: string;
+  titleBn?: string;
+  subtitle?: string;
+  subtitleBn?: string;
+  faqSection?: {
+    badge: string;
+    badgeBn?: string;
+    title: string;
+    titleBn?: string;
+    subtitle: string;
+    subtitleBn?: string;
+  };
+}> = ({ faqs, badge, badgeBn, title, titleBn, subtitle, subtitleBn, faqSection: fs }) => {
   const { isBn, t } = useLanguage();
   const [openId, setOpenId] = useState<string | null>('faq-datasets');
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -151,16 +167,27 @@ export const FAQSection: React.FC<{ faqs?: FAQItem[] }> = ({ faqs }) => {
         <div className="max-w-3xl mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider border border-[#0B2A20]/10 mb-4">
             <span className="w-2 h-2 rounded-full bg-[#D2F843] shadow-[0_0_6px_#D2F843]" />
-            <span>{t('KNOWLEDGE BASE & PROTOCOLS', 'উন্মুক্ত প্রশ্নোত্তর ও তথ্যভাণ্ডার')}</span>
-          </div>
-          <h2 className="font-sans text-3xl sm:text-5xl text-[#0B2A20] font-extrabold tracking-tight mb-4">
-            {t('Frequently Asked Questions', 'সাধারণ জিজ্ঞাসাসমূহ (FAQ)')}
-          </h2>
-          <p className="text-sm sm:text-base text-[#556B62] font-sans leading-relaxed">
-            {t(
-              'Essential guidelines regarding our research standards, open datasets, peer review protocols, and public inquiry workflows.',
-              'আমাদের গবেষণার মানদণ্ড, উন্মুক্ত ডেটাসেট ব্যবহার, পিয়ার-রিভিউ প্রোটোকল ও তথ্য অনুসন্ধানের নির্দেশিকা।'
-            )}
+              <span>
+                {fs?.badge
+                  ? (isBn ? (fs?.badgeBn || fs?.badge) : fs?.badge)
+                  : t(
+                      'KNOWLEDGE BASE & PROTOCOLS',
+                      'উন্মুক্ত প্রশ্নোত্তর ও তথ্যভাণ্ডার'
+                    )}
+              </span>
+            </div>
+            <h2 className="font-sans text-3xl sm:text-5xl text-[#0B2A20] font-extrabold tracking-tight mb-4">
+              {fs?.title
+                ? (isBn ? (fs?.titleBn || fs?.title) : fs?.title)
+                : t('Frequently Asked Questions', 'সাধারণ জিজ্ঞাসাসমূহ (FAQ)')}
+            </h2>
+            <p className="text-sm sm:text-base text-[#556B62] font-sans leading-relaxed">
+              {t(
+                fs?.subtitle
+                  ? (isBn ? (fs?.subtitleBn || fs?.subtitle) : fs?.subtitle)
+                  : 'Essential guidelines regarding our research standards, open datasets, peer review protocols, and public inquiry workflows.',
+                'আমাদের গবেষণার মানদণ্ড, উন্মুক্ত ডেটাসেট ব্যবহার, পিয়ার-রিভিউ প্রোটোকল ও তথ্য অনুসন্ধানের নির্দেশিকা।'
+              )}
           </p>
         </div>
 

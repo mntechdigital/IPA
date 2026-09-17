@@ -22,6 +22,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { useCms } from '../../context/CmsContext';
+import { useImageUpload } from '../../lib/image/hooks/useImageUpload';
 import { ResearchBeat } from '../../types';
 
 export const ResearchManagerView: React.FC = () => {
@@ -35,7 +36,6 @@ export const ResearchManagerView: React.FC = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [isLeadFellowsOpen, setIsLeadFellowsOpen] = useState<boolean>(false);
   const [activeLang, setActiveLang] = useState<'en' | 'bn'>('en');
-  const [isUploading, setIsUploading] = useState<boolean>(false);
   const richTextRef = useRef<HTMLDivElement>(null);
 
   // Dedicated Research Form State
@@ -210,28 +210,24 @@ export const ResearchManagerView: React.FC = () => {
     }
   };
 
+  const { upload: uploadResearchImage, isUploading } = useImageUpload({
+    folder: 'research',
+    onUploadComplete: (result) => {
+      setFormBeat(prev => ({
+        ...prev,
+        image: activeLang === 'en' ? result.url : (prev.image || result.url),
+        imageBn: activeLang === 'bn' ? result.url : prev.imageBn,
+      }));
+      setNotification({ message: 'Research image uploaded successfully.', type: 'success' });
+    },
+    onUploadError: () => {
+      setNotification({ message: 'Failed to upload image.', type: 'warning' });
+    },
+  });
+
   const handleResearchImageUpload = async (file?: File) => {
     if (!file) return;
-    setIsUploading(true);
-    try {
-      const fd = new FormData();
-      fd.append('file', file);
-      const res = await fetch('/api/upload', { method: 'POST', body: fd });
-      if (!res.ok) throw new Error('Upload failed');
-      const data = await res.json();
-      if (data.url) {
-        setFormBeat(prev => ({
-          ...prev,
-          image: activeLang === 'en' ? data.url : (prev.image || data.url),
-          imageBn: activeLang === 'bn' ? data.url : prev.imageBn,
-        }));
-        setNotification({ message: 'Research image uploaded successfully.', type: 'success' });
-      }
-    } catch {
-      setNotification({ message: 'Failed to upload image.', type: 'warning' });
-    } finally {
-      setIsUploading(false);
-    }
+    await uploadResearchImage(file);
   };
 
   const handleDeleteResearch = (beat: ResearchBeat) => {

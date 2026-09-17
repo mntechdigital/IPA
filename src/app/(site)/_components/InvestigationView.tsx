@@ -124,7 +124,7 @@ export default function InvestigationView({ beat, id, allBeats = [] }: Investiga
     ? allBeats
     : Object.values(INITIAL_CMS_STATE.researchBeats);
 
-  const shareTitle = `${currentInvestigation.name} — Institute of Public Accountability (IPA)`;
+  const shareTitle = `${currentInvestigation.name} — Institute of Public Affairs (IPA)`;
   const shareSummary = `Empirical research insight: "${currentInvestigation.tagline}" via IPA Research #${currentInvestigation.beatNumber}.`;
 
   const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${shareTitle}\n\n${shareSummary}`)}&url=${encodeURIComponent(currentUrl)}`;

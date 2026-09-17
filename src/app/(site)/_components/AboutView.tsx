@@ -58,7 +58,7 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
 
                 <div className="space-y-5 text-base sm:text-lg text-[#0D1F18] font-sans font-normal leading-relaxed">
                   <p>
-                    <strong>{isBn ? (siteSettings?.siteName ? siteSettings.siteName : t('Institute of Public Accountability', 'ইনস্টিটিউট অব পাবলিক অ্যাকাউন্টেবিলিটি')) : (siteSettings?.siteName || 'Institute of Public Accountability')}</strong>{' '}
+                    <strong>{isBn ? (siteSettings?.siteName ? siteSettings.siteName : t('Institute of Public Affairs', 'ইনস্টিটিউট অব পাবলিক অ্যাফেয়ার্স')) : (siteSettings?.siteName || 'Institute of Public Affairs')}</strong>{' '}
                     {isBn ? (whoWeAre.descriptionBn || whoWeAre.description || t('is an independent media research organization dedicated to developing a deeper understanding of media, journalism, and information.', 'একটি স্বাধীন গণমাধ্যম গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।')) : (whoWeAre.description || t('is an independent media research organization dedicated to developing a deeper understanding of media, journalism, and information.', 'একটি স্বাধীন গণমাধ্যম গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।'))}
                   </p>
                   <p className="text-[#556B62]">

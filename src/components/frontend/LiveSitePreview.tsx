@@ -241,7 +241,7 @@ export const LiveSitePreview: React.FC = () => {
             )}
             <div>
               <div className="font-bold text-sm text-[#0B2A20] tracking-tight leading-none font-serif">
-                {state.settings.headerBranding?.lightLogoText || state.settings.siteName || 'IPA — Institute of Public Accountability'}
+                {state.settings.headerBranding?.lightLogoText || state.settings.siteName || 'IPA — Institute of Public Affairs'}
               </div>
               <div className="text-[11px] text-[#556B62] font-mono uppercase tracking-wider mt-0.5">
                 {t('Independent Media Research Observatory', 'স্বাধীন গণমাধ্যম গবেষণা মানমন্দির')}
@@ -1853,16 +1853,15 @@ export const LiveSitePreview: React.FC = () => {
                     IPA
                   </div>
                 )}
-                <div className="font-bold text-sm text-white font-serif">
-                  {state.settings.footerBranding?.footerLogoText || state.settings.siteName}
-                </div>
+              <div className="font-bold text-sm text-white font-serif">
+                {(isBn ? state.settings.footerBranding?.footerLogoTextBn : state.settings.footerBranding?.footerLogoText) || state.settings.siteName}
+              </div>
               </div>
               <p className="text-xs text-[#556B62] leading-relaxed max-w-sm">
-                {state.settings.footerBranding?.tagline ||
-                  'Rigorous empirical research observing media ecosystems, newsroom autonomy, algorithmic governance, and democratic public spheres.'}
+                {(isBn ? state.settings.footerBranding?.taglineBn : state.settings.footerBranding?.tagline) || state.settings.siteSubtitle}
               </p>
               <div className="pt-2 text-[11px] font-mono text-[#556B62]">
-                {state.settings.footerBranding?.copyrightNotice}
+                {isBn ? (state.settings.footerBranding?.copyrightNoticeBn || '') : (state.settings.footerBranding?.copyrightNotice || '')}
               </div>
             </div>
 
@@ -1944,8 +1943,11 @@ export const LiveSitePreview: React.FC = () => {
                 Secretariat
               </h4>
               <p className="text-xs text-slate-400 leading-relaxed font-mono">
-                {state.settings.officeAddress || 'Level 7, Press & Research Tower, Gulshan, Dhaka'}
+                {isBn ? (state.settings.addressBn || state.settings.officeAddress) : state.settings.officeAddress}
               </p>
+              {state.settings.phone && (
+                <p className="text-xs text-slate-400 font-mono">{state.settings.phone}</p>
+              )}
               <div className="pt-2">
                 <button
                   onClick={() => {

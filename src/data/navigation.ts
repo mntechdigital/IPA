@@ -8,10 +8,10 @@ export const NAV_ITEMS: NavItem[] = [
 ];
 
 export const ORGANIZATION = {
-  name: 'Institute of Public Accountability',
+  name: 'Institute of Public Affairs',
   shortName: 'IPA',
   acronym: 'IPA',
-  nameBn: 'ইনস্টিটিউট অব পাবলিক অ্যাকাউন্টেবিলিটি',
+  nameBn: 'ইনস্টিটিউট অব পাবলিক অ্যাফেয়ার্স',
   shortNameBn: 'আইপিএ',
   tagline: 'Researching Media. Understanding Society.',
   taglineBn: 'গণমাধ্যম নিয়ে গবেষণা। সমাজের গভীর অনুধাবন।',

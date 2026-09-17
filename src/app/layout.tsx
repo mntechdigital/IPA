@@ -3,18 +3,18 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'IPA — Institute of Public Accountability',
+  title: 'IPA — Institute of Public Affairs',
   description:
     'Independent media research observatory focused on journalism, digital platforms, public opinion, and institutional accountability.',
   openGraph: {
-    title: 'IPA — Institute of Public Accountability',
+    title: 'IPA — Institute of Public Affairs',
     description:
       'Independent media research observatory focused on journalism, digital platforms, public opinion, and institutional accountability.',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'IPA — Institute of Public Accountability',
+    title: 'IPA — Institute of Public Affairs',
     description:
       'Independent media research observatory focused on journalism, digital platforms, public opinion, and institutional accountability.',
   },

@@ -4,7 +4,7 @@ export const INITIAL_CMS_STATE: CmsState = {
   version: "1.0.0",
   lastUpdated: "2026-09-08T14:12:12.092Z",
   settings: {
-    siteName: "IPA — Institute of Public Accountability",
+    siteName: "IPA — Institute of Public Affairs",
     siteSubtitle: "Independent Media Research Observatory",
     metaDescription:
       "Independent media research observatory focused on journalism, digital platforms, public opinion, and institutional accountability.",
@@ -15,18 +15,23 @@ export const INITIAL_CMS_STATE: CmsState = {
     pressEmail: "media@mediaresearch.org",
     officeAddress:
       "Level 7, Press & Research Tower, 42 Gulshan Avenue, Dhaka 1212",
-    establishedYear: "2021",
+    siteNameBn: "ইনস্টিটিউট অব পাবলিক অ্যাফেয়ার্স",
+    phone: "+880 2 984 5512",
+    addressBn:
+      "লেভেল ৭, প্রেস অ্যান্ড রিসার্চ টাওয়ার, ৪২ গুলশান অ্যাভিনিউ, ঢাকা ১২১২",
+    establishedYear: "2019",
     defaultLanguage: "en",
     socialLinks: {
-      twitter: "https://twitter.com/ipamediaresearch",
-      linkedin: "https://linkedin.com/company/ipa-mediaresearch",
+      twitter: "https://twitter.com",
+      linkedin: "https://linkedin.com",
       github: "https://github.com/ipa-observatory",
-      youtube: "https://youtube.com/@ipamediaresearch",
+      youtube: "https://youtube.com",
+      facebook: "https://facebook.com",
     },
     headerBranding: {
-      lightLogoText: "IPA — Institute of Public Accountability",
+      lightLogoText: "IPA — Institute of Public Affairs",
       tagline: "Independent Media Research Observatory",
-      navCtaText: "Explore Research",
+      navCtaText: "Contact Us",
       navCtaUrl: "/research",
       announcementBannerText:
         "New 2026 National Media Trust Barometer Published",
@@ -37,7 +42,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       tagline:
         "Rigorous empirical research observing media ecosystems, newsroom autonomy, algorithmic governance, and democratic public spheres.",
       copyrightNotice:
-        "© 2021–2026 Institute of Public Accountability. Open Access Research.",
+        "© 2021–2026 Institute of Public Affairs. Open Access Research.",
       licenseNotice:
         "All data and publications distributed under Creative Commons Attribution 4.0 International (CC BY 4.0).",
     },
@@ -91,9 +96,9 @@ export const INITIAL_CMS_STATE: CmsState = {
     heroHeadline: "Researching Media. Understanding Society.",
     heroHeadlineBn: "গণমাধ্যম গবেষণা। সমাজকে অনুধাবন।",
     heroSubtitle:
-      "The Institute of Public Accountability operates empirical observatories tracking journalism, digital platforms, public trust, and institutional transparency in an era of platform restructuring.",
+        "The Institute of Public Affairs operates empirical observatories tracking journalism, digital platforms, public trust, and institutional transparency in an era of platform restructuring.",
     heroSubtitleBn:
-      "ইনস্টিটিউট অব পাবলিক অ্যাকাউন্টেবিলিটি প্ল্যাটফর্ম পুনর্গঠনের যুগে সাংবাদিকতা, ডিজিটাল প্ল্যাটফর্ম, জনবিশ্বাস ও প্রাতিষ্ঠানিক জবাবদিহিতা পর্যালোচনায় স্বাধীন ও তথ্যভিত্তিক মানমন্দির পরিচালনা করে।",
+      "ইনস্টিটিউট অব পাবলিক অ্যাফেয়ার্স প্ল্যাটফর্ম পুনর্গঠনের যুগে সাংবাদিকতা, ডিজিটাল প্ল্যাটফর্ম, জনবিশ্বাস ও প্রাতিষ্ঠানিক জবাবদিহিতা পর্যালোচনায় স্বাধীন ও তথ্যভিত্তিক মানমন্দির পরিচালনা করে।",
     establishedTag: "Established 2021 · Dhaka & Global Partner Observatories",
     heroImage:
       "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=2200&q=85",
@@ -164,7 +169,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       titleBn:
         "একটি স্বাধীন গবেষণা মানমন্দির হিসেবে যাত্রা শুরু করে বর্তমানে সমাজের জন্য ৬টি গুরুত্বপূর্ণ ক্ষেত্রে নিয়োজিত।",
       description:
-        "The Institute of Public Accountability conducts independent, evidence-based research into news ecosystems, algorithmic feeds, broadcast coverage, and public perceptions to defend press freedom and civic awareness.",
+        "The Institute of Public Affairs conducts independent, evidence-based research into news ecosystems, algorithmic feeds, broadcast coverage, and public perceptions to defend press freedom and civic awareness.",
       descriptionBn:
         "আমরা তথ্যের বস্তুনিষ্ঠতা, অ্যালগরিদম বিস্তার এবং গণমাধ্যমের টেকসই রূপান্তর নিরীক্ষণ করি। আমাদের সকল গবেষণা Pratiband",
       mediaUrl:
@@ -530,6 +535,17 @@ export const INITIAL_CMS_STATE: CmsState = {
         "গবেষক, সাংবাদিক ও অংশীদারদের জন্য আমাদের যোগাযোগের দরজা সর্বদা উন্মুক্ত।",
       bgImage:
         "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80",
+      metadata: "Direct Communications & Field Office",
+      metadataBn: "সরাসরি যোগাযোগ ও সচিবালয়",
+    },
+    faqSection: {
+      badge: "KNOWLEDGE BASE & PROTOCOLS",
+      badgeBn: "উন্মুক্ত প্রশ্নোত্তর ও তথ্যভাণ্ডার",
+      title: "Frequently Asked Questions",
+      titleBn: "সাধারণ জিজ্ঞাসাসমূহ (FAQ)",
+      subtitle:
+        "Essential guidelines regarding our research standards, open datasets, peer review protocols, and public inquiry workflows.",
+      subtitleBn: "",
     },
     directDetails: {
       phone: "+880 2 984 5512",
@@ -2025,9 +2041,9 @@ export const INITIAL_CMS_STATE: CmsState = {
       bioBn:
         "প্রতিষ্ঠানের গবেষণা কর্মসূচি, পদ্ধতিগত মান এবং একাডেমিক অংশীদারিত্ব পরিচালনা করেন। গণমাধ্যম সমাজবিজ্ঞান ও জনসম্পর্কে দুই দশকের অভিজ্ঞতা।",
       fullBio:
-        "Dr. Tariqul Islam has directed media sociology programs across South Asia and Europe. Prior to co-founding the Institute of Public Accountability, he held research appointments at the Reuters Institute and the London School of Economics. His scholarly work focuses on newsroom institutional transformation, editorial autonomy under political transition, and the structural economics of independent press in emerging democracies.",
+        "Dr. Tariqul Islam has directed media sociology programs across South Asia and Europe. Prior to co-founding the Institute of Public Affairs, he held research appointments at the Reuters Institute and the London School of Economics. His scholarly work focuses on newsroom institutional transformation, editorial autonomy under political transition, and the structural economics of independent press in emerging democracies.",
       fullBioBn:
-        "ড. তারিকুল ইসলাম দক্ষিণ এশিয়া ও ইউরোপ জুড়ে গণমাধ্যম সমাজবিজ্ঞান কার্যক্রম পরিচালনা করেছেন। পাবলিক অ্যাকাউন্টেবিলিটি ইনস্টিটিউট সহ-প্রতিষ্ঠার পূর্বে তিনি রয়টার্স ইনস্টিটিউট ও লন্ডন স্কুল অব ইকোনমিক্সে গবেষণা পদে কাজ করেছেন। তাঁর গবেষণা কাজের মূল বিষয়সমূহ হলো সংবাদালয়ের প্রাতিষ্ঠানিক রূপান্তর, রাজনৈতিক উত্তরণের সময়ে সম্পাদকীয় স্বাধীনতা এবং উদীয়মান গণতন্ত্রে স্বাধীন সংবাদমাধ্যমের কাঠামোগত অর্থনীতি।",
+        "ড. তারিকুল ইসলাম দক্ষিণ এশিয়া ও ইউরোপ জুড়ে গণমাধ্যম সমাজবিজ্ঞান কার্যক্রম পরিচালনা করেছেন। পাবলিক অ্যাফেয়ার্স ইনস্টিটিউট সহ-প্রতিষ্ঠার পূর্বে তিনি রয়টার্স ইনস্টিটিউট ও লন্ডন স্কুল অব ইকোনমিক্সে গবেষণা পদে কাজ করেছেন। তাঁর গবেষণা কাজের মূল বিষয়সমূহ হলো সংবাদালয়ের প্রাতিষ্ঠানিক রূপান্তর, রাজনৈতিক উত্তরণের সময়ে সম্পাদকীয় স্বাধীনতা এবং উদীয়মান গণতন্ত্রে স্বাধীন সংবাদমাধ্যমের কাঠামোগত অর্থনীতি।",
       researchInterests: [
         "Media & Journalism",
         "Media & Democracy",
@@ -2312,7 +2328,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-2",
@@ -2324,7 +2340,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-3",
@@ -2336,7 +2352,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-4",
@@ -2348,7 +2364,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-5",
@@ -2360,7 +2376,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-6",
@@ -2372,7 +2388,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-7",
@@ -2384,7 +2400,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-8",
@@ -2396,7 +2412,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-9",
@@ -2408,7 +2424,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-10",
@@ -2420,7 +2436,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-11",
@@ -2433,7 +2449,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-12",
@@ -2445,7 +2461,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-13",
@@ -2458,7 +2474,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-14",
@@ -2471,7 +2487,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-15",
@@ -2483,7 +2499,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-16",
@@ -2495,7 +2511,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-17",
@@ -2507,7 +2523,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
     {
       id: "pub-18",
@@ -2519,7 +2535,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       status: "Published",
       downloadUrl: "#",
       abstract:
-        "Comprehensive research document published by the Institute of Public Accountability under open-access methodology.",
+        "Comprehensive research document published by the Institute of Public Affairs under open-access methodology.",
     },
   ],
   monitoring: {

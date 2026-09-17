@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Search,
   ExternalLink,
   Eye,
   SlidersHorizontal,
@@ -21,8 +20,6 @@ export const CmsHeader: React.FC = () => {
     selectedSectionAppId,
     setSelectedSectionAppId,
     state,
-    searchQuery,
-    setSearchQuery,
     previewLanguage,
     setPreviewLanguage,
     notification
@@ -111,31 +108,6 @@ export const CmsHeader: React.FC = () => {
 
       {/* Center/Right Controls */}
       <div className="flex items-center gap-3">
-        {/* Quick Search */}
-        <div className="relative hidden md:block w-56 lg:w-72">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          <input
-            type="text"
-            placeholder="Search beats, researchers, metrics..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-200 focus:border-[#6E56CF] rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 outline-none transition-all"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 hover:text-slate-700 cursor-pointer"
-            >
-              Clear
-            </button>
-          )}
-        </div>
-
-        {/* Institutional Status Badge */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-purple-50 text-[#6E56CF] border border-purple-100 text-xs font-semibold">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span>Institutional CMS</span>
-        </div>
       </div>
     </header>
   );

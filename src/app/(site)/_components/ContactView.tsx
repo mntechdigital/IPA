@@ -56,7 +56,7 @@ export default function ContactPage({
         label={heroBadge}
         title={heroHeading}
         description={heroSubtitle}
-        metadata={isBn ? 'সরাসরি যোগাযোগ ও সচিবালয়' : 'Direct Communications & Field Office'}
+        metadata={isBn ? (cp?.hero?.metadataBn || cp?.hero?.metadata || 'সরাসরি যোগাযোগ ও সচিবালয়') : (cp?.hero?.metadata || 'Direct Communications & Field Office')}
       />
 
       {/* CONTACT INFORMATION & CONTACT FORM */}

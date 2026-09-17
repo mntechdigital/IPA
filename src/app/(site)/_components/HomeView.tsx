@@ -141,13 +141,14 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
   const previewTeam =
     content && content.featuredTeamMembers.length ? content.featuredTeamMembers : TEAM_MEMBERS.slice(0, 4);
 
-  const fallbackTickerEn = ['MEDIA RESEARCH', 'JOURNALISM RECOVERY', 'DIGITAL PLATFORMS & AI', 'PUBLIC OPINION & TRUST', 'INFORMATION RESILIENCE', 'COMPUTATIONAL AUDITS', 'ETHICS & GOVERNANCE', 'MEDIA MONITORING'];
-  const fallbackTickerBn = ['গণমাধ্যম গবেষণা', 'সাংবাদিকতার সুরক্ষা', 'ডিজিটাল প্ল্যাটফর্ম ও এআই', 'জনমত ও বিশ্বাসযোগ্যতা', 'তথ্যপ্রবাহের স্থিতিস্থাপকতা', 'কম্পিউটেশনাল অডিট', 'নৈতিকতা ও নীতিমালা', 'মিডিয়া মনিটরিং'];
+const fallbackTickerEn = ['MEDIA RESEARCH', 'JOURNALISM RECOVERY', 'DIGITAL PLATFORMS & AI', 'PUBLIC OPINION & TRUST', 'INFORMATION RESILIENCE', 'COMPUTATIONAL AUDITS', 'ETHICS & GOVERNANCE', 'MEDIA MONITORING'];
+  const fallbackTickerBn = ['গণমiddleware গবেষণা', 'সাংবাদিকতার সুরক্ষা', 'ডিজিটাল প্ল্যাটফর্ম ও এআই', 'জনমত ও বিশ্বাসযোগ্যতা', 'তথ্যপ্রবাহের স্থিতিস্থাপকতা', 'কম্পিউটেশনাল অডিট', 'নৈতিকতা ও নীতিমালা', 'মিডিয়া মনিটরিং'];
   const tickerData = content?.homePage?.ticker;
-  const tickerSpeed = tickerData?.speedSec || 25;
+  const tickerSpeed = tickerData?.speedSec || 10;
   const TICKER_ITEMS = isBn
     ? (tickerData?.itemsBn && tickerData.itemsBn.length ? tickerData.itemsBn : tickerData?.items && tickerData.items.length ? tickerData.items : fallbackTickerBn)
     : (tickerData?.items && tickerData.items.length ? tickerData.items : fallbackTickerEn);
+  const displayedTickerItems = TICKER_ITEMS.length >= 4 ? TICKER_ITEMS : fallbackTickerEn;
 
   const whoWeAreHome = content?.homePage?.whoWeAreHome;
   const focusAreasData = content?.homePage?.focusAreas;
@@ -156,7 +157,7 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
     const Icon = icon;
     const chipClass = index === 2 ? 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-[#D2F843]/20 text-[#D2F843] border border-[#D2F843]/30' : 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white/10 text-white/80 border border-white/10';
     return (
-      <div className="rounded-2xl sm:rounded-3xl bg-[#0B2A20]/90 backdrop-blur-md border border-white/20 p-3 sm:p-5 lg:p-6 flex flex-col justify-between shadow-xl hover:border-[#D2F843]/50 transition-all group">
+      <div key={index} className="rounded-2xl sm:rounded-3xl bg-[#0B2A20]/90 backdrop-blur-md border border-white/20 p-3 sm:p-5 lg:p-6 flex flex-col justify-between shadow-xl hover:border-[#D2F843]/50 transition-all group">
         <div className="flex items-center justify-between mb-2 sm:mb-4">
           <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white/10 text-[#D2F843] flex items-center justify-center border border-white/10 group-hover:scale-105 group-hover:bg-[#D2F843] group-hover:text-[#0B2A20] transition-all">
             <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
@@ -554,7 +555,7 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
           }}
         >
           <div className="flex items-center gap-8 sm:gap-14 pr-8 sm:pr-14 flex-shrink-0">
-            {TICKER_ITEMS.map((item, idx) => (
+            {displayedTickerItems.map((item, idx) => (
               <span
                 key={`t1-${idx}`}
                 className="flex items-center gap-3 text-xs sm:text-sm font-black tracking-widest uppercase"
@@ -569,7 +570,7 @@ export default function HomePage({ content }: { content?: SiteContent | null }) 
             className="flex items-center gap-8 sm:gap-14 pr-8 sm:pr-14 flex-shrink-0"
             aria-hidden="true"
           >
-            {TICKER_ITEMS.map((item, idx) => (
+            {displayedTickerItems.map((item, idx) => (
               <span
                 key={`t2-${idx}`}
                 className="flex items-center gap-3 text-xs sm:text-sm font-black tracking-widest uppercase"
