@@ -29,10 +29,14 @@ export function useImageUpload(options: UseImageUploadOptions = {}): UseImageUpl
       formData.append('file', file);
       if (folder) formData.append('folder', folder);
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
       const res = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));

@@ -128,7 +128,7 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
     handleSaveNotification();
   };
 
-  const { upload: uploadFile, isUploading: isImageUploading } = useImageUpload({ folder: 'cms' });
+  const { upload: uploadFile, isUploading: isImageUploading, error: uploadError } = useImageUpload({ folder: 'cms' });
 
   const handleImageUpload = async (file: File, onUrl: (url: string) => void) => {
     const result = await uploadFile(file);
@@ -3097,6 +3097,11 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
 
   return (
     <div className="p-6 md:p-8 max-w-[1200px] mx-auto space-y-6">
+      {uploadError && (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+          <p className="text-sm text-red-700 font-semibold">Upload Error: {uploadError}</p>
+        </div>
+      )}
       {/* Top Breadcrumb & Actions Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <button

@@ -193,7 +193,7 @@ export const HomePageEditor: React.FC = () => {
               className="hidden"
               onChange={e => {
                 const file = e.target.files?.[0];
-                if (file) uploadImage(file);
+                if (file) uploadImage(file).catch((e) => console.error('Upload failed:', e));
               }}
               disabled={isUploading}
             />

@@ -28,7 +28,7 @@ export const TeamEditor: React.FC = () => {
   const { upload: uploadMemberImage, isUploading, error } = useImageUpload({ folder: 'team' });
 
   const handleMemberImageUpload = (file: File) => {
-    uploadMemberImage(file);
+    uploadMemberImage(file).catch((e) => console.error('Upload failed:', e));
   };
 
   const filteredTeam = state.team.filter((m) => {

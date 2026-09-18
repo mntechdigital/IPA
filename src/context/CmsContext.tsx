@@ -160,7 +160,7 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const updateHomePage = useCallback((partial: Partial<HomePageData>) => {
     setState((prev) => {
       const merged = { ...prev.homePage, ...partial };
-      apiMutate('/api/cms/home', 'PUT', merged).catch((e) => console.error('Failed to save home page:', e));
+      apiMutate('/api/cms/home', 'PUT', merged).catch((e) => { console.error('Failed to save home page:', e); setNotification({ message: 'Failed to save home page changes.', type: 'warning' }); });
       const log = recordLog('Updated Home Page content', 'Home Page');
       return { ...prev, lastUpdated: new Date().toISOString(), homePage: merged, activityLogs: [log, ...prev.activityLogs.slice(0, 20)] };
     });
@@ -170,7 +170,7 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const updateAboutPage = useCallback((partial: Partial<AboutPageData>) => {
     setState((prev) => {
       const merged = { ...prev.aboutPage, ...partial };
-      apiMutate('/api/cms/about', 'PUT', merged).catch((e) => console.error('Failed to save about page:', e));
+      apiMutate('/api/cms/about', 'PUT', merged).catch((e) => { console.error('Failed to save about page:', e); setNotification({ message: 'Failed to save about page changes.', type: 'warning' }); });
       const log = recordLog('Updated About Us content', 'About Us');
       return { ...prev, lastUpdated: new Date().toISOString(), aboutPage: merged, activityLogs: [log, ...prev.activityLogs.slice(0, 20)] };
     });
@@ -200,7 +200,7 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         cta: { ...current.cta, ...(partial.cta || {}) },
         whatOurWorkLooksLike: { ...current.whatOurWorkLooksLike, ...(partial.whatOurWorkLooksLike || {}) },
       };
-      apiMutate('/api/cms/research-page', 'PUT', merged).catch((e) => console.error('Failed to save research page:', e));
+      apiMutate('/api/cms/research-page', 'PUT', merged).catch((e) => { console.error('Failed to save research page:', e); setNotification({ message: 'Failed to save research page changes.', type: 'warning' }); });
       const log = recordLog('Updated Research Page content', 'Research');
       return { ...prev, lastUpdated: new Date().toISOString(), researchPage: merged, activityLogs: [log, ...prev.activityLogs.slice(0, 20)] };
     });
@@ -340,7 +340,7 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const updateSettings = useCallback((partial: Partial<SiteSettings>) => {
     setState((prev) => {
       const merged = { ...prev.settings, ...partial };
-      apiMutate('/api/cms/settings', 'PUT', merged).catch((e) => console.error('Failed to save settings:', e));
+      apiMutate('/api/cms/settings', 'PUT', merged).catch((e) => { console.error('Failed to save settings:', e); setNotification({ message: 'Failed to save settings.', type: 'warning' }); });
       const log = recordLog('Updated site global settings', 'Settings');
       return { ...prev, lastUpdated: new Date().toISOString(), settings: merged, activityLogs: [log, ...prev.activityLogs.slice(0, 20)] };
     });

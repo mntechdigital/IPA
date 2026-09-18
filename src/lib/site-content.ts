@@ -1,6 +1,7 @@
 import 'server-only';
 
 import type { HomePageData, ResearchBeat, SiteSettings, TeamMember } from '../types';
+import { INITIAL_CMS_STATE } from '../data/initialData';
 import { getHomePage, getSiteSettings, listResearchBeats, listTeamMembers } from './cms-store';
 
 export interface SiteContent {
@@ -51,12 +52,12 @@ export async function getSiteContent(): Promise<SiteContent> {
   } catch (err) {
     console.error('site-content: falling back to static content', err);
     return {
-      settings: {},
-      homePage: {},
-      beats: [],
-      featuredBeats: [],
-      team: [],
-      featuredTeamMembers: [],
+      settings: INITIAL_CMS_STATE.settings,
+      homePage: INITIAL_CMS_STATE.homePage,
+      beats: Object.values(INITIAL_CMS_STATE.researchBeats),
+      featuredBeats: Object.values(INITIAL_CMS_STATE.researchBeats),
+      team: INITIAL_CMS_STATE.team,
+      featuredTeamMembers: INITIAL_CMS_STATE.team.slice(0, 4),
     };
   }
 }

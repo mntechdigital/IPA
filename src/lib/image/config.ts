@@ -1,4 +1,6 @@
 import type { StorageProvider } from './types';
+import { createCloudinaryProvider } from './providers/cloudinary';
+import { createLocalProvider } from './providers/local';
 
 type ProviderType = 'cloudinary' | 'local';
 
@@ -11,12 +13,10 @@ export function getStorageProvider(): StorageProvider {
 
   switch (provider) {
     case 'cloudinary': {
-      const { createCloudinaryProvider } = require('./providers/cloudinary');
       providerInstance = createCloudinaryProvider();
       break;
     }
     case 'local': {
-      const { createLocalProvider } = require('./providers/local');
       providerInstance = createLocalProvider();
       break;
     }
