@@ -15,10 +15,10 @@ const PRACTICE_IMG_FALLBACK = 'https://images.unsplash.com/photo-1451187580459-4
 export default function AboutView({ aboutPage, siteSettings }: { aboutPage: AboutPageData | null | undefined; siteSettings: Partial<SiteSettings> | null | undefined }) {
   const { isBn, t } = useLanguage();
 
-  const data: AboutPageData = aboutPage || {};
+  const data: AboutPageData = aboutPage || { principles: [], methodologySteps: [] };
 
-  const heroBanner = data.heroBanner || {};
-  const whoWeAre = data.whoWeAre || {};
+  const heroBanner = data.heroBanner || { title: '', subtext: '', bgStyle: '', badgeText: '', metadata: '' };
+  const whoWeAre = data.whoWeAre || { narrative: [], mainPhoto: '', foundedYear: '' };
   const pillars = data.missionPillars || [];
 
   const mission = pillars[0] || { badge: '', indexLabel: '', title: '', description: '', badgeBn: '', indexLabelBn: '', titleBn: '', descriptionBn: '' };
