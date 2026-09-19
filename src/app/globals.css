@@ -66,6 +66,17 @@ body {
   animation: shimmer 1.8s infinite ease-in-out;
 }
 
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee var(--ticker-speed, 10s) linear infinite;
+  will-change: transform;
+}
+
 /* CMS dashboard shell: thin dark scrollbars */
 html:has(.cms-shell) ::-webkit-scrollbar {
   width: 6px;

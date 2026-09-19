@@ -545,15 +545,9 @@ const fallbackTickerEn = ['MEDIA RESEARCH', 'JOURNALISM RECOVERY', 'DIGITAL PLAT
 
       {/* ANIMATED CONTINUOUS SCROLLING TICKER BANNER (Infinite Marquee) */}
       <div className="bg-[#D2F843] text-[#0B2A20] py-3.5 overflow-hidden border-b border-[#c0e82c] select-none flex shadow-inner">
-        <motion.div
-          className="flex whitespace-nowrap items-center flex-shrink-0"
-          initial={{ x: '0%' }}
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{
-            ease: 'linear',
-            duration: tickerSpeed,
-            repeat: Infinity,
-          }}
+        <div
+          className="flex whitespace-nowrap items-center flex-shrink-0 marquee-track"
+          style={{ ['--ticker-speed' as string]: `${tickerSpeed}s` }}
         >
           <div className="flex items-center gap-8 sm:gap-14 pr-8 sm:pr-14 flex-shrink-0">
             {displayedTickerItems.map((item, idx) => (
@@ -581,7 +575,7 @@ const fallbackTickerEn = ['MEDIA RESEARCH', 'JOURNALISM RECOVERY', 'DIGITAL PLAT
               </span>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* 9. INTRODUCTION: WHO WE ARE */}
