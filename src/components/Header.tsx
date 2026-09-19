@@ -114,7 +114,7 @@ export const Header: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
               </div>
               <div className="flex items-center gap-2.5">
                 <span className="text-xl sm:text-2xl font-black tracking-tight text-[#0B2A20]">
-                  IPA
+                  {displayOrgName || 'IPA'}
                 </span>
                 <span className="hidden lg:inline-block text-xs font-medium text-[#556B62] border-l border-[#E2EAE4] pl-2.5">
                   {isBn ? (branding?.taglineBn || orgNameBn) : (branding?.tagline || orgName)}

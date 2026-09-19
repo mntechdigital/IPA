@@ -5,7 +5,7 @@ export const INITIAL_CMS_STATE: CmsState = {
   lastUpdated: "2026-09-08T14:12:12.092Z",
   settings: {
     siteName: "IPA — Institute of Public Affairs",
-    siteSubtitle: "Independent Media Research Observatory",
+    siteSubtitle: "Institute of Public Affairs",
     metaDescription:
       "Independent media research observatory focused on journalism, digital platforms, public opinion, and institutional accountability.",
     ogImage:
@@ -29,8 +29,9 @@ export const INITIAL_CMS_STATE: CmsState = {
       facebook: "https://facebook.com",
     },
     headerBranding: {
-      lightLogoText: "IPA — Institute of Public Affairs",
-      tagline: "Independent Media Research Observatory",
+      lightLogoText: "IPA",
+      lightLogoTextBn: "IPA",
+      tagline: "Institute of Public Affairs",
       navCtaText: "Contact Us",
       navCtaUrl: "/research",
       announcementBannerText:
@@ -38,7 +39,7 @@ export const INITIAL_CMS_STATE: CmsState = {
       enableBanner: true,
     },
     footerBranding: {
-      footerLogoText: "IPA Media Research Observatory",
+      footerLogoText: "Institute of Public Affairs",
       tagline:
         "Rigorous empirical research observing media ecosystems, newsroom autonomy, algorithmic governance, and democratic public spheres.",
       copyrightNotice:
