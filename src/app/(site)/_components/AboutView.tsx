@@ -7,9 +7,6 @@ import { PageTransition } from '../PageTransition';
 import { CTASection } from '../../../components/CTASection';
 import { useLanguage } from '../../../context/LanguageContext';
 import { PageHero } from '../../../components/PageHero';
-import { INITIAL_CMS_STATE } from '../../../data/initialData';
-
-const STATIC_ABOUT = INITIAL_CMS_STATE.aboutPage as AboutPageData;
 
 const HERO_BG_FALLBACK = 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2200&q=85';
 const WHOWEARE_PHOTO_FALLBACK = 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80';
@@ -18,19 +15,16 @@ const PRACTICE_IMG_FALLBACK = 'https://images.unsplash.com/photo-1451187580459-4
 export default function AboutView({ aboutPage, siteSettings }: { aboutPage: AboutPageData | null | undefined; siteSettings: Partial<SiteSettings> | null | undefined }) {
   const { isBn, t } = useLanguage();
 
-  const data: AboutPageData = {
-    ...STATIC_ABOUT,
-    ...(aboutPage || {}),
-  };
+  const data: AboutPageData = aboutPage || {};
 
-  const heroBanner = data.heroBanner || STATIC_ABOUT.heroBanner!;
-  const whoWeAre = data.whoWeAre || STATIC_ABOUT.whoWeAre!;
-  const pillars = data.missionPillars || STATIC_ABOUT.missionPillars!;
+  const heroBanner = data.heroBanner || {};
+  const whoWeAre = data.whoWeAre || {};
+  const pillars = data.missionPillars || [];
 
-  const mission = pillars[0];
-  const vision = pillars[1];
-  const goal = pillars[2];
-  const practice = pillars[3];
+  const mission = pillars[0] || { badge: '', indexLabel: '', title: '', description: '', badgeBn: '', indexLabelBn: '', titleBn: '', descriptionBn: '' };
+  const vision = pillars[1] || { badge: '', indexLabel: '', title: '', description: '', badgeBn: '', indexLabelBn: '', titleBn: '', descriptionBn: '' };
+  const goal = pillars[2] || { badge: '', indexLabel: '', title: '', description: '', badgeBn: '', indexLabelBn: '', titleBn: '', descriptionBn: '' };
+  const practice = pillars[3] || { badge: '', indexLabel: '', title: '', description: '', badgeBn: '', indexLabelBn: '', titleBn: '', descriptionBn: '', image: '', imageBn: '' };
 
   return (
     <PageTransition>
@@ -58,8 +52,8 @@ export default function AboutView({ aboutPage, siteSettings }: { aboutPage: Abou
 
                 <div className="space-y-5 text-base sm:text-lg text-[#0D1F18] font-sans font-normal leading-relaxed">
                   <p>
-                    <strong>{isBn ? (siteSettings?.siteName ? siteSettings.siteName : t('Institute of Public Affairs', 'ইনস্টিটিউট অব পাবলিক অ্যাফেয়ার্স')) : (siteSettings?.siteName || 'Institute of Public Affairs')}</strong>{' '}
-                    {isBn ? (whoWeAre.descriptionBn || whoWeAre.description || t('is an independent media research organization dedicated to developing a deeper understanding of media, journalism, and information.', 'একটি স্বাধীন গণমাধ্যম গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।')) : (whoWeAre.description || t('is an independent media research organization dedicated to developing a deeper understanding of media, journalism, and information.', 'একটি স্বাধীন গণমাধ্যম গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।'))}
+                    <strong>{isBn ? (whoWeAre.nameTagBn || siteSettings?.siteNameBn || whoWeAre.nameTag || siteSettings?.siteName) : (whoWeAre.nameTag || siteSettings?.siteName)}</strong>{' '}
+                    {isBn ? (whoWeAre.descriptionBn || whoWeAre.description) : whoWeAre.description}
                   </p>
                   <p className="text-[#556B62]">
                     {isBn ? (whoWeAre.narrativeBn?.[0] || whoWeAre.narrative?.[0] || t('We examine how traditional and digital media operate, how audiences interact with information, and how technological and social changes are reshaping the media environment.', 'আমরা অনুসন্ধান করি কীভাবে ঐতিহ্যবাহী ও ডিজিটাল মিডিয়া পরিচালিত হয়, দর্শকরা তথ্যের সাথে কীভাবে যুক্ত হন এবং প্রযুক্তিগত ও সামাজিক রূপান্তর কীভাবে মিডিয়া পরিবেশকে প্রভাবিত করছে।')) : (whoWeAre.narrative?.[0] || t('We examine how traditional and digital media operate, how audiences interact with information, and how technological and social changes are reshaping the media environment.', 'আমরা অনুসন্ধান করি কীভাবে ঐতিহ্যবাহী ও ডিজিটাল মিডিয়া পরিচালিত হয়, দর্শকরা তথ্যের সাথে কীভাবে যুক্ত হন এবং প্রযুক্তিগত ও সামাজিক রূপান্তর কীভাবে মিডিয়া পরিবেশকে প্রভাবিত করছে।'))}

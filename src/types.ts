@@ -464,6 +464,8 @@ export interface AboutPageData {
     narrative: string[];
     mainPhoto: string;
     foundedYear: string;
+    nameTag?: string;
+    nameTagBn?: string;
     headingBn?: string;
     descriptionBn?: string;
     badgeTextBn?: string;

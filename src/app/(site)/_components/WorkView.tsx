@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { PageId, ResearchBeat, ResearchPageData, WorkCategory, WorkProcessPillar } from '../../../types';
+import { Filter, RotateCw } from 'lucide-react';
 import { PageTransition } from '../PageTransition';
-import { Layers, RotateCw } from 'lucide-react';
 import { motion } from 'motion/react';
 import { PageHero } from '../../../components/PageHero';
 import { WorkCard } from '../../../components/WorkCard';
@@ -47,6 +47,65 @@ export default function WorkView({
       setIsFilterLoading(false);
     }, 300);
   };
+
+  const handleReload = () => {
+    setIsFilterLoading(true);
+    setTimeout(() => {
+      setIsFilterLoading(false);
+    }, 400);
+  };
+
+  // Drag-to-scroll for filter bar
+  const filterBarRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef({ x: 0, scrollLeft: 0 });
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return; // Only left click
+    const target = filterBarRef.current;
+    if (!target) return;
+    setIsDragging(true);
+    dragStart.current = { x: e.clientX, scrollLeft: target.scrollLeft };
+    target.style.cursor = 'grabbing';
+    target.style.userSelect = 'none';
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+    const target = filterBarRef.current;
+    if (!target) return;
+    const dx = e.clientX - dragStart.current.x;
+    target.scrollLeft = dragStart.current.scrollLeft - dx;
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    const target = filterBarRef.current;
+    if (target) {
+      target.style.cursor = 'grab';
+      target.style.userSelect = '';
+    }
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    const handleGlobalMouseUp = () => handleMouseUp();
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return;
+      const target = filterBarRef.current;
+      if (!target) return;
+      const dx = e.clientX - dragStart.current.x;
+      target.scrollLeft = dragStart.current.scrollLeft - dx;
+    };
+    document.addEventListener('mouseup', handleGlobalMouseUp);
+    document.addEventListener('mousemove', handleGlobalMouseMove);
+    return () => {
+      document.removeEventListener('mouseup', handleGlobalMouseUp);
+      document.removeEventListener('mousemove', handleGlobalMouseMove);
+    };
+  }, [isDragging]);
 
   const onNavigate = (page: PageId) => {
     if (page === 'investigation') return;
@@ -117,7 +176,7 @@ export default function WorkView({
 
   return (
     <PageTransition>
-      <div className="bg-[#F6F9F4] text-[#0D1F18]">
+      <div className="bg-canvas text-ink">
         {/* 21. HERO */}
         <PageHero
           backgroundImage={heroData.backgroundImage || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2200&q=85'}
@@ -132,7 +191,7 @@ export default function WorkView({
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
             <div className="max-w-3xl mb-12">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider border border-[#0B2A20]/10 mb-4">
-                <span className="w-2 h-2 rounded-full bg-[#D2F843]" />
+                <span className="w-2 h-2 rounded-full bg-accent" />
                 <span>{isBn ? (workLooksLike?.badgeBn || 'মূল কর্মপদ্ধতি') : (workLooksLike?.badge || 'CORE MODALITIES')}</span>
               </div>
               <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold tracking-tight mb-4">
@@ -204,7 +263,7 @@ export default function WorkView({
         {/* 22. WORK AREAS */}
         <section className="py-24 sm:py-32 border-b border-[#E2EAE4] bg-[#F6F9F4]">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-            <div className="flex flex-col lg:flex-row lg:items-end gap-8 mb-16">
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16">
               <div>
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider border border-[#0B2A20]/10 mb-4">
                   <span className="w-2 h-2 rounded-full bg-[#D2F843]" />
@@ -213,6 +272,82 @@ export default function WorkView({
                 <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold tracking-tight">
                   {isBn ? (areasData.titleBn || 'অনুসন্ধানের ক্ষেত্রসমূহ') : (areasData.title || 'Areas of Investigation')}
                 </h2>
+              </div>
+
+              {/* Filter Bar - similar to Team page */}
+              <div className="lg:ml-auto flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono uppercase tracking-wider text-[#556B62] font-semibold hidden sm:inline">
+                    {t('Filter Areas:', 'ফিল্টার করুন:')}
+                  </span>
+                  <div
+                    ref={filterBarRef}
+                    className="flex items-center gap-1.5 text-xs font-mono overflow-x-auto no-scrollbar pb-1"
+                    onWheel={(e) => {
+                      if (e.deltaY !== 0) {
+                        e.currentTarget.scrollLeft += e.deltaY;
+                        e.preventDefault();
+                      }
+                    }}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseUp}
+                    style={{
+                      WebkitOverflowScrolling: 'touch',
+                      cursor: isDragging ? 'grabbing' : 'grab',
+                    }}
+                  >
+                    <button
+                      onClick={() => handleFilterChange('all')}
+                      className={`px-3 py-1.5 rounded-full border transition-all cursor-pointer font-bold uppercase tracking-wider whitespace-nowrap ${
+                        selectedFilter === 'all'
+                          ? 'bg-[#0B2A20] text-[#D2F843] border-[#0B2A20] shadow-sm'
+                          : 'bg-[#F6F9F4] text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
+                      }`}
+                    >
+                      {t('All (6)', 'সকল (৬)')}
+                    </button>
+                    <button
+                      onClick={() => handleFilterChange('journalism')}
+                      className={`px-3 py-1.5 rounded-full border transition-all cursor-pointer font-bold uppercase tracking-wider whitespace-nowrap ${
+                        selectedFilter === 'journalism'
+                          ? 'bg-[#0B2A20] text-[#D2F843] border-[#0B2A20] shadow-sm'
+                          : 'bg-[#F6F9F4] text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
+                      }`}
+                    >
+                      {t('Journalism', 'সাংবাদিকতা')}
+                    </button>
+                    <button
+                      onClick={() => handleFilterChange('platforms')}
+                      className={`px-3 py-1.5 rounded-full border transition-all cursor-pointer font-bold uppercase tracking-wider whitespace-nowrap ${
+                        selectedFilter === 'platforms'
+                          ? 'bg-[#0B2A20] text-[#D2F843] border-[#0B2A20] shadow-sm'
+                          : 'bg-[#F6F9F4] text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
+                      }`}
+                    >
+                      {t('Platforms', 'প্ল্যাটফর্ম')}
+                    </button>
+                    <button
+                      onClick={() => handleFilterChange('public')}
+                      className={`px-3 py-1.5 rounded-full border transition-all cursor-pointer font-bold uppercase tracking-wider whitespace-nowrap ${
+                        selectedFilter === 'public'
+                          ? 'bg-[#0B2A20] text-[#D2F843] border-[#0B2A20] shadow-sm'
+                          : 'bg-[#F6F9F4] text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
+                      }`}
+                    >
+                      {t('Public', 'জনগণ')}
+                    </button>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-mono text-[#556B62] hidden sm:inline-flex">
+                    <span className={`w-2 h-2 rounded-full ${isLoading || isFilterLoading ? 'bg-amber-400 animate-pulse' : 'bg-emerald-500'}`} />
+                    {isLoading || isFilterLoading
+                      ? t('Loading research areas...', 'গবেষণা ক্ষেত্র লোড হচ্ছে...')
+                      : t('Active Research Areas', 'সক্রিয় গবেষণা ক্ষেত্র')}
+                  </span>
+                </div>
               </div>
             </div>
 
