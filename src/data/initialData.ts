@@ -709,16 +709,6 @@ export const INITIAL_CMS_STATE: CmsState = {
       refreshTooltip: "Refresh Research Catalog",
       refreshTooltipBn: "গবেষণা তালিকা রিফ্রেশ করুন",
     },
-    filterPills: {
-      allLabel: "All Research Areas (6)",
-      allLabelBn: "সকল গবেষণা ক্ষেত্র (৬)",
-      journalismLabel: "Journalism & Newsrooms",
-      journalismLabelBn: "সাংবাদিকতা ও নিউজরুম",
-      platformsLabel: "Platforms & AI",
-      platformsLabelBn: "প্ল্যাটফর্ম ও এআই",
-      publicLabel: "Public & Democracy",
-      publicLabelBn: "জনমত ও গণতন্ত্র",
-    },
     cta: {
       badge: "Institutional Collaboration & Inquiry",
       badgeBn: "প্রাতিষ্ঠানিক সহযোগিতা ও অনুসন্ধান",

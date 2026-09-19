@@ -28,8 +28,8 @@ export default function WorkView({
   const { isBn, t } = useLanguage();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isFilterLoading, setIsFilterLoading] = useState<boolean>(false);
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'journalism' | 'platforms' | 'public'>('all');
+  const [isFilterLoading, setIsFilterLoading] = useState<boolean>(false);
 
   // Perceived initial loading simulation (matching Vite 1:1)
   useEffect(() => {
@@ -48,13 +48,6 @@ export default function WorkView({
     }, 300);
   };
 
-  const handleReload = () => {
-    setIsFilterLoading(true);
-    setTimeout(() => {
-      setIsFilterLoading(false);
-    }, 400);
-  };
-
   const onNavigate = (page: PageId) => {
     if (page === 'investigation') return;
     const routes: Record<string, string> = { home: '/', about: '/about', work: '/work', team: '/team', contact: '/contact' };
@@ -71,7 +64,16 @@ export default function WorkView({
   const researchPage = initialResearchPage || INITIAL_CMS_STATE.researchPage;
   const heroData = researchPage?.hero || INITIAL_CMS_STATE.researchPage.hero;
   const areasData = researchPage?.areasSection || INITIAL_CMS_STATE.researchPage.areasSection;
-  const filterPills = researchPage?.filterPills || INITIAL_CMS_STATE.researchPage.filterPills;
+  const filterPills = {
+      allLabel: isBn ? 'সকল গবেষণা ক্ষেত্র (৬)' : 'All Research Areas (6)',
+      allLabelBn: isBn ? 'সকল গবেষণা ক্ষেত্র (৬)' : 'All Research Areas (6)',
+      journalismLabel: isBn ? 'সাংবাদিকতা ও নিউজরুম' : 'Journalism & Newsrooms',
+      journalismLabelBn: isBn ? 'সাংবাদিকতা ও নিউজরুম' : 'Journalism & Newsrooms',
+      platformsLabel: isBn ? 'প্ল্যাটফর্ম ও এআই' : 'Platforms & AI',
+      platformsLabelBn: isBn ? 'প্ল্যাটফর্ম ও এআই' : 'Platforms & AI',
+      publicLabel: isBn ? 'জনমত ও গণতন্ত্র' : 'Public & Democracy',
+      publicLabelBn: isBn ? 'জনমত ও গণতন্ত্র' : 'Public & Democracy',
+    };
   const ctaData = researchPage?.cta || INITIAL_CMS_STATE.researchPage.cta;
   const workLooksLike = researchPage?.whatOurWorkLooksLike || INITIAL_CMS_STATE.researchPage.whatOurWorkLooksLike;
 
@@ -88,6 +90,7 @@ export default function WorkView({
   // Map ResearchBeats into WorkCategory structure
   const worksList: WorkCategory[] = sortedBeats.map(beat => ({
     id: beat.id,
+    category: beat.category,
     name: beat.name,
     nameBn: beat.nameBn,
     tagline: beat.tagline,
@@ -105,15 +108,10 @@ export default function WorkView({
   }));
 
   const filteredWorks = worksList.filter((work) => {
-    if (selectedFilter === 'journalism') {
-      return work.id === 'media-journalism' || work.id === 'media-monitoring';
-    }
-    if (selectedFilter === 'platforms') {
-      return work.id === 'digital-media' || work.id === 'technology-ai';
-    }
-    if (selectedFilter === 'public') {
-      return work.id === 'public-opinion' || work.id === 'media-democracy';
-    }
+    if (selectedFilter === 'all') return true;
+    if (selectedFilter === 'journalism') return work.category === 'journalism';
+    if (selectedFilter === 'platforms') return work.category === 'platforms';
+    if (selectedFilter === 'public') return work.category === 'public';
     return true;
   });
 
@@ -206,76 +204,22 @@ export default function WorkView({
         {/* 22. WORK AREAS */}
         <section className="py-24 sm:py-32 border-b border-[#E2EAE4] bg-[#F6F9F4]">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-            {/* Section Header with Filter Controls */}
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16">
+            <div className="flex flex-col lg:flex-row lg:items-end gap-8 mb-16">
               <div>
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B2A20]/5 text-[#0B2A20] text-xs font-bold uppercase tracking-wider border border-[#0B2A20]/10 mb-4">
                   <span className="w-2 h-2 rounded-full bg-[#D2F843]" />
-                  <span>{isBn ? (areasData.badgeBn || 'ছয়টি প্রধান গবেষণা ক্ষেত্র') : (areasData.badge || 'SIX RESEARCH AREAS')}</span>
+                  <span>{isBn ? (areasData.badgeBn || 'ছয়টি মূল গবেষণা ক্ষেত্র') : (areasData.badge || 'SIX RESEARCH AREAS')}</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold tracking-tight">
-                    {isBn ? (areasData.titleBn || 'অনুসন্ধানের ক্ষেত্রসমূহ') : (areasData.title || 'Areas of Investigation')}
-                  </h2>
-                  <button
-                    onClick={handleReload}
-                    title={isBn ? (areasData.refreshTooltipBn || 'গবেষণা তালিকা রিফ্রেশ করুন') : (areasData.refreshTooltip || 'Refresh Research Catalog')}
-                    className="p-2 rounded-full border border-[#E2EAE4] bg-white text-[#556B62] hover:text-[#0B2A20] hover:border-[#0B2A20] transition-colors cursor-pointer text-xs"
-                  >
-                    <RotateCw className={`w-3.5 h-3.5 ${isFilterLoading || isLoading ? 'animate-spin text-[#0B2A20]' : ''}`} />
-                  </button>
-                </div>
-              </div>
-
-              {/* Filter Pills (Strictly One Line) */}
-              <div className="flex items-center gap-2 text-xs font-mono overflow-x-auto no-scrollbar py-1 flex-nowrap whitespace-nowrap max-w-full">
-                <button
-                  onClick={() => handleFilterChange('all')}
-                  className={`px-4 py-2 rounded-full border transition-all cursor-pointer font-bold uppercase tracking-wider whitespace-nowrap shrink-0 ${
-                    selectedFilter === 'all'
-                      ? 'bg-[#0B2A20] text-[#D2F843] border-[#0B2A20] shadow-sm'
-                      : 'bg-[#FFFFFF] text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
-                  }`}
-                >
-                  {isBn ? (filterPills.allLabelBn || 'সকল গবেষণা ক্ষেত্র (৬)') : (filterPills.allLabel || 'All Research Areas (6)')}
-                </button>
-                <button
-                  onClick={() => handleFilterChange('journalism')}
-                  className={`px-4 py-2 rounded-full border transition-all cursor-pointer font-bold uppercase tracking-wider whitespace-nowrap shrink-0 ${
-                    selectedFilter === 'journalism'
-                      ? 'bg-[#0B2A20] text-[#D2F843] border-[#0B2A20] shadow-sm'
-                      : 'bg-[#FFFFFF] text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
-                  }`}
-                >
-                  {isBn ? (filterPills.journalismLabelBn || 'সাংবাদিকতা ও নিউজরুম') : (filterPills.journalismLabel || 'Journalism & Newsrooms')}
-                </button>
-                <button
-                  onClick={() => handleFilterChange('platforms')}
-                  className={`px-4 py-2 rounded-full border transition-all cursor-pointer font-bold uppercase tracking-wider whitespace-nowrap shrink-0 ${
-                    selectedFilter === 'platforms'
-                      ? 'bg-[#0B2A20] text-[#D2F843] border-[#0B2A20] shadow-sm'
-                      : 'bg-[#FFFFFF] text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
-                  }`}
-                >
-                  {isBn ? (filterPills.platformsLabelBn || 'প্ল্যাটফর্ম ও এআই') : (filterPills.platformsLabel || 'Platforms & AI')}
-                </button>
-                <button
-                  onClick={() => handleFilterChange('public')}
-                  className={`px-4 py-2 rounded-full border transition-all cursor-pointer font-bold uppercase tracking-wider whitespace-nowrap shrink-0 ${
-                    selectedFilter === 'public'
-                      ? 'bg-[#0B2A20] text-[#D2F843] border-[#0B2A20] shadow-sm'
-                      : 'bg-[#FFFFFF] text-[#556B62] border-[#E2EAE4] hover:border-[#0B2A20]'
-                  }`}
-                >
-                  {isBn ? (filterPills.publicLabelBn || 'জনমত ও গণতন্ত্র') : (filterPills.publicLabel || 'Public & Democracy')}
-                </button>
+                <h2 className="font-sans text-3xl sm:text-5xl lg:text-6xl text-[#0B2A20] font-extrabold tracking-tight">
+                  {isBn ? (areasData.titleBn || 'অনুসন্ধানের ক্ষেত্রসমূহ') : (areasData.title || 'Areas of Investigation')}
+                </h2>
               </div>
             </div>
 
             {/* Cards with alternating layouts and subtle skeleton loading */}
             {isLoading || isFilterLoading ? (
               <div className="space-y-10 sm:space-y-14">
-                {Array.from({ length: selectedFilter === 'all' ? 3 : 2 }).map((_, idx) => (
+                {Array.from({ length: filteredWorks.length }).map((_, idx) => (
                   <WorkCardSkeleton key={`work-skel-${idx}`} index={idx} />
                 ))}
               </div>

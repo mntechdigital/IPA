@@ -220,13 +220,13 @@ export const APP_GRID_PAGES: Record<string, PageAppHubDef> = {
       {
         id: 'research-areas',
         appNumber: 'App 2',
-        title: 'Areas & Filters',
-        tagline: 'Section badge, title, catalog reload tooltip, and category filter button labels (EN/BN)',
+        title: 'Areas Section',
+        tagline: 'Section badge, title, and catalog reload tooltip (EN/BN)',
         icon: 'Filter',
         category: 'research',
         badgeColor: 'blue',
-        fieldsCount: 8,
-        previewHint: 'Header controls and filter pills (Journalism, Platforms, Public)'
+        fieldsCount: 6,
+        previewHint: 'Header controls for the Areas of Investigation section'
       },
       {
         id: 'research-tracks',

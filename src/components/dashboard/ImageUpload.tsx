@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { Upload, Trash2, Loader2, ImageIcon } from 'lucide-react';
+import { Upload, Trash2, Loader2, ImageIcon, AlertCircle } from 'lucide-react';
 import { useImageUpload } from '../../lib/image/hooks/useImageUpload';
 
 interface ImageUploadProps {
@@ -89,7 +89,12 @@ export function ImageUpload({
         )}
       </div>
 
-      {error && <p className="text-xs text-red-500">{error}</p>}
+      {error && (
+        <p className="flex items-center gap-1 text-xs text-red-600">
+          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+          {error}
+        </p>
+      )}
 
       {value ? (
         <img src={value} alt="Preview" className={previewClassName} />

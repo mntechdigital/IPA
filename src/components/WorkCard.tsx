@@ -16,6 +16,15 @@ export const WorkCard: React.FC<WorkCardProps> = ({ work, index, onExplore }) =>
   const numStr = (index + 1).toString().padStart(2, '0');
   const fallbackWork = isBn && WORK_AREAS_BN[work.id] ? WORK_AREAS_BN[work.id] : null;
 
+  const categoryLabel = (cat?: string) => {
+    switch (cat) {
+      case 'journalism': return t('Journalism & Newsrooms', 'সাংবাদিকতা ও নিউজরুম');
+      case 'platforms': return t('Platforms & AI', 'প্ল্যাটফর্ম ও এআই');
+      case 'public': return t('Public & Democracy', 'জনমত ও গণতন্ত্র');
+      default: return cat || '';
+    }
+  };
+
   const displayName = isBn ? (work.nameBn || fallbackWork?.nameBn || work.name) : work.name;
   const displayTagline = isBn ? (work.taglineBn || fallbackWork?.taglineBn || work.tagline) : work.tagline;
   const displayDescription = isBn ? (work.descriptionBn || fallbackWork?.descriptionBn || work.description) : work.description;
@@ -41,7 +50,7 @@ export const WorkCard: React.FC<WorkCardProps> = ({ work, index, onExplore }) =>
               loading="lazy"
             />
             <div className="absolute top-4 left-4 bg-[#0B2A20] text-[#D2F843] font-mono text-xs px-3 py-1.5 rounded-full font-bold tracking-wider uppercase shadow-md">
-              {isBn ? `গবেষণা ০${index + 1}` : `Research ${numStr}`}
+              {categoryLabel(work.category)}
             </div>
           </div>
         </div>

@@ -196,7 +196,6 @@ export const CmsProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         ...partial,
         hero: { ...current.hero, ...(partial.hero || {}) },
         areasSection: { ...current.areasSection, ...(partial.areasSection || {}) },
-        filterPills: { ...current.filterPills, ...(partial.filterPills || {}) },
         cta: { ...current.cta, ...(partial.cta || {}) },
         whatOurWorkLooksLike: { ...current.whatOurWorkLooksLike, ...(partial.whatOurWorkLooksLike || {}) },
       };

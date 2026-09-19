@@ -547,6 +547,7 @@ const fallbackTickerEn = ['MEDIA RESEARCH', 'JOURNALISM RECOVERY', 'DIGITAL PLAT
       <div className="bg-[#D2F843] text-[#0B2A20] py-3.5 overflow-hidden border-b border-[#c0e82c] select-none flex shadow-inner">
         <motion.div
           className="flex whitespace-nowrap items-center flex-shrink-0"
+          initial={{ x: '0%' }}
           animate={{ x: ['0%', '-50%'] }}
           transition={{
             ease: 'linear',

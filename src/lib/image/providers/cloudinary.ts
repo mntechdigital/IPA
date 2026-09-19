@@ -22,7 +22,7 @@ export function createCloudinaryProvider(): StorageProvider {
       const result = await cloudinary.uploader.upload(dataUrl, {
         folder,
         resource_type: 'image',
-        allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'],
+        allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'svg'],
       });
 
       return {

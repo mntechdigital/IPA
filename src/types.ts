@@ -88,6 +88,7 @@ export interface WorkProcessPillar {
 
 export interface WorkCategory {
   id: string;
+  category?: string;
   name: string;
   tagline: string;
   description: string;
@@ -574,16 +575,6 @@ export interface ResearchPageData {
     titleBn?: string;
     refreshTooltip: string;
     refreshTooltipBn?: string;
-  };
-  filterPills: {
-    allLabel: string;
-    allLabelBn?: string;
-    journalismLabel: string;
-    journalismLabelBn?: string;
-    platformsLabel: string;
-    platformsLabelBn?: string;
-    publicLabel: string;
-    publicLabelBn?: string;
   };
   cta: {
     badge: string;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ArrowLeft,
   Save,
@@ -65,6 +65,8 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
   const [hasSaved, setHasSaved] = useState<boolean>(false);
   const [expandedInquiryId, setExpandedInquiryId] = useState<string | null>(null);
   const [isDirty, setIsDirty] = useState<boolean>(false);
+  const savedRef = useRef(false);
+  const pendingUploads = useRef(0);
   const [draftHome, setDraftHome] = useState<HomePageData>(() => JSON.parse(JSON.stringify(state.homePage)));
   const [draftAbout, setDraftAbout] = useState<AboutPageData>(() => JSON.parse(JSON.stringify(state.aboutPage)));
   const [draftContact, setDraftContact] = useState<ContactPageData | null>(() => state.contactPage ? JSON.parse(JSON.stringify(state.contactPage)) : null);
@@ -77,7 +79,7 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
   const [draftSettings, setDraftSettings] = useState(() => JSON.parse(JSON.stringify(state.settings)));
 
   useEffect(() => {
-    if (!isDirty) {
+    if (!isDirty && !savedRef.current) {
       setDraftHome(JSON.parse(JSON.stringify(state.homePage)));
       setDraftAbout(JSON.parse(JSON.stringify(state.aboutPage)));
       if (state.contactPage) setDraftContact(JSON.parse(JSON.stringify(state.contactPage)));
@@ -85,6 +87,7 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
       if (state.workProcessPillars) setDraftPillars(JSON.parse(JSON.stringify(state.workProcessPillars)));
       setDraftSettings(JSON.parse(JSON.stringify(state.settings)));
     }
+    savedRef.current = false;
   }, [state.homePage, state.aboutPage, state.contactPage, state.researchPage, state.workProcessPillars, state.settings]);
 
   const markDirty = () => setIsDirty(true);
@@ -125,14 +128,28 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
       if (draftResearchPage) updateResearchPage(draftResearchPage);
     }
     setIsDirty(false);
+    savedRef.current = true;
     handleSaveNotification();
   };
 
   const { upload: uploadFile, isUploading: isImageUploading, error: uploadError } = useImageUpload({ folder: 'cms' });
 
-  const handleImageUpload = async (file: File, onUrl: (url: string) => void) => {
-    const result = await uploadFile(file);
-    if (result) onUrl(result.url);
+  const handleImageUpload = async (file: File, onUrl: (url: string) => void, onError?: (msg: string) => void) => {
+    pendingUploads.current++;
+    try {
+      const result = await uploadFile(file);
+      if (result) {
+        onUrl(result.url);
+      } else {
+        if (onError) onError('Upload failed — no result returned');
+        setNotification({ message: 'Upload failed — no result returned', type: 'warning' });
+      }
+    } catch (e) {
+      if (onError) onError((e as Error).message);
+      setNotification({ message: `Upload failed: ${(e as Error).message}`, type: 'warning' });
+    } finally {
+      pendingUploads.current--;
+    }
   };
 
   const patchHome = (partial: Partial<HomePageData>) => { setDraftHome(prev => ({ ...prev, ...partial })); markDirty(); };
@@ -145,7 +162,6 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
       ...partial,
       hero: { ...prev.hero, ...(partial.hero || {}) },
       areasSection: { ...prev.areasSection, ...(partial.areasSection || {}) },
-      filterPills: { ...prev.filterPills, ...(partial.filterPills || {}) },
       cta: { ...prev.cta, ...(partial.cta || {}) },
       whatOurWorkLooksLike: { ...prev.whatOurWorkLooksLike, ...(partial.whatOurWorkLooksLike || {}) },
     }));
@@ -302,7 +318,8 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                     <span>{isImageUploading ? 'Uploading...' : 'Upload'}</span>
                     <input type="file" accept="image/*" className="hidden" onChange={e => {
                       const file = e.target.files?.[0];
-                      if (file) handleImageUpload(file, heroImage => patchHome({ heroImage }));
+                      if (file) handleImageUpload(file, heroImage => patchHome({ heroImage })).catch((err) => console.error('Hero image upload failed:', err));
+                      if (file && e.target) (e.target as HTMLInputElement).value = '';
                     }} disabled={isImageUploading} />
                   </label>
                   {home.heroImage && (
@@ -1487,7 +1504,6 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
 
       case 'research-areas': {
         const areas = draftResearchPage.areasSection || INITIAL_CMS_STATE.researchPage.areasSection;
-        const pills = draftResearchPage.filterPills || INITIAL_CMS_STATE.researchPage.filterPills;
         return (
           <div className="space-y-6">
             {/* Top Language Switcher */}
@@ -1558,67 +1574,6 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
                       })
                     }
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-4">
-              <div>
-                <h3 className="text-sm font-bold text-slate-800">Filter Pills Labels</h3>
-                <p className="text-xs text-slate-500">Labels rendered inside the horizontal filter button pill bar</p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-600">All Areas Pill (All 6)</label>
-                  <input
-                    type="text"
-                    value={activeTabLang === 'en' ? pills.allLabel : pills.allLabelBn || ''}
-                    onChange={e =>
-                      patchResearchPage({
-                        filterPills: { ...pills, [activeTabLang === 'en' ? 'allLabel' : 'allLabelBn']: e.target.value }
-                      })
-                    }
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-600">Journalism & Newsrooms Pill</label>
-                  <input
-                    type="text"
-                    value={activeTabLang === 'en' ? pills.journalismLabel : pills.journalismLabelBn || ''}
-                    onChange={e =>
-                      patchResearchPage({
-                        filterPills: { ...pills, [activeTabLang === 'en' ? 'journalismLabel' : 'journalismLabelBn']: e.target.value }
-                      })
-                    }
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-600">Platforms & AI Pill</label>
-                  <input
-                    type="text"
-                    value={activeTabLang === 'en' ? pills.platformsLabel : pills.platformsLabelBn || ''}
-                    onChange={e =>
-                      patchResearchPage({
-                        filterPills: { ...pills, [activeTabLang === 'en' ? 'platformsLabel' : 'platformsLabelBn']: e.target.value }
-                      })
-                    }
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-600">Public & Democracy Pill</label>
-                  <input
-                    type="text"
-                    value={activeTabLang === 'en' ? pills.publicLabel : pills.publicLabelBn || ''}
-                    onChange={e =>
-                      patchResearchPage({
-                        filterPills: { ...pills, [activeTabLang === 'en' ? 'publicLabel' : 'publicLabelBn']: e.target.value }
-                      })
-                    }
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
                   />
                 </div>
               </div>
@@ -3117,10 +3072,11 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
           <button
             type="button"
             onClick={handleSave}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#6E56CF] hover:bg-[#5C45BD] text-white text-xs font-bold transition-all shadow-sm shadow-purple-200 cursor-pointer"
+            disabled={pendingUploads.current > 0}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#6E56CF] hover:bg-[#5C45BD] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs font-bold transition-all shadow-sm shadow-purple-200 cursor-pointer"
           >
-            <Save className="w-4 h-4" />
-            <span>{hasSaved ? 'Saved!' : 'Save Changes'}</span>
+            {pendingUploads.current > 0 ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            <span>{hasSaved ? 'Saved!' : pendingUploads.current > 0 ? 'Uploading...' : 'Save Changes'}</span>
           </button>
         </div>
       </div>
