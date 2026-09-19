@@ -1092,6 +1092,10 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
             {wwaBnMode ? (
               <>
                 <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Institute Name (BN)</label>
+                  <input type="text" value={wwa.nameTagBn || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, nameTagBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" />
+                </div>
+                <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Badge Text (BN)</label>
                   <input type="text" value={wwa.badgeTextBn || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, badgeTextBn: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" />
                 </div>
@@ -1110,6 +1114,10 @@ export const SectionFormEditor: React.FC<SectionFormEditorProps> = ({ appId }) =
               </>
             ) : (
               <>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Institute Name</label>
+                  <input type="text" value={wwa.nameTag || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, nameTag: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" />
+                </div>
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Badge Text</label>
                   <input type="text" value={wwa.badgeText || ''} onChange={e => patchAbout({ whoWeAre: { ...wwa, badgeText: e.target.value } })} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold" />

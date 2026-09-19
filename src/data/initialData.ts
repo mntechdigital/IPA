@@ -356,6 +356,8 @@ export const INITIAL_CMS_STATE: CmsState = {
         "is an independent media research organization dedicated to developing a deeper understanding of media, journalism, and information.",
       descriptionBn:
         "একটি স্বাধীন গণমাধ্যম গবেষণা সংস্থা, যা গণমাধ্যম, সাংবাদিকতা ও তথ্য ব্যবস্থা অনুধাবনে নিবেদিত।",
+      nameTag: "IPA — Institute of Public Affairs",
+      nameTagBn: "ইনস্টিটিউট অব পাবলিক অ্যাফেয়ার্স",
       narrative: [
         "We examine how traditional and digital media operate, how audiences interact with information, and how technological and social changes are reshaping the media environment.",
         "Through independent research and analysis, we aim to make complex developments easier to understand and contribute meaningful knowledge to public discussion.",
@@ -740,13 +742,18 @@ export const INITIAL_CMS_STATE: CmsState = {
   researchBeats: {
     "media-journalism": {
       id: "media-journalism",
-      primaryMethodologies: [
+primaryMethodologies: [
         "Content analysis",
         "Newsroom ethnographies",
         "Financial disclosures audit",
         "In-depth editor interviews"
-],
-      primaryMethodologiesBn: ["", "", "", ""],
+      ],
+      primaryMethodologiesBn: [
+        "বিষয়বস্তু বিশ্লেষণ",
+        "নিউজরুম জাতিবিজ্ঞানগত অধ্যয়ন",
+        "আর্থিক প্রಕাশনা অডিট",
+        "গভীর এডিটর সাক্ষাত্কার"
+      ],
       sampleInquiries: [
         "The Economics of Local Press: Survival Strategies of Regional Newsrooms (2023–2025)",
         "Editorial Autonomy Under Digital Platform Pressures: A Comparative South Asian Study",
@@ -900,13 +907,18 @@ export const INITIAL_CMS_STATE: CmsState = {
     },
     "digital-media": {
       id: "digital-media",
-      primaryMethodologies: [
+primaryMethodologies: [
         "Algorithmic auditing",
         "Network graph mapping",
         "Audience telemetry analysis",
         "Platform API harvesting"
-],
-      primaryMethodologiesBn: ["", "", "", ""],
+      ],
+      primaryMethodologiesBn: [
+        "অ্যালগরিদমিক অডিটিং",
+        "নেটওয়ার্ক গ্রাফ ম্যাপিং",
+        "দর্শক টেলিমেট্রি বিশ্লেষণ",
+        "প্ল্যাটফর্ম এপিআই সংগ্রহ"
+      ],
       sampleInquiries: [
         "Short-Form Video News Consumption Patterns Among Young Adults (18–25)",
         "Cross-Platform Disinformation Trajectories During Breaking Humanitarian Events",
@@ -1058,13 +1070,18 @@ export const INITIAL_CMS_STATE: CmsState = {
     },
     "media-monitoring": {
       id: "media-monitoring",
-      primaryMethodologies: [
+primaryMethodologies: [
         "24/7 Automated Broadcast Recording",
         "Optical Character Recognition for Print",
         "Lexical Sentiment Indexing",
         "Multi-Language Tagging"
-],
-      primaryMethodologiesBn: ["", "", "", ""],
+      ],
+      primaryMethodologiesBn: [
+        "২৪/৭ স্বয়ংক্রিয় সম্প্রচার রেকর্ডিং",
+        "মুদ্রিত এনটিআর জন্য অপ্টিক্যাল ক্যарак্টার রিকগনিশন",
+        "শব্দভিত্তিক সেন্টিমেন্ট ইন্ডেক্সিং",
+        "বহুভাষিক ট্যাগিং"
+      ],
       sampleInquiries: [
         "National Broadcast Framing of Climate & Monsoonal Displacement: 2020–2025",
         "Representation and Voice: Women as News Sources in Prime-Time Television",
@@ -1219,13 +1236,18 @@ export const INITIAL_CMS_STATE: CmsState = {
     },
     "public-opinion": {
       id: "public-opinion",
-      primaryMethodologies: [
+primaryMethodologies: [
         "Stratified Random Sampling",
         "Deliberative Polling Panels",
         "Cognitive Reception Interviews",
         "Misperception Diagnostics"
-],
-      primaryMethodologiesBn: ["", "", "", ""],
+      ],
+      primaryMethodologiesBn: [
+        "স্তরভিত্তি যাদুকরী নমুনা গ্রহণ",
+        "বিবেচনামূলক মতামত প্যানেল",
+        "সংজ্ঞানাত্মক গ্রহণ সাক্ষাত্কার",
+        "ভ্রান্ত ধারণা ডায়াগনস্টিক্স"
+      ],
       sampleInquiries: [
         "The National Media Trust Index: 5th Annual Citizen Perception Survey",
         "How Voters Navigate Contradictory Claims on Social Platforms During General Elections",
@@ -1377,13 +1399,18 @@ export const INITIAL_CMS_STATE: CmsState = {
     },
     "media-democracy": {
       id: "media-democracy",
-      primaryMethodologies: [
+primaryMethodologies: [
         "Legislative record tracing",
         "Defamation & media law reviews",
         "Civic dialogue observation",
         "Electoral debate discourse analysis"
-],
-      primaryMethodologiesBn: ["", "", "", ""],
+      ],
+      primaryMethodologiesBn: [
+        "আইনগত রেকর্ড অনুসরণ",
+        "মানহানি ও মিডিয়া আইন পর্যালোচনা",
+        "নাগরিক সংলাপ পর্যবেক্ষণ",
+        "নির্বাচনী বিতর্ক বարկ विश্লেষণ"
+      ],
       sampleInquiries: [
         "The State of Press Freedom and Digital Regulatory Frameworks in South Asia",
         "Civic Deliberation in the Age of Coordinated Disinformation Campaigns",
@@ -1538,13 +1565,18 @@ export const INITIAL_CMS_STATE: CmsState = {
     },
     "technology-ai": {
       id: "technology-ai",
-      primaryMethodologies: [
+primaryMethodologies: [
         "Model reverse engineering",
         "Synthetic media benchmark testing",
         "Newsroom automation audits",
         "Provenance verification trials"
-],
-      primaryMethodologiesBn: ["", "", "", ""],
+      ],
+      primaryMethodologiesBn: [
+        "মডেল রিভার্স ইঞ্জিনিয়ারিং",
+        "সিন্থেটিক মিডিয়া বেঞ্চমার্ক টেস্টিং",
+        "নিউজরুম অটোমেশন অডিট",
+        "প্রমাণকরণ যাচাই পরীক্ষা"
+      ],
       sampleInquiries: [
         "Generative AI in the Newsroom: A Survey of Adoption, Editorial Oversight, and Guidelines",
         "Watermarking and Cryptographic Provenance in High-Risk Visual Evidence",
