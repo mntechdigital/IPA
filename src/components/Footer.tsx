@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowUpRight, Sparkles, Send, Linkedin, Twitter, Facebook, Youtube } from 'lucide-react';
+import { ArrowUpRight, Sparkles, Send, Linkedin, Twitter, Facebook, Youtube, Github } from 'lucide-react';
 import { PageId, SiteSettings } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { BackToTop } from './BackToTop';
@@ -17,9 +17,16 @@ const PAGE_ROUTES: Record<Exclude<PageId, 'investigation'>, string> = {
 
 const SOCIAL_COMPONENTS: Record<string, React.ElementType> = {
   LinkedIn: Linkedin,
+  linkedin: Linkedin,
   'X / Twitter': Twitter,
+  Twitter: Twitter,
+  twitter: Twitter,
   Facebook: Facebook,
+  facebook: Facebook,
   YouTube: Youtube,
+  youtube: Youtube,
+  GitHub: Github,
+  github: Github,
 };
 
 export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ settings }) => {
@@ -32,7 +39,6 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
     ? (settings?.footerBranding?.taglineBn || settings?.headerBranding?.taglineBn)
     : (settings?.footerBranding?.tagline || settings?.headerBranding?.tagline);
   const establishedYear = settings?.establishedYear;
-  const footerCols = settings?.footerNavigation && settings.footerNavigation.length ? settings.footerNavigation : null;
   const bottomLinks = (settings as any)?.footerBottomLinks as { label: string; labelBn?: string; url?: string }[] | undefined;
   const footerSocials = settings?.socialLinks
     ? Object.entries(settings.socialLinks)
@@ -40,10 +46,11 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
         .map(([name, url]) => ({ name, url }))
     : [];
   const socials = footerSocials.length
-    ? footerSocials.map((s) => ({
-        name: s.name === 'x' || s.name === 'X' ? 'X / Twitter' : s.name === 'fb' || s.name === 'facebook' ? 'Facebook' : s.name,
-        url: s.url,
-      }))
+    ? footerSocials.map((s) => {
+        const key = s.name.toLowerCase();
+        const name = key === 'x' || key === 'twitter' ? 'X / Twitter' : key === 'fb' || key === 'facebook' ? 'Facebook' : s.name;
+        return { name, url: s.url };
+      })
     : [];
   const contactEmail = settings?.contactEmail;
   const officeAddress = settings?.officeAddress;
@@ -123,9 +130,17 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
           {/* Brand Column */}
           <div className="md:col-span-5 lg:col-span-5 space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#D2F843] flex items-center justify-center text-[#0B2A20] shadow-md font-bold">
-                <Sparkles className="w-4 h-4 fill-current" />
-              </div>
+              {settings?.footerBranding?.logoUrl ? (
+                <img
+                  src={settings.footerBranding.logoUrl}
+                  alt={isBn ? (settings?.footerBranding?.footerLogoTextBn || orgNameBn) : (settings?.footerBranding?.footerLogoText || orgName) || 'Footer logo'}
+                  className="w-10 h-10 rounded-xl object-contain bg-[#F6F9F4] p-1.5"
+                />
+              ) : (
+                <div className="w-9 h-9 rounded-xl bg-[#D2F843] flex items-center justify-center text-[#0B2A20] shadow-md font-bold">
+                  <Sparkles className="w-4 h-4 fill-current" />
+                </div>
+              )}
               <div>
                 <h3 className="text-xl sm:text-2xl text-white font-extrabold tracking-tight">
                   {isBn ? (settings?.footerBranding?.footerLogoTextBn || orgNameBn) : (settings?.footerBranding?.footerLogoText || orgName)}
@@ -157,29 +172,6 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
 
           {/* Navigation Columns */}
           <div className="md:col-span-7 lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {footerCols ? (
-              footerCols.map((col) => (
-                <div key={col.title}>
-                  <h4 className="text-xs font-bold tracking-widest uppercase text-white mb-6 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D2F843]" />
-                    {isBn && col.titleBn ? col.titleBn : col.title}
-                  </h4>
-                  <ul className="space-y-3.5 text-sm">
-                    {col.links.map((link) => (
-                      <li key={link.label}>
-                        <a
-                          href={link.url}
-                          className="text-white/70 hover:text-[#D2F843] transition-colors cursor-pointer text-left"
-                        >
-                          {isBn && link.labelBn ? link.labelBn : link.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))
-            ) : (
-              <>
             {/* About Column */}
             <div>
               <h4 className="text-xs font-bold tracking-widest uppercase text-white mb-6 flex items-center gap-2">
@@ -288,15 +280,14 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
                 </div>
               </div>
             </div>
-              </>
-            )}
           </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/50">
           <div>
-            © 2026 {isBn ? orgNameBn : orgName}. {t('All rights reserved.', 'সর্বস্বত্ব সংরক্ষিত।')}
+            {(isBn ? settings?.footerBranding?.copyrightNoticeBn : settings?.footerBranding?.copyrightNotice)
+              || `© ${new Date().getFullYear()} ${isBn ? orgNameBn : orgName}. ${t('All rights reserved.', 'সর্বস্বত্ব সংরক্ষিত।')}`}
           </div>
 
           <div className="flex items-center gap-6 [&>span:last-child]:hidden">
@@ -313,6 +304,12 @@ export const Footer: React.FC<{ settings?: Partial<SiteSettings> }> = ({ setting
 
           <BackToTop />
         </div>
+
+        {(settings?.footerBranding?.licenseNotice || settings?.footerBranding?.licenseNoticeBn) && (
+          <div className="pt-6 flex items-center justify-center gap-4 text-[10px] font-mono text-white/40 text-center">
+            {isBn ? settings.footerBranding.licenseNoticeBn : settings.footerBranding.licenseNotice}
+          </div>
+        )}
       </div>
     </footer>
   );
